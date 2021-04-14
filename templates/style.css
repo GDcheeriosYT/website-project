@@ -1,0 +1,81 @@
+@keyframes adjust{
+
+}
+
+.blur{
+  backdrop-filter:blur(0px);
+}
+
+table{
+  border-collapse: collapse;
+  border: 1px solid blue;
+  color: lightblue;
+  opacity: 80%;
+}
+
+@keyframes intro {
+  from {background-color: white;}
+  to {background-color: #29cbf0;}
+}
+
+.rectangle_menu {
+  height: 60px;
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
+  background-color: #29cbf0;
+  background-size: 40%;
+  border-radius: 15px;
+  font-size: 35px; 
+  animation-name: intro;
+  animation-duration: 1s;
+  animation-delay: 0s;
+  text-align: center;
+  font-family: Aller-Bold, sans-serif;
+  object-fit: fill;
+}
+
+.player_info {
+			border-radius: 10px;
+			height: 124px;
+			background-color: white;
+      filter:blur(1px);
+      animation: adjust 0.5s;
+}
+
+.player_info:hover {
+			border-radius: 15px;
+			height: 132px;
+			background-color: white;
+      filter:blur(0px);
+      animation: adjust 0.5s;
+}
+
+.credits {
+  height: 570px;
+  background-color: #00ffee;
+  opacity: 0.9;
+}
+
+a {
+  color: white;
+  text-shadow: 1px 0px 3px #00ffee,1px 4px 5px #000000;
+}
+h1 {
+  color: white;
+  text-shadow: 1px 0px 3px #00ffee,1px 4px 5px #000000;
+  text-align: center;
+}
+
+h2 {
+  color: white;
+  text-shadow: 1px 0px 3px #00ffee,1px 4px 5px #000000;
+}
+
+hr {
+  color: white;
+  text-shadow: 1px 0px 3px #00ffee,1px 4px 5px #000000;
+}
+
+h3 {
+  color: white;
+  text-shadow: 1px 0px 3px #00ffee,1px 4px 5px #000000;
+}

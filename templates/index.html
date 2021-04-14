@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Home</title>
+    <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+    <style>
+      .blur{
+        backdrop-filter:blur(0px);
+      }
+
+      table{
+        text-color:white;
+        border: 1px solid white;
+        color: lightblue;
+        opacity: 100%;
+        margin-left:auto; 
+        margin-right:auto;
+      }
+
+      @keyframes intro {
+        from {background-color: white;}
+        to {background-color: #29cbf0;}
+      }
+
+      .rectangle_menu {
+        height: 60px;
+        background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
+        background-color: #29cbf0;
+        background-size: 40%;
+        border-radius: 15px;
+        font-size: 35px; 
+        animation-name: intro;
+        animation-duration: 1s;
+        animation-delay: 0s;
+        text-align: center;
+        font-family: Aller-Bold, sans-serif;
+        object-fit: fill;
+      }
+
+      .credits {
+        height: 570px;
+        background-color: #00ffee;
+        opacity: 0.9;
+      }
+
+      a {
+        color: white;
+        text-shadow: 1px 0px 3px #00ffee,1px 4px 5px #000000;
+      }
+
+      h1 {
+        color: white;
+        text-shadow: 1px 0px 3px #00ffee,1px 4px 5px #000000;
+        text-align: center;
+      }
+
+      h2 {
+        color: white;
+        text-shadow: 1px 0px 3px #00ffee,1px 4px 5px #000000;
+        text-align: center;
+      }
+
+      hr {
+        color: white;
+        text-shadow: 1px 0px 3px #00ffee,1px 4px 5px #000000;
+      }
+
+      h3 {
+        color: white;
+        text-shadow: 1px 0px 3px #00ffee,1px 4px 5px #000000;
+      }
+
+      ul{
+        color: white;
+        text-shadow: 1px 0px 3px #00ffee,1px 4px 5px #000000;
+        text-align: center;
+      }
+
+      ol{
+        color: white;
+        text-shadow: 1px 0px 3px #00ffee,1px 4px 5px #000000;
+        text-align: center;
+      }
+
+      iframe{
+        width:80%;
+        height:480px;
+        margin:auto;
+        display:block;
+      }
+    </style>
+  </head>
+  <body class ="blur" style="background: linear-gradient(357deg, #11434f, #36616c);">
+    <div class="rectangle_menu"><a href="Teams.html">Teams</a> <a href="players.html">Players</a> <a href="Current.html">Current Round</a> <a href="login.html">login</a> <a href="changelog.html">changelog</a></div>
+    <p></p>
+    <h1>Welcome to the osu! online competition website!</h1>
+    <h2 style="text-align: center">battle with up to as many players in osu! online competition!</h2>
+    <h2 style="text-align: center">What does this website do? Well this website kinda simulates osu! multiplayer but on a website, there are no limits to players, and you can play anymap you want! How does that work? Well it counts how much score you have gained since the match has started. The player who has more score will be the top</h2>
+    <hr>
+    <h1>would you like to practice?</h1>
+    <iframe src="https://osuweb-1.v3rmillionnet.repl.co/" ></iframe>
+    <h2>credit goes to <a href="https://github.com/111116/webosu">111116</a></h2>
+    <hr>
+
+    <h2>website todo:</h2>
+    <ul>
+      <li>center teams</li>
+      <li>make colors more relaxing to look at</li>
+      <li>add recent events on current round</li>
+      <li>make the token for apikey work</li>
+      <li>make players scores move above one another automatically if score is higher</li>
+      <li>make current round player join function</li>
+      <li>make current round score difference counter</li>
+      <li>add some kind of graph for scores</li>
+    </ul>
+
+    <hr>
+    <h1>credits</h1>
+    <table>
+      <tr>
+        <th>support</th>
+        <th>name</th>
+        <th>profile picture</th>
+      </tr>
+      <tr>
+        <td>designer and programmer</td>
+        <td>GDcheerios</td>
+        <td><img src="https://a.ppy.sh/11339405?1614920492.jpeg"></td>
+      </tr>
+      <tr>
+        <td>problem solver</td>
+        <td>Zehm</td>
+        <td><img src="https://a.ppy.sh/4678659?1609729628.jpeg"></td>
+      </tr>
+      <tr>
+        <td>forum support</td>
+        <td>Death</td>
+        <td><img src="https://a.ppy.sh/3242450"></td>
+      </tr>
+
+      
+
+    </table>
+  </body>
+</html>

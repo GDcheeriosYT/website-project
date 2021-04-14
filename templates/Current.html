@@ -1,0 +1,113 @@
+w<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>match</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <style>
+    .player_info{
+      border-radius: 10px;
+      height: 60px;
+      background-color: #e09d4a;
+    }
+
+    .recent_info{
+      text-color: grey;
+      opactiy: 50%;
+      background-color: #363636;
+      height: 20px;
+      width: auto;
+      margin-left: auto;
+      margin-right: auto;
+      background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
+      background-size: 110%;
+      text-align: center;
+    }
+
+    @keyframes intro {
+      from {background-color: white;}
+      to {background-color: #266849;}
+    }
+
+    .match{
+      text-align: center;
+      background: linear-gradient(0deg, #266849, #143827);
+      box-shadow: 20px 20px 50px 10px black inset;
+      border-radius: 10px;
+    }
+
+    .rectangle_menu {
+      height: 60px;
+      background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
+      background-color: #266849;
+      background-size: 40%;
+      border-radius: 15px;
+      font-size: 35px; 
+      animation-name: intro;
+      animation-duration: 1s;
+      animation-delay: 0s;
+      text-align: center;
+      font-family: Aller-Bold, sans-serif;
+      object-fit: fill;
+    }
+
+    a .rectangle_menu {
+      height: 60px;
+      background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
+      background-color: #266849;
+      background-size: 40%;
+      border-radius: 15px;
+      font-size: 35px; 
+      animation-name: intro;
+      animation-duration: 1s;
+      animation-delay: 0s;
+      text-align: center;
+      font-family: Aller-Bold, sans-serif;
+      object-fit: fill;
+    }
+
+    a{
+      color: #660d0d;
+      text-style: bold;
+    }
+
+    h1{
+      text-align: center;
+    }
+
+    .teammode{
+      text-transform: uppercase;
+	    background: linear-gradient(to right, #16bf0d 0%, #156311 100%);
+    }
+
+    .single{
+      text-transform: uppercase;
+    }
+
+  </style>
+</head>
+
+<body style="background: linear-gradient(0deg, #143827, #266849);">
+
+  <div class="rectangle_menu"><a href="Teams.html">Teams</a> <a href="/">Home</a> <a href="players.html">players</a> <a href="login.html">login</a> <a href="changelog.html">changelog</a></div>
+
+  <div class="match">
+    <h1 class="teammode">Team</h1>
+    <h2>{{ recent.events }} | {{ html_finder }}</h2>
+  </div>
+
+  <div class="recent_info">
+    <p>recent:</p>
+    <script>
+      var p = document.querySelector('p');
+      p.innerHTML = {{ html_finder }};
+    </script>
+  </div>
+
+</body>
+</html>
