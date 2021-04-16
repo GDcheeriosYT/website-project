@@ -1,0 +1,2 @@
+# osu-api--crap
+PLEASE DO NOT USE AN KEYS LISTED IN THE CODE
