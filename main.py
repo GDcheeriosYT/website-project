@@ -1,6 +1,12 @@
-#making sure pip is always up to date
+import os#making sure pip is always up to date
 from os import system
 import os
+
+#securing
+secret = os.environ['secret']
+api_key = os.environ['api']
+extra_api_key = os.environ['extra_api_key']
+
 
 '''
 system('pip install --upgrade pip')
@@ -20,6 +26,7 @@ import re
 from flask import Flask, redirect, url_for, request, render_template
 from threading import Timer
 import math
+
 
 #classes
 #making the library
@@ -42,13 +49,13 @@ class users:
 
 #making the api connector
 
-extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
+extra_api_key = str(extra_api_key)
 
 get_the_key = "https://osu.ppy.sh/oauth/authorize/client_id=5679&redirect_uri=https://gdcheerios.com/"
 
-api_info = slider.client.Client("", "952f25aee05178bd249c6781a88e98a098afa08b", api_url='https://osu.ppy.sh/api')
+api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
 
-joe = requests.get("https://osu.ppy.sh/api/v2/users/3242450/osu", headers={"Authorization" : "Bearer {{952f25aee05178bd249c6781a88e98a098afa08b}}"})
+joe = requests.get("https://osu.ppy.sh/api/v2/users/3242450/osu", headers={"Authorization" : "Bearer {{api_key}}"})
 
 #recent = requests.get("https://osu.ppy.sh/api/v2/users/11339405/scores/recent", json={"include_fails": "0", "mode": "osu", "limit": "1", "offset": "1"}, headers={"Accept": "application/json", "Content-Type": "application/json", "Authorization" : "Bearer {{952f25aee05178bd249c6781a88e98a098afa08b}}"})
 
@@ -113,7 +120,7 @@ def code_grab() :
   random_file.write(name_verify.group())
   random_file.close()
 
-  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':5679, 'client_secret':"6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh", 'redirect_uri':"https://osu-api-crap.minecreeper0913.repl.co", 'code':name_verify.group(), 'grant_type':'authorization_code'}, headers={'Accept':'application/json', 'Content-Type':'application/json'})
+  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':5679, 'client_secret':secret, 'redirect_uri':"https://osu-api-crap.minecreeper0913.repl.co", 'code':str(name_verify.group()), 'grant_type':'authorization_code'}, headers={'Accept':'application/json', 'Content-Type':'application/json'})
 
   print(response.text)
 
@@ -189,6 +196,10 @@ def players():
 
   user8 = api_info.user(user_name="Mcg_Tokyo")
 
+  user9 = api_info.user(user_name="BBenji"),
+
+  user10 = api_info.user(user_name="forkk")
+
   return render_template(
     'players.html',  # Template file
     api_info = api_info,
@@ -199,7 +210,8 @@ def players():
     user5 = user5,
     user6 = user6,
     user7 = user7,
-    user8 = user8
+    user8 = user8,
+    user9 = user9
   )
 
 @app.route("/Current.html")
