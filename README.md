@@ -1,2 +1,2 @@
 # osu-api--crap
-PLEASE DO NOT USE AN KEYS LISTED IN THE CODE
+https://osu-api-crap.minecreeper0913.repl.co
