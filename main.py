@@ -23,7 +23,7 @@ import slider
 import numpy
 import scipy
 import re
-from flask import Flask, redirect, url_for, request, render_template
+from flask import Flask, redirect, url_for, request, render_template, Cache
 from threading import Timer
 import math
 
