@@ -58,7 +58,7 @@ if new_game == "y":
     user = player(username)
 
     f.write("%s\n" % (user.score))
-    
+
   f.close()
 
 elif new_game == "n":
@@ -76,6 +76,8 @@ def match_refresh():
 
 def team_refresh():
   None
+
+def 
 
 #list variable to store which players are participating in the current match
 players_in_match = []
