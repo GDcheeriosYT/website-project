@@ -23,10 +23,11 @@ import slider
 import numpy
 import scipy
 import re
-from flask import Flask, redirect, url_for, request, render_template, Cache
+from flask import Flask, redirect, url_for, request, render_template
 from threading import Timer
 import math
 
+api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
 
 #classes
 #making the library
@@ -39,21 +40,57 @@ class team:
     self.score = score
     self.accuracy = accuracy
 
-#user class
-class users:
-  def __init__(self, name, token, score, id):
+#players class
+class player:
+  def __init__(self, name):
     self.name = name
-    self.token = token
-    self.score = score
-    self.id = id
 
-#making the api connector
+    self.score = api_info.user(user_name=str(name)).total_score
+
+with open("players.db", "r") as f:
+    player_list = f.read().splitlines()
+
+new_game = str(input("start new game?\ny/n\n"))
+if new_game == "y":
+  for username in player_list:
+    f = open("match_scores.txt", "w+")
+
+    user = player(username)
+
+    f.write("%s\n" % (user.score))
+    f.close()
+
+elif new_game == "n":
+  print("alright continuing the game")
+
+else:
+  print("...")
+
+def match_refresh():
+  with open("players.db", "r") as f:
+    player_list = f.read().splitlines()
+
+  for player in player_list:
+    player_stats = api_info.user(user_name=str(player))
+
+def team_refresh():
+  None
+
+#list variable to store which players are participating in the current match
+players_in_match = []
+
+def user_list():
+  with open("players.db", "r") as f:
+    player_list = f.read().splitlines()
+
+  for player in player_list:
+    player_stats = api_info.user(user_name=str(player))
+
+#making the api ['connector
 
 extra_api_key = str(extra_api_key)
 
 get_the_key = "https://osu.ppy.sh/oauth/authorize/client_id=5679&redirect_uri=https://gdcheerios.com/"
-
-api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
 
 joe = requests.get("https://osu.ppy.sh/api/v2/users/3242450/osu", headers={"Authorization" : "Bearer {{api_key}}"})
 
@@ -66,33 +103,6 @@ print(joe.text)
 #print(recent.text)
 
 print("=----------=\n end of log\n")
-
-#opening the players file to read player data
-
-player_rows = []
-with open("players.db") as p:
-    players = p.read().splitlines()
-
-
-#[line number][data]
-#0 = name
-#1 = api_key
-#def api_key():
-  
-  #return None
-
-for line in players:
-    data = line.split(",")
-    print(data)
-    if data[0][0] == "GDcheerios":
-      print(data[1])
-    else:
-      print(data[1])
-
-#print(api_key)
-  
-
-  
 
 #flask set up
 app = Flask(  # Create a flask app
@@ -120,17 +130,20 @@ def code_grab() :
   random_file.write(name_verify.group())
   random_file.close()
 
-  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':5679, 'client_secret':secret, 'redirect_uri':"https://osu-api-crap.minecreeper0913.repl.co", 'code':str(name_verify.group()), 'grant_type':'authorization_code'}, headers={'Accept':'application/json', 'Content-Type':'application/json'})
+  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':5679, 'client_secret':secret, 'redirect_uri':"https://osu-api-crap.minecreeper0913.repl.co", 'code':str(name_verify.group()), 'grant_type':'authorization_code'}, headers={'Accept':'application/x-www-form-urlencoded', 'Content-Type':'application/x-www-form-urlencoded'})
 
-  print(response.text)
+  token_thing = response.text
+  file = open("debug.txt", "w+")
+  file.write(token_thing)
+  file.close()
 
   return redirect("https://osu-api-crap.minecreeper0913.repl.co/")
 
-@app.route("/login.html",methods = ['POST', 'GET'])
-def login():
+#@app.route("/login.html",methods = ['POST', 'GET'])
+'''def login():
 
   f = open("codes.txt", "w+")
-  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=https://osu-api-crap.minecreeper0913.repl.co/code_grab&scope=public")
+  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=https://osu-api-crap.minecreeper0913.repl.co/code_grab&scope=public")'''
   
 
 @app.route("/Teams.html")
@@ -156,8 +169,6 @@ def teams():
       return str1  
       
     team_avg = sum(team_acc) / len(team_acc)
-  
-  
 
   total_team_score = sum(team_score)
     
@@ -180,56 +191,53 @@ def players():
 
   api_info = slider.client.Client("", "6a5de2f4b1a29f26710a2a48759c463f9bef68e2", api_url='https://osu.ppy.sh/api')
 
-  user1 = api_info.user(user_name="GDcheerios")
-
-  user2 = api_info.user(user_name="BirdPigeon")
-
-  user3 = api_info.user(user_name="kokuren")
-
-  user4 = api_info.user(user_name="PeterParkerMj")
-
-  user5 = api_info.user(user_name="monvee")
-
-  user6 = api_info.user(user_name="MargaritaMix08")
-
-  user7 = api_info.user(user_name="Trufflebuttt")
-
-  user8 = api_info.user(user_name="Mcg_Tokyo")
-
-  user9 = api_info.user(user_name="BBenji"),
-
-  user10 = api_info.user(user_name="forkk")
-
   return render_template(
     'players.html',  # Template file
     api_info = api_info,
-    user1 = user1,
-    user2 = user2,
-    user3 = user3,
-    user4 = user4,
-    user5 = user5,
-    user6 = user6,
-    user7 = user7,
-    user8 = user8,
-    user9 = user9
   )
 
 @app.route("/Current.html")
 def current():
 
-
   debug = open("debug.txt", "w+")
   recent = api_info.user(user_name="GDcheerios")
-  html_finder = re.search("<img.*osu!\W", str(recent.events))
-  debug.write(str(recent.events))
+  html_finder = re.search("\>(\w+)|( achieved rank .\w+ on )|m=0'>(.*? - .*?\])", str(recent.events))
+  debug.write(str(html_finder.group()))
   debug.close()
+  
+  with open("match_scores.txt", "r") as f:
+    initial_scores = f.read().splitlines()
+
+  x = 0
+    
+  class player_scores:
+    def __init__(self, name):
+      self.name = name
+
+      self.score = (int(api_info.user(user_name=str(name)).total_score) - int(initial_scores[x - 1]))
+
+  player_ranking = []
+
+  for player in player_list:
+    
+    player_match_score = player_scores(player)
+
+    player_ranking_info = (player, str(player_match_score.score))
+
+    player_ranking.append(player_ranking_info)
+
+    print(player_ranking)
+
+    x = x + 1
+
+  print()
 
   #recent = requests.get("https://osu.ppy.sh/api/v2/users/GDcheerios/scores/recent", json={"include_fails": "0", "mode": "osu", "limit": "1", "offset": "1",})
 
   return render_template(
     'Current.html',  # Template file
     recent = recent,
-    html_finder = html_finder.group()
+    user_recent = html_finder.group()
   )
 
 @app.route("/changelog.html")

@@ -1,4 +1,4 @@
-w<!doctype html>
+<!doctype html>
 
 <html lang="en">
 <head>
@@ -98,14 +98,14 @@ w<!doctype html>
 
   <div class="match">
     <h1 class="teammode">Team</h1>
-    <h2>{{ recent.events }} | {{ html_finder }}</h2>
+    <h2></h2>
   </div>
 
   <div class="recent_info">
     <p>recent:</p>
     <script>
       var p = document.querySelector('p');
-      p.innerHTML = {{ html_finder }};
+      p.innerHTML = "{{ user_recent }}";
     </script>
   </div>
 
