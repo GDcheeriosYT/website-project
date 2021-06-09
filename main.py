@@ -58,7 +58,8 @@ if new_game == "y":
     user = player(username)
 
     f.write("%s\n" % (user.score))
-    f.close()
+    
+  f.close()
 
 elif new_game == "n":
   print("alright continuing the game")
@@ -214,7 +215,7 @@ def current():
     def __init__(self, name):
       self.name = name
 
-      self.score = (int(api_info.user(user_name=str(name)).total_score) - int(initial_scores[x - 1]))
+      self.score = (api_info.user(user_name=str(name)).total_score - int(initial_scores[x - 1]))
 
   player_ranking = []
 
@@ -222,7 +223,9 @@ def current():
     
     player_match_score = player_scores(player)
 
-    player_ranking_info = (player, str(player_match_score.score))
+    player_ranking_info = ("%s %s" % (player, str(player_match_score.score)))
+
+    print(player_ranking_info)
 
     player_ranking.append(player_ranking_info)
 
