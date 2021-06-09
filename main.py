@@ -26,6 +26,7 @@ import re
 from flask import Flask, redirect, url_for, request, render_template
 from threading import Timer
 import math
+import match_data
 
 api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
 
@@ -40,24 +41,82 @@ class team:
     self.score = score
     self.accuracy = accuracy
 
-#players class
-class player:
+#user block class
+class user_block:
   def __init__(self, name):
     self.name = name
-
+    self.username = api_info.user(user_name=str(name)).user_name
+    self.id = api_info.user(user_name=str(name)).user_id
     self.score = api_info.user(user_name=str(name)).total_score
 
 with open("players.db", "r") as f:
     player_list = f.read().splitlines()
 
+def match_start():
+
+  global players_selected
+
+  players_selected = []
+  
+  while True:
+
+    x = 0
+
+    print("\nwho would you like to add to this match?\ntype done to accept players")
+
+    while x < len(player_list):
+
+      print(x, player_list[x])
+
+      x = x + 1
+
+    pick_user = input("")
+
+    if str(pick_user) == "done":
+
+      break
+
+    elif int(pick_user) > len(player_list):
+
+      print("\ntoo big!\n")
+
+    elif int(pick_user) < len(player_list) - len(player_list):
+
+      print("\ntoo small!\n")
+
+    else:
+
+      if player_list[int(pick_user)] not in players_selected:
+      
+        players_selected.append(player_list[int(pick_user)])
+
+        print(player_list[int(pick_user)], "has been added to the list!\n")
+
+        print("debug:", players_selected)
+      
+      else:
+        print("this character is already selected!\n")
+
+        print("debug:", players_selected)
+      
+    global initial_score
+
+    initial_score = []
+    
+    for player in players_selected:
+      initial_score.append(api_info.user(user_name=str(player)).total_score)
+
+
+
 new_game = str(input("start new game?\ny/n\n"))
+
 if new_game == "y":
-  for username in player_list:
-    f = open("match_scores.txt", "w+")
 
-    user = player(username)
+  f = open("match_data.py", "w+")
 
-    f.write("%s\n" % (user.score))
+  match_start()
+
+  f.write("users = %s\ninitial_score = %s" % (players_selected, initial_score))
 
   f.close()
 
@@ -66,6 +125,8 @@ elif new_game == "n":
 
 else:
   print("...")
+
+
 
 def match_refresh():
   with open("players.db", "r") as f:
@@ -76,8 +137,6 @@ def match_refresh():
 
 def team_refresh():
   None
-
-def 
 
 #list variable to store which players are participating in the current match
 players_in_match = []
@@ -192,11 +251,19 @@ def teams():
 @app.route("/players.html")
 def players():
 
-  api_info = slider.client.Client("", "6a5de2f4b1a29f26710a2a48759c463f9bef68e2", api_url='https://osu.ppy.sh/api')
+  for user in player_list:
+    score_block = user_block(user)
+    name = score_block.username
+    avatar = ("https://a.ppy.sh/%s" % (score_block.id))
+    score = score_block.score
+
 
   return render_template(
     'players.html',  # Template file
     api_info = api_info,
+    name = name,
+    avatar = avatar,
+    score = score
   )
 
 @app.route("/Current.html")
