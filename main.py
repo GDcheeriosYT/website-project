@@ -5,10 +5,10 @@ import os
 system('pip install --upgrade pip')
 system('')
 
-#securing
+"""#securing
 secret = os.environ['secret']
 api_key = os.environ['api']
-extra_api_key = os.environ['extra_api_key']
+extra_api_key = os.environ['extra_api_key']"""
 
 #packages
 import random
@@ -27,7 +27,6 @@ import match_data
 import importlib
 import lxml
 from lxml import html
-import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
@@ -252,28 +251,9 @@ elif new_game == "n":
 else:
   print("...")
 
-#starting the game current version
-def match_start():
-  
+f.write("users = %s\ninitial_score = %s\n mode = %s" % (players_selected, initial_score, mode))
 
-
-new_game = str(input("start new game?\ny/n\n"))
-
-if new_game == "y":
-
-  f = open("match_data.py", "w+")
-
-elif new_game == "n":
-  print("alright continuing the game")
-  #joe = user_block("btmc")
-  #print(joe.background)
-
-else:
-  print("...")
-
-#f.write("users = %s\ninitial_score = %s\n mode = %s" % (players_selected, initial_score, mode))
-
-  f.close()
+f.close()
 
 
 
