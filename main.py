@@ -2,16 +2,13 @@ import os#making sure pip is always up to date
 from os import system
 import os
 
+system('pip install --upgrade pip')
+system('')
+
 #securing
 secret = os.environ['secret']
 api_key = os.environ['api']
 extra_api_key = os.environ['extra_api_key']
-
-
-'''
-system('pip install --upgrade pip')
-system('')
-'''
 
 #packages
 import random
@@ -27,8 +24,16 @@ from flask import Flask, redirect, url_for, request, render_template
 from threading import Timer
 import math
 import match_data
+import importlib
+import lxml
+from lxml import html
+import requests
+from bs4 import BeautifulSoup
+from selenium import webdriver
 
 api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
+
+api_info_scoreboard = slider.client.Client("", str(extra_api_key), api_url='https://osu.ppy.sh/api')
 
 #classes
 #making the library
@@ -36,75 +41,186 @@ slider.library.Library("")
 
 #team class
 class team:
+
   def __init__(self, name, score, accuracy):
+    
     self.name = name
+
     self.score = score
+
     self.accuracy = accuracy
 
 #user block class
-class user_block:
+class user_block_scoreboard:
+
   def __init__(self, name):
+    
     self.name = name
+
+    self.username = api_info_scoreboard.user(user_name=str(name)).user_name
+
+    self.id = api_info_scoreboard.user(user_name=str(name)).user_id
+
+    self.score = api_info_scoreboard.user(user_name=str(name)).total_score
+
+    self.site_url = ("https://osu.ppy.sh/users/%s" % (self.id))
+
+    page = self.site_url
+
+    driver = webdriver.Firefox()
+
+    driver.get(page)
+
+    self.background = driver.find_element_by_id("header-v4__bg")
+
+
+#user block class
+class user_block_match:
+
+  def __init__(self, name):
+    
+    self.name = name
+
     self.username = api_info.user(user_name=str(name)).user_name
+
     self.id = api_info.user(user_name=str(name)).user_id
+
     self.score = api_info.user(user_name=str(name)).total_score
 
+    self.site_url = ("https://osu.ppy.sh/users/%s" % (self.id))
+
+    page = requests.get(self.site_url)
+
+    tree = html.fromstring(page.content)
+
+    self.background = tree.xpath('//div[@id="header-v4__bg"]/label()')
+
+#f = open("debug.txt", "w")
+#f.write(page)
+
 with open("players.db", "r") as f:
+  
     player_list = f.read().splitlines()
 
-def match_start():
+def match_start(mode):
 
+
+  #the variable which will show which mode it is
+  global game_mode
+
+  game_mode = mode
+
+  #a list of all the players playing
   global players_selected
 
   players_selected = []
-  
-  while True:
 
-    x = 0
+  #will check to see if teams or ffa is wanted
+  if mode == ("teams"):
 
-    print("\nwho would you like to add to this match?\ntype done to accept players")
+    #how many teams will there be?
+    print("\nhow many teams would you like there to be?\n")
 
-    while x < len(player_list):
+    team_amount = int(input(""))
 
-      print(x, player_list[x])
+    #repeats the process of team editing until satisfied
+    while True:
 
-      x = x + 1
+      x = 0
 
-    pick_user = input("")
+      #dictionary will store data of team and users like team num: username, username
+      teams = {}
 
-    if str(pick_user) == "done":
+      while x < team_amount:
 
-      break
+        teams["team %s" % (x + 1)] = 1
 
-    elif int(pick_user) > len(player_list):
-
-      print("\ntoo big!\n")
-
-    elif int(pick_user) < len(player_list) - len(player_list):
-
-      print("\ntoo small!\n")
-
-    else:
-
-      if player_list[int(pick_user)] not in players_selected:
+        x = x + 1
       
-        players_selected.append(player_list[int(pick_user)])
+      print("\nalright!\nwho will be on which team?\nselect a team to edit\n")
 
-        print(player_list[int(pick_user)], "has been added to the list!\n")
+      x = 0
 
-        print("debug:", players_selected)
-      
+      #display teams
+      while x < team_amount:
+        
+        print("team %s" % (x + 1))
+
+        x = x + 1
+
+      team_selector = input("")
+
+      x = 0
+
+      #display player list
+      while x < len(player_list):
+
+        print("\n", x, player_list[x])
+
+        x = x + 1
+
+      player_selector = int(input(""))
+
+      if player_list[player_selector] not in players_selected:
+
+        players_selected.append(player_list[player_selector])
+
       else:
-        print("this character is already selected!\n")
 
-        print("debug:", players_selected)
+        print("%s is already imported" % (player_list[player_selector]))
+
+
+
+  else:
+  
+    while True:
+
+      x = 0
+
+      print("\nwho would you like to add to this match?\ntype done to accept players")
+
+      while x < len(player_list):
+
+        print(x, player_list[x])
+
+        x = x + 1
+
+      pick_user = input("")
+
+      if str(pick_user) == "done":
+
+        break
+
+      elif int(pick_user) > len(player_list):
+
+        print("\ntoo big!\n")
+
+      elif int(pick_user) < len(player_list) - len(player_list):
+
+        print("\ntoo small!\n")
+
+      else:
+
+        if player_list[int(pick_user)] not in players_selected:
+        
+          players_selected.append(player_list[int(pick_user)])
+
+          print(player_list[int(pick_user)], "has been added to the list!\n")
+
+          print("debug:", players_selected)
+        
+        else:
+          print("this character is already selected!\n")
+
+          print("debug:", players_selected)
+        
+      global initial_score
+
+      initial_score = []
       
-    global initial_score
+      for player in players_selected:
 
-    initial_score = []
-    
-    for player in players_selected:
-      initial_score.append(api_info.user(user_name=str(player)).total_score)
+        initial_score.append(api_info.user(user_name=str(player)).total_score)
 
 
 
@@ -114,17 +230,52 @@ if new_game == "y":
 
   f = open("match_data.py", "w+")
 
-  match_start()
+  game_mode = str(input("teams or free for all\n1.teams\n2.free for all\n"))
 
-  f.write("users = %s\ninitial_score = %s" % (players_selected, initial_score))
+  if game_mode == ("1"):
 
-  f.close()
+    mode = "teams"
+
+    match_start(mode)
+
+  else:
+
+    mode = "ffa"
+
+    match_start(mode)
 
 elif new_game == "n":
   print("alright continuing the game")
+  #joe = user_block("btmc")
+  #print(joe.background)
 
 else:
   print("...")
+
+#starting the game current version
+def match_start():
+  
+
+
+new_game = str(input("start new game?\ny/n\n"))
+
+if new_game == "y":
+
+  f = open("match_data.py", "w+")
+
+elif new_game == "n":
+  print("alright continuing the game")
+  #joe = user_block("btmc")
+  #print(joe.background)
+
+else:
+  print("...")
+
+#f.write("users = %s\ninitial_score = %s\n mode = %s" % (players_selected, initial_score, mode))
+
+  f.close()
+
+
 
 
 
@@ -153,18 +304,6 @@ def user_list():
 extra_api_key = str(extra_api_key)
 
 get_the_key = "https://osu.ppy.sh/oauth/authorize/client_id=5679&redirect_uri=https://gdcheerios.com/"
-
-joe = requests.get("https://osu.ppy.sh/api/v2/users/3242450/osu", headers={"Authorization" : "Bearer {{api_key}}"})
-
-#recent = requests.get("https://osu.ppy.sh/api/v2/users/11339405/scores/recent", json={"include_fails": "0", "mode": "osu", "limit": "1", "offset": "1"}, headers={"Accept": "application/json", "Content-Type": "application/json", "Authorization" : "Bearer {{952f25aee05178bd249c6781a88e98a098afa08b}}"})
-
-print("test log:\n")
-
-print(joe.text)
-
-#print(recent.text)
-
-print("=----------=\n end of log\n")
 
 #flask set up
 app = Flask(  # Create a flask app
@@ -251,18 +390,18 @@ def teams():
 @app.route("/players.html")
 def players():
 
-  for user in player_list:
-    score_block = user_block(user)
-    name = score_block.username
-    avatar = ("https://a.ppy.sh/%s" % (score_block.id))
-    score = score_block.score
-
+  score_block = user_block_scoreboard("GDcheerios")
+  name = score_block.username
+  avatar = ("https://a.ppy.sh/%s" % (score_block.id))
+  background = score_block.background
+  score = score_block.score
 
   return render_template(
     'players.html',  # Template file
-    api_info = api_info,
+    api_info_scoreboard = api_info_scoreboard,
     name = name,
     avatar = avatar,
+    background = background,
     score = score
   )
 
@@ -271,45 +410,19 @@ def current():
 
   debug = open("debug.txt", "w+")
   recent = api_info.user(user_name="GDcheerios")
-  html_finder = re.search("\>(\w+)|( achieved rank .\w+ on )|m=0'>(.*? - .*?\])", str(recent.events))
-  debug.write(str(html_finder.group()))
-  debug.close()
+
+  print(recent.events)
+
+  html_finder = re.findall(r"\>(\w+).+( achieved rank .\w+ on ).+m=0'>(.*? - .*?\])", str(recent.events))
+
+  def player_recent():
+    for each in html_finder:
+      return(''.join(each))
   
-  with open("match_scores.txt", "r") as f:
-    initial_scores = f.read().splitlines()
-
-  x = 0
-    
-  class player_scores:
-    def __init__(self, name):
-      self.name = name
-
-      self.score = (api_info.user(user_name=str(name)).total_score - int(initial_scores[x - 1]))
-
-  player_ranking = []
-
-  for player in player_list:
-    
-    player_match_score = player_scores(player)
-
-    player_ranking_info = ("%s %s" % (player, str(player_match_score.score)))
-
-    print(player_ranking_info)
-
-    player_ranking.append(player_ranking_info)
-
-    print(player_ranking)
-
-    x = x + 1
-
-  print()
-
-  #recent = requests.get("https://osu.ppy.sh/api/v2/users/GDcheerios/scores/recent", json={"include_fails": "0", "mode": "osu", "limit": "1", "offset": "1",})
-
   return render_template(
     'Current.html',  # Template file
-    recent = recent,
-    user_recent = html_finder.group()
+    recent = player_recent,
+    current_mode = game_mode
   )
 
 @app.route("/changelog.html")
