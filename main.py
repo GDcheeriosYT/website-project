@@ -1,17 +1,17 @@
-import os#making sure pip is always up to date
+import os  #making sure pip is always up to date
 from os import system
 import os
 
-system('pip install --upgrade pip')
-system('')
 
-"""#securing
+#system('pip install --upgrade pip')
+#system('')
+
+#securing
 secret = os.environ['secret']
 api_key = os.environ['api']
-extra_api_key = os.environ['extra_api_key']"""
+extra_api_key = os.environ['extra_api_key']
 
 #packages
-import random
 from osuapi import OsuApi, AHConnector, ReqConnector
 import requests
 import aiohttp
@@ -27,33 +27,41 @@ import match_data
 import importlib
 import lxml
 from lxml import html
+import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
+teamFile = open("team_metadata.py", "a+")
+teamFile.close()
+import team_metadata
+
+global mode
+
+
 
 api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
 
-api_info_scoreboard = slider.client.Client("", str(extra_api_key), api_url='https://osu.ppy.sh/api')
+api_info_scoreboard = slider.client.Client("", str(extra_api_key),api_url='https://osu.ppy.sh/api')
 
 #classes
 #making the library
 slider.library.Library("")
 
+
 #team class
 class team:
-
   def __init__(self, name, score, accuracy):
-    
+
     self.name = name
 
     self.score = score
 
     self.accuracy = accuracy
 
+
 #user block class
 class user_block_scoreboard:
-
   def __init__(self, name):
-    
+
     self.name = name
 
     self.username = api_info_scoreboard.user(user_name=str(name)).user_name
@@ -75,9 +83,8 @@ class user_block_scoreboard:
 
 #user block class
 class user_block_match:
-
   def __init__(self, name):
-    
+
     self.name = name
 
     self.username = api_info.user(user_name=str(name)).user_name
@@ -94,15 +101,16 @@ class user_block_match:
 
     self.background = tree.xpath('//div[@id="header-v4__bg"]/label()')
 
+
 #f = open("debug.txt", "w")
 #f.write(page)
 
 with open("players.db", "r") as f:
-  
-    player_list = f.read().splitlines()
+
+  player_list = f.read().splitlines()
+
 
 def match_start(mode):
-
 
   #the variable which will show which mode it is
   global game_mode
@@ -117,40 +125,57 @@ def match_start(mode):
   #will check to see if teams or ffa is wanted
   if mode == ("teams"):
 
+    #team mode setup
+    global teams
+
+    teams = {}
+    
     #how many teams will there be?
     print("\nhow many teams would you like there to be?\n")
 
+    x = 0
+
     team_amount = int(input(""))
+
+    teams = {f'team{i + 1}': [] for i in range(team_amount)}
+
+    print(teams)
+
+    teamFile = open("team_metadata.py", "w")
+
+    teamFile.write(str(teams))
+
+    teamFile.close()
 
     #repeats the process of team editing until satisfied
     while True:
 
-      x = 0
+      print("select a team\n")
 
-      #dictionary will store data of team and users like team num: username, username
-      teams = {}
-
-      while x < team_amount:
-
-        teams["team %s" % (x + 1)] = 1
-
-        x = x + 1
-      
-      print("\nalright!\nwho will be on which team?\nselect a team to edit\n")
+      print(teams)
 
       x = 0
 
       #display teams
       while x < team_amount:
-        
+
         print("team %s" % (x + 1))
 
         x = x + 1
 
-      team_selector = input("")
+      try: 
+        team_selector = int(input(""))
+      except ValueError:
+        teamFile = open("team_metadata.py", "w")
+
+        teamFile.write(str(teams))
+
+        teamFile.close()
+
+        break
 
       x = 0
-
+      
       #display player list
       while x < len(player_list):
 
@@ -158,21 +183,41 @@ def match_start(mode):
 
         x = x + 1
 
-      player_selector = int(input(""))
+      try:
+        player_selector = int(input(""))
+
+      except ValueError:
+        teamFile = open("team_metadata.py", "w")
+
+        teamFile.write(str(teams))
+
+        teamFile.close()
+
+        break
+
+      teams["team%s" % (team_selector)].append("%s" % (player_list[player_selector]))
 
       if player_list[player_selector] not in players_selected:
 
         players_selected.append(player_list[player_selector])
 
       else:
+        
+        print("player is already in this thing")
 
-        print("%s is already imported" % (player_list[player_selector]))
+      teamFile = open("team_metadata.py", "w")
 
+      teamFile.write(str(teams))
 
+      teamFile.close()
+
+      
 
   else:
-  
+
     while True:
+
+      teams = {}
 
       x = 0
 
@@ -201,26 +246,25 @@ def match_start(mode):
       else:
 
         if player_list[int(pick_user)] not in players_selected:
-        
+
           players_selected.append(player_list[int(pick_user)])
 
           print(player_list[int(pick_user)], "has been added to the list!\n")
 
           print("debug:", players_selected)
-        
+
         else:
           print("this character is already selected!\n")
 
-          print("debug:", players_selected)
-        
-      global initial_score
+          print("current list of players:", players_selected)
 
-      initial_score = []
-      
-      for player in players_selected:
+  global initial_score
 
-        initial_score.append(api_info.user(user_name=str(player)).total_score)
+  initial_score = []
 
+  for player in players_selected:
+
+    initial_score.append(api_info.user(user_name=str(player)).total_score)
 
 
 new_game = str(input("start new game?\ny/n\n"))
@@ -242,22 +286,19 @@ if new_game == "y":
     mode = "ffa"
 
     match_start(mode)
+  
+  f.write("users = %s\ninitial_score = %s\nmode = \"%s\"\nteam_metadata = %s" % (players_selected, initial_score, mode, teams))
+
+  f.close()
 
 elif new_game == "n":
+  mode = match_data.mode
   print("alright continuing the game")
   #joe = user_block("btmc")
   #print(joe.background)
 
 else:
   print("...")
-
-f.write("users = %s\ninitial_score = %s\n mode = %s" % (players_selected, initial_score, mode))
-
-f.close()
-
-
-
-
 
 def match_refresh():
   with open("players.db", "r") as f:
@@ -266,11 +307,14 @@ def match_refresh():
   for player in player_list:
     player_stats = api_info.user(user_name=str(player))
 
+
 def team_refresh():
   None
 
+
 #list variable to store which players are participating in the current match
 players_in_match = []
+
 
 def user_list():
   with open("players.db", "r") as f:
@@ -278,6 +322,7 @@ def user_list():
 
   for player in player_list:
     player_stats = api_info.user(user_name=str(player))
+
 
 #making the api ['connector
 
@@ -321,10 +366,11 @@ def code_grab() :
   return redirect("https://osu-api-crap.minecreeper0913.repl.co/")
 
 #@app.route("/login.html",methods = ['POST', 'GET'])
-'''def login():
+
+def login():
 
   f = open("codes.txt", "w+")
-  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=https://osu-api-crap.minecreeper0913.repl.co/code_grab&scope=public")'''
+  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=https://osu-api-crap.minecreeper0913.repl.co/code_grab&scope=public")
   
 
 @app.route("/Teams.html")
@@ -401,8 +447,8 @@ def current():
   
   return render_template(
     'Current.html',  # Template file
-    recent = player_recent,
-    current_mode = game_mode
+    #recent = player_recent,
+    current_mode = mode
   )
 
 @app.route("/changelog.html")

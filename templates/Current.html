@@ -97,16 +97,12 @@
   <div class="rectangle_menu"><a href="Teams.html">Teams</a> <a href="/">Home</a> <a href="players.html">players</a> <a href="login.html">login</a> <a href="changelog.html">changelog</a></div>
 
   <div class="match">
-    <h1 class="teammode">Team</h1>
+    {% if current_mode == "teams" %}
+      <h1 class="teammode">Team</h1>
+    {% else %}
+      <h1 class="single">Free For All</h1>
+    {% endif %}
     <h2></h2>
-  </div>
-
-  <div class="recent_info">
-    <p>recent:</p>
-    <script>
-      var p = document.querySelector('p');
-      p.innerHTML = "{{ recent }}";
-    </script>
   </div>
 
 </body>
