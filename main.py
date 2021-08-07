@@ -33,10 +33,10 @@ from selenium import webdriver
 teamFile = open("team_metadata.py", "a+")
 teamFile.close()
 import team_metadata
+from dataclasses import dataclass
+from typing import List
 
 global mode
-
-
 
 api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
 
@@ -72,13 +72,25 @@ class user_block_scoreboard:
 
     self.site_url = ("https://osu.ppy.sh/users/%s" % (self.id))
 
+    '''opts = webdriver.FirefoxOptions()
+
+    opts.add_argument("--headless")
+
     page = self.site_url
 
     driver = webdriver.Firefox()
 
     driver.get(page)
 
-    self.background = driver.find_element_by_id("header-v4__bg")
+    content = driver.page_source
+
+    f = open("debug.txt", "w")
+    f.write(content)
+    f.close()
+
+    background_search = re.search("", content)
+
+    self.background = driver.find_element_by_name("header-v4__bg")'''
 
 
 #user block class
@@ -95,15 +107,17 @@ class user_block_match:
 
     self.site_url = ("https://osu.ppy.sh/users/%s" % (self.id))
 
-    page = requests.get(self.site_url)
+    '''page = self.site_url
 
-    tree = html.fromstring(page.content)
+    opts = webdriver.FirefoxOptions()
 
-    self.background = tree.xpath('//div[@id="header-v4__bg"]/label()')
+    opts.add_argument("--headless")
 
+    driver = webdriver.Firefox()
 
-#f = open("debug.txt", "w")
-#f.write(page)
+    driver.get(page)
+
+    self.background = driver.find_element_by_name("header-v4__bg")'''
 
 with open("players.db", "r") as f:
 
@@ -416,19 +430,27 @@ def teams():
 @app.route("/players.html")
 def players():
 
-  score_block = user_block_scoreboard("GDcheerios")
-  name = score_block.username
-  avatar = ("https://a.ppy.sh/%s" % (score_block.id))
-  background = score_block.background
-  score = score_block.score
+  players = {}
+
+  for name in player_list:
+    print(players)
+    score_block = user_block_scoreboard(f"{name}")
+    name = score_block.username
+    avatar = ("https://a.ppy.sh/%s" % (score_block.id))
+    #background = score_block.background
+    score = score_block.score
+    players[name] = [score, avatar]
+
+  players = sorted(players.items(), key=lambda x: x[1], reverse=True)
 
   return render_template(
     'players.html',  # Template file
     api_info_scoreboard = api_info_scoreboard,
     name = name,
     avatar = avatar,
-    background = background,
-    score = score
+    #background = background,
+    score = score,
+    players = players
   )
 
 @app.route("/Current.html")

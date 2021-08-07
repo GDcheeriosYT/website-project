@@ -22,9 +22,9 @@
       -o-transition: all 500ms ease;
       transition: all 500ms ease;
       background-repeat: no-repeat;
-      background-size:100%;
+      background-size: 100%;
       text-shadow: 2px 2px 7px #CECECE;
-      mix-blend-mode: difference;
+      box-shadow: 0 0 8px 8px white inset;
     }
 
     .player_info:hover {
@@ -88,6 +88,16 @@
 			object-fit: fill;
 		}
 
+    .bg-image {
+      background-image: url("https://wallpaperaccess.com/full/783212.jpg");
+      filter: blur(8px);
+      -webkit-filter: blur(8px);
+      height: 100%; 
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
 		a {
 			color: white;
 			text-shadow: 1px 0px 3px #00ffee, 1px 4px 5px #000000;
@@ -95,15 +105,29 @@
 	</style>
 </head>
 
-<body style=background-color: white; background-size: 30%">
+<body>
+
+  <div class="bg-image"></div>
 
 	<div class="rectangle_menu"><a href="Teams.html">Teams</a> <a href="/">Home</a> <a href="Current.html">Current Round</a> <a href="login.html">login</a> <a href="changelog.html">changelog</a></div>
 
-	<div class="player_info" style="color: yellow; background-image: url({{ background }})"> 
+  {% set count = namespace(value=1) %}
 
-		<h1 style="text-shadow: 1px 0px 3px #ffd77a,1px 4px 5px #ffd77a;"><span>#1</span> <img src="{{ avatar }}"> <span class="name_and_score">{{ name }} | {{ score }} score</span> </h1>
+  {% for key, value in players %}
+
+  <div class="player_info" style="color: yellow; background-image: url(https://assets.ppy.sh/user-profile-covers/11339405/48385b11ba264ac85022b58d8d53c301247bd0bd24ade7a1f169aa78dc64806f.jpeg)"> 
+
+		  <h1 style="text-shadow: 1px 0px 3px #ffd77a,1px 4px 5px #ffd77a;"><span>#{{ count.value }}</span> <img src="{{ value[1] }}"> <span class="name_and_score">{{ key }} | {{ value[0] }} score</span> </h1>
 
 	</div>
+
+  {% set count.value = count.value + 1 %}
+
+  {% endfor %}
+
+  <div>
+    <h1 style="color:red;">This page is WIP</h1>
+  </div>
 
 </body>
 

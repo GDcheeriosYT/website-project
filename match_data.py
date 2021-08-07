@@ -1,4 +1,4 @@
-users = ['Birdpigeon', 'Trufflebuttt']
-initial_score = [7687319010, 3489701]
+users = ['GDcheerios']
+initial_score = [54085789939]
 mode = "ffa"
-team_metadata = {'team1': ['Birdpigeon'], 'team2': ['Trufflebuttt']}
+team_metadata = {}
