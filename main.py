@@ -34,6 +34,7 @@ import team_metadata
 from dataclasses import dataclass
 from typing import List
 import json
+import time
 
 global mode
 
@@ -58,37 +59,27 @@ class team:
 
 
 #user block class
-class user_block_scoreboard:
+class user_block:
   def __init__(self, name):
 
     self.name = name
 
-    self.username = api_info_scoreboard.user(user_name=str(name)).user_name
+    self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.name}", headers = {"Authorization": f'Bearer {access_token}'}).json()
 
-    self.id = api_info_scoreboard.user(user_name=str(name)).user_id
+    self.id = self.request_profile['id']
 
-    self.score = api_info_scoreboard.user(user_name=str(name)).total_score
+    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "1"}, headers = {"Authorization": f'Bearer {access_token}'}).json()
 
-    self.site_url = ("https://osu.ppy.sh/users/%s" % (self.id))
+    self.score = self.request_profile["statistics"]["total_score"]
 
-    self.background = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}", headers = {"Authorization": f'Bearer {access_token}'})
+    self.avatar = self.request_profile['avatar_url']
+    
+    self.background = self.request_profile['cover_url']
 
+    self.link = (f"https://osu.ppy.sh/api/v2/users/{self.name}")
 
-#user block class
-class user_block_match:
-  def __init__(self, name):
+    #self.recent = self.request_scores['scores_recent']
 
-    self.name = name
-
-    self.username = api_info.user(user_name=str(name)).user_name
-
-    self.id = api_info.user(user_name=str(name)).user_id
-
-    self.score = api_info.user(user_name=str(name)).total_score
-
-    self.site_url = ("https://osu.ppy.sh/users/%s" % (self.id))
-
-    self.background = None
 
 with open("players.db", "r") as f:
 
@@ -257,6 +248,8 @@ if new_game == "y":
 
   f = open("match_data.py", "w+")
 
+  match_name = input("match name")
+
   game_mode = str(input("teams or free for all\n1.teams\n2.free for all\n"))
 
   if game_mode == ("1"):
@@ -271,7 +264,7 @@ if new_game == "y":
 
     match_start(mode)
   
-  f.write("users = %s\ninitial_score = %s\nmode = \"%s\"\nteam_metadata = %s" % (players_selected, initial_score, mode, teams))
+  f.write("users = %s\nmatch_name = \"%s\"\ninitial_score = %s\nmode = \"%s\"\nteam_metadata = %s" % (players_selected, match_name, initial_score, mode, teams))
 
   f.close()
 
@@ -343,6 +336,16 @@ def code_grab() :
 
   access_token = token_thing["access_token"]
 
+  test_user_thing = user_block("GDcheerios")
+
+  f = open("debug.txt", "w")
+  f.write(f"{test_user_thing.request_profile}")
+  f.close
+
+  print(test_user_thing.request_profile)
+
+  print(test_user_thing.request_scores)
+
   return redirect("https://osu-api-crap.minecreeper0913.repl.co/")
 
 @app.route("/login.html",methods = ['POST', 'GET'])
@@ -352,6 +355,29 @@ def login():
   f = open("codes.txt", "w+")
   return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=https://osu-api-crap.minecreeper0913.repl.co/code_grab&scope=public")
   
+
+@app.route("/refresh")
+def refresh():
+
+  for name in player_list:
+
+    time.sleep(1)
+
+    player = user_block(name)
+
+    score = player.score
+
+    avatar = player.avatar
+
+    background = player.background
+
+    link = player.link
+
+    recent = player.recent
+
+    players[name] = [score, avatar, background, link]
+
+
 
 #@app.route("/Teams.html")
 def teams():
@@ -392,7 +418,7 @@ def players():
   players = {}
 
   for name in player_list:
-    score_block = user_block_scoreboard(f"{name}")
+    score_block = user_block(f"{name}")
     name = score_block.username
     avatar = ("https://a.ppy.sh/%s" % (score_block.id))
     background = requests.get(f"https://osu.ppy.sh/api/v2/users/{name}", headers = {"Authorization": f'Bearer {access_token}'}).json()
@@ -421,7 +447,7 @@ def current():
   
 
   for name in match_data.users:
-    score_block = user_block_match(f"{name}")
+    score_block = user_block(f"{name}")
     name = score_block.username
     avatar = ("https://a.ppy.sh/%s" % (score_block.id))
     link = ("https://osu.ppy.sh/users/%s" % (score_block.id))
