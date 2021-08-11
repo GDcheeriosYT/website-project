@@ -46,6 +46,8 @@
     img{
       height: auto;
       max-width: 100%;
+      width:124px;
+      height:124px;
     }
 
     span{
@@ -56,11 +58,6 @@
     .name_and_score{
       position: relative;
       bottom: 10px;
-    }
-
-    img{
-      width:124px;
-      height:124px;
     }
 
 		@keyframes intro {
@@ -115,9 +112,27 @@
 
   {% for key, value in players %}
 
-  <div class="player_info" style="color: yellow; background-image: url(https://assets.ppy.sh/user-profile-covers/11339405/48385b11ba264ac85022b58d8d53c301247bd0bd24ade7a1f169aa78dc64806f.jpeg)"> 
+  {% if count.value == 1%}
 
-		  <h1 style="text-shadow: 1px 0px 3px #ffd77a,1px 4px 5px #ffd77a;"><span>#{{ count.value }}</span> <img src="{{ value[1] }}"> <span class="name_and_score">{{ key }} | {{ value[0] }} score</span> </h1>
+    {% set color = "yellow" %}
+  
+  {% elif count.value == 2 %}
+
+    {% set color = "grey" %}
+  
+  {% elif count.value == 3 %}
+
+    {% set color = "brown" %}
+
+  {% else %}
+
+    {% set color = "white" %}
+  
+  {% endif %}
+
+  <div class="player_info" style="color: {{color}}; background-image: url({{ value[2] }})"> 
+
+		  <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"><span>#{{ count.value }}</span> <img src="{{ value[1] }}"> <span class="name_and_score">{{ key }} | {{ value[0] }} score</span> </h1>
 
 	</div>
 

@@ -2,7 +2,6 @@ import os  #making sure pip is always up to date
 from os import system
 import os
 
-
 #system('pip install --upgrade pip')
 #system('')
 
@@ -12,7 +11,6 @@ api_key = os.environ['api']
 extra_api_key = os.environ['extra_api_key']
 
 #packages
-from osuapi import OsuApi, AHConnector, ReqConnector
 import requests
 import aiohttp
 import asyncio
@@ -35,6 +33,7 @@ teamFile.close()
 import team_metadata
 from dataclasses import dataclass
 from typing import List
+import json
 
 global mode
 
@@ -72,25 +71,7 @@ class user_block_scoreboard:
 
     self.site_url = ("https://osu.ppy.sh/users/%s" % (self.id))
 
-    '''opts = webdriver.FirefoxOptions()
-
-    opts.add_argument("--headless")
-
-    page = self.site_url
-
-    driver = webdriver.Firefox()
-
-    driver.get(page)
-
-    content = driver.page_source
-
-    f = open("debug.txt", "w")
-    f.write(content)
-    f.close()
-
-    background_search = re.search("", content)
-
-    self.background = driver.find_element_by_name("header-v4__bg")'''
+    self.background = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}", headers = {"Authorization": f'Bearer {access_token}'})
 
 
 #user block class
@@ -107,22 +88,11 @@ class user_block_match:
 
     self.site_url = ("https://osu.ppy.sh/users/%s" % (self.id))
 
-    '''page = self.site_url
-
-    opts = webdriver.FirefoxOptions()
-
-    opts.add_argument("--headless")
-
-    driver = webdriver.Firefox()
-
-    driver.get(page)
-
-    self.background = driver.find_element_by_name("header-v4__bg")'''
+    self.background = None
 
 with open("players.db", "r") as f:
 
   player_list = f.read().splitlines()
-
 
 def match_start(mode):
 
@@ -310,7 +280,7 @@ elif new_game == "n":
   print("alright continuing the game")
   #joe = user_block("btmc")
   #print(joe.background)
-
+  
 else:
   print("...")
 
@@ -325,7 +295,6 @@ def match_refresh():
 def team_refresh():
   None
 
-
 #list variable to store which players are participating in the current match
 players_in_match = []
 
@@ -333,10 +302,6 @@ players_in_match = []
 def user_list():
   with open("players.db", "r") as f:
     player_list = f.read().splitlines()
-
-  for player in player_list:
-    player_stats = api_info.user(user_name=str(player))
-
 
 #making the api ['connector
 
@@ -370,16 +335,17 @@ def code_grab() :
   random_file.write(name_verify.group())
   random_file.close()
 
-  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':5679, 'client_secret':secret, 'redirect_uri':"https://osu-api-crap.minecreeper0913.repl.co", 'code':str(name_verify.group()), 'grant_type':'authorization_code'}, headers={'Accept':'application/x-www-form-urlencoded', 'Content-Type':'application/x-www-form-urlencoded'})
+  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':5679, 'client_secret':secret, 'grant_type':'client_credentials', 'scope':'public'}, headers={'Accept':'application/json', 'Content-Type':'application/json'})
 
-  token_thing = response.text
-  file = open("debug.txt", "w+")
-  file.write(token_thing)
-  file.close()
+  token_thing = response.json()
+
+  global access_token
+
+  access_token = token_thing["access_token"]
 
   return redirect("https://osu-api-crap.minecreeper0913.repl.co/")
 
-#@app.route("/login.html",methods = ['POST', 'GET'])
+@app.route("/login.html",methods = ['POST', 'GET'])
 
 def login():
 
@@ -387,7 +353,7 @@ def login():
   return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=https://osu-api-crap.minecreeper0913.repl.co/code_grab&scope=public")
   
 
-@app.route("/Teams.html")
+#@app.route("/Teams.html")
 def teams():
   team1_users = ["GDcheerios", "BirdPigeon", "kokuren"]
   team_score = []
@@ -397,17 +363,8 @@ def teams():
     team_score.append(api_info.user(user_name=user).total_score)
     team_acc.append(api_info.user(user_name=user).accuracy)
 
-    def listToString(s):  
-    
-      # initialize an empty string 
-      str1 = ""
-      
-      # traverse in the string   
-      for ele in s:  
-          str1 += ele   
-      
-      # return string   
-      return str1  
+    def listToString(seq):
+      return ''.join(seq)
       
     team_avg = sum(team_acc) / len(team_acc)
 
@@ -416,6 +373,8 @@ def teams():
   team1 = team("طفل محرج", total_team_score, team_avg)
 
   team1_users_string = listToString(team1_users)
+
+  print(team)
   
   return render_template(
     'Teams.html',  # Template file
@@ -427,19 +386,19 @@ def teams():
     api_info = api_info
   )
 
-@app.route("/players.html")
+#@app.route("/players.html")
 def players():
 
   players = {}
 
   for name in player_list:
-    print(players)
     score_block = user_block_scoreboard(f"{name}")
     name = score_block.username
     avatar = ("https://a.ppy.sh/%s" % (score_block.id))
-    #background = score_block.background
+    background = requests.get(f"https://osu.ppy.sh/api/v2/users/{name}", headers = {"Authorization": f'Bearer {access_token}'}).json()
+    background = background["cover_url"]
     score = score_block.score
-    players[name] = [score, avatar]
+    players[name] = [score, avatar, background]
 
   players = sorted(players.items(), key=lambda x: x[1], reverse=True)
 
@@ -448,7 +407,6 @@ def players():
     api_info_scoreboard = api_info_scoreboard,
     name = name,
     avatar = avatar,
-    #background = background,
     score = score,
     players = players
   )
@@ -456,21 +414,39 @@ def players():
 @app.route("/Current.html")
 def current():
 
-  debug = open("debug.txt", "w+")
-  recent = api_info.user(user_name="GDcheerios")
+  players = {}
 
-  print(recent.events)
+  x = 0
+  
+  
 
-  html_finder = re.findall(r"\>(\w+).+( achieved rank .\w+ on ).+m=0'>(.*? - .*?\])", str(recent.events))
+  for name in match_data.users:
+    score_block = user_block_match(f"{name}")
+    name = score_block.username
+    avatar = ("https://a.ppy.sh/%s" % (score_block.id))
+    link = ("https://osu.ppy.sh/users/%s" % (score_block.id))
+    background = requests.get(f"https://osu.ppy.sh/api/v2/users/{name}", headers = {"Authorization": f'Bearer {access_token}'}).json()
+    background = background["cover_url"]
+    score = score_block.score - match_data.initial_score[x]
 
-  def player_recent():
-    for each in html_finder:
-      return(''.join(each))
+    if match_data.mode == "ffa":
+
+      players[name] = [score, avatar, background, link]
+      
+    else:
+
+          players[name] = [score, avatar, background, link]
+
+    x = x + 1 
+
+  players = sorted(players.items(), key=lambda x: x[1], reverse=True)
   
   return render_template(
     'Current.html',  # Template file
     #recent = player_recent,
-    current_mode = mode
+    current_mode = mode,
+    players = players,
+    #teamcount = teamcount
   )
 
 @app.route("/changelog.html")

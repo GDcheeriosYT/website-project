@@ -12,8 +12,70 @@
   <style>
     .player_info{
       border-radius: 10px;
-      height: 60px;
-      background-color: #e09d4a;
+			height: auto;
+			background-color: white;
+      -webkit-transition: all 500ms ease;
+      -moz-transition: all 500ms ease;
+      -ms-transition: all 500ms ease;
+      -o-transition: all 500ms ease;
+      transition: all 500ms ease;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      text-shadow: 2px 2px 7px #CECECE;
+      box-shadow: 0 0 8px 8px white inset;
+      text-align: left;
+    }
+
+    .player_info:hover {
+			border-radius: 15px;
+			height: auto;
+      font-size: 20px;
+			background-color: white;
+      color: #FFFFFF;
+      background-size: 120%;
+      text-shadow: 1px 0px 1px #CCCCCC, 0px 1px 1px #EEEEEE, 2px 1px 1px #CCCCCC, 1px 2px 1px #EEEEEE, 3px 2px 1px #CCCCCC, 2px 3px 1px #EEEEEE, 4px 3px 1px #CCCCCC, 3px 4px 1px #EEEEEE, 5px 4px 1px #CCCCCC, 4px 5px 1px #EEEEEE, 6px 5px 1px #CCCCCC, 5px 6px 1px #EEEEEE, 7px 6px 1px #CCCCCC;
+      transform: translateY(-3px);
+      -webkit-transition: all 500ms ease;
+      -moz-transition: all 500ms ease;
+      -ms-transition: all 500ms ease;
+      -o-transition: all 500ms ease;
+      transition: all 500ms ease;
+      text-align: left;
+    }
+
+    img{
+      height: auto;
+      max-width: 100%;
+      width:86px;
+      height:86px;
+      transition: all 500ms ease;
+      vertical-align: baseline;
+    }
+
+    .player_info:hover img{
+      height: auto;
+      max-width: 100%;
+      width:132px;
+      height:132px;
+      transform: translateY(-3px);
+      -webkit-transition: all 500ms ease;
+      -moz-transition: all 500ms ease;
+      -ms-transition: all 500ms ease;
+      -o-transition: all 500ms ease;
+      transition: all 500ms ease;
+    }
+
+    .gameBox{
+      position: relative;
+      left: 0%;
+      right: 100%;
+      top: 30%;
+      bottom: 70%;
+      width: 100%;
+      height: 100%;
+      border: 5px hidden #1C6EA4;
+      border-radius: 15px;
+      background: radial-gradient(circle, rgba(20,56,39,1) 0%, rgba(38,104,73,1) 35%, rgba(0,0,0,1) 100%);
     }
 
     .recent_info{
@@ -36,9 +98,13 @@
 
     .match{
       text-align: center;
-      background: linear-gradient(0deg, #266849, #143827);
-      box-shadow: 20px 20px 50px 10px black inset;
+      /*background: linear-gradient(0deg, #266849, #143827);*/
+      /*box-shadow: 20px 20px 50px 10px black inset;*/
+      width: 50%;
+      height: 50%;
       border-radius: 10px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .rectangle_menu {
@@ -76,6 +142,10 @@
       text-style: bold;
     }
 
+    .player_info:hover a{
+      color: white;
+    }
+
     h1{
       text-align: center;
     }
@@ -93,17 +163,65 @@
   </style>
 </head>
 
-<body style="background: linear-gradient(0deg, #143827, #266849);">
+<body style="background: linear-gradient(0deg, #143827, #266849); background-repeat: no-repeat; background-attachment: fixed;">
 
   <div class="rectangle_menu"><a href="Teams.html">Teams</a> <a href="/">Home</a> <a href="players.html">players</a> <a href="login.html">login</a> <a href="changelog.html">changelog</a></div>
 
-  <div class="match">
+    <div class="gamebox">
+
     {% if current_mode == "teams" %}
+
       <h1 class="teammode">Team</h1>
+
+      <div class="match">
+
+        {% set count = namespace(value=1) %}
+
+        {% for key, value in players %}
+
+          
+
+              <div class="player_info" style="background-image: url({{ value[2] }})"> 
+
+                  <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"><span>#{{ count.value }}</span> <img src="{{ value[1] }}"> {{ value[0] }} score </h1>
+
+              </div>
+
+        {% set count.value = count.value + 1 %}
+      </div>
+
+        {% endfor %}
+
     {% else %}
-      <h1 class="single">Free For All</h1>
+
+      <div class="gameBox">
+
+        <h1 class="single">Free For All</h1>
+
+        <div class="match">
+  
+          {% set count = namespace(value=1) %}
+
+          {% for key, value in players %}
+
+            
+
+            <div class="player_info" style="background-image: url({{ value[2] }})"> 
+
+              <h1><a style="color:black" href="{{ value[3] }}">{{ key }}</a></h1>
+
+              <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"><span>#{{ count.value }}</span> <span><img src="{{ value[1] }}">{{ value[0] }} score</span> </h1>
+
+          {% set count.value = count.value + 1 %}
+
+        </div>
+
+          {% endfor %}
+      </div>
+
     {% endif %}
     <h2></h2>
+    </div>
   </div>
 
 </body>
