@@ -1,4 +1,5 @@
-users = ['GDcheerios', 'margaritamix08', 'BirdPigeon', 'st4rstrukk']
-initial_score = [54152963145, 101984483, 7787753835, 41184556034]
+users = ['GDcheerios', 'Venpris']
+match_name = "venpris balls"
+initial_score = [54396840395, 160304374907]
 mode = "ffa"
 team_metadata = {}

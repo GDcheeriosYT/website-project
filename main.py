@@ -33,6 +33,7 @@ teamFile.close()
 import team_metadata
 from dataclasses import dataclass
 from typing import List
+from collections import OrderedDict
 import json
 import time
 
@@ -68,7 +69,7 @@ class user_block:
 
     self.id = self.request_profile['id']
 
-    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "1"}, headers = {"Authorization": f'Bearer {access_token}'}).json()
+    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {access_token}'})
 
     self.score = self.request_profile["statistics"]["total_score"]
 
@@ -76,9 +77,19 @@ class user_block:
     
     self.background = self.request_profile['cover_url']
 
-    self.link = (f"https://osu.ppy.sh/api/v2/users/{self.name}")
+    self.link = (f"https://osu.ppy.sh/api/v2/users/{self.id}")
 
-    #self.recent = self.request_scores['scores_recent']
+    #if self.score > 0:
+
+    #print(self.request_scores)
+
+    #print(self.request_scores.text)
+    
+    self.recent_score = (json.loads(self.request_scores.text)[0]["score"])
+
+    #print((self.request_scores[0])['score'])
+
+    #self.recent_score = self.request_scores[0]['score']
 
 
 with open("players.db", "r") as f:
@@ -248,7 +259,7 @@ if new_game == "y":
 
   f = open("match_data.py", "w+")
 
-  match_name = input("match name")
+  match_name = input("match name ")
 
   game_mode = str(input("teams or free for all\n1.teams\n2.free for all\n"))
 
@@ -339,7 +350,7 @@ def code_grab() :
   test_user_thing = user_block("GDcheerios")
 
   f = open("debug.txt", "w")
-  f.write(f"{test_user_thing.request_profile}")
+  f.write(f"{access_token}")
   f.close
 
   print(test_user_thing.request_profile)
@@ -359,13 +370,17 @@ def login():
 @app.route("/refresh")
 def refresh():
 
-  for name in player_list:
+  players = {}
 
-    time.sleep(1)
+  x = 0
+
+  for name in match_data.users:
+
+    time.sleep(2)
 
     player = user_block(name)
 
-    score = player.score
+    score = player.score - match_data.initial_score[x]
 
     avatar = player.avatar
 
@@ -373,11 +388,17 @@ def refresh():
 
     link = player.link
 
-    recent = player.recent
+    recent_score = player.recent_score
 
-    players[name] = [score, avatar, background, link]
+    players[name] = [score, avatar, background, link, recent_score]
 
+    x = x + 1
 
+  global players_sorted
+
+  players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
+
+  return render_template('none.html')
 
 #@app.route("/Teams.html")
 def teams():
@@ -434,17 +455,17 @@ def players():
     name = name,
     avatar = avatar,
     score = score,
-    players = players
+    players = players_sorted
   )
 
 @app.route("/Current.html")
 def current():
 
+  '''
+
   players = {}
 
   x = 0
-  
-  
 
   for name in match_data.users:
     score_block = user_block(f"{name}")
@@ -466,12 +487,18 @@ def current():
     x = x + 1 
 
   players = sorted(players.items(), key=lambda x: x[1], reverse=True)
+
+  '''
+
+  match_title = match_data.match_name
   
   return render_template(
     'Current.html',  # Template file
-    #recent = player_recent,
+    #recent = player_recent
     current_mode = mode,
-    players = players,
+    time = time,
+    match_title = match_title,
+    players = players_sorted
     #teamcount = teamcount
   )
 

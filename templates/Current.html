@@ -2,6 +2,15 @@
 
 <html lang="en">
 <head>
+
+  <script>
+    function reload() {
+      location.reload 
+    }; 
+    
+    setInterval(reload,1000);
+  </script>
+
   <meta charset="utf-8">
 
   <title>match</title>
@@ -160,10 +169,27 @@
       background: linear-gradient(to right, #16bf0d 0%, #156311 100%);
     }
 
+    .title{
+
+    }
+
+    .addedscore{
+      color: green;
+
+    }
+
+    .score{
+      
+    }
+
   </style>
 </head>
 
 <body style="background: linear-gradient(0deg, #143827, #266849); background-repeat: no-repeat; background-attachment: fixed;">
+
+  <script src="anime.min.js"></script>
+
+  
 
   <div class="rectangle_menu"><a href="Teams.html">Teams</a> <a href="/">Home</a> <a href="players.html">players</a> <a href="login.html">login</a> <a href="changelog.html">changelog</a></div>
 
@@ -183,16 +209,19 @@
 
               <div class="player_info" style="background-image: url({{ value[2] }})"> 
 
-                  <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"><span>#{{ count.value }}</span> <img src="{{ value[1] }}"> {{ value[0] }} score </h1>
+                  <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"><span>#{{ count.value }}</span> <img src="{{ value[1] }}"> <div class="score"> {{ value[0] }}</div> score </h1>
 
               </div>
 
         {% set count.value = count.value + 1 %}
+
       </div>
 
         {% endfor %}
 
     {% else %}
+
+      <h1>{{ match_name }}</h1>
 
       <div class="gameBox">
 
@@ -202,15 +231,13 @@
   
           {% set count = namespace(value=1) %}
 
-          {% for key, value in players %}
-
-            
+          {% for key, value in players.items() %}
 
             <div class="player_info" style="background-image: url({{ value[2] }})"> 
 
               <h1><a style="color:black" href="{{ value[3] }}">{{ key }}</a></h1>
 
-              <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"><span>#{{ count.value }}</span> <span><img src="{{ value[1] }}">{{ value[0] }} score</span> </h1>
+              <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"><span>#{{ count.value }}</span> <span><img src="{{ value[1] }}">{{ value[0] }} score <div class="addedscore">+{{ value[4] }}</div></span> </h1>
 
           {% set count.value = count.value + 1 %}
 
