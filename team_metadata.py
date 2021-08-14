@@ -1,1 +1,1 @@
-{'team1': ['Mcg_Tokyo'], 'team2': ['GoodNightTokyo']}
+{'team1': ['GDcheerios'], 'team2': ['Birdpigeon', 'bm38573', 'margaritamix08']}

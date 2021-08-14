@@ -19,9 +19,14 @@
 
   <link rel="stylesheet" href="css/styles.css?v=1.0">
   <style>
+    
     .player_info{
+      display: flex;
+      flex-direction: row;
       border-radius: 10px;
-			height: auto;
+			height: 184px;
+      width: 860px;
+      font-size: 16px;
 			background-color: white;
       -webkit-transition: all 500ms ease;
       -moz-transition: all 500ms ease;
@@ -36,12 +41,13 @@
     }
 
     .player_info:hover {
+      flex-direction: row;
 			border-radius: 15px;
-			height: auto;
+			height: 246px;
       font-size: 20px;
 			background-color: white;
       color: #FFFFFF;
-      background-size: 120%;
+      background-size: 110%;
       text-shadow: 1px 0px 1px #CCCCCC, 0px 1px 1px #EEEEEE, 2px 1px 1px #CCCCCC, 1px 2px 1px #EEEEEE, 3px 2px 1px #CCCCCC, 2px 3px 1px #EEEEEE, 4px 3px 1px #CCCCCC, 3px 4px 1px #EEEEEE, 5px 4px 1px #CCCCCC, 4px 5px 1px #EEEEEE, 6px 5px 1px #CCCCCC, 5px 6px 1px #EEEEEE, 7px 6px 1px #CCCCCC;
       -webkit-transition: all 500ms ease;
       -moz-transition: all 500ms ease;
@@ -52,24 +58,27 @@
     }
 
     img{
-      height: auto;
-      max-width: 100%;
       width:86px;
       height:86px;
       transition: all 500ms ease;
-      vertical-align: baseline;
     }
 
     .player_info:hover img{
-      height: auto;
-      max-width: 100%;
-      width:132px;
-      height:132px;
+      width:124px;
+      height:124px;
       -webkit-transition: all 500ms ease;
       -moz-transition: all 500ms ease;
       -ms-transition: all 500ms ease;
       -o-transition: all 500ms ease;
       transition: all 500ms ease;
+    }
+
+    .level{
+      margin-top: 3px;
+    }
+
+    .namebox{
+
     }
 
     .gameBox{
@@ -107,8 +116,7 @@
       text-align: center;
       /*background: linear-gradient(0deg, #266849, #143827);*/
       /*box-shadow: 20px 20px 50px 10px black inset;*/
-      width: 50%;
-      height: 50%;
+      width: 100%;
       border-radius: 10px;
       margin-left: auto;
       margin-right: auto;
@@ -148,6 +156,10 @@
       
     }
 
+    .avatar{
+
+    }
+
     a{
       color: #660d0d;
       text-style: bold;
@@ -177,15 +189,22 @@
     .teammode{
       text-transform: uppercase;
 	    background: linear-gradient(to right, #16bf0d 0%, #156311 100%);
+      border-radius: 10px;
     }
 
     .single{
       text-transform: uppercase;
       background: linear-gradient(to right, #16bf0d 0%, #156311 100%);
+      border-radius: 10px;
     }
 
     .title{
 
+    }
+
+    .teambox{
+      /*background: radial-gradient(circle, rgba(20,56,39,1) 0%, rgba(38,104,73,1) 35%,rgba(0,0,0,1) 100%);*/
+      border-radius: 10px;
     }
 
     .addedscore{
@@ -195,9 +214,18 @@
     }
 
     .score{
-      
+      margin-top: 85px;
+      margin-left: 150px;
+      font-size: 24px;
+      transition: all 500ms ease;
     }
 
+    .player_info:hover .score{
+      margin-top: 115px;
+      margin-left: 130px;
+      font-size: 32px;
+      transition: all 500ms ease;
+    }
   </style>
 </head>
 
@@ -205,13 +233,26 @@
 
   <script src="anime.min.js"></script>
 
-  
+  <!--key values
+              
+      key = name
+      count.value = the ranking of the player on the leaderboard
+      value[0] = score
+      value[1] = avatar link
+      value[2] = background link
+      value[3] = user profile link
+      value[4] = score gained since last submitted play
+      value[5] = level 
+      value[6] = progress to next level 
+      value[7] = team, only if mode == teams -->
 
   <div class="rectangle_menu"><a href="Teams.html">Teams</a> <a href="/">Home</a> <a href="players.html">players</a> <a href="login.html">login</a> <a href="changelog.html">changelog</a></div>
 
-    <div class="gamebox">
-
     {% if current_mode == "teams" %}
+
+    <h1>{{ match_title }}</h1>
+
+    <div class="gamebox">
 
       <h1 class="teammode">Team</h1>
 
@@ -219,25 +260,63 @@
 
         {% set count = namespace(value=1) %}
 
-        {% for key, value in players %}
+        {% for key in match_data %}
 
-          
+          <div class="teambox">
 
-              <div class="player_info" style="background-image: url({{ value[2] }})"> 
+            <h1>{{ key }}</h1>
 
-                  <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"><span>#{{ count.value }}</span> <img src="{{ value[1] }}"> <div class="score"> {{ value[0] }}</div> score </h1>
+            {% for key, value in players.items() %}
 
+              <div class="player_info" style="background-image: url({{ value[2] }}); ">
+
+                <div id="container1">
+
+                  <div class="level">
+
+                    <label for="level" style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}}; left: 10px; position: relative;">{{ value[5] }}</label><progress id="level" value="{{ value[6] }}" style="margin-left: 10px;" max="100"></progress>
+                  
+                  </div>
+
+                  <div class="namebox">
+
+                    <h1 style="margin-bottom: 10px; margin-top: 5px; margin-left: 10px;"><a style="color:black; border-left-style: solid; border-left-width: 0px; padding-right: 0px; margin-left: 0px;" href="{{ value[3] }}">#{{ count.value }} {{ key }}</a></h1>
+                    
+                  </div>
+
+                  <div class="avatar">
+
+                    <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"> <img src="{{ value[1] }}" style="box-shadow: 5px 5px 5px 0px #000000, inset 4px 4px 15px 0px #000000, 5px 5px 15px 5px rgba(0,0,0,0); border: 5px none #1C6EA4; border-radius: 15px; margin-right: 100%;border-bottom-style: solid; border-bottom-width: 0px;margin-top: -2%;margin-left: 10px;"></h1>
+                  
+                  </div>
+
+                </div>
+
+                <div id="container2">
+
+                  <div class="score">
+
+                    <span><div class="addedscore">+{{ value[4] }}</div> <h3>{{ value[0] }} score </h3></span>
+                  
+                  </div>
+                
+                </div>
+              
               </div>
+            
+          </div>
 
-        {% set count.value = count.value + 1 %}
+          {% set count.value = count.value + 1 %}
 
-      </div>
+        </div>
+
+          {% endfor %}
 
         {% endfor %}
 
     {% else %}
 
-      <h1>{{ match_name }}</h1>
+      <h1>{{ match_title }}</h1>
 
       <div class="gameBox">
 
@@ -249,25 +328,37 @@
 
           {% for key, value in players.items() %}
 
-            <div class="player_info" style="background-image: url({{ value[2] }}); "> 
+            <div class="player_info" style="background-image: url({{ value[2] }}); ">
 
-              <label for="level" style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}}; left: 10px; position: relative;">{{ value[5] }}</label><progress id="level" value="{{ value[6] }}" max="100"></progress>
+              <div id="container1">
 
-              <h1><a style="color:black" href="{{ value[3] }}">{{ key }}</a></h1>
+                <div class="level">
 
-              <!--key values
+                  <label for="level" style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}}; left: 10px; position: relative;">{{ value[5] }}</label><progress id="level" value="{{ value[6] }}" style="margin-left: 10px;" max="100"></progress>
+                
+                </div>
+
+                <div class="namebox">
+                  <h1 style="margin-bottom: 10px; margin-top: 5px; margin-left: 10px;"><a style="color:black; border-left-style: solid; border-left-width: 0px; padding-right: 0px; margin-left: 0px;" href="{{ value[3] }}">#{{ count.value }} {{ key }}</a></h1>
+                </div>
+
+                <div class="avatar">
+
+                  <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"> <img src="{{ value[1] }}" style="box-shadow: 5px 5px 5px 0px #000000, inset 4px 4px 15px 0px #000000, 5px 5px 15px 5px rgba(0,0,0,0); border: 5px none #1C6EA4; border-radius: 15px; margin-right: 100%;border-bottom-style: solid; border-bottom-width: 0px;margin-top: -2%;margin-left: 10px;"></h1>
+                
+                </div>
+
+              </div>
+
+              <div id="container2">
+
+                <div class="score">
+
+                  <span><div class="addedscore">+{{ value[4] }}</div> <h3>{{ value[0] }} score </h3></span>
+                
+                </div>
               
-              key = name
-              count.value = the ranking of the player on the leaderboard
-              value[0] = score
-              value[1] = avatar link
-              value[2] = background link
-              value[3] = user profile link
-              value[4] = score gained since last submitted play
-              value[5] = level 
-              value[6] = progress to next level -->
-
-              <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"><span>#{{ count.value }}</span> <span><img src="{{ value[1] }}" style="box-shadow: 5px 5px 5px 0px #000000, inset 4px 4px 15px 0px #000000, 5px 5px 15px 5px rgba(0,0,0,0); border: 5px none #1C6EA4;border-radius: 15px;"><div class="addedscore">+{{ value[4] }}</div> {{ value[0] }} score </span> </h1>
+              </div>
 
           {% set count.value = count.value + 1 %}
 

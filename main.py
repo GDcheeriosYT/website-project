@@ -41,7 +41,7 @@ global mode
 
 #leveling_system
 level_limit = 300
-level_expenential_growth_modifier = 1.04
+level_expenential_growth_modifier = 1.02
 leveling_start = 20000
 level_number_change = 40000
 x = 1
@@ -61,7 +61,7 @@ while x <= level_limit:
   
   level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.1
   
-#print(levels)
+print(levels)
 
 api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
 
@@ -102,18 +102,11 @@ class user_block:
     self.background = self.request_profile['cover_url']
 
     self.link = (f"https://osu.ppy.sh/users/{self.id}")
-
-    #if self.score > 0:
-
-    #print(self.request_scores)
-
-    #print(self.request_scores.text)
     
-    self.recent_score = (json.loads(self.request_scores.text)[0]["score"])
-
-    #print((self.request_scores[0])['score'])
-
-    #self.recent_score = self.request_scores[0]['score']
+    try:
+      self.recent_score = (json.loads(self.request_scores.text)[0]["score"])
+    except IndexError:
+      self.recent_score = 0
 
 
 with open("players.db", "r") as f:
@@ -373,13 +366,13 @@ def code_grab() :
 
   test_user_thing = user_block("GDcheerios")
 
-  f = open("debug.txt", "w")
-  f.write(f"{access_token}")
-  f.close
+  #f = open("debug.txt", "w")
+  #f.write(f"{access_token}")
+  #f.close
 
-  print(test_user_thing.request_profile)
+  #print(test_user_thing.request_profile)
 
-  print(test_user_thing.request_scores)
+  #print(test_user_thing.request_scores)
 
   return redirect("https://osu-api-crap.minecreeper0913.repl.co/")
 
@@ -389,7 +382,6 @@ def login():
 
   f = open("codes.txt", "w+")
   return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=https://osu-api-crap.minecreeper0913.repl.co/code_grab&scope=public")
-  
 
 @app.route("/refresh")
 def refresh():
@@ -412,7 +404,13 @@ def refresh():
 
     link = player.link
 
-    recent_score = player.recent_score
+    if score == 0:
+
+      recent_score = 0
+
+    else:
+      
+      recent_score = player.recent_score
 
     def level(playerscore):
 
@@ -442,13 +440,27 @@ def refresh():
     
     level(score)
 
-    players[name] = [score, avatar, background, link, recent_score, user_level, xp]
+    if match_data.mode == "teams":
+
+      players[name] = [score, avatar, background, link, recent_score, user_level, xp]
+
+      for teamName, teamList in match_data.team_metadata.items():
+        for teamMember in teamList:
+          if teamMember in players.keys():
+            players[teamMember].append(teamName)
+      print(players)
+
+    else:
+
+      players[name] = [score, avatar, background, link, recent_score, user_level, xp]
 
     x = x + 1
 
   global players_sorted
 
   players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
+
+  print("player data refreshed!")
 
   return render_template('none.html')
 
@@ -521,6 +533,7 @@ def current():
     current_mode = mode,
     time = time,
     match_title = match_title,
+    match_data = match_data.team_metadata.keys(),
     players = players_sorted
     #teamcount = teamcount
   )
