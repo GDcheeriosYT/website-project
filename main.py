@@ -39,6 +39,30 @@ import time
 
 global mode
 
+#leveling_system
+level_limit = 300
+level_expenential_growth_modifier = 1.04
+leveling_start = 20000
+level_number_change = 40000
+x = 1
+x_float = 0.0007
+x_float_multiplier = 1
+
+levels = {}
+
+while x <= level_limit:
+
+  levels[x] = leveling_start
+
+  #time.sleep(0.1)
+
+  x = x + 1
+  leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
+  
+  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.1
+  
+#print(levels)
+
 api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
 
 api_info_scoreboard = slider.client.Client("", str(extra_api_key),api_url='https://osu.ppy.sh/api')
@@ -77,7 +101,7 @@ class user_block:
     
     self.background = self.request_profile['cover_url']
 
-    self.link = (f"https://osu.ppy.sh/api/v2/users/{self.id}")
+    self.link = (f"https://osu.ppy.sh/users/{self.id}")
 
     #if self.score > 0:
 
@@ -390,7 +414,35 @@ def refresh():
 
     recent_score = player.recent_score
 
-    players[name] = [score, avatar, background, link, recent_score]
+    def level(playerscore):
+
+      #x = 0
+
+      for key, value in levels.items():
+
+        if playerscore <= value:
+
+          global user_level
+
+          user_level = (f"level {key - 1}")
+
+          level_up_goal = value
+
+          global xp
+
+          xp = playerscore / level_up_goal
+
+          xp = xp * 100
+
+          xp = (int(xp))
+
+          break
+        
+        #x = x + 1
+    
+    level(score)
+
+    players[name] = [score, avatar, background, link, recent_score, user_level, xp]
 
     x = x + 1
 
@@ -461,35 +513,6 @@ def players():
 @app.route("/Current.html")
 def current():
 
-  '''
-
-  players = {}
-
-  x = 0
-
-  for name in match_data.users:
-    score_block = user_block(f"{name}")
-    name = score_block.username
-    avatar = ("https://a.ppy.sh/%s" % (score_block.id))
-    link = ("https://osu.ppy.sh/users/%s" % (score_block.id))
-    background = requests.get(f"https://osu.ppy.sh/api/v2/users/{name}", headers = {"Authorization": f'Bearer {access_token}'}).json()
-    background = background["cover_url"]
-    score = score_block.score - match_data.initial_score[x]
-
-    if match_data.mode == "ffa":
-
-      players[name] = [score, avatar, background, link]
-      
-    else:
-
-          players[name] = [score, avatar, background, link]
-
-    x = x + 1 
-
-  players = sorted(players.items(), key=lambda x: x[1], reverse=True)
-
-  '''
-
   match_title = match_data.match_name
   
   return render_template(
@@ -514,6 +537,6 @@ if __name__ == "__main__":  # Makes sure this is the main process
   app.run( # Starts the site
     host='0.0.0.0',  # Establishes the host, required for repl to detect the site
     port=5000,# Randomly select the port the machine hosts on.
-    debug=True
+    debug=False
 
   )

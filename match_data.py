@@ -1,5 +1,5 @@
-users = ['GDcheerios', 'Venpris']
-match_name = "venpris balls"
-initial_score = [54396840395, 160304374907]
+users = ['GDcheerios', 'Birdpigeon', 'margaritamix08']
+match_name = "dylan is poppy"
+initial_score = [54714658806, 7942670405, 123145927]
 mode = "ffa"
 team_metadata = {}

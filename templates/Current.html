@@ -43,7 +43,6 @@
       color: #FFFFFF;
       background-size: 120%;
       text-shadow: 1px 0px 1px #CCCCCC, 0px 1px 1px #EEEEEE, 2px 1px 1px #CCCCCC, 1px 2px 1px #EEEEEE, 3px 2px 1px #CCCCCC, 2px 3px 1px #EEEEEE, 4px 3px 1px #CCCCCC, 3px 4px 1px #EEEEEE, 5px 4px 1px #CCCCCC, 4px 5px 1px #EEEEEE, 6px 5px 1px #CCCCCC, 5px 6px 1px #EEEEEE, 7px 6px 1px #CCCCCC;
-      transform: translateY(-3px);
       -webkit-transition: all 500ms ease;
       -moz-transition: all 500ms ease;
       -ms-transition: all 500ms ease;
@@ -66,7 +65,6 @@
       max-width: 100%;
       width:132px;
       height:132px;
-      transform: translateY(-3px);
       -webkit-transition: all 500ms ease;
       -moz-transition: all 500ms ease;
       -ms-transition: all 500ms ease;
@@ -146,6 +144,10 @@
       object-fit: fill;
     }
 
+    .detailbox{
+      
+    }
+
     a{
       color: #660d0d;
       text-style: bold;
@@ -154,6 +156,19 @@
     .player_info:hover a{
       color: white;
     }
+
+    .player_info:hover .addedscore{ animation: aniTop 0.3s ease-out; opacity: 1;}
+    @keyframes aniTop {
+      from {
+        transform: translateY(100px);
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+    }
+    
 
     h1{
       text-align: center;
@@ -175,7 +190,8 @@
 
     .addedscore{
       color: green;
-
+      opacity: 0;
+      transition: all 500ms ease
     }
 
     .score{
@@ -233,11 +249,25 @@
 
           {% for key, value in players.items() %}
 
-            <div class="player_info" style="background-image: url({{ value[2] }})"> 
+            <div class="player_info" style="background-image: url({{ value[2] }}); "> 
+
+              <label for="level" style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}}; left: 10px; position: relative;">{{ value[5] }}</label><progress id="level" value="{{ value[6] }}" max="100"></progress>
 
               <h1><a style="color:black" href="{{ value[3] }}">{{ key }}</a></h1>
 
-              <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"><span>#{{ count.value }}</span> <span><img src="{{ value[1] }}">{{ value[0] }} score <div class="addedscore">+{{ value[4] }}</div></span> </h1>
+              <!--key values
+              
+              key = name
+              count.value = the ranking of the player on the leaderboard
+              value[0] = score
+              value[1] = avatar link
+              value[2] = background link
+              value[3] = user profile link
+              value[4] = score gained since last submitted play
+              value[5] = level 
+              value[6] = progress to next level -->
+
+              <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"><span>#{{ count.value }}</span> <span><img src="{{ value[1] }}" style="box-shadow: 5px 5px 5px 0px #000000, inset 4px 4px 15px 0px #000000, 5px 5px 15px 5px rgba(0,0,0,0); border: 5px none #1C6EA4;border-radius: 15px;"><div class="addedscore">+{{ value[4] }}</div> {{ value[0] }} score </span> </h1>
 
           {% set count.value = count.value + 1 %}
 
