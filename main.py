@@ -102,12 +102,81 @@ class user_block:
     self.background = self.request_profile['cover_url']
 
     self.link = (f"https://osu.ppy.sh/users/{self.id}")
+
+    print(json.loads(self.request_scores.text))
     
     try:
       self.recent_score = (json.loads(self.request_scores.text)[0]["score"])
     except IndexError:
       self.recent_score = 0
 
+    try:
+      self.map_cover = (json.loads(self.request_scores.text)[0]["beatmap"]["beatmapset_id"])
+      self.map_cover = f"https://assets.ppy.sh/beatmaps/{self.map_cover}/covers/cover.jpg"
+    except IndexError:
+      self.map_cover = "https://data.whicdn.com/images/100018401/original.gif"
+
+    try:
+      self.map_url = (json.loads(self.request_scores.text)[0]["beatmap"]["url"])
+    except IndexError:
+      self.map_url = "https://osu.ppy.sh/beatmapsets"
+
+    try:
+      self.map_difficulty = (json.loads(self.request_scores.text)[0]["beatmap"]["difficulty_rating"])
+    except IndexError:
+      self.map_difficulty = "0"
+
+    try:
+      self.map_title = (json.loads(self.request_scores.text)[0]["beatmapset"]["title_unicode"])
+    except IndexError:
+      self.map_title = "not found"
+
+    try:
+      self.mods = (json.loads(self.request_scores.text)[0]["mods"])
+      if len(self.mods) == 0:
+        self.mods = "no mods"
+      else:
+        self.mods = self.mods
+    except IndexError:
+      self.mods = ""
+
+    try:
+      self.artist = (json.loads(self.request_scores.text)[0]["beatmapset"]["artist_unicode"])
+    except IndexError:
+      self.artist = ""
+
+    try:
+      self.accuracy = (json.loads(self.request_scores.text)[0]["accuracy"])
+      self.accuracy = round(self.accuracy * 100, 2)
+    except IndexError:
+      self.accuracy = ""
+
+    try:
+      self.max_combo = (json.loads(self.request_scores.text)[0]["max_combo"])
+    except IndexError:
+      self.max_combo = ""
+
+    try:
+      self.rank = (json.loads(self.request_scores.text)[0]["rank"])
+      if self.rank == "XH":
+        self.rank = "SS+"
+        self.rank_color = "grey"
+      elif self.rank == "SH":
+        self.rank = "S+"
+        self.rank_color = "grey"
+      elif self.rank == "S":
+        self.rank_color = "yellow"
+      elif self.rank == "A":
+        self.rank_color = "green"
+      elif self.rank == "B":
+        self.rank_color = "blue"
+      elif self.rank == "C":
+        self.rank_color = "purple"
+      elif self.rank == "D":
+        self.rank_color = "red"
+    except IndexError:
+      self.rank = "F"
+      self.rank_color = "red"
 
 with open("players.db", "r") as f:
 
@@ -404,6 +473,26 @@ def refresh():
 
     link = player.link
 
+    map_background = player.map_cover
+
+    map_title = player.map_title
+
+    map_difficulty = player.map_difficulty
+
+    map_url = player.map_url
+
+    mods = player.mods
+
+    artist = player.artist
+    
+    accuracy = player.accuracy
+
+    max_combo = player.max_combo
+
+    rank = player.rank
+
+    rank_color = player.rank_color
+
     if score == 0:
 
       recent_score = 0
@@ -442,17 +531,20 @@ def refresh():
 
     if match_data.mode == "teams":
 
-      players[name] = [score, avatar, background, link, recent_score, user_level, xp]
+      players[name] = [score, avatar, background, link, recent_score, user_level, xp, map_background]
 
       for teamName, teamList in match_data.team_metadata.items():
         for teamMember in teamList:
           if teamMember in players.keys():
             players[teamMember].append(teamName)
-      print(players)
+
+      print(f"{x + 1} players data refreshed")
 
     else:
 
-      players[name] = [score, avatar, background, link, recent_score, user_level, xp]
+      players[name] = [score, avatar, background, link, recent_score, user_level, xp, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color]
+
+      print(f"{x + 1} players data refreshed")
 
     x = x + 1
 
@@ -460,7 +552,7 @@ def refresh():
 
   players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
 
-  print("player data refreshed!")
+  print("all player data refreshed!")
 
   return render_template('none.html')
 
@@ -550,6 +642,6 @@ if __name__ == "__main__":  # Makes sure this is the main process
   app.run( # Starts the site
     host='0.0.0.0',  # Establishes the host, required for repl to detect the site
     port=5000,# Randomly select the port the machine hosts on.
-    debug=False
+    debug=True
 
   )

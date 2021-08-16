@@ -57,6 +57,44 @@
       text-align: left;
     }
 
+    .map_info{
+      display: flex;
+      flex-direction: column;
+      border-radius: 10px;
+			height: 184px;
+      width: 860px;
+      font-size: 16px;
+			background-color: white;
+      -webkit-transition: all 500ms ease;
+      -moz-transition: all 500ms ease;
+      -ms-transition: all 500ms ease;
+      -o-transition: all 500ms ease;
+      transition: all 500ms ease;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      text-shadow: 2px 2px 7px #CECECE;
+      box-shadow: 0 0 8px 8px white inset;
+      text-align: left;
+    }
+
+    .map_info:hover {
+      flex-direction: column;
+			border-radius: 15px;
+			height: 246px;
+      font-size: 20px;
+			background-color: white;
+      color: #FFFFFF;
+      background-size: 110%;
+      background-repeat: no-repeat;
+      text-shadow: 1px 0px 1px #CCCCCC, 0px 1px 1px #EEEEEE, 2px 1px 1px #CCCCCC, 1px 2px 1px #EEEEEE, 3px 2px 1px #CCCCCC, 2px 3px 1px #EEEEEE, 4px 3px 1px #CCCCCC, 3px 4px 1px #EEEEEE, 5px 4px 1px #CCCCCC, 4px 5px 1px #EEEEEE, 6px 5px 1px #CCCCCC, 5px 6px 1px #EEEEEE, 7px 6px 1px #CCCCCC;
+      -webkit-transition: all 500ms ease;
+      -moz-transition: all 500ms ease;
+      -ms-transition: all 500ms ease;
+      -o-transition: all 500ms ease;
+      transition: all 500ms ease;
+      text-align: left;
+    }
+
     img{
       width:86px;
       height:86px;
@@ -87,8 +125,6 @@
       right: 100%;
       top: 30%;
       bottom: 70%;
-      width: 100%;
-      height: 100%;
       border: 5px hidden #1C6EA4;
       border-radius: 15px;
       background: radial-gradient(circle, rgba(20,56,39,1) 0%, rgba(38,104,73,1) 35%, rgba(0,0,0,1) 100%);
@@ -202,6 +238,15 @@
 
     }
 
+    .map_title{
+
+    }
+
+    .grade{
+      display: flex;
+      flex: row;
+    }
+
     .teambox{
       /*background: radial-gradient(circle, rgba(20,56,39,1) 0%, rgba(38,104,73,1) 35%,rgba(0,0,0,1) 100%);*/
       border-radius: 10px;
@@ -244,7 +289,17 @@
       value[4] = score gained since last submitted play
       value[5] = level 
       value[6] = progress to next level 
-      value[7] = team, only if mode == teams -->
+      value[7] = user recent map background 
+      value[8] = user recent map name 
+      value[9] = user recent map difficulty
+      value[10] = map url
+      value[11] = mods used
+      value[12] = song artist
+      value[13] = accuracy
+      value[14] = max combo
+      value[15] = grade of the map just played
+      value[16] = grade color
+      value[10] = team, only if mode == teams  -->
 
   <div class="rectangle_menu"><a href="Teams.html">Teams</a> <a href="/">Home</a> <a href="players.html">players</a> <a href="login.html">login</a> <a href="changelog.html">changelog</a></div>
 
@@ -318,11 +373,13 @@
 
       <h1>{{ match_title }}</h1>
 
-      <div class="gameBox">
+      <!--<div class="gameBox">-->
 
         <h1 class="single">Free For All</h1>
 
         <div class="match">
+
+          <h1>Players and Recent plays for each player</h1>
   
           {% set count = namespace(value=1) %}
 
@@ -360,12 +417,53 @@
               
               </div>
 
+            </div>
+
+          </div>
+
+          <div class="map_info" style="background: url({{ value[7] }}); margin-top: -184px; margin-left: 50%">
+
+              <div class="map_title" style="margin-left: 10px;">
+
+                <h3><a href="{{ value[10] }}">{{ value[12] }}-{{ value[8] }}</a></h3>
+
+              </div>
+
+              <div class="grade" style="margin-left: 10px;">
+
+                <h2 style="color: {{ value[16] }};">{{ value[15] }}</h2>
+
+                <div class="map_difficulty" style="margin-left: 10px;">
+
+                  <h3>{{ value[9] }} stars</h3>
+
+                </div>
+
+                <div class="mods" style="margin-left: 10px;">
+
+                  <h3>mods: {{ value[11] }}</h3>
+
+                </div>
+
+                <div class="accuracy" style="margin-left: 10px;">
+
+                  <h3>accuracy: {{ value[13] }}%</h3>
+
+                </div>
+
+                <div class="max_combo" style="margin-left: 10px;">
+
+                  <h3>max combo: {{ value[14] }}</h3>
+
+                </div>
+              </div>
+
+            </div>
+
           {% set count.value = count.value + 1 %}
 
-        </div>
-
           {% endfor %}
-      </div>
+      <!--</div>-->
 
     {% endif %}
     <h2></h2>
