@@ -1,4 +1,4 @@
-from os import system
+'''from os import system
 import os
 import random
 '''
@@ -170,4 +170,4 @@ code_input = input("which code do you want to be shown?\n1 for testing code\n2 f
 
 
 
-print("===================================")
+print("===================================")'''

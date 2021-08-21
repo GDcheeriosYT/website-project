@@ -6,9 +6,9 @@ import os
 #system('')
 
 #securing
-secret = os.environ['secret']
+'''secret = os.environ['secret']
 api_key = os.environ['api']
-extra_api_key = os.environ['extra_api_key']
+extra_api_key = os.environ['extra_api_key']'''
 
 #packages
 import requests
