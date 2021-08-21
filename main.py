@@ -6,9 +6,9 @@ import os
 #system('')
 
 #securing
-secret = os.environ['secret']
-api_key = os.environ['api']
-extra_api_key = os.environ['extra_api_key']
+secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
+api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
+extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
 
 #packages
 import requests
@@ -443,14 +443,14 @@ def code_grab() :
 
   #print(test_user_thing.request_scores)
 
-  return redirect("https://osu-api-crap.minecreeper0913.repl.co/")
+  return redirect("http://192.168.1.4:5000/")
 
 @app.route("/login.html",methods = ['POST', 'GET'])
 
 def login():
 
   f = open("codes.txt", "w+")
-  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=https://osu-api-crap.minecreeper0913.repl.co/code_grab&scope=public")
+  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=http://192.168.1.4:5000/code_grab&scope=public")
 
 @app.route("/refresh")
 def refresh():
@@ -503,7 +503,7 @@ def refresh():
 
     def level(playerscore):
 
-      #x = 0
+      x = 0
 
       for key, value in levels.items():
 
@@ -512,6 +512,10 @@ def refresh():
           global user_level
 
           user_level = (f"level {key - 1}")
+
+          print(key, key - 1)
+
+          #level_start_amount = levels[int(key - 1)]
 
           level_up_goal = value
 
@@ -525,7 +529,7 @@ def refresh():
 
           break
         
-        #x = x + 1
+        x = x + 1
     
     level(score)
 

@@ -3,14 +3,6 @@
 <html lang="en">
 <head>
 
-  <script>
-    function reload() {
-      location.reload 
-    }; 
-    
-    setInterval(reload,1000);
-  </script>
-
   <meta charset="utf-8">
 
   <title>match</title>
@@ -24,9 +16,9 @@
       display: flex;
       flex-direction: row;
       border-radius: 10px;
-			height: 184px;
-      width: 860px;
-      font-size: 16px;
+			height: 10%;
+      width: 25%;
+      font-size: 80%;
 			background-color: white;
       -webkit-transition: all 500ms ease;
       -moz-transition: all 500ms ease;
@@ -34,7 +26,8 @@
       -o-transition: all 500ms ease;
       transition: all 500ms ease;
       background-repeat: no-repeat;
-      background-size: 100%;
+      background-size: 105%;
+      background-position: 100%;
       text-shadow: 2px 2px 7px #CECECE;
       box-shadow: 0 0 8px 8px white inset;
       text-align: left;
@@ -43,11 +36,13 @@
     .player_info:hover {
       flex-direction: row;
 			border-radius: 15px;
-			height: 246px;
-      font-size: 20px;
+      width: 35%;
+			height: 15%;
+      font-size: 100%;
 			background-color: white;
       color: #FFFFFF;
-      background-size: 110%;
+      background-size: 115%;
+      background-position: 100%;
       text-shadow: 1px 0px 1px #CCCCCC, 0px 1px 1px #EEEEEE, 2px 1px 1px #CCCCCC, 1px 2px 1px #EEEEEE, 3px 2px 1px #CCCCCC, 2px 3px 1px #EEEEEE, 4px 3px 1px #CCCCCC, 3px 4px 1px #EEEEEE, 5px 4px 1px #CCCCCC, 4px 5px 1px #EEEEEE, 6px 5px 1px #CCCCCC, 5px 6px 1px #EEEEEE, 7px 6px 1px #CCCCCC;
       -webkit-transition: all 500ms ease;
       -moz-transition: all 500ms ease;
@@ -59,11 +54,11 @@
 
     .map_info{
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       border-radius: 10px;
-			height: 184px;
-      width: 860px;
-      font-size: 16px;
+			height: 10%;
+      width: 25%;
+      font-size: 100%;
 			background-color: white;
       -webkit-transition: all 500ms ease;
       -moz-transition: all 500ms ease;
@@ -71,7 +66,8 @@
       -o-transition: all 500ms ease;
       transition: all 500ms ease;
       background-repeat: no-repeat;
-      background-size: 100%;
+      background-size: 105%;
+      background-position: 100%;
       text-shadow: 2px 2px 7px #CECECE;
       box-shadow: 0 0 8px 8px white inset;
       text-align: left;
@@ -80,11 +76,11 @@
     .map_info:hover {
       flex-direction: column;
 			border-radius: 15px;
-			height: 246px;
-      font-size: 20px;
+			height: 50%;
+      font-size: 120%;
 			background-color: white;
       color: #FFFFFF;
-      background-size: 110%;
+      background-size: 170%;
       background-repeat: no-repeat;
       text-shadow: 1px 0px 1px #CCCCCC, 0px 1px 1px #EEEEEE, 2px 1px 1px #CCCCCC, 1px 2px 1px #EEEEEE, 3px 2px 1px #CCCCCC, 2px 3px 1px #EEEEEE, 4px 3px 1px #CCCCCC, 3px 4px 1px #EEEEEE, 5px 4px 1px #CCCCCC, 4px 5px 1px #EEEEEE, 6px 5px 1px #CCCCCC, 5px 6px 1px #EEEEEE, 7px 6px 1px #CCCCCC;
       -webkit-transition: all 500ms ease;
@@ -96,14 +92,14 @@
     }
 
     img{
-      width:86px;
-      height:86px;
+      width: 35%;
+      height: 35%;
       transition: all 500ms ease;
     }
 
     .player_info:hover img{
-      width:124px;
-      height:124px;
+      width: 65%;
+      height: 65%;
       -webkit-transition: all 500ms ease;
       -moz-transition: all 500ms ease;
       -ms-transition: all 500ms ease;
@@ -255,28 +251,28 @@
     .addedscore{
       color: green;
       opacity: 0;
-      transition: all 500ms ease
+      transition: all 300ms ease
     }
 
     .score{
       margin-top: 85px;
-      margin-left: 150px;
-      font-size: 24px;
-      transition: all 500ms ease;
+      margin-left: 70%;
+      font-size: 100%;
+      transition: all 300ms ease;
     }
 
     .player_info:hover .score{
       margin-top: 115px;
-      margin-left: 130px;
-      font-size: 32px;
-      transition: all 500ms ease;
+      margin-left: 80%;
+      font-size: 120%;
+      transition: all 300ms ease;
     }
   </style>
 </head>
 
 <body style="background: linear-gradient(0deg, #143827, #266849); background-repeat: no-repeat; background-attachment: fixed;">
 
-  <script src="anime.min.js"></script>
+  <!--<script src="anime.min.js"></script>-->
 
   <!--key values
               
@@ -417,48 +413,52 @@
               
               </div>
 
+              <div id="container3">
+
+              </div>
+
             </div>
 
-          </div>
-
-          <div class="map_info" style="background: url({{ value[7] }}); margin-top: -184px; margin-left: 50%">
+            <div class="map_info" style="background: url({{ value[7] }});">
 
               <div class="map_title" style="margin-left: 10px;">
-
+  
                 <h3><a href="{{ value[10] }}">{{ value[12] }}-{{ value[8] }}</a></h3>
-
+  
               </div>
-
+  
               <div class="grade" style="margin-left: 10px;">
-
-                <h2 style="color: {{ value[16] }};">{{ value[15] }}</h2>
-
+  
+                <h2 style="color: {{ value[16] }}; font-size: 64px; margin-top: 0px; margin-bottom: 0px;">{{ value[15] }}</h2>
+  
                 <div class="map_difficulty" style="margin-left: 10px;">
-
+  
                   <h3>{{ value[9] }} stars</h3>
-
+  
                 </div>
-
+  
                 <div class="mods" style="margin-left: 10px;">
-
+  
                   <h3>mods: {{ value[11] }}</h3>
-
+  
                 </div>
-
+  
                 <div class="accuracy" style="margin-left: 10px;">
-
+  
                   <h3>accuracy: {{ value[13] }}%</h3>
-
+  
                 </div>
-
+  
                 <div class="max_combo" style="margin-left: 10px;">
-
+  
                   <h3>max combo: {{ value[14] }}</h3>
-
+  
                 </div>
               </div>
-
+  
             </div>
+
+        </div>
 
           {% set count.value = count.value + 1 %}
 
@@ -469,6 +469,15 @@
     <h2></h2>
     </div>
   </div>
+
+  <script>
+    function reload() {
+      location.reload
+      setTimeOut(function(){ alert("reloading data") }, 1);
+    }
+
+    reload()
+  </script> 
 
 </body>
 </html>
