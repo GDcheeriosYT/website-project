@@ -1,10 +1,10 @@
 '''from os import system
 import os
 import random
-'''
+
 system('pip install --upgrade pip')
 system('')
-'''
+
 
 #packages
 from osuapi import OsuApi, AHConnector, ReqConnector
