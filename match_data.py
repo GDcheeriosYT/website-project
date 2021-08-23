@@ -1,5 +1,5 @@
-users = ['GDcheerios', 'Birdpigeon', 'Trufflebuttt', 'Tonatious', 'peterparkermj', 'margaritamix08']
-match_name = "poop"
-initial_score = [55489133687, 8129175383, 3489701, 77975124717, 148194188, 187073454]
+users = ['GDcheerios', 'Nyx duke', 'Mcg_Tokyo']
+match_name = "the wetards"
+initial_score = [55507740970, 6986774, 35886575]
 mode = "ffa"
 team_metadata = {}
