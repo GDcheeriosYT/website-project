@@ -472,8 +472,10 @@
 
   <script>
     function reload() {
-      location.reload
-      setTimeOut(function(){ alert("reloading data") }, 1);
+      setTimeout(function(){ 
+	console.log("reloading data") 
+	location.reload();
+	}, 5000);
     }
 
     reload()
