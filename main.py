@@ -502,18 +502,28 @@ def refresh():
       recent_score = player.recent_score
 
     def level(playerscore):
+      
+      x = 0
 
       for level_num, level_xp in enumerate(levels, start=1):
 
           print(f'Comparing {playerscore} against {level_xp}')
 
           if level_xp > playerscore:
+            
+              previous_level_score = levels[x]
 
               player_next_level = level_num
 
               levelup_goal = level_xp
 
               break
+              
+          x = x + 1
+          
+          player_level_up_percent = playerscore - precious_level_score
+          
+          player_level_up_percent = player_level_up_percent / level_xp = previous_level_score
 
       global player_current_level
 
@@ -533,7 +543,7 @@ def refresh():
 
         #leveling_start + level_number_change * level_expenential_growth_modifier
 
-        player_levelup_percent = int(playerscore / levelup_goal * 100)
+        player_levelup_percent = int(level_num - previous_level_score playerscore - previous)
       except ZeroDivisionError:
         player_levelup_percent = int(playerscore / levelup_goal * 100)
 
