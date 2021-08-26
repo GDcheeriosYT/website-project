@@ -42,17 +42,17 @@ global mode
 #leveling_system
 level_limit = 300
 level_expenential_growth_modifier = 1.02
-leveling_start = 20000
-level_number_change = 40000
+leveling_start = 50000
+level_number_change = 100000
 x = 1
 x_float = 0.0007
 x_float_multiplier = 1
 
-levels = {}
+levels = []
 
 while x <= level_limit:
 
-  levels[x] = leveling_start
+  levels.append(leveling_start)
 
   #time.sleep(0.1)
 
@@ -443,14 +443,14 @@ def code_grab() :
 
   #print(test_user_thing.request_scores)
 
-  return redirect("http://192.168.1.4:5000/")
+  return redirect("http://192.168.1.22:5000/")
 
 @app.route("/login.html",methods = ['POST', 'GET'])
 
 def login():
 
   f = open("codes.txt", "w+")
-  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=http://192.168.1.4:5000/code_grab&scope=public")
+  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=http://192.168.1.22:5000/code_grab&scope=public")
 
 @app.route("/refresh")
 def refresh():
@@ -461,7 +461,7 @@ def refresh():
 
   for name in match_data.users:
 
-    time.sleep(2)
+    #time.sleep(2)
 
     player = user_block(name)
 
@@ -503,39 +503,49 @@ def refresh():
 
     def level(playerscore):
 
-      x = 0
+      for level_num, level_xp in enumerate(levels, start=1):
 
-      for key, value in levels.items():
+          print(f'Comparing {playerscore} against {level_xp}')
 
-        if playerscore <= value:
+          if level_xp > playerscore:
 
-          global user_level
+              player_next_level = level_num
 
-          user_level = (f"level {key - 1}")
+              levelup_goal = level_xp
 
-          print(key, key - 1)
+              break
 
-          #level_start_amount = levels[int(key - 1)]
+      global player_current_level
 
-          level_up_goal = value
+      player_current_level = level_num - 1
 
-          global xp
+      global player_levelup_percent
 
-          xp = playerscore / level_up_goal
+      print(levels[player_current_level] - playerscore)
 
-          xp = xp * 100
+      print(levels[player_current_level])
 
-          xp = (int(xp))
+      print(levelup_goal)
 
-          break
-        
-        x = x + 1
+      print(levelup_goal / levels[player_current_level] - playerscore)
+
+      try:
+
+        #leveling_start + level_number_change * level_expenential_growth_modifier
+
+        player_levelup_percent = int(playerscore / levelup_goal * 100)
+      except ZeroDivisionError:
+        player_levelup_percent = int(playerscore / levelup_goal * 100)
+
+      print(f'Level: {player_current_level}.')
+
+      print(f'Progress to next level: {player_levelup_percent}%.')
     
     level(score)
 
     if match_data.mode == "teams":
 
-      players[name] = [score, avatar, background, link, recent_score, user_level, xp, map_background]
+      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background]
 
       for teamName, teamList in match_data.team_metadata.items():
         for teamMember in teamList:
@@ -546,7 +556,7 @@ def refresh():
 
     else:
 
-      players[name] = [score, avatar, background, link, recent_score, user_level, xp, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color]
+      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color]
 
       print(f"{x + 1} players data refreshed")
 

@@ -16,48 +16,30 @@
       display: flex;
       flex-direction: row;
       border-radius: 10px;
-			height: 10%;
-      width: 25%;
       font-size: 80%;
+      width: 40%;
+      padding: 1em;
 			background-color: white;
       -webkit-transition: all 500ms ease;
       -moz-transition: all 500ms ease;
       -ms-transition: all 500ms ease;
       -o-transition: all 500ms ease;
       transition: all 500ms ease;
-      background-repeat: no-repeat;
-      background-size: 105%;
-      background-position: 100%;
       text-shadow: 2px 2px 7px #CECECE;
       box-shadow: 0 0 8px 8px white inset;
       text-align: left;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
     }
 
-    .player_info:hover {
-      flex-direction: row;
-			border-radius: 15px;
-      width: 35%;
-			height: 15%;
-      font-size: 100%;
-			background-color: white;
-      color: #FFFFFF;
-      background-size: 115%;
-      background-position: 100%;
-      text-shadow: 1px 0px 1px #CCCCCC, 0px 1px 1px #EEEEEE, 2px 1px 1px #CCCCCC, 1px 2px 1px #EEEEEE, 3px 2px 1px #CCCCCC, 2px 3px 1px #EEEEEE, 4px 3px 1px #CCCCCC, 3px 4px 1px #EEEEEE, 5px 4px 1px #CCCCCC, 4px 5px 1px #EEEEEE, 6px 5px 1px #CCCCCC, 5px 6px 1px #EEEEEE, 7px 6px 1px #CCCCCC;
-      -webkit-transition: all 500ms ease;
-      -moz-transition: all 500ms ease;
-      -ms-transition: all 500ms ease;
-      -o-transition: all 500ms ease;
-      transition: all 500ms ease;
-      text-align: left;
-    }
-
+    
     .map_info{
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       border-radius: 10px;
 			height: 10%;
-      width: 25%;
+      width: 35%;
       font-size: 100%;
 			background-color: white;
       -webkit-transition: all 500ms ease;
@@ -267,6 +249,18 @@
       font-size: 120%;
       transition: all 300ms ease;
     }
+
+    .container {
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;  
+      padding: 2em;
+      border-radius: 10px;
+      box-shadow: 0 0 8px 8px white inset;
+    }
+
   </style>
 </head>
 
@@ -325,7 +319,7 @@
 
                   <div class="level">
 
-                    <label for="level" style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}}; left: 10px; position: relative;">{{ value[5] }}</label><progress id="level" value="{{ value[6] }}" style="margin-left: 10px;" max="100"></progress>
+                    <label for="level" style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}}; left: 10px; position: relative;">level {{ value[5] }}</label><progress id="level" value="{{ value[6] }}" style="margin-left: 10px;" max="100"></progress>
                   
                   </div>
 
@@ -387,7 +381,7 @@
 
                 <div class="level">
 
-                  <label for="level" style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}}; left: 10px; position: relative;">{{ value[5] }}</label><progress id="level" value="{{ value[6] }}" style="margin-left: 10px;" max="100"></progress>
+                  <label for="level" style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}}; left: 10px; position: relative;">level {{ value[5] }}</label><progress id="level" value="{{ value[6] }}" style="margin-left: 10px;" max="100"></progress><label>{{ value[6] }}%</label>
                 
                 </div>
 
@@ -470,12 +464,15 @@
     </div>
   </div>
 
+  <meta id="my-data" data-name="{{name}}" data-other="{{other}}">
+
   <script>
+    var djangoData = $('#my-data').data();
     function reload() {
       setTimeout(function(){ 
 	console.log("reloading data") 
 	location.reload();
-	}, 5000);
+	}, 60000);
     }
 
     reload()
