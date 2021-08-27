@@ -443,14 +443,14 @@ def code_grab() :
 
   #print(test_user_thing.request_scores)
 
-  return redirect("http://192.168.1.22:5000/")
+  return redirect("http://172.17.0.4:5000/")
 
 @app.route("/login.html",methods = ['POST', 'GET'])
 
 def login():
 
   f = open("codes.txt", "w+")
-  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=http://192.168.1.22:5000/code_grab&scope=public")
+  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=http://172.17.0.4:5000/code_grab&scope=public")
 
 @app.route("/refresh")
 def refresh():
