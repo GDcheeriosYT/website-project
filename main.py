@@ -421,9 +421,9 @@ def code_grab() :
   name_verify = re.search("\w+", name_verify)
   print(name_verify.group())
   
-  random_file = open("code.txt", "w+")
+  '''random_file = open("code.txt", "w+")
   random_file.write(name_verify.group())
-  random_file.close()
+  random_file.close()'''
 
   response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':5679, 'client_secret':secret, 'grant_type':'client_credentials', 'scope':'public'}, headers={'Accept':'application/json', 'Content-Type':'application/json'})
 
@@ -517,13 +517,11 @@ def refresh():
 
           levelup_goal = level_xp
 
-          player_level_up_percent = playerscore - previous_level_score
-
-          print(player_level_up_percent)
+          player_level_up_percent1 = levels[x] - previous_level_score
       
-          player_level_up_percent = player_level_up_percent / levels[x]
+          player_level_up_percent2 = playerscore - previous_level_score
 
-          print(player_level_up_percent)
+          player_level_up_percent = player_level_up_percent2 / player_level_up_percent1
 
           print(previous_level_score, playerscore, level_xp, player_level_up_percent)
 
@@ -541,9 +539,9 @@ def refresh():
 
         #leveling_start + level_number_change * level_expenential_growth_modifier
 
-        player_levelup_percent = int(player_level_up_percent * 1000)
+        player_levelup_percent = int(player_level_up_percent * 100)
       except ZeroDivisionError:
-        player_levelup_percent = int(player_level_up_percent * 1000)
+        player_levelup_percent = int(player_level_up_percent * 100)
 
       print(f'Level: {player_current_level}.')
 
