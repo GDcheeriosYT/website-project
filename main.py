@@ -186,7 +186,7 @@ class user_block:
       self.rank = "F"
       self.rank_color = "red"
 
-with open("players.db", "r") as f:
+'''with open("players.db", "r") as f:
 
   player_list = f.read().splitlines()
 
@@ -380,7 +380,9 @@ elif new_game == "n":
   #print(joe.background)
   
 else:
-  print("...")
+  print("...")'''
+
+mode = "ffa"
 
 def match_refresh():
   with open("players.db", "r") as f:
@@ -420,6 +422,7 @@ def home():
     'index.html',  # Template file
   )
 
+
 @app.route('/code_grab')
 def code_grab() :
 
@@ -451,14 +454,14 @@ def code_grab() :
 
   #print(test_user_thing.request_scores)
 
-  return redirect("http://192.168.1.22:5000/")
+  return redirect("https://osu-api-crap.herokuapp.com/")
 
 @app.route("/login.html",methods = ['POST', 'GET'])
 
 def login():
 
   f = open("codes.txt", "w+")
-  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=http://192.168.1.22:5000/code_grab&scope=public")
+  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=https://osu-api-crap.herokuapp.com/code_grab&scope=public")
 
 @app.route("/refresh")
 def refresh():
