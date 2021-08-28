@@ -41,9 +41,9 @@ global mode
 
 #leveling_system
 level_limit = 300
-level_expenential_growth_modifier = 1.02
-leveling_start = 50000
-level_number_change = 100000
+level_expenential_growth_modifier = 1.00
+leveling_start = 100000
+level_number_change = 250000
 x = 1
 x_float = 0.0007
 x_float_multiplier = 1
@@ -59,9 +59,14 @@ while x <= level_limit:
   x = x + 1
   leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
   
-  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.1
-  
-print(levels)
+  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.07
+
+x = 1
+
+for level in levels:
+  print(f"level {x} {level}")
+  x = x + 1
+
 
 api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
 
@@ -165,6 +170,9 @@ class user_block:
         self.rank = "S+"
         self.rank_color = "grey"
       elif self.rank == "S":
+        self.rank_color = "yellow"
+      elif self.rank == "X":
+        self.rank = "SS"
         self.rank_color = "yellow"
       elif self.rank == "A":
         self.rank_color = "green"
@@ -443,14 +451,14 @@ def code_grab() :
 
   #print(test_user_thing.request_scores)
 
-  return redirect("http://172.17.0.4:5000/")
+  return redirect("http://192.168.1.22:5000/")
 
 @app.route("/login.html",methods = ['POST', 'GET'])
 
 def login():
 
   f = open("codes.txt", "w+")
-  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=http://172.17.0.4:5000/code_grab&scope=public")
+  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=http://192.168.1.22:5000/code_grab&scope=public")
 
 @app.route("/refresh")
 def refresh():
@@ -490,8 +498,11 @@ def refresh():
     max_combo = player.max_combo
 
     rank = player.rank
-
-    rank_color = player.rank_color
+    
+    try:
+      rank_color = player.rank_color
+    except AttributeError:
+      rank_color = "red"
 
     if score == 0:
 

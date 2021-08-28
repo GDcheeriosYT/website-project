@@ -1,6 +1,9 @@
 runtime: python
 env: flex
-entrypoint: gunicorn -b :$PORT main:app
+entrypoint: gunicorn -b :8080 main.py:app
+
+runtime_config:
+  python_version: 3
 
 # This sample incurs costs to run on the App Engine flexible environment.
 # The settings below are to reduce costs during testing and are not appropriate
@@ -11,4 +14,4 @@ manual_scaling:
 resources:
   cpu: 1
   memory_gb: 0.5
-  disk_size_gb: 3
+  disk_size_gb: 10

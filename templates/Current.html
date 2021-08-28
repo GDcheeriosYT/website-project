@@ -3,13 +3,27 @@
 <html lang="en">
 <head>
 
+  <script>
+    AnimateTransition({
+      container: container,
+      blockIn: blockIn,
+      blockOut: blockOut,
+      animation: 'bounce-out',
+      onTransitionStart: function (blockIn, blockOut, container, event) {
+
+      },
+      onTransitionEnd: function (blockIn, blockOut, container, event) {
+
+      }
+    });
+  </script>
+
   <meta charset="utf-8">
 
   <title>match</title>
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
 
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
   <style>
     
     .player_info{
@@ -121,6 +135,15 @@
     @keyframes intro {
       from {background-color: white;}
       to {background-color: #266849;}
+    }
+
+    @keyframes player_info_fadeIn {
+      from{
+        opacity: 0.0;
+      }
+      to{
+        opacity: 1.0;
+      }
     }
 
     .match{
@@ -360,7 +383,7 @@
 
       <h1>{{ match_title }}</h1>
 
-      <div class="gameBox">
+      <div class="gameBox" id="bodymovin">
 
         <h1 class="single">Free For All</h1>
 
@@ -372,7 +395,7 @@
 
           {% for key, value in players.items() %}
 
-            <div class="player_info" style="background-image: url({{ value[2] }}); ">
+            <div class="player_info" style="background-image: url({{ value[2] }});" id="ref{{ count.value }}">
 
               <div id="container1">
 
@@ -383,7 +406,9 @@
                 </div>
 
                 <div class="namebox">
+
                   <h1 style="margin-bottom: 10px; margin-top: 5px; margin-left: 10px;"><a style="color:black; border-left-style: solid; border-left-width: 0px; padding-right: 0px; margin-left: 0px;" href="{{ value[3] }}">#{{ count.value }} {{ key }}</a></h1>
+
                 </div>
 
                 <div class="avatar">
@@ -410,7 +435,7 @@
 
             </div>
 
-            <div class="map_info" style="background: url({{ value[7] }});">
+            <div class="map_info" style="background: url({{ value[7] }});" id="ref{{ count.value }}">
 
               <div class="map_title" style="margin-left: 10px;">
   
@@ -449,6 +474,13 @@
   
             </div>
 
+            <script>
+              setTimeout(function(){ 
+              console.log("reloading data") 
+              document.getElementById("ref{{ count.value }}").style.transition = "player_info_fadeIn";;
+              }, 100);
+            </script> 
+
         </div>
 
           {% set count.value = count.value + 1 %}
@@ -468,7 +500,7 @@
       setTimeout(function(){ 
 	console.log("reloading data") 
 	location.reload();
-	}, 10000);
+	}, 41000);
     }
 
     reload()
