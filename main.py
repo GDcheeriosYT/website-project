@@ -9,6 +9,8 @@ import os
 secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
+public_url = "http://173.17.21.124"
+local_url = "http://192.168.1.22:80"
 
 #packages
 import requests
@@ -405,7 +407,7 @@ def user_list():
 
 extra_api_key = str(extra_api_key)
 
-get_the_key = "https://osu.ppy.sh/oauth/authorize/client_id=5679&redirect_uri=https://gdcheerios.com/"
+get_the_key = f"https://osu.ppy.sh/oauth/authorize/client_id=5679&redirect_uri={public_url}"
 
 #flask set up
 app = Flask(  # Create a flask app
@@ -452,14 +454,14 @@ def code_grab() :
 
   #print(test_user_thing.request_scores)
 
-  return redirect("http://192.168.1.22:5000/")
+  return redirect(f"{public_url}")
 
 @app.route("/login.html",methods = ['POST', 'GET'])
 
 def login():
 
   f = open("codes.txt", "w+")
-  return redirect("https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri=http://192.168.1.22:5000/code_grab&scope=public")
+  return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri={public_url}/code_grab&scope=public")
 
 @app.route("/refresh")
 def refresh():
@@ -673,7 +675,7 @@ def changelog():
 if __name__ == "__main__":  # Makes sure this is the main process
   app.run( # Starts the site
     host='0.0.0.0',  # Establishes the host, required for repl to detect the site
-    port=5000,# Randomly select the port the machine hosts on.
+    port=80,# Randomly select the port the machine hosts on.
     debug=True
 
   )

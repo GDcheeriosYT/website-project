@@ -2,10 +2,12 @@ import urllib.request
 import time
 import match_data
 
+url = "http://173.17.21.124"
+
 #refresh
 
 def pageloadandclose():
-  page = urllib.request.urlopen('http://192.168.1.22:5000/refresh')
+  page = urllib.request.urlopen(f'{url}/refresh')
   page.close()
 
 #main process
@@ -24,7 +26,7 @@ while True:
         elif task1 == "y":
             print(f"alright will refresh every {len(match_data.users) * 2 + 1} seconds")
             while True:
-                time.sleep(int(len(match_data.users) * 2 + 1))
+                time.sleep(int(len(match_data.users) * 4 + 1))
                 pageloadandclose()
                 print("match refreshed\n")
         else:
