@@ -1,2 +1,2 @@
 # osu-api--crap
-https://osu-api-crap.minecreeper0913.repl.co
+http://173.17.21.124/
