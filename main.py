@@ -472,7 +472,7 @@ def refresh():
 
   for name in match_data.users:
 
-    #time.sleep(2)
+    time.sleep(2)
 
     player = user_block(name)
 
