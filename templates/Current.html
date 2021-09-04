@@ -309,6 +309,7 @@
       value[14] = max combo
       value[15] = grade of the map just played
       value[16] = grade color
+      value[17] = level color
       value[10] = team, only if mode == teams  -->
 
   <div class="rectangle_menu"><a href="Teams.html">Teams</a> <a href="/">Home</a> <a href="players.html">players</a> <a href="login.html">login</a> <a href="changelog.html">changelog</a></div>
@@ -401,7 +402,7 @@
 
                 <div class="level">
 
-                  <label for="level" style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}}; left: 10px; position: relative;">level {{ value[5] }}</label><progress id="level" value="{{ value[6] }}" style="margin-left: 10px;" max="100"></progress><label>{{ value[6] }}%</label>
+                  <label for="level" style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}}; left: 10px; position: relative;">level {{ value[5] }}</label><progress id="level" value="{{ value[6] }}" style="margin-left: 10px; background-color: {{ value[17] }}; color: {{ value[17] }};" max="100"></progress><label>{{ value[6] }}%</label>
                 
                 </div>
 

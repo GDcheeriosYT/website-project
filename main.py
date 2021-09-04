@@ -43,29 +43,130 @@ global mode
 
 #leveling_system
 level_limit = 300
+
+levelsBronze = []
+levelsSilver = []
+levelsGold = []
+levelsPlatinum = []
+levelsDiamond = []
+
+#bronze
 level_expenential_growth_modifier = 1.00
 leveling_start = 100000
 level_number_change = 250000
 x = 1
 x_float = 0.0007
 x_float_multiplier = 1
-
-levels = []
-
 while x <= level_limit:
 
-  levels.append(leveling_start)
+  levelsBronze.append(leveling_start)
 
   #time.sleep(0.1)
 
   x = x + 1
   leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
   
-  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.07
+  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.01
 
 x = 1
 
-for level in levels:
+for level in levelsBronze:
+  print(f"level {x} {level}")
+  x = x + 1
+
+#silver
+level_expenential_growth_modifier = 1.00
+leveling_start = 100000
+level_number_change = 250000
+x = 1
+x_float = 0.0007
+x_float_multiplier = 1
+while x <= level_limit:
+
+  levelsSilver.append(leveling_start)
+
+  #time.sleep(0.1)
+
+  x = x + 1
+  leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
+  
+  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.03
+
+x = 1
+
+for level in levelsSilver:
+  print(f"level {x} {level}")
+  x = x + 1
+
+#gold
+level_expenential_growth_modifier = 1.00
+leveling_start = 100000
+level_number_change = 250000
+x = 1
+x_float = 0.0007
+x_float_multiplier = 1
+while x <= level_limit:
+
+  levelsGold.append(leveling_start)
+
+  #time.sleep(0.1)
+
+  x = x + 1
+  leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
+  
+  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.06
+
+x = 1
+
+for level in levelsGold:
+  print(f"level {x} {level}")
+  x = x + 1
+
+#platinum
+level_expenential_growth_modifier = 1.00
+leveling_start = 100000
+level_number_change = 250000
+x = 1
+x_float = 0.0007
+x_float_multiplier = 1
+while x <= level_limit:
+
+  levelsPlatinum.append(leveling_start)
+
+  #time.sleep(0.1)
+
+  x = x + 1
+  leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
+  
+  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.12
+
+x = 1
+
+for level in levelsPlatinum:
+  print(f"level {x} {level}")
+  x = x + 1
+
+#diamond
+level_expenential_growth_modifier = 1.00
+leveling_start = 100000
+level_number_change = 250000
+x = 1
+x_float = 0.0007
+x_float_multiplier = 1
+while x <= level_limit:
+
+  levelsDiamond.append(leveling_start)
+
+  #time.sleep(0.1)
+
+  x = x + 1
+  leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
+  
+  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.24
+
+x = 1
+
+for level in levelsDiamond:
   print(f"level {x} {level}")
   x = x + 1
 
@@ -98,10 +199,42 @@ class user_block:
 
     self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.name}", headers = {"Authorization": f'Bearer {access_token}'}).json()
 
+    print(self.request_profile)
+
+    self.rank = self.request_profile['statistics']['global_rank']
+
+    print(self.rank)
+
+    try:
+
+      if self.rank >= 1000000:
+
+        self.elemental_level = "bronze"
+        
+      elif self.rank >= 500000 and self.rank < 1000000:
+
+        self.elemental_level = "silver"
+      
+      elif self.rank >= 100000 and self.rank < 500000:
+
+        self.elemental_level = "gold"
+      
+      elif self.rank >= 50000 and self.rank < 100000:
+
+        self.elemental_level = "platinum"
+      
+      elif self.rank >= 1 and self.rank < 50000:
+
+        self.elemental_level = "diamond"
+
+    except TypeError:
+
+      self.elemental_level = "bronze"
+
     self.id = self.request_profile['id']
 
     self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {access_token}'})
-
+ 
     self.score = self.request_profile["statistics"]["total_score"]
 
     self.avatar = self.request_profile['avatar_url']
@@ -472,9 +605,41 @@ def refresh():
 
   for name in match_data.users:
 
-    time.sleep(2)
+    #time.sleep(2)
 
     player = user_block(name)
+
+    elemental_level = player.elemental_level
+
+    if elemental_level == "bronze":
+
+      levelDiff = levelsBronze
+      levelColor = "brown"
+    
+    elif elemental_level == "silver":
+
+      levelDiff = levelsSilver
+      levelColor = "#C3C3C3"
+
+    elif elemental_level == "gold":
+
+      levelDiff = levelsGold
+      levelColor = "yellow"
+
+    elif elemental_level == "platinum":
+
+      levelDiff = levelsPlatinum
+      levelColor = "D7E6E7"
+
+    elif elemental_level == "diamond":
+
+      levelDiff = levelsDiamond
+      levelColor = "#8CF8FF"
+    
+    else:
+
+      levelDiff = levelsBronze
+      levelColor = "black"
 
     score = player.score - match_data.initial_score[x]
 
@@ -515,7 +680,7 @@ def refresh():
       
       recent_score = player.recent_score
 
-    def level(playerscore):
+    def level(playerscore, levels):
       
       x = 0
 
@@ -526,10 +691,6 @@ def refresh():
           global player_level_up_percent
 
           previous_level_score = levels[x - 1]
-
-          player_next_level = level_num
-
-          levelup_goal = level_xp
 
           player_level_up_percent1 = levels[x] - previous_level_score
       
@@ -561,7 +722,7 @@ def refresh():
 
       print(f'Progress to next level: {player_levelup_percent}%.')
     
-    level(score)
+    level(score, levelDiff)
 
     if match_data.mode == "teams":
 
@@ -576,7 +737,7 @@ def refresh():
 
     else:
 
-      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color]
+      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, levelColor]
 
       print(f"{x + 1} players data refreshed")
 
