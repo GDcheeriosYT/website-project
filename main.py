@@ -66,7 +66,7 @@ while x <= level_limit:
   x = x + 1
   leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
   
-  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.01
+  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.05
 
 x = 1
 
@@ -76,8 +76,8 @@ for level in levelsBronze:
 
 #silver
 level_expenential_growth_modifier = 1.00
-leveling_start = 100000
-level_number_change = 250000
+leveling_start = 1000000
+level_number_change = 500000
 x = 1
 x_float = 0.0007
 x_float_multiplier = 1
@@ -90,7 +90,7 @@ while x <= level_limit:
   x = x + 1
   leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
   
-  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.03
+  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.05
 
 x = 1
 
@@ -100,8 +100,8 @@ for level in levelsSilver:
 
 #gold
 level_expenential_growth_modifier = 1.00
-leveling_start = 100000
-level_number_change = 250000
+leveling_start = 1250000
+level_number_change = 1000000
 x = 1
 x_float = 0.0007
 x_float_multiplier = 1
@@ -114,7 +114,7 @@ while x <= level_limit:
   x = x + 1
   leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
   
-  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.06
+  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.05
 
 x = 1
 
@@ -124,8 +124,8 @@ for level in levelsGold:
 
 #platinum
 level_expenential_growth_modifier = 1.00
-leveling_start = 100000
-level_number_change = 250000
+leveling_start = 2000000
+level_number_change = 1500000
 x = 1
 x_float = 0.0007
 x_float_multiplier = 1
@@ -138,7 +138,7 @@ while x <= level_limit:
   x = x + 1
   leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
   
-  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.12
+  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.05
 
 x = 1
 
@@ -148,8 +148,8 @@ for level in levelsPlatinum:
 
 #diamond
 level_expenential_growth_modifier = 1.00
-leveling_start = 100000
-level_number_change = 250000
+leveling_start = 3500000
+level_number_change = 2500000
 x = 1
 x_float = 0.0007
 x_float_multiplier = 1
@@ -162,7 +162,7 @@ while x <= level_limit:
   x = x + 1
   leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
   
-  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.24
+  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.05
 
 x = 1
 
