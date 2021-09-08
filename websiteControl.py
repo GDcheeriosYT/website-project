@@ -24,9 +24,9 @@ while True:
             pageloadandclose()
             print("match refreshed\n")
         elif task1 == "y":
-            print(f"alright will refresh every {len(match_data.users) * 2 + 1} seconds")
+            print(f"alright will refresh every {len(match_data.users) * 5 + 1} seconds")
             while True:
-                time.sleep(int(len(match_data.users) * 4 + 1))
+                time.sleep(int(len(match_data.users) * 5 + 1))
                 pageloadandclose()
                 print("match refreshed\n")
         else:
