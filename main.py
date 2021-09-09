@@ -6,11 +6,10 @@ import os
 #system('')
 
 #securing
-secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
+secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
-public_url = "http://173.17.21.124"
-local_url = "http://192.168.1.22:80"
+public_url = "http://10.222.137.79"
 
 #packages
 import requests
@@ -44,13 +43,8 @@ global mode
 #leveling_system
 level_limit = 300
 
-levelsBronze = []
-levelsSilver = []
-levelsGold = []
-levelsPlatinum = []
-levelsDiamond = []
+levels = []
 
-#bronze
 level_expenential_growth_modifier = 1.00
 leveling_start = 100000
 level_number_change = 250000
@@ -59,7 +53,7 @@ x_float = 0.0007
 x_float_multiplier = 1
 while x <= level_limit:
 
-  levelsBronze.append(leveling_start)
+  levels.append(leveling_start)
 
   #time.sleep(0.1)
 
@@ -70,106 +64,9 @@ while x <= level_limit:
 
 x = 1
 
-for level in levelsBronze:
+for level in levels:
   print(f"level {x} {level}")
   x = x + 1
-
-#silver
-level_expenential_growth_modifier = 1.00
-leveling_start = 100000
-level_number_change = 250000
-x = 1
-x_float = 0.0007
-x_float_multiplier = 1
-while x <= level_limit:
-
-  levelsSilver.append(leveling_start)
-
-  #time.sleep(0.1)
-
-  x = x + 1
-  leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
-  
-  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.03
-
-x = 1
-
-for level in levelsSilver:
-  print(f"level {x} {level}")
-  x = x + 1
-
-#gold
-level_expenential_growth_modifier = 1.00
-leveling_start = 100000
-level_number_change = 250000
-x = 1
-x_float = 0.0007
-x_float_multiplier = 1
-while x <= level_limit:
-
-  levelsGold.append(leveling_start)
-
-  #time.sleep(0.1)
-
-  x = x + 1
-  leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
-  
-  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.06
-
-x = 1
-
-for level in levelsGold:
-  print(f"level {x} {level}")
-  x = x + 1
-
-#platinum
-level_expenential_growth_modifier = 1.00
-leveling_start = 100000
-level_number_change = 250000
-x = 1
-x_float = 0.0007
-x_float_multiplier = 1
-while x <= level_limit:
-
-  levelsPlatinum.append(leveling_start)
-
-  #time.sleep(0.1)
-
-  x = x + 1
-  leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
-  
-  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.12
-
-x = 1
-
-for level in levelsPlatinum:
-  print(f"level {x} {level}")
-  x = x + 1
-
-#diamond
-level_expenential_growth_modifier = 1.00
-leveling_start = 100000
-level_number_change = 250000
-x = 1
-x_float = 0.0007
-x_float_multiplier = 1
-while x <= level_limit:
-
-  levelsDiamond.append(leveling_start)
-
-  #time.sleep(0.1)
-
-  x = x + 1
-  leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
-  
-  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.24
-
-x = 1
-
-for level in levelsDiamond:
-  print(f"level {x} {level}")
-  x = x + 1
-
 
 api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
 
@@ -200,36 +97,6 @@ class user_block:
     self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.name}", headers = {"Authorization": f'Bearer {access_token}'}).json()
 
     print(self.request_profile)
-
-    self.rank = self.request_profile['statistics']['global_rank']
-
-    print(self.rank)
-
-    try:
-
-      if self.rank >= 1000000:
-
-        self.elemental_level = "bronze"
-        
-      elif self.rank >= 500000 and self.rank < 1000000:
-
-        self.elemental_level = "silver"
-      
-      elif self.rank >= 100000 and self.rank < 500000:
-
-        self.elemental_level = "gold"
-      
-      elif self.rank >= 50000 and self.rank < 100000:
-
-        self.elemental_level = "platinum"
-      
-      elif self.rank >= 1 and self.rank < 50000:
-
-        self.elemental_level = "diamond"
-
-    except TypeError:
-
-      self.elemental_level = "bronze"
 
     self.id = self.request_profile['id']
 
@@ -540,7 +407,7 @@ def user_list():
 
 extra_api_key = str(extra_api_key)
 
-get_the_key = f"https://osu.ppy.sh/oauth/authorize/client_id=5679&redirect_uri={public_url}"
+get_the_key = f"https://osu.ppy.sh/oauth/authorize/client_id=9545&redirect_uri={public_url}"
 
 #flask set up
 app = Flask(  # Create a flask app
@@ -569,7 +436,7 @@ def code_grab() :
   random_file.write(name_verify.group())
   random_file.close()'''
 
-  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':5679, 'client_secret':secret, 'grant_type':'client_credentials', 'scope':'public'}, headers={'Accept':'application/json', 'Content-Type':'application/json'})
+  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':9545, 'client_secret':secret, 'grant_type':'client_credentials', 'scope':'public'}, headers={'Accept':'application/json', 'Content-Type':'application/json'})
 
   token_thing = response.json()
 
@@ -594,7 +461,7 @@ def code_grab() :
 def login():
 
   f = open("codes.txt", "w+")
-  return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=5679&redirect_uri={public_url}/code_grab&scope=public")
+  return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=9545&redirect_uri={public_url}/code_grab&scope=public")
 
 @app.route("/refresh")
 def refresh():
@@ -608,38 +475,6 @@ def refresh():
     #time.sleep(2)
 
     player = user_block(name)
-
-    elemental_level = player.elemental_level
-
-    if elemental_level == "bronze":
-
-      levelDiff = levelsBronze
-      levelColor = "brown"
-    
-    elif elemental_level == "silver":
-
-      levelDiff = levelsSilver
-      levelColor = "#C3C3C3"
-
-    elif elemental_level == "gold":
-
-      levelDiff = levelsGold
-      levelColor = "yellow"
-
-    elif elemental_level == "platinum":
-
-      levelDiff = levelsPlatinum
-      levelColor = "D7E6E7"
-
-    elif elemental_level == "diamond":
-
-      levelDiff = levelsDiamond
-      levelColor = "#8CF8FF"
-    
-    else:
-
-      levelDiff = levelsBronze
-      levelColor = "black"
 
     score = player.score - match_data.initial_score[x]
 
@@ -680,7 +515,7 @@ def refresh():
       
       recent_score = player.recent_score
 
-    def level(playerscore, levels):
+    def level(playerscore):
       
       x = 0
 
@@ -722,7 +557,7 @@ def refresh():
 
       print(f'Progress to next level: {player_levelup_percent}%.')
     
-    level(score, levelDiff)
+    level(score)
 
     if match_data.mode == "teams":
 
@@ -737,7 +572,7 @@ def refresh():
 
     else:
 
-      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, levelColor]
+      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color]
 
       print(f"{x + 1} players data refreshed")
 

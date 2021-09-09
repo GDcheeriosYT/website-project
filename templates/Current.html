@@ -27,26 +27,40 @@
   <style>
     
     .player_info{
-      display: flex;
-      flex-direction: row;
-      border-radius: 10px;
-      font-size: 80%;
-      width: 824px;
-      padding: 1em;
-			background-color: white;
-      -webkit-transition: all 500ms ease;
-      -moz-transition: all 500ms ease;
-      -ms-transition: all 500ms ease;
-      -o-transition: all 500ms ease;
-      transition: all 500ms ease;
-      text-shadow: 2px 2px 7px #CECECE;
-      box-shadow: 0 0 8px 8px white inset;
-      text-align: left;
+      transition: ease-out 0.3s;
+      background-image: linear-gradient(to top, rgb(255, 255, 255) rgba(255, 255, 255, 0.191));
+      width: 30%;
+      height: 32px;
+      border: 1px solid rgb(255, 255, 255);
+      border-radius: 5px;
+      margin-left: 10%;
+      margin-top: 2.5%;
+      margin-bottom: 2.5%;
+      box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
       background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
     }
 
+    .player_info:hover{
+      animation: player_info_transition 0.4s ease-in;
+      opacity: 1.0;
+      background-image:rgba(255, 255, 255, 0);
+      width: 50%;
+      height: 246px;
+      border: 5px solid rgb(255, 255, 255);
+      border-radius: 15px;
+      margin-left: 10%;
+      margin-top: 2.5%;
+      margin-bottom: 2.5%;
+      box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
+    }
+
+    .player_info .namebox{
+      margin-bottom: 0px;
+      margin-top: 0px;
+      text-align: left;
+      font-size: 24px ;
+      font-family: arial;
+    }
     
     .map_info{
       display: flex;
@@ -105,6 +119,7 @@
 
     .level{
       margin-top: 3px;
+      font-size: 68%;
     }
 
     .namebox{
@@ -113,10 +128,11 @@
 
     .gameBox{
       position: relative;
-      
       border: 5px hidden #1C6EA4;
       border-radius: 15px;
       background: radial-gradient(circle, rgba(20,56,39,1) 0%, rgba(38,104,73,1) 35%, rgba(0,0,0,1) 100%);
+      padding-bottom: 10px;
+      box-shadow: 5px 5px 15px 5px #000000;
     }
 
     .recent_info{
@@ -137,12 +153,29 @@
       to {background-color: #266849;}
     }
 
-    @keyframes player_info_fadeIn {
+    @keyframes player_info_transition {
       from{
-        opacity: 0.0;
+        background-color: linear-gradient(to top, rgb(255, 255, 255) rgba(255, 255, 255, 0.191));
+        width: 30%;
+        height: 32px;
+        border: 1px solid rgb(255, 255, 255);
+        border-radius: 5px;
+        margin-left: 10%;
+        margin-top: 2.5%;
+        margin-bottom: 2.5%;
+        box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
       }
       to{
         opacity: 1.0;
+        background-color:rgba(255, 239, 213, 0);
+        width: 50%;
+        height: 246px;
+        border: 5px solid rgb(255, 255, 255);
+        border-radius: 15px;
+        margin-left: 10%;
+        margin-top: 2.5%;
+        margin-bottom: 2.5%;
+        box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
       }
     }
 
@@ -177,7 +210,7 @@
       background-color: #266849;
       background-size: 40%;
       border-radius: 15px;
-      font-size: 35px; 
+      font-size: 35px;
       animation-name: intro;
       animation-duration: 1s;
       animation-delay: 0s;
@@ -257,9 +290,8 @@
     }
 
     .score{
-      margin-top: 85px;
-      margin-left: 70%;
-      font-size: 100%;
+      margin-left: auto;
+      font-size: 68%;
       transition: all 300ms ease;
     }
 
@@ -309,7 +341,6 @@
       value[14] = max combo
       value[15] = grade of the map just played
       value[16] = grade color
-      value[17] = level color
       value[10] = team, only if mode == teams  -->
 
   <div class="rectangle_menu"><a href="Teams.html">Teams</a> <a href="/">Home</a> <a href="players.html">players</a> <a href="login.html">login</a> <a href="changelog.html">changelog</a></div>
@@ -340,19 +371,19 @@
 
                   <div class="level">
 
-                    <label for="level" style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}}; left: 10px; position: relative;">level {{ value[5] }}</label><progress id="level" value="{{ value[6] }}" style="margin-left: 10px;" max="100"></progress>
+                    <label for="level">
                   
                   </div>
 
                   <div class="namebox">
 
-                    <h1 style="margin-bottom: 10px; margin-top: 5px; margin-left: 10px;"><a style="color:black; border-left-style: solid; border-left-width: 0px; padding-right: 0px; margin-left: 0px;" href="{{ value[3] }}">#{{ count.value }} {{ key }}</a></h1>
+                    <h1><a href="{{ value[3] }}">#{{ count.value }} {{ key }}</a></h1>
                     
                   </div>
 
                   <div class="avatar">
 
-                    <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"> <img src="{{ value[1] }}" style="box-shadow: 5px 5px 5px 0px #000000, inset 4px 4px 15px 0px #000000, 5px 5px 15px 5px rgba(0,0,0,0); border: 5px none #1C6EA4; border-radius: 15px; margin-right: 100%;border-bottom-style: solid; border-bottom-width: 0px;margin-top: -2%;margin-left: 10px;"></h1>
+                    <h1> <img src="{{ value[1] }}"></h1>
                   
                   </div>
 
@@ -392,101 +423,40 @@
 
           <h1>Players and Recent plays for each player</h1>
   
-          {% set count = namespace(value=1) %}
+          {% set count = namespace(value=1) %}  
 
           {% for key, value in players.items() %}
 
-            <div class="player_info" style="background-image: url({{ value[2] }});" id="ref{{ count.value }}">
+            {% if count.value == 1%}
 
-              <div id="container1">
+              {% set color = "background: linear-gradient(to bottom, #cfc09f 22%,#634f2c 24%, #cfc09f 26%, #cfc09f 27%,#ffecb3 40%,#3a2c0f 78%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #fff; position: relative; text-transform: uppercase; margin: 0; font-weight: 400;" %}
+            
+            {% elif count.value == 2 %}
 
-                <div class="level">
+              {% set color = "grey" %}
+            
+            {% elif count.value == 3 %}
 
-                  <label for="level" style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}}; left: 10px; position: relative;">level {{ value[5] }}</label><progress id="level" value="{{ value[6] }}" style="margin-left: 10px; background-color: {{ value[17] }}; color: {{ value[17] }};" max="100"></progress><label>{{ value[6] }}%</label>
-                
-                </div>
+              {% set color = "brown" %}
 
-                <div class="namebox">
+            {% else %}
 
-                  <h1 style="margin-bottom: 10px; margin-top: 5px; margin-left: 10px;"><a style="color:black; border-left-style: solid; border-left-width: 0px; padding-right: 0px; margin-left: 0px;" href="{{ value[3] }}">#{{ count.value }} {{ key }}</a></h1>
+              {% set color = "white" %}
+            
+            {% endif %}
 
-                </div>
+            <div class="player_info" id="ref{{ count.value }}" style="background-image: url({{ value[2] }});">
 
-                <div class="avatar">
+              <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} {{ key }}</span> <span class="level">level {{ value[5] }}</span> <span class="score">{{ value[0] }}</span></h1>
 
-                  <h1 style="text-shadow: 1px 0px 3px {{color}},1px 4px 5px {{color}};"> <img src="{{ value[1] }}" style="box-shadow: 5px 5px 5px 0px #000000, inset 4px 4px 15px 0px #000000, 5px 5px 15px 5px rgba(0,0,0,0); border: 5px none #1C6EA4; border-radius: 15px; margin-right: 100%;border-bottom-style: solid; border-bottom-width: 0px;margin-top: -2%;margin-left: 10px;"></h1>
-                
-                </div>
-
-              </div>
-
-              <div id="container2">
-
-                <div class="score">
-
-                  <span><div class="addedscore">+{{ value[4] }}</div> <h3>{{ value[0] }} score </h3></span>
-                
-                </div>
-              
-              </div>
-
-              <div id="container3">
-
-              </div>
-
-            </div>
-
-            <div class="map_info" style="background: url({{ value[7] }});" id="ref{{ count.value }}">
-
-              <div class="map_title" style="margin-left: 10px;">
-  
-                <h3><a href="{{ value[10] }}">{{ value[12] }}-{{ value[8] }}</a></h3>
-  
-              </div>
-  
-              <div class="grade" style="margin-left: 10px;">
-  
-                <h2 style="color: {{ value[16] }}; font-size: 64px; margin-top: 0px; margin-bottom: 0px;">{{ value[15] }}</h2>
-  
-                <div class="map_difficulty" style="margin-left: 10px;">
-  
-                  <h3>{{ value[9] }} stars</h3>
-  
-                </div>
-  
-                <div class="mods" style="margin-left: 10px;">
-  
-                  <h3>mods: {{ value[11] }}</h3>
-  
-                </div>
-  
-                <div class="accuracy" style="margin-left: 10px;">
-  
-                  <h3>accuracy: {{ value[13] }}%</h3>
-  
-                </div>
-  
-                <div class="max_combo" style="margin-left: 10px;">
-  
-                  <h3>max combo: {{ value[14] }}</h3>
-  
-                </div>
-              </div>
-  
-            </div>
-
-            <script>
-              setTimeout(function(){ 
-              console.log("reloading data") 
-              document.getElementById("ref{{ count.value }}").style.transition = "player_info_fadeIn";;
-              }, 100);
-            </script> 
-
-        </div>
+            </div>  
 
           {% set count.value = count.value + 1 %}
 
           {% endfor %}
+
+        </div>
+
       </div>
 
     {% endif %}
