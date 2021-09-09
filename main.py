@@ -6,10 +6,11 @@ import os
 #system('')
 
 #securing
-secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
+secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
-public_url = "http://10.222.137.79"
+public_url = "http://173.17.21.124"
+client_id = "5679"
 
 #packages
 import requests
@@ -407,7 +408,7 @@ def user_list():
 
 extra_api_key = str(extra_api_key)
 
-get_the_key = f"https://osu.ppy.sh/oauth/authorize/client_id=9545&redirect_uri={public_url}"
+get_the_key = f"https://osu.ppy.sh/oauth/authorize/client_id={client_id}&redirect_uri={public_url}"
 
 #flask set up
 app = Flask(  # Create a flask app
@@ -436,7 +437,7 @@ def code_grab() :
   random_file.write(name_verify.group())
   random_file.close()'''
 
-  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':9545, 'client_secret':secret, 'grant_type':'client_credentials', 'scope':'public'}, headers={'Accept':'application/json', 'Content-Type':'application/json'})
+  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':int(client_id), 'client_secret':secret, 'grant_type':'client_credentials', 'scope':'public'}, headers={'Accept':'application/json', 'Content-Type':'application/json'})
 
   token_thing = response.json()
 
@@ -461,7 +462,7 @@ def code_grab() :
 def login():
 
   f = open("codes.txt", "w+")
-  return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id=9545&redirect_uri={public_url}/code_grab&scope=public")
+  return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={public_url}/code_grab&scope=public")
 
 @app.route("/refresh")
 def refresh():
@@ -477,6 +478,8 @@ def refresh():
     player = user_block(name)
 
     score = player.score - match_data.initial_score[x]
+
+    score_formatted = ("{:,}".format(score))
 
     avatar = player.avatar
 
@@ -553,6 +556,9 @@ def refresh():
       except ZeroDivisionError:
         player_levelup_percent = int(player_level_up_percent * 100)
 
+      except NameError:
+        player_levelup_percent = "???"
+
       print(f'Level: {player_current_level}.')
 
       print(f'Progress to next level: {player_levelup_percent}%.')
@@ -572,7 +578,7 @@ def refresh():
 
     else:
 
-      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color]
+      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color,  score_formatted]
 
       print(f"{x + 1} players data refreshed")
 
