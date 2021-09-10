@@ -61,7 +61,7 @@ while x <= level_limit:
   x = x + 1
   leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
   
-  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.01
+  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.07
 
 x = 1
 
@@ -455,7 +455,7 @@ def code_grab() :
 
   #print(test_user_thing.request_scores)
 
-  return redirect(f"{public_url}")
+  return redirect(f"{public_url}/refresh")
 
 @app.route("/login.html",methods = ['POST', 'GET'])
 
@@ -517,6 +517,8 @@ def refresh():
     else:
       
       recent_score = player.recent_score
+
+      recent_score = ("{:,}".format(recent_score))
 
     def level(playerscore):
       
@@ -590,7 +592,7 @@ def refresh():
 
   print("all player data refreshed!")
 
-  return render_template('none.html')
+  return redirect(f'{public_url}/Current.html')
 
 #@app.route("/Teams.html")
 def teams():

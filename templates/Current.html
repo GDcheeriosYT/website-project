@@ -58,8 +58,8 @@
     .player_info .namebox{
       margin-bottom: 0px;
       margin-top: 0px;
-      text-align: auto;
-      font-size: 24px ;
+      text-align: left;
+      font-size: 25px;
       font-family: arial;
     }
     
@@ -329,7 +329,7 @@
       value[1] = avatar link
       value[2] = background link
       value[3] = user profile link
-      value[4] = score gained since last submitted play
+      value[4] = recent score gained since last submitted play
       value[5] = level 
       value[6] = progress to next level 
       value[7] = user recent map background 
@@ -450,6 +450,8 @@
             <div class="player_info" id="ref{{ count.value }}" style="background-image: linear-gradient(to top, #ffffff95 10%, #ffffff00 80%), url({{ value[2] }});">
 
               <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} {{ key }}</span> <span class="level">level {{ value[5] }}</span> <span class="score">{{ value[17] }} score</span></h1>
+
+              <h1 class="addedscore">+{{value[4]}}</h1>
 
             </div>  
 
