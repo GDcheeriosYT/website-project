@@ -32,9 +32,6 @@
       height: 32px;
       border: 1px solid rgb(255, 255, 255);
       border-radius: 5px;
-      margin-left: 10%;
-      margin-top: 2.5%;
-      margin-bottom: 2.5%;
       box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
       background-repeat: no-repeat;
       background-size: cover;
@@ -43,16 +40,22 @@
     .player_info:hover{
       animation: player_info_transition 0.4s ease-in;
       opacity: 1.0;
-      background-image:rgba(255, 255, 255, 0);
       width: 50%;
       height: 246px;
       border: 5px solid rgb(255, 255, 255);
       border-radius: 15px;
+      box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
+      background-size: cover;
+    }
+
+    .spacing {
       margin-left: 10%;
       margin-top: 2.5%;
       margin-bottom: 2.5%;
-      box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
-      background-size: cover;
+    }
+
+    .player_info:hover avatar {
+
     }
 
     .player_info .namebox{
@@ -102,15 +105,26 @@
       text-align: left;
     }
 
-    img{
-      width: 35%;
-      height: 35%;
+    .player_info img {
+      opacity: 0.0;
+      position: relative;
+      left: -32%;
+      bottom: 90%;
+      width: 124px;
+      height: 1px;
       transition: all 500ms ease;
     }
 
     .player_info:hover img{
-      width: 65%;
-      height: 65%;
+      opacity: 1.0;
+      position: relative;
+      object-fit: cover;
+      left: -40%;
+      width: 124px;
+      height: 124px;
+      border:2px solid #fff;
+      border-radius:25px;
+      box-shadow: 5px 5px 5px #000000;
       -webkit-transition: all 500ms ease;
       -moz-transition: all 500ms ease;
       -ms-transition: all 500ms ease;
@@ -160,9 +174,6 @@
         height: 32px;
         border: 1px solid rgb(255, 255, 255);
         border-radius: 5px;
-        margin-left: 10%;
-        margin-top: 2.5%;
-        margin-bottom: 2.5%;
         box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
       }
       to{
@@ -172,9 +183,6 @@
         height: 246px;
         border: 5px solid rgb(255, 255, 255);
         border-radius: 15px;
-        margin-left: 10%;
-        margin-top: 2.5%;
-        margin-bottom: 2.5%;
         box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
       }
     }
@@ -224,11 +232,11 @@
     }
 
     .avatar{
-
+      opacity: 0;
     }
 
     a{
-      color: #660d0d;
+      color: black;
       text-style: bold;
     }
 
@@ -236,16 +244,10 @@
       color: white;
     }
 
-    .player_info:hover .addedscore{ animation: aniTop 0.3s ease-out; opacity: 1;}
-    @keyframes aniTop {
-      from {
-        transform: translateY(100px);
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0px);
-      }
+    .player_info:hover .addedscore {
+      opacity: 1;
+      position: relative;
+      
     }
     
 
@@ -284,6 +286,8 @@
     }
 
     .addedscore{
+      position: relative;
+      left: 30%;
       color: green;
       opacity: 0;
       transition: all 300ms ease
@@ -303,15 +307,9 @@
       transition: all 300ms ease;
     }
 
-    .container {
-      width: 100%;
-      height: 100%;
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;  
-      padding: 2em;
-      border-radius: 10px;
-      box-shadow: 0 0 8px 8px white inset;
+    .flexify {
+      display: flex;
+      flex: row;
     }
 
   </style>
@@ -447,13 +445,23 @@
             
             {% endif %}
 
-            <div class="player_info" id="ref{{ count.value }}" style="background-image: linear-gradient(to top, #ffffff95 10%, #ffffff00 80%), url({{ value[2] }});">
+            <div class="spacing">
 
-              <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} {{ key }}</span> <span class="level">level {{ value[5] }}</span> <span class="score">{{ value[17] }} score</span></h1>
+              <div class="player_info" id="ref{{ count.value }}" style="background-image: linear-gradient(to top, #ffffff95 10%, #ffffff00 80%), url({{ value[2] }});">
 
-              <h1 class="addedscore">+{{value[4]}}</h1>
+                <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="level">level {{ value[5] }}</span> <span class="score">{{ value[17] }} score</span></h1>
 
-            </div>  
+                <div class="flexify">
+
+                  <img src="{{ value[1] }}">
+
+                  <h1 class="addedscore">+{{value[4]}}</h1>
+
+                </div>
+
+              </div>  
+            
+            </div>
 
           {% set count.value = count.value + 1 %}
 
