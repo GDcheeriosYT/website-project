@@ -108,28 +108,24 @@
     .player_info img {
       opacity: 0.0;
       position: relative;
-      left: -32%;
+      left: -0%;
       bottom: 90%;
       width: 124px;
       height: 1px;
-      transition: all 500ms ease;
+      transition: all 400ms ease-out;
     }
 
     .player_info:hover img{
       opacity: 1.0;
       position: relative;
       object-fit: cover;
-      left: -40%;
+      left: -0%;
       width: 124px;
       height: 124px;
       border:2px solid #fff;
       border-radius:25px;
       box-shadow: 5px 5px 5px #000000;
-      -webkit-transition: all 500ms ease;
-      -moz-transition: all 500ms ease;
-      -ms-transition: all 500ms ease;
-      -o-transition: all 500ms ease;
-      transition: all 500ms ease;
+      transition: all 400ms ease-in;
     }
 
     .level{
@@ -247,7 +243,9 @@
     .player_info:hover .addedscore {
       opacity: 1;
       position: relative;
-      
+      left: 20%;
+      bottom: 0px;
+      transition: all 400ms ease-in;
     }
     
 
@@ -288,9 +286,10 @@
     .addedscore{
       position: relative;
       left: 30%;
+      bottom: 100px;
       color: green;
       opacity: 0;
-      transition: all 300ms ease
+      transition: all 400ms ease-out;
     }
 
     .score{
