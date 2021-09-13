@@ -48,10 +48,29 @@
       background-size: cover;
     }
 
+    .level {
+      transition: all 300ms ease-out;
+      opacity: 0;
+      bottom: 10px;
+      left: -10px;
+    }
+
+    .player_info:hover .level {
+      opacity: 1;
+      position: relative;
+      left: -20px;
+      bottom: -10px;
+      transition: all 400ms ease-in;
+    }
+
     .spacing {
       margin-left: 10%;
       margin-top: 2.5%;
       margin-bottom: 2.5%;
+    }
+
+    .spacing:hover player_info{
+      
     }
 
     .player_info:hover avatar {
@@ -126,11 +145,6 @@
       border-radius:25px;
       box-shadow: 5px 5px 5px #000000;
       transition: all 400ms ease-in;
-    }
-
-    .level{
-      margin-top: 3px;
-      font-size: 68%;
     }
 
     .namebox{
@@ -244,7 +258,7 @@
       opacity: 1;
       position: relative;
       left: 20%;
-      bottom: 0px;
+      bottom: 20px;
       transition: all 400ms ease-in;
     }
     
@@ -286,8 +300,9 @@
     .addedscore{
       position: relative;
       left: 30%;
-      bottom: 100px;
+      bottom: 70px;
       color: green;
+      font-size: 90%;
       opacity: 0;
       transition: all 400ms ease-out;
     }
@@ -448,7 +463,7 @@
 
               <div class="player_info" id="ref{{ count.value }}" style="background-image: linear-gradient(to top, #ffffff95 10%, #ffffff00 80%), url({{ value[2] }});">
 
-                <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="level">level {{ value[5] }}</span> <span class="score">{{ value[17] }} score</span></h1>
+                <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
 
                 <div class="flexify">
 
@@ -458,7 +473,7 @@
 
                 </div>
 
-                <progress id="level" value="{{ value[6] }}" max="100"></progress>{{ value[5] }}%
+                <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress>{{ value[6] }}%</div>
 
               </div>  
             
