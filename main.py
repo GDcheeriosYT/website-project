@@ -6,11 +6,11 @@ import os
 #system('')
 
 #securing
-secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
+secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
-public_url = "http://173.17.21.124"
-client_id = "5679"
+public_url = "http://localhost"
+client_id = "9545"
 
 #packages
 import requests
@@ -100,6 +100,8 @@ class user_block:
     print(self.request_profile)
 
     self.id = self.request_profile['id']
+
+    self.play_count = self.request_profile['statistics']['play_count']
 
     self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {access_token}'})
  
@@ -345,7 +347,13 @@ def match_start(mode):
 
   initial_score = []
 
+  global initial_playcount
+
+  initial_playcount = []
+
   for player in players_selected:
+
+    initial_playcount.append(api_info.user(user_name=str(player)).play_count)
 
     initial_score.append(api_info.user(user_name=str(player)).total_score)
 
@@ -372,7 +380,7 @@ if new_game == "y":
 
     match_start(mode)
   
-  f.write("users = %s\nmatch_name = \"%s\"\ninitial_score = %s\nmode = \"%s\"\nteam_metadata = %s" % (players_selected, match_name, initial_score, mode, teams))
+  f.write(f"users = {players_selected}\nmatch_name = \"{match_name}\"\ninitial_score = {initial_score}\ninitial_playcount = {initial_playcount}\nmode = \"{mode}\"\nteam_metadata = {teams}")
 
   f.close()
 
