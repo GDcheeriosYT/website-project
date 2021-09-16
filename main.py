@@ -6,11 +6,11 @@ import os
 #system('')
 
 #securing
-secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
+secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
-public_url = "http://localhost"
-client_id = "9545"
+public_url = "http://173.17.21.124"
+client_id = "5679"
 
 #packages
 import requests
@@ -485,6 +485,10 @@ def refresh():
 
     player = user_block(name)
 
+    playcount = player.play_count - match_data.initial_playcount[x]
+
+    playcount = ("{:,}".format(playcount))
+
     score = player.score - match_data.initial_score[x]
 
     score_formatted = ("{:,}".format(score))
@@ -588,7 +592,7 @@ def refresh():
 
     else:
 
-      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color,  score_formatted]
+      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
       print(f"{x + 1} players data refreshed")
 

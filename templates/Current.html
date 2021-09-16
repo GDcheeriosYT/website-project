@@ -49,17 +49,20 @@
     }
 
     .level {
-      transition: all 300ms ease-out;
+      transition: all 200ms ease-out;
+      position: relative;
       opacity: 0;
-      bottom: 10px;
-      left: -10px;
+      bottom: 10%;
+      left: -35%;
+      font-family: arial;
+      font-weight: bold;
     }
 
     .player_info:hover .level {
       opacity: 1;
       position: relative;
-      left: -20px;
-      bottom: -10px;
+      left: -35%;
+      bottom: -10%;
       transition: all 400ms ease-in;
     }
 
@@ -127,7 +130,7 @@
     .player_info img {
       opacity: 0.0;
       position: relative;
-      left: -0%;
+      left: 1%;
       bottom: 90%;
       width: 124px;
       height: 1px;
@@ -138,7 +141,7 @@
       opacity: 1.0;
       position: relative;
       object-fit: cover;
-      left: -0%;
+      left: 1%;
       width: 124px;
       height: 124px;
       border:2px solid #fff;
@@ -326,6 +329,18 @@
       flex: row;
     }
 
+    .playcount {
+      font-weight: bold;
+      font-family: arial;
+      opacity: 0;
+      transition: all 300ms ease-out;
+    }
+
+    .player_info:hover .playcount{
+      transition: all 300ms ease-in;
+      opacity: 1;
+    }
+
   </style>
 </head>
 
@@ -355,6 +370,7 @@
       value[15] = grade of the map just played
       value[16] = grade color
       value[17] = formatted score
+      value[18] = play count
       value[10] = team, only if mode == teams  -->
 
   <div class="rectangle_menu"><a href="/">Home</a></div>
@@ -473,9 +489,11 @@
 
                 </div>
 
+                <div class="playcount">{{ value[18] }} maps played</div>
+
                 <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress>{{ value[6] }}%</div>
 
-              </div>  
+              </div>
             
             </div>
 
