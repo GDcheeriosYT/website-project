@@ -65,9 +65,9 @@ while x <= level_limit:
 
 x = 1
 
-for level in levels:
+'''for level in levels:
   print(f"level {x} {level}")
-  x = x + 1
+  x = x + 1'''
 
 api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
 
@@ -215,88 +215,48 @@ def match_start(mode):
 
     teams = {}
     
-    #how many teams will there be?
-    print("\nhow many teams would you like there to be?\n")
+    #create teams
+    print("\ncreate a team by typing a name\n")
 
     x = 0
 
-    team_amount = int(input(""))
+    is_creating = True
 
-    teams = {f'team{i + 1}': [] for i in range(team_amount)}
+    while is_creating == True:
 
-    print(teams)
+      team_players = []
 
-    teamFile = open("team_metadata.py", "w")
+      team_name = input("team name:\n")
 
-    teamFile.write(str(teams))
-
-    teamFile.close()
-
-    #repeats the process of team editing until satisfied
-    while True:
-
-      print("select a team\n")
-
-      print(teams)
-
-      x = 0
-
-      #display teams
-      while x < team_amount:
-
-        print("team %s" % (x + 1))
-
-        x = x + 1
-
-      try: 
-        team_selector = int(input(""))
-      except ValueError:
-        teamFile = open("team_metadata.py", "w")
-
-        teamFile.write(str(teams))
-
-        teamFile.close()
-
+      if team_name == "done":
         break
 
-      x = 0
-      
-      #display player list
-      while x < len(player_list):
+      #pick players
+      while True:
 
-        print("\n", x, player_list[x])
-
-        x = x + 1
-
-      try:
-        player_selector = int(input(""))
-
-      except ValueError:
-        teamFile = open("team_metadata.py", "w")
-
-        teamFile.write(str(teams))
-
-        teamFile.close()
-
-        break
-
-      teams["team%s" % (team_selector)].append("%s" % (player_list[player_selector]))
-
-      if player_list[player_selector] not in players_selected:
-
-        players_selected.append(player_list[player_selector])
-
-      else:
+        x = 0
         
-        print("player is already in this thing")
+        #display player list
+        while x < len(player_list):
 
-      teamFile = open("team_metadata.py", "w")
+          print("\n", x, player_list[x])
 
-      teamFile.write(str(teams))
+          x = x + 1
 
-      teamFile.close()
+        try:
+          player_selector = int(input(""))
+        except ValueError:
+          break
 
-      
+        if player_list[player_selector] not in players_selected:
+
+          players_selected.append(player_list[player_selector])
+
+        if player_list[player_selector] not in team_players:
+
+          team_players.append(player_list[player_selector])
+
+      teams[team_name] = team_players
 
   else:
 
@@ -581,12 +541,7 @@ def refresh():
 
     if match_data.mode == "teams":
 
-      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background]
-
-      for teamName, teamList in match_data.team_metadata.items():
-        for teamMember in teamList:
-          if teamMember in players.keys():
-            players[teamMember].append(teamName)
+      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
       print(f"{x + 1} players data refreshed")
 
@@ -676,7 +631,8 @@ def current():
     time = time,
     match_title = match_title,
     match_data = match_data.team_metadata.keys(),
-    players = players_sorted
+    players = players_sorted,
+    teams = match_data.team_metadata
     #teamcount = teamcount
   )
 

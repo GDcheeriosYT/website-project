@@ -341,6 +341,21 @@
       opacity: 1;
     }
 
+    .teambox {
+      margin-left: auto;
+      margin-right: auto;
+      transition: ease-out 0.3s;
+      width: 90%;
+      height: 32px;
+      border: 5px hidden #1C6EA4;
+      border-radius: 5px;
+      box-shadow: 5px 5px 15px 5px #000000;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background: rgb(20,61,12);
+      background: radial-gradient(circle, rgba(20,61,12,1) 0%, rgba(0,164,69,1) 100%);
+    }
+
   </style>
 </head>
 
@@ -377,69 +392,49 @@
 
     {% if current_mode == "teams" %}
 
-    <h1>{{ match_title }}</h1>
+      <h1>{{ match_title }}</h1>
 
-    <div class="gamebox">
+      <div class="gameBox" id="bodymovin">
 
-      <h1 class="teammode">Team</h1>
+        <h1 class="single">Teams</h1>
 
-      <div class="match">
+        <div class="match">
+  
+          {% set count = namespace(value=1) %}  
 
-        {% set count = namespace(value=1) %}
+          {% for key, value in teams.items() %}
 
-        {% for key in match_data %}
+            {% if count.value == 1%}
 
-          <div class="teambox">
-
-            <h1>{{ key }}</h1>
-
-            {% for key, value in players.items() %}
-
-              <div class="player_info" style="background-image: url({{ value[2] }}); ">
-
-                <div id="container1">
-
-                  <div class="level">
-
-                    <label for="level">
-                  
-                  </div>
-
-                  <div class="namebox">
-
-                    <h1><a href="{{ value[3] }}">#{{ count.value }} {{ key }}</a></h1>
-                    
-                  </div>
-
-                  <div class="avatar">
-
-                    <h1> <img src="{{ value[1] }}"></h1>
-                  
-                  </div>
-
-                </div>
-
-                <div id="container2">
-
-                  <div class="score">
-
-                    <span><div class="addedscore">+{{ value[4] }}</div> <h3>{{ value[0] }} score </h3></span>
-                  
-                  </div>
-                
-                </div>
-              
-              </div>
+              {% set color = "background: linear-gradient(to bottom, #cfc09f 22%,#634f2c 24%, #cfc09f 26%, #cfc09f 27%,#ffecb3 40%,#3a2c0f 78%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #fff; position: relative; text-transform: uppercase; margin: 0; font-weight: 400;" %}
             
-          </div>
+            {% elif count.value == 2 %}
+
+              {% set color = "grey" %}
+            
+            {% elif count.value == 3 %}
+
+              {% set color = "brown" %}
+
+            {% else %}
+
+              {% set color = "white" %}
+            
+            {% endif %}
+
+            <div class="teambox">
+
+              <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} {{ key }}</span></h1>
+
+            </div>
 
           {% set count.value = count.value + 1 %}
 
-        </div>
-
           {% endfor %}
 
-        {% endfor %}
+        </div>
+
+      </div>
 
     {% else %}
 
@@ -450,8 +445,6 @@
         <h1 class="single">Free For All</h1>
 
         <div class="match">
-
-          <h1>Players and Recent plays for each player</h1>
   
           {% set count = namespace(value=1) %}  
 
