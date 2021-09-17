@@ -38,6 +38,7 @@ from typing import List
 from collections import OrderedDict
 import json
 import time
+import sqlite3
 
 global mode
 
@@ -226,6 +227,8 @@ def match_start(mode):
 
       team_players = []
 
+      team_player_score = []
+
       team_name = input("team name:\n")
 
       if team_name == "done":
@@ -256,7 +259,18 @@ def match_start(mode):
 
           team_players.append(player_list[player_selector])
 
+        x = 0
+
+        for player in team_players:
+          
+          api_info.user(user_name=str(player)).total_score
+
+          team_player_score[]
+
+          team_players[x]
+
       teams[team_name] = team_players
+      
 
   else:
 
