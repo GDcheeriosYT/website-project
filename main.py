@@ -6,11 +6,11 @@ import os
 #system('')
 
 #securing
-secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
+secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
-public_url = "http://173.17.21.124"
-client_id = "5679"
+public_url = "http://localhost"
+client_id = "9545"
 
 #packages
 import requests
@@ -257,17 +257,7 @@ def match_start(mode):
 
         if player_list[player_selector] not in team_players:
 
-          team_players.append(player_list[player_selector])
-
-        x = 0
-
-        for player in team_players:
-          
-          api_info.user(user_name=str(player)).total_score
-
-          team_player_score[]
-
-          team_players[x]
+          team_players.append(f"{player_list[player_selector]}.{api_info.user(user_name=str(player_list[player_selector])).total_score}")
 
       teams[team_name] = team_players
       
