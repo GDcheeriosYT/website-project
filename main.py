@@ -11,6 +11,7 @@ api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
 public_url = "http://localhost"
 client_id = "9545"
+map_url = "1563044"
 
 #packages
 import requests
@@ -105,6 +106,12 @@ class user_block:
     self.play_count = self.request_profile['statistics']['play_count']
 
     self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {access_token}'})
+
+    self.weekly_map_score_get = requests.get(f"https://osu.ppy.sh/api/v2/beatmaps/{map_url}/scores/users/{self.id}", params = {"mode":"osu"}, headers = {"Authorization": f'Bearer {access_token}'}).json()
+
+    self.weekly_map_score = self.weekly_map_score_get["score"]
+
+    print(self.weekly_map_score_get)
  
     self.score = self.request_profile["statistics"]["total_score"]
 
@@ -441,6 +448,8 @@ def refresh():
 
   players = {}
 
+  players_weekly = {}
+
   x = 0
 
   for name in match_data.users:
@@ -480,6 +489,10 @@ def refresh():
     max_combo = player.max_combo
 
     rank = player.rank
+
+    weekly_map_score = player.weekly_map_score
+
+    weekly_map_score_formated = ("{:,}".format(weekly_map_score))
     
     try:
       rank_color = player.rank_color
@@ -551,7 +564,9 @@ def refresh():
 
     else:
 
-      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, weekly_map_score, weekly_map_score_formated]
+
+      #players_weekly[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, weekly_map_score, weekly_map_score_formated]
 
       print(f"{x + 1} players data refreshed")
 
@@ -560,6 +575,8 @@ def refresh():
   global players_sorted
 
   players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
+
+  #players_sorted_weekly = dict(sorted(players_weekly.values(), key=lambda x: x[20], reverse=True))
 
   print("all player data refreshed!")
 

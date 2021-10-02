@@ -356,6 +356,17 @@
       background: radial-gradient(circle, rgba(20,61,12,1) 0%, rgba(0,164,69,1) 100%);
     }
 
+    .weekly_map {
+      transition: ease-out 0.3s;
+      width: 90%;
+      height: 32px;
+      border: 1px solid rgb(255, 255, 255);
+      border-radius: 5px;
+      box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
   </style>
 </head>
 
@@ -389,6 +400,10 @@
       value[10] = team, only if mode == teams  -->
 
   <div class="rectangle_menu"><a href="/">Home</a></div>
+
+    <div class="weekly_map">
+
+    </div>
 
     {% if current_mode == "teams" %}
 
