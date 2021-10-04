@@ -575,10 +575,6 @@ def refresh():
         
         score_counting = 0
 
-        print(team)
-
-        print(team in match_data.team_metadata)
-
         for user in match_data.team_metadata[team]:
 
           score_counting += score
@@ -593,11 +589,13 @@ def refresh():
         
         team_users = team_data.users
 
-        print(team_score(team))
-
         teams[team] = [team_score(team), players]
 
         print(teams)
+
+        print(teams[team][0])
+        
+        print("--------------")
 
       print(f"{x + 1} players data refreshed")
 
@@ -696,7 +694,7 @@ def current():
     match_title = match_title,
     match_data = match_data.team_metadata.keys(),
     players = players_sorted,
-    teams = match_data.team_metadata
+    teams = teams_sorted
     #teamcount = teamcount
   )
 
