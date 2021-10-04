@@ -81,7 +81,7 @@ slider.library.Library("")
 
 
 #team class
-class team:
+class clans:
   def __init__(self, name, score, accuracy):
 
     self.name = name
@@ -89,6 +89,17 @@ class team:
     self.score = score
 
     self.accuracy = accuracy
+
+
+#team in a match class
+class Teams:
+  def __init__(self, team_name, score):
+
+    self.team_name = team_name
+
+    self.users = match_data.team_metadata[team_name]
+
+    self.score = score
 
 
 #user block class
@@ -107,11 +118,11 @@ class user_block:
 
     self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {access_token}'})
 
-    self.weekly_map_score_get = requests.get(f"https://osu.ppy.sh/api/v2/beatmaps/{map_url}/scores/users/{self.id}", params = {"mode":"osu"}, headers = {"Authorization": f'Bearer {access_token}'}).json()
+    #self.weekly_map_score_get = requests.get(f"https://osu.ppy.sh/api/v2/beatmaps/{map_url}/scores/users/{self.id}", params = {"mode":"osu"}, headers = {"Authorization": f'Bearer {access_token}'}).json()
 
-    self.weekly_map_score = self.weekly_map_score_get["score"]
+    #self.weekly_map_score = self.weekly_map_score_get["score"]
 
-    print(self.weekly_map_score_get)
+    #print(self.weekly_map_score_get)
  
     self.score = self.request_profile["statistics"]["total_score"]
 
@@ -264,7 +275,7 @@ def match_start(mode):
 
         if player_list[player_selector] not in team_players:
 
-          team_players.append(f"{player_list[player_selector]}.{api_info.user(user_name=str(player_list[player_selector])).total_score}")
+          team_players.append(f"{player_list[player_selector]}")
 
       teams[team_name] = team_players
       
@@ -450,6 +461,8 @@ def refresh():
 
   players_weekly = {}
 
+  teams = {}
+
   x = 0
 
   for name in match_data.users:
@@ -490,9 +503,9 @@ def refresh():
 
     rank = player.rank
 
-    weekly_map_score = player.weekly_map_score
+    #weekly_map_score = player.weekly_map_score
 
-    weekly_map_score_formated = ("{:,}".format(weekly_map_score))
+    #weekly_map_score_formated = ("{:,}".format(weekly_map_score))
     
     try:
       rank_color = player.rank_color
@@ -558,13 +571,39 @@ def refresh():
 
     if match_data.mode == "teams":
 
+      def team_score(team):
+        
+        score_counting = 0
+
+        print(team)
+
+        print(team in match_data.team_metadata)
+
+        for user in match_data.team_metadata[team]:
+
+          score_counting += score
+
+        return score_counting
+
       players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+
+      for team in match_data.team_metadata.keys():
+
+        team_data = Teams(team, team_score(team))
+        
+        team_users = team_data.users
+
+        print(team_score(team))
+
+        teams[team] = [team_score(team), players]
+
+        print(teams)
 
       print(f"{x + 1} players data refreshed")
 
     else:
 
-      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, weekly_map_score, weekly_map_score_formated]
+      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
       #players_weekly[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, weekly_map_score, weekly_map_score_formated]
 
@@ -575,6 +614,10 @@ def refresh():
   global players_sorted
 
   players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
+
+  global teams_sorted
+
+  teams_sorted = dict(sorted(teams.items(), key=lambda x: x[1], reverse=True))
 
   #players_sorted_weekly = dict(sorted(players_weekly.values(), key=lambda x: x[20], reverse=True))
 

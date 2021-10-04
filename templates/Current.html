@@ -61,7 +61,7 @@
     .player_info:hover .level {
       opacity: 1;
       position: relative;
-      left: -35%;
+      left: -33%;
       bottom: -10%;
       transition: all 400ms ease-in;
     }
@@ -374,7 +374,8 @@
 
   <!--<script src="anime.min.js"></script>-->
 
-  <!--key values
+  <!--
+    --player key values--
               
       key = name
       count.value = the ranking of the player on the leaderboard
@@ -396,8 +397,14 @@
       value[15] = grade of the map just played
       value[16] = grade color
       value[17] = formatted score
-      value[18] = play count
-      value[10] = team, only if mode == teams  -->
+      value[18] = play count 
+      
+      --team key values--
+
+      team_key = team name
+      count.value = the ranking of the team and player depending on location in jinja2 loop
+      team_value[0] = team score
+      team_value[1] = call to player values-->
 
   <div class="rectangle_menu"><a href="/">Home</a></div>
 
@@ -417,7 +424,7 @@
   
           {% set count = namespace(value=1) %}  
 
-          {% for key, value in teams.items() %}
+          {% for team_key, team_value in teams.items() %}
 
             {% if count.value == 1%}
 
@@ -439,7 +446,11 @@
 
             <div class="teambox">
 
-              <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} {{ key }}</span></h1>
+              <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} {{ team_key }}</span> <span class="score">{{team_value[0]}}</span></h1>
+
+              <div class="player_info">
+
+              </div>
 
             </div>
 
