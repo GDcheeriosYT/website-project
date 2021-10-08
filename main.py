@@ -112,7 +112,28 @@ class user_block:
 
     print(self.request_profile)
 
-    self.id = self.request_profile['id']
+    try:
+      self.id = self.request_profile['id']
+    except KeyError:
+      self.id = "unknown"
+      self.name = (f"{name} (BANNED)")
+      self.play_count = 0
+      self.score = 0
+      self.avatar = "https://data.whicdn.com/images/100018401/original.gif"
+      self.background = "https://data.whicdn.com/images/100018401/original.gif"
+      self.link = "https://data.whicdn.com/images/100018401/original.gif"
+      self.recent_score = 0
+      self.map_cover = "https://data.whicdn.com/images/100018401/original.gif"
+      self.map_url = "https://data.whicdn.com/images/100018401/original.gif"
+      self.map_difficulty = 0
+      self.mods = "unknown"
+      self.map_title = "unknown"
+      self.artist = "unknown"
+      self.accuracy = 0
+      self.max_combo = 0
+      self.rank = "F"
+      self.rank_color = "red"
+      return None
 
     self.play_count = self.request_profile['statistics']['play_count']
 
