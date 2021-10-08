@@ -6,11 +6,11 @@ import os
 #system('')
 
 #securing
-secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
+secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
-public_url = "http://localhost"
-client_id = "9545"
+public_url = "http://173.17.21.124"
+client_id = "5679"
 map_url = "1563044"
 
 #packages
@@ -233,6 +233,10 @@ def match_start(mode):
     global teams
 
     teams = {}
+
+    '''global teams_score
+
+    teams_score = {}'''
     
     #create teams
     print("\ncreate a team by typing a name\n")
@@ -277,7 +281,11 @@ def match_start(mode):
 
           team_players.append(f"{player_list[player_selector]}")
 
+          team_player_score.append(f"{api_info.user(user_name=player_list[player_selector]).total_score}")
+
       teams[team_name] = team_players
+
+      teams_score[team_name] = team_player_score
       
 
   else:
@@ -575,9 +583,11 @@ def refresh():
         
         score_counting = 0
 
-        for user in match_data.team_metadata[team]:
+        for user_score in match_data.team_metadata_score[team]:
 
           score_counting += score
+
+          print(score)
 
         return score_counting
 
@@ -591,7 +601,9 @@ def refresh():
 
         teams[team] = [team_score(team), players]
 
-        print(teams)
+        print(players[name][0])
+
+        print(team)
 
         print(teams[team][0])
         
