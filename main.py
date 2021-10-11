@@ -6,11 +6,11 @@ import os
 #system('')
 
 #securing
-secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
+secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
-public_url = "http://173.17.21.124"
-client_id = "5679"
+public_url = "http://localhost"
+client_id = "9545"
 map_url = "1563044"
 
 #packages
@@ -93,13 +93,11 @@ class clans:
 
 #team in a match class
 class Teams:
-  def __init__(self, team_name, score):
+  def __init__(self, team_name):
 
     self.team_name = team_name
 
     self.users = match_data.team_metadata[team_name]
-
-    self.score = score
 
 
 #user block class
@@ -109,8 +107,6 @@ class user_block:
     self.name = name
 
     self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.name}", headers = {"Authorization": f'Bearer {access_token}'}).json()
-
-    print(self.request_profile)
 
     try:
       self.id = self.request_profile['id']
@@ -153,7 +149,7 @@ class user_block:
 
     self.link = (f"https://osu.ppy.sh/users/{self.id}")
 
-    print(json.loads(self.request_scores.text))
+    #print(json.loads(self.request_scores.text))
     
     try:
       self.recent_score = (json.loads(self.request_scores.text)[0]["score"])
@@ -306,7 +302,7 @@ def match_start(mode):
 
       teams[team_name] = team_players
 
-      teams_score[team_name] = team_player_score
+      #teams_score[team_name] = team_player_score
       
 
   else:
@@ -450,7 +446,7 @@ def code_grab() :
 
   name_verify = str(code).split('code=')[1]
   name_verify = re.search("\w+", name_verify)
-  print(name_verify.group())
+  #print(name_verify.group())
   
   '''random_file = open("code.txt", "w+")
   random_file.write(name_verify.group())
@@ -488,70 +484,13 @@ def refresh():
 
   players = {}
 
-  players_weekly = {}
+  #players_weekly = {}
 
   teams = {}
 
   x = 0
 
-  for name in match_data.users:
-
-    #time.sleep(2)
-
-    player = user_block(name)
-
-    playcount = player.play_count - match_data.initial_playcount[x]
-
-    playcount = ("{:,}".format(playcount))
-
-    score = player.score - match_data.initial_score[x]
-
-    score_formatted = ("{:,}".format(score))
-
-    avatar = player.avatar
-
-    background = player.background
-
-    link = player.link
-
-    map_background = player.map_cover
-
-    map_title = player.map_title
-
-    map_difficulty = player.map_difficulty
-
-    map_url = player.map_url
-
-    mods = player.mods
-
-    artist = player.artist
-    
-    accuracy = player.accuracy
-
-    max_combo = player.max_combo
-
-    rank = player.rank
-
-    #weekly_map_score = player.weekly_map_score
-
-    #weekly_map_score_formated = ("{:,}".format(weekly_map_score))
-    
-    try:
-      rank_color = player.rank_color
-    except AttributeError:
-      rank_color = "red"
-
-    if score == 0:
-
-      recent_score = 0
-
-    else:
-      
-      recent_score = player.recent_score
-
-      recent_score = ("{:,}".format(recent_score))
-
-    def level(playerscore):
+  def level(playerscore):
       
       x = 0
 
@@ -567,9 +506,7 @@ def refresh():
       
           player_level_up_percent2 = playerscore - previous_level_score
 
-          player_level_up_percent = player_level_up_percent2 / player_level_up_percent1
-
-          print(previous_level_score, playerscore, level_xp, player_level_up_percent)
+          player_level_up_percent = player_level_up_percent2 / player_level_up_percent1 
 
           break
 
@@ -592,55 +529,205 @@ def refresh():
       except NameError:
         player_levelup_percent = "???"
 
-      print(f'Level: {player_current_level}.')
+      #print(f'Level: {player_current_level}.')
 
-      print(f'Progress to next level: {player_levelup_percent}%.')
+      #print(f'Progress to next level: {player_levelup_percent}%.')
+
+  def team_score(team):
     
-    level(score)
+    score_counting = 0
 
-    if match_data.mode == "teams":
+    counting_var = 0
 
-      def team_score(team):
+    print("--------------")
+
+    print("adding up team score...")
+
+    for user in match_data.users:
+
+      if user in match_data.team_metadata.get(team):
+
+        time.sleep(1)
+
+        score_counting += api_info.user(user_name=user).total_score - match_data.initial_score[counting_var]
+
+        #print(score)
+      
+      counting_var += 1
+
+    return score_counting
+
+  def team_players(team):
+
+    players = {}
+
+    print("--------------")
+
+    print("getting player info...")
+
+    for name in match_data.team_metadata[team]:
+
+      time.sleep(2)
+
+      user_pos = match_data.users.index(name)
+
+      player = user_block(name)
+
+      playcount = player.play_count - match_data.initial_playcount[user_pos]
+
+      playcount = ("{:,}".format(playcount))
+
+      score = player.score - match_data.initial_score[user_pos]
+
+      score_formatted = ("{:,}".format(score))
+
+      avatar = player.avatar
+
+      background = player.background
+
+      link = player.link
+
+      map_background = player.map_cover
+
+      map_title = player.map_title
+
+      map_difficulty = player.map_difficulty
+
+      map_url = player.map_url
+
+      mods = player.mods
+
+      artist = player.artist
+      
+      accuracy = player.accuracy
+
+      max_combo = player.max_combo
+
+      rank = player.rank
+
+      #weekly_map_score = player.weekly_map_score
+
+      #weekly_map_score_formated = ("{:,}".format(weekly_map_score))
+      
+      try:
+        rank_color = player.rank_color
+      except AttributeError:
+        rank_color = "red"
+
+      if score == 0:
+
+        recent_score = 0
+
+      else:
         
-        score_counting = 0
+        recent_score = player.recent_score
 
-        for user_score in match_data.team_metadata_score[team]:
-
-          score_counting += score
-
-          print(score)
-
-        return score_counting
+        recent_score = ("{:,}".format(recent_score))
+    
+      level(score)
 
       players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
-      for team in match_data.team_metadata.keys():
+      players = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
 
-        team_data = Teams(team, team_score(team))
+    return players
+
+  if match_data.mode == "teams":
+
+    for team in match_data.team_metadata.keys():
+
+      team_data = Teams(team)
+      
+      team_users = team_data.users
+
+      teams[team] = [team_score(team), team_players(team)]
+
+      #print(f"users: {players.keys()}")
+
+      print("===============")
+
+      print(f"team users: {team_users}")
+
+      time.sleep(0.3)
+
+      print(f"team: {team}")
+
+      time.sleep(0.3)
+
+      print(f"team score: {teams[team][0]}")
+      
+      print("===============")
+  
+  else:
+
+    players = {}
+    
+    x = 0
+
+    for name in match_data.users:
+
+      #time.sleep(2)
+
+      player = user_block(name)
+
+      playcount = player.play_count - match_data.initial_playcount[x]
+
+      playcount = ("{:,}".format(playcount))
+
+      score = player.score - match_data.initial_score[x]
+
+      score_formatted = ("{:,}".format(score))
+
+      avatar = player.avatar
+
+      background = player.background
+
+      link = player.link
+
+      map_background = player.map_cover
+
+      map_title = player.map_title
+
+      map_difficulty = player.map_difficulty
+
+      map_url = player.map_url
+
+      mods = player.mods
+
+      artist = player.artist
+      
+      accuracy = player.accuracy
+
+      max_combo = player.max_combo
+
+      rank = player.rank
+
+      #weekly_map_score = player.weekly_map_score
+
+      #weekly_map_score_formated = ("{:,}".format(weekly_map_score))
+      
+      try:
+        rank_color = player.rank_color
+      except AttributeError:
+        rank_color = "red"
+
+      if score == 0:
+
+        recent_score = 0
+
+      else:
         
-        team_users = team_data.users
+        recent_score = player.recent_score
 
-        teams[team] = [team_score(team), players]
-
-        print(players[name][0])
-
-        print(team)
-
-        print(teams[team][0])
-        
-        print("--------------")
-
-      print(f"{x + 1} players data refreshed")
-
-    else:
+        recent_score = ("{:,}".format(recent_score))
+    
+      level(score)
 
       players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
-      #players_weekly[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, weekly_map_score, weekly_map_score_formated]
+      x = x + 1
 
-      print(f"{x + 1} players data refreshed")
-
-    x = x + 1
+      print(f"{x + 1} players refreshed")
 
   global players_sorted
 
@@ -648,7 +735,9 @@ def refresh():
 
   global teams_sorted
 
-  teams_sorted = dict(sorted(teams.items(), key=lambda x: x[1], reverse=True))
+  teams_sorted = dict(sorted(teams.items(), key=lambda x: x[1][0], reverse=True))
+
+  #print(f"teams_sorted loc: {team}")
 
   #players_sorted_weekly = dict(sorted(players_weekly.values(), key=lambda x: x[20], reverse=True))
 
