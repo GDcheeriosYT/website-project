@@ -505,7 +505,7 @@ def code_grab() :
   code = request.query_string
 
   name_verify = str(code).split('code=')[1]
-  name_verify = re.search("\w+", name_verify)
+  name_verify = re.search(r"\w+", name_verify)
   #print(name_verify.group())
   
   '''random_file = open("code.txt", "w+")
