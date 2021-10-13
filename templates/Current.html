@@ -54,6 +54,7 @@
       opacity: 0;
       bottom: 10%;
       left: -35%;
+      padding-left: 2px;
       font-family: arial;
       font-weight: bold;
     }
@@ -89,42 +90,32 @@
     }
     
     .map_info{
+      opacity: 0%;
       display: flex;
       flex-direction: column;
       border-radius: 10px;
 			height: 10%;
-      width: 824px;
+      width: 5%;
+      margin-left: auto;
+      margin-right: auto;
       font-size: 100%;
-			background-color: white;
-      -webkit-transition: all 500ms ease;
-      -moz-transition: all 500ms ease;
-      -ms-transition: all 500ms ease;
-      -o-transition: all 500ms ease;
-      transition: all 500ms ease;
+      transition: all 300ms ease-in;
       background-repeat: no-repeat;
-      background-size: 105%;
-      background-position: 100%;
+      background-size: cover;
       text-shadow: 2px 2px 7px #CECECE;
       box-shadow: 0 0 8px 8px white inset;
       text-align: left;
+      position: relative;
+      top: -100%;
     }
 
-    .map_info:hover {
-      flex-direction: column;
-			border-radius: 15px;
-			height: 50%;
-      font-size: 120%;
-			background-color: white;
-      color: #FFFFFF;
-      background-size: 170%;
-      background-repeat: no-repeat;
-      text-shadow: 1px 0px 1px #CCCCCC, 0px 1px 1px #EEEEEE, 2px 1px 1px #CCCCCC, 1px 2px 1px #EEEEEE, 3px 2px 1px #CCCCCC, 2px 3px 1px #EEEEEE, 4px 3px 1px #CCCCCC, 3px 4px 1px #EEEEEE, 5px 4px 1px #CCCCCC, 4px 5px 1px #EEEEEE, 6px 5px 1px #CCCCCC, 5px 6px 1px #EEEEEE, 7px 6px 1px #CCCCCC;
-      -webkit-transition: all 500ms ease;
-      -moz-transition: all 500ms ease;
-      -ms-transition: all 500ms ease;
-      -o-transition: all 500ms ease;
-      transition: all 500ms ease;
-      text-align: left;
+    .player_info:hover .map_info{
+      transition: all 400ms ease-out;
+      opacity: 100%;
+      position: relative;
+      top: 20%;
+      width: 85%;
+      height: 128px;
     }
 
     .player_info img {
@@ -264,7 +255,16 @@
       bottom: 20px;
       transition: all 400ms ease-in;
     }
-    
+
+    .extra_text{
+      opacity: 0%;
+    }
+
+    .player_info:hover .extra_text{
+      opacity: 100%;
+      font-size: 124%;
+      text-align: center;
+    }
 
     h1{
       text-align: center;
@@ -287,7 +287,8 @@
     }
 
     .map_title{
-
+      margin-top: 1px;
+      text-align: center;
     }
 
     .grade{
@@ -414,10 +415,6 @@
 
     <h1>{{ match_data.match_name }}</h1>
 
-    <h2 style="text-align: center;">match configuration</h2>
-
-    <h3 style="text-align: center;">level difficulty: {{match_data.level_difficulty}}</h3>
-
     {% if current_mode == "teams" %}
 
       <div class="gameBox" id="bodymovin">
@@ -472,6 +469,18 @@
 
                     <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress>{{ value[6] }}%</div>
 
+                    <div class="map_info" style="background-image:url({{value[7]}});">
+
+                      <span class="extra_text"><b>Recent Map:</b></span>
+                      <span class="map_title"><b><a style="color: black;" href="{{value[10]}}">{{value[8]}}</a></b></span>
+                      <span style="text-align: center;"><b>☆{{value[9]}}☆</b></span>
+                      <span style="color: {{value[16]}}; font-size: 260%; margin-left: 10px; position: relative; top: 10%;">{{value[15]}}</span>
+                      <span style="position: relative; left: 7%; font-size: 120%; bottom: 10%;"><b>{{value[13]}}%</b></span>
+                      <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;"><b>{{value[14]}}x</b></span>
+                      <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;">{{value[11]}}</span>
+
+                    </div>
+ 
                   </div>
               
                 </div>
@@ -536,6 +545,18 @@
 
                 <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress>{{ value[6] }}%</div>
 
+                <div class="map_info" style="background-image:url({{value[7]}});">
+                
+                      <span class="extra_text"><b>Recent Map:</b></span>
+                      <span class="map_title"><b><a style="color: black;" href="{{value[10]}}">{{value[8]}}</a></b></span>
+                      <span style="text-align: center;"><b>☆{{value[9]}}☆</b></span>
+                      <span style="color: {{value[16]}}; font-size: 260%; margin-left: 10px; position: relative; top: 10%;">{{value[15]}}</span>
+                      <span style="position: relative; left: 7%; font-size: 120%; bottom: 10%;"><b>{{value[13]}}%</b></span>
+                      <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;"><b>{{value[14]}}x</b></span>
+                      <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;">{{value[11]}}</span>
+
+                </div>
+
               </div>
             
             </div>
@@ -554,6 +575,14 @@
     <h2></h2>
     </div>
   </div>
+  
+  <footer>
+
+    <h2 style="text-align: center;">match configuration</h2>
+
+    <h3 style="text-align: center;">level difficulty: {{match_data.level_difficulty}}</h3>
+  
+  </footer>
 
   <!--<iframe src="https://web.libera.chat/?nick=Guest?#osuapicrap" style="border:0; width:100%; height:450px;"></iframe>-->
 
@@ -564,7 +593,7 @@
       setTimeout(function(){ 
 	console.log("reloading data") 
 	location.reload();
-	}, 49000);
+	}, 60000);
     }
 
     reload()

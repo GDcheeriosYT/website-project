@@ -147,7 +147,7 @@ class user_block:
 
     self.name = name
 
-    self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.name}", headers = {"Authorization": f'Bearer {access_token}'}).json()
+    self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.name}/osu", headers = {"Authorization": f'Bearer {access_token}'}).json()
 
     try:
       self.id = self.request_profile['id']
@@ -536,7 +536,6 @@ def code_grab() :
 
 def login():
 
-  f = open("codes.txt", "w+")
   return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={public_url}/code_grab&scope=public")
 
 @app.route("/refresh")
@@ -728,7 +727,7 @@ def refresh():
 
     for name in match_data.users:
 
-      #time.sleep(2)
+      time.sleep(2)
 
       player = user_block(name)
 
