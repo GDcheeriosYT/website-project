@@ -41,29 +41,70 @@ import json
 import time
 import sqlite3
 
+difficulty_list = ["beginner", "easy", "normal", "medium", "hard", "insane"]
+
+difficulty_amount = len(difficulty_list)
+
 global mode
 
 #leveling_system
-level_limit = 300
+def levels_creation(difficulty):
+  level_limit = 300
 
-levels = []
+  global levels
 
-level_expenential_growth_modifier = 1.00
-leveling_start = 100000
-level_number_change = 250000
-x = 1
-x_float = 0.0007
-x_float_multiplier = 1
-while x <= level_limit:
+  levels = []
 
-  levels.append(leveling_start)
+  print("grabbing level difficulty configuration...\n")
 
-  #time.sleep(0.1)
+  if difficulty == difficulty_list[0]:
+    level_expenential_growth_modifier = 1.00
+    leveling_start = 50000
+    level_number_change = 100000
+    exponential_change = 0.03
 
-  x = x + 1
-  leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
-  
-  level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * 0.07
+  elif difficulty == difficulty_list[1]:
+    level_expenential_growth_modifier = 1.00
+    leveling_start = 100000
+    level_number_change = 250000
+    exponential_change = 0.04
+
+  elif difficulty == difficulty_list[2]:
+    level_expenential_growth_modifier = 1.00
+    leveling_start = 100000
+    level_number_change = 250000
+    exponential_change = 0.07
+
+  elif difficulty == difficulty_list[3]:
+    level_expenential_growth_modifier = 1.00
+    leveling_start = 500000
+    level_number_change = 1000000
+    exponential_change = 0.04
+
+  elif difficulty == difficulty_list[4]:
+    level_expenential_growth_modifier = 1.00
+    leveling_start = 1000000
+    level_number_change = 2000000
+    exponential_change = 0.04
+
+  elif difficulty == difficulty_list[5]:
+    level_expenential_growth_modifier = 1.00
+    leveling_start = 1000000
+    level_number_change = 2500000
+    exponential_change = 0.07
+
+  x = 1
+
+  while x <= level_limit:
+
+    levels.append(leveling_start)
+
+    #time.sleep(0.1)
+
+    x = x + 1
+    leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
+    
+    level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * exponential_change
 
 x = 1
 
@@ -231,6 +272,36 @@ with open("players.db", "r") as f:
 
   player_list = f.read().splitlines()
 
+def level_difficulty_selector():
+
+  x = 0
+
+  while x < difficulty_amount:
+
+    print(f"{x} {difficulty_list[x]}")
+
+    x += 1
+
+  while True:
+  
+    selection = int(input("what level difficulty would you like?"))
+
+    try:
+      selection + 0
+    except ValueError:
+      print("number please!")
+    
+    if selection > difficulty_amount:
+      print("too big!")
+
+    elif selection < 0:
+      print("too small!")
+    
+    else:
+      return(difficulty_list[selection])
+
+  
+
 def match_start(mode):
 
   #the variable which will show which mode it is
@@ -387,7 +458,7 @@ if new_game == "y":
 
     match_start(mode)
   
-  f.write(f"users = {players_selected}\nmatch_name = \"{match_name}\"\ninitial_score = {initial_score}\ninitial_playcount = {initial_playcount}\nmode = \"{mode}\"\nteam_metadata = {teams}")
+  f.write(f"users = {players_selected}\nmatch_name = \"{match_name}\"\ninitial_score = {initial_score}\ninitial_playcount = {initial_playcount}\nmode = \"{mode}\"\nteam_metadata = {teams}\nlevel_difficulty = \"{level_difficulty_selector()}\"")
 
   f.close()
 
@@ -399,17 +470,6 @@ elif new_game == "n":
   
 else:
   print("...")
-
-def match_refresh():
-  with open("players.db", "r") as f:
-    player_list = f.read().splitlines()
-
-  for player in player_list:
-    player_stats = api_info.user(user_name=str(player))
-
-
-def team_refresh():
-  None
 
 #list variable to store which players are participating in the current match
 players_in_match = []
@@ -481,6 +541,8 @@ def login():
 
 @app.route("/refresh")
 def refresh():
+
+  levels_creation(match_data.level_difficulty)
 
   players = {}
 
@@ -813,8 +875,7 @@ def current():
     #recent = player_recent
     current_mode = mode,
     time = time,
-    match_title = match_title,
-    match_data = match_data.team_metadata.keys(),
+    match_data = match_data,
     players = players_sorted,
     teams = teams_sorted
     #teamcount = teamcount

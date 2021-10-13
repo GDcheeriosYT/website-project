@@ -408,13 +408,17 @@
 
   <div class="rectangle_menu"><a href="/">Home</a></div>
 
-    <div class="weekly_map">
+    <!--<div class="weekly_map">
 
-    </div>
+    </div>-->
+
+    <h1>{{ match_data.match_name }}</h1>
+
+    <h2 style="text-align: center;">match configuration</h2>
+
+    <h3 style="text-align: center;">level difficulty: {{match_data.level_difficulty}}</h3>
 
     {% if current_mode == "teams" %}
-
-      <h1>{{ match_title }}</h1>
 
       <div class="gameBox" id="bodymovin">
 
@@ -485,8 +489,6 @@
       </div>
 
     {% else %}
-
-      <h1>{{ match_title }}</h1>
 
       <div class="gameBox" id="bodymovin">
 
