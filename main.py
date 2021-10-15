@@ -31,8 +31,6 @@ from lxml import html
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
-teamFile = open("team_metadata.py", "a+")
-teamFile.close()
 import team_metadata
 from dataclasses import dataclass
 from typing import List
