@@ -53,17 +53,24 @@
       position: relative;
       opacity: 0;
       bottom: 10%;
-      left: -35%;
-      padding-left: 2px;
+      left: 0;
+      width: 0px;
+      height: 0px;
+      padding-left: 0px;
       font-family: arial;
       font-weight: bold;
+      white-space: nowrap;
     }
 
     .player_info:hover .level {
       opacity: 1;
       position: relative;
-      left: -33%;
-      bottom: -10%;
+      width: 3%;
+      padding-left: 5px;
+      padding-top: 30px;
+      height: 3%;
+      left: 0%;
+      bottom: 0%;
       transition: all 400ms ease-in;
     }
 
@@ -113,7 +120,7 @@
       transition: all 400ms ease-out;
       opacity: 100%;
       position: relative;
-      top: 20%;
+      top: 13%;
       width: 85%;
       height: 128px;
     }
@@ -467,7 +474,7 @@
 
                     <div class="playcount">{{ value[18] }} maps played</div>
 
-                    <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress>{{ value[6] }}%</div>
+                    <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress> {{ value[6] }}%</div>
 
                     {% if value[4] != "0" %}
 
@@ -547,7 +554,7 @@
 
                 <div class="playcount">{{ value[18] }} maps played</div>
 
-                <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress>{{ value[6] }}%</div>
+                <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress> {{ value[6] }}%</div>
 
                 {% if value[4] != "0" %}
 
