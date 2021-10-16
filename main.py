@@ -1,9 +1,4 @@
-import os  #making sure pip is always up to date
-from os import system
 import os
-
-#system('pip install --upgrade pip')
-#system('')
 
 #securing
 secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
@@ -24,14 +19,12 @@ import re
 from flask import Flask, redirect, url_for, request, render_template
 from threading import Timer
 import math
-import match_data
 import importlib
 import lxml
 from lxml import html
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
-import team_metadata
 from dataclasses import dataclass
 from typing import List
 from collections import OrderedDict
@@ -47,7 +40,7 @@ global mode
 
 #leveling_system
 def levels_creation(difficulty):
-  level_limit = 300
+  level_limit = 999
 
   global levels
 
@@ -59,7 +52,7 @@ def levels_creation(difficulty):
     level_expenential_growth_modifier = 1.00
     leveling_start = 50000
     level_number_change = 100000
-    exponential_change = 0.03
+    exponential_change = 0.025
 
   elif difficulty == difficulty_list[1]:
     level_expenential_growth_modifier = 1.00
@@ -434,13 +427,11 @@ def match_start(mode):
     initial_score.append(api_info.user(user_name=str(player)).total_score)
 
 
-new_game = str(input("start new game?\ny/n\n"))
-
-if new_game == "y":
-
-  f = open("match_data.py", "w+")
+def match_initialization():
 
   match_name = input("match name ")
+
+  f = open(f"/matches/{match_name}", "w+")
 
   game_mode = str(input("teams or free for all\n1.teams\n2.free for all\n"))
 
@@ -456,22 +447,9 @@ if new_game == "y":
 
     match_start(mode)
   
-  f.write(f"users = {players_selected}\nmatch_name = \"{match_name}\"\ninitial_score = {initial_score}\ninitial_playcount = {initial_playcount}\nmode = \"{mode}\"\nteam_metadata = {teams}\nlevel_difficulty = \"{level_difficulty_selector()}\"")
+  f.write(f"users = {players_selected}\ninitial_score = {initial_score}\ninitial_playcount = {initial_playcount}\nmode = \"{mode}\"\nteam_metadata = {teams}\nlevel_difficulty = \"{level_difficulty_selector()}\"")
 
   f.close()
-
-elif new_game == "n":
-  mode = match_data.mode
-  print("alright continuing the game")
-  #joe = user_block("btmc")
-  #print(joe.background)
-  
-else:
-  print("...")
-
-#list variable to store which players are participating in the current match
-players_in_match = []
-
 
 def user_list():
   with open("players.db", "r") as f:
@@ -528,7 +506,7 @@ def code_grab() :
 
   #print(test_user_thing.request_scores)
 
-  return redirect(f"{public_url}/refresh")
+  return redirect(f"{public_url}/matches")
 
 @app.route("/login.html",methods = ['POST', 'GET'])
 
@@ -536,8 +514,8 @@ def login():
 
   return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={public_url}/code_grab&scope=public")
 
-@app.route("/refresh")
-def refresh():
+@app.route("/matches/<match_name>/refresh")
+def refresh(match_name):
 
   levels_creation(match_data.level_difficulty)
 
@@ -725,7 +703,7 @@ def refresh():
 
     for name in match_data.users:
 
-      #time.sleep(2)
+      time.sleep(2)
 
       player = user_block(name)
 
@@ -802,7 +780,7 @@ def refresh():
 
   print("all player data refreshed!")
 
-  return redirect(f'{public_url}/Current.html')
+  return redirect(f'{public_url}/matches/{match_name}/view')
 
 #@app.route("/Teams.html")
 def teams():
@@ -862,15 +840,29 @@ def players():
     players = players_sorted
   )
 
-@app.route("/Current.html")
-def current():
+@app.route("/matches/<match_name>")
+def match_redirect(match_name):
 
-  match_title = match_data.match_name
-  
+  global match_data
+
+  if match_name in os.listdir("matches/"):
+    match_name = match_name[:-3]
+    match_data = importlib.import_module(f"matches.{match_name}")
+  elif match_name in os.listdir("match_history"): 
+    match_name = match_name[:-3]
+    match_data = importlib.import_module(f"match_history.{match_name}")
+  else:
+    print("match not found...")
+
+  return redirect(f"{public_url}/matches/<match_name>/refresh")
+
+@app.route("/matches/<match_name>/view")
+def match(match_name):
+
   return render_template(
     'Current.html',  # Template file
     #recent = player_recent
-    current_mode = mode,
+    current_mode = match_data.mode,
     time = time,
     match_data = match_data,
     players = players_sorted,
@@ -878,11 +870,47 @@ def current():
     #teamcount = teamcount
   )
 
+#work on future old matches
+"""@app.route("/matches/<match_name>/old")
+def match(match_name):
+
+  for user in match_data
+
+  return render_template(
+    'Current.html',  # Template file
+    #recent = player_recent
+    current_mode = match_data.mode,
+    time = time,
+    match_data = match_data,
+    players = players_sorted,
+    teams = teams_sorted
+    #teamcount = teamcount
+  )
+"""
 @app.route("/changelog.html")
 def changelog():
 
   return render_template(
     'changelog.html'
+  )
+
+@app.route("/matches")
+def matches():
+
+  current_matches = []
+
+  previous_matches = []
+
+  for match in os.listdir("matches/"):
+    current_matches.append(match)
+
+  for match in os.listdir("match_history/"):
+    previous_matches.append(match)
+
+  return render_template(
+    'matches.html',
+    current_matches = current_matches,
+    previous_matches = previous_matches
   )
 
 

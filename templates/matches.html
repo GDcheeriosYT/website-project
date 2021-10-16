@@ -1,0 +1,31 @@
+<html>
+
+    <head>
+
+        <title>matches</title>
+
+    </head>
+
+    <body style="background-color: purple;">
+
+        {% for match in current_matches %}
+
+            <div style="text-align: center; font-size: 80px;"><a href="matches/{{match}}">{{match}}</a></div>
+        
+        {% endfor %}
+
+        <hr>
+
+        <h1 style="text-align: center;">match history is a work in progess...</h1>
+
+        <!--
+
+        {%for match in previous_matches%}
+
+            <div style="text-align: center; font-size: 80px;"><a href="matches/{{match}}/old">{{match}}</a></div>
+        
+        {% endfor %}-->
+
+    </body>
+
+</html>
