@@ -6,11 +6,11 @@ import os
 #system('')
 
 #securing
-secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
+secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
-public_url = "http://173.17.21.124"
-client_id = "5679"
+public_url = "http://localhost"
+client_id = "9545"
 map_url = "1563044"
 
 #packages
@@ -77,19 +77,19 @@ def levels_creation(difficulty):
     level_expenential_growth_modifier = 1.00
     leveling_start = 500000
     level_number_change = 1000000
-    exponential_change = 0.04
+    exponential_change = 0.07
 
   elif difficulty == difficulty_list[4]:
     level_expenential_growth_modifier = 1.00
     leveling_start = 1000000
     level_number_change = 2000000
-    exponential_change = 0.04
+    exponential_change = 0.09
 
   elif difficulty == difficulty_list[5]:
     level_expenential_growth_modifier = 1.00
     leveling_start = 1000000
     level_number_change = 2500000
-    exponential_change = 0.07
+    exponential_change = 0.09
 
   x = 1
 
