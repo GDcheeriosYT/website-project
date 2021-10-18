@@ -31,6 +31,8 @@ from collections import OrderedDict
 import json
 import time
 import sqlite3
+import asyncio
+import shutil
 
 difficulty_list = ["beginner", "easy", "normal", "medium", "hard", "insane"]
 
@@ -291,9 +293,23 @@ def level_difficulty_selector():
     else:
       return(difficulty_list[selection])
 
+def player_refresh_list():
   
+  global players_in_matches
 
-def match_start(mode):
+  players_in_matches = []
+
+  for file in os.listdir("matches/"):
+
+    thing_data = importlib.import_module(f"matches.{file[:-3]}")
+
+    for player in thing_data.users:
+
+      if player not in players_in_matches:
+
+        players_in_matches.append(player)
+
+async def match_start(mode):
 
   #the variable which will show which mode it is
   global game_mode
@@ -427,11 +443,9 @@ def match_start(mode):
     initial_score.append(api_info.user(user_name=str(player)).total_score)
 
 
-def match_initialization():
+async def match_initialization():
 
   match_name = input("match name ")
-
-  f = open(f"/matches/{match_name}", "w+")
 
   game_mode = str(input("teams or free for all\n1.teams\n2.free for all\n"))
 
@@ -439,13 +453,15 @@ def match_initialization():
 
     mode = "teams"
 
-    match_start(mode)
+    await match_start(mode)
 
   else:
 
     mode = "ffa"
 
-    match_start(mode)
+    await match_start(mode)
+
+  f = open(f"matches/{match_name}.py", "w+")
   
   f.write(f"users = {players_selected}\ninitial_score = {initial_score}\ninitial_playcount = {initial_playcount}\nmode = \"{mode}\"\nteam_metadata = {teams}\nlevel_difficulty = \"{level_difficulty_selector()}\"")
 
@@ -455,7 +471,7 @@ def user_list():
   with open("players.db", "r") as f:
     player_list = f.read().splitlines()
 
-#making the api ['connector
+#making the api connector
 
 extra_api_key = str(extra_api_key)
 
@@ -507,6 +523,41 @@ def code_grab() :
   #print(test_user_thing.request_scores)
 
   return redirect(f"{public_url}/matches")
+
+@app.route("/start")
+
+async def main_process():
+  while True:
+    task = input("1.create new match\n2.end match\n3.test\n4.exit\n")
+    if task == "1":
+      await match_initialization()
+    elif task == "2":
+      i = 0
+      
+      matches = []
+
+      for match in os.listdir("matches/"):
+        matches.append(match)
+        print(f"{i} {match[:-3]}")
+        i += 1
+
+      match_end = int(input("\nwhich match will you end?\n"))
+
+      print(matches[match_end])
+
+      try:
+        shutil.move(f"matches/{matches[match_end]}", f"match_history/")
+      except FileNotFoundError:
+        print("\nfile not found...")
+
+    elif task == "3":
+      print("testing")
+
+    elif task == "4":
+      os.exit()
+    
+    else:
+      print("I don't know...")
 
 @app.route("/login.html",methods = ['POST', 'GET'])
 
@@ -913,6 +964,7 @@ def matches():
     previous_matches = previous_matches
   )
 
+#asyncio.run(main_process)
 
 if __name__ == "__main__":  # Makes sure this is the main process
   app.run( # Starts the site
