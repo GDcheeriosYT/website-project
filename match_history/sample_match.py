@@ -1,6 +1,3 @@
-from main import level_difficulty_selector
-
-
 users = ["GDcheerios"]
 match_name = "test match"
 initial_score = [0]

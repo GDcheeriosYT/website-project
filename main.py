@@ -1,11 +1,11 @@
 import os
 
 #securing
-secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
+secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
-public_url = "http://localhost"
-client_id = "9545"
+public_url = "http://173.17.21.124"
+client_id = "5679"
 map_url = "1563044"
 
 #packages
@@ -31,6 +31,7 @@ from collections import OrderedDict
 import json
 import time
 import sqlite3
+import urllib
 import asyncio
 import shutil
 
@@ -277,7 +278,7 @@ def level_difficulty_selector():
 
   while True:
   
-    selection = int(input("what level difficulty would you like?"))
+    selection = int(input("what level difficulty would you like?\n"))
 
     try:
       selection + 0
@@ -463,7 +464,7 @@ async def match_initialization():
 
   f = open(f"matches/{match_name}.py", "w+")
   
-  f.write(f"users = {players_selected}\ninitial_score = {initial_score}\ninitial_playcount = {initial_playcount}\nmode = \"{mode}\"\nteam_metadata = {teams}\nlevel_difficulty = \"{level_difficulty_selector()}\"")
+  f.write(f"users = {players_selected}\nmatch_name = \"{match_name}\"\ninitial_score = {initial_score}\ninitial_playcount = {initial_playcount}\nmode = \"{mode}\"\nteam_metadata = {teams}\nlevel_difficulty = \"{level_difficulty_selector()}\"")
 
   f.close()
 
@@ -566,7 +567,9 @@ def login():
   return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={public_url}/code_grab&scope=public")
 
 @app.route("/matches/<match_name>/refresh")
-def refresh(match_name):
+async def refresh(match_name):
+
+  print(match_name)
 
   levels_creation(match_data.level_difficulty)
 
@@ -892,23 +895,32 @@ def players():
   )
 
 @app.route("/matches/<match_name>")
-def match_redirect(match_name):
+async def match_redirect(match_name):
+
+  print(match_name)
+
+  #match_name = urllib.parse.unquote(match_name)
+
+  if match_name.find(".py") == -1 or match_name.find(".py") == "-1":
+
+    match_name = (f"{match_name}.py")
 
   global match_data
 
   if match_name in os.listdir("matches/"):
     match_name = match_name[:-3]
     match_data = importlib.import_module(f"matches.{match_name}")
-  elif match_name in os.listdir("match_history"): 
-    match_name = match_name[:-3]
-    match_data = importlib.import_module(f"match_history.{match_name}")
   else:
+    match_data = None
     print("match not found...")
 
-  return redirect(f"{public_url}/matches/<match_name>/refresh")
+  
+  return redirect(f"{public_url}/matches/{match_name}/refresh")
 
 @app.route("/matches/<match_name>/view")
-def match(match_name):
+async def match(match_name):
+
+  
 
   return render_template(
     'Current.html',  # Template file
@@ -946,7 +958,7 @@ def changelog():
   )
 
 @app.route("/matches")
-def matches():
+async def matches():
 
   current_matches = []
 

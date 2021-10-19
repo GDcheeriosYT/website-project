@@ -4,14 +4,21 @@
 
         <title>matches</title>
 
+    <style>
+    </style>
+    
     </head>
 
     <body style="background-color: purple;">
 
         {% for match in current_matches %}
 
-            <div style="text-align: center; font-size: 80px;"><a href="matches/{{match}}">{{match}}</a></div>
+            {% if match != "__pycache__" %}
+
+            <div style="text-align: center; font-size: 80px;"><a style="color: black;" href="matches/{{match}}">{{match[:-3]}}</a></div>
         
+            {% endif %}
+
         {% endfor %}
 
         <hr>

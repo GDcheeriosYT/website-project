@@ -20,7 +20,7 @@
 
   <meta charset="utf-8">
 
-  <title>match {{ match_title }}</title>
+  <title>match {{ match_data.match_name }}</title>
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
 
@@ -603,15 +603,8 @@
 
   <meta id="my-data" data-name="{{name}}" data-other="{{other}}">
 
-  <script>
-    function reload() {
-      setTimeout(function(){ 
-	console.log("reloading data") 
-	location.reload();
-	}, 60000);
-    }
-
-    reload()
+  <script> 
+    setTimeout(() => location.replace("/matches/{{ match_data.match_name }}"), 300000);
   </script> 
 
 </body>
