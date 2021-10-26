@@ -1,11 +1,11 @@
 import os
 
 #securing
-secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
+secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
-public_url = "http://173.17.21.124"
-client_id = "5679"
+public_url = "http://localhost"
+client_id = "9545"
 map_url = "1563044"
 
 #packages
@@ -48,8 +48,6 @@ def levels_creation(difficulty):
   global levels
 
   levels = []
-
-  print("grabbing level difficulty configuration...\n")
 
   if difficulty == difficulty_list[0]:
     level_expenential_growth_modifier = 1.00
@@ -294,21 +292,90 @@ def level_difficulty_selector():
     else:
       return(difficulty_list[selection])
 
-def player_refresh_list():
+def player_refresh():
   
   global players_in_matches
 
   players_in_matches = []
+  
+  global players
+
+  all_players = {}
 
   for file in os.listdir("matches/"):
 
-    thing_data = importlib.import_module(f"matches.{file[:-3]}")
+    try:
+      thing_data = importlib.import_module(f"matches.{file[:-3]}")
+    except ModuleNotFoundError:
+      pass
 
     for player in thing_data.users:
 
       if player not in players_in_matches:
 
         players_in_matches.append(player)
+    
+  for name in players_in_matches:
+
+    print(f"loading player {name}'s data")
+
+    #time.sleep(2)
+
+    player = user_block(name)
+
+    playcount = player.play_count
+
+    score = player.score
+
+    score_formatted = ("{:,}".format(score))
+
+    avatar = player.avatar
+
+    background = player.background
+
+    link = player.link
+
+    map_background = player.map_cover
+
+    map_title = player.map_title
+
+    map_difficulty = player.map_difficulty
+
+    map_url = player.map_url
+
+    mods = player.mods
+
+    artist = player.artist
+    
+    accuracy = player.accuracy
+
+    max_combo = player.max_combo
+
+    rank = player.rank
+
+    #weekly_map_score = player.weekly_map_score
+
+    #weekly_map_score_formated = ("{:,}".format(weekly_map_score))
+    
+    try:
+      rank_color = player.rank_color
+    except AttributeError:
+      rank_color = "red"
+
+    if score == 0:
+
+      recent_score = 0
+
+    else:
+      
+      recent_score = player.recent_score
+
+      recent_score = ("{:,}".format(recent_score))
+
+    all_players[name] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+
+  with open("player_data.json", "w+") as kfc:
+    json.dump(all_players, kfc)
 
 async def match_start(mode):
 
@@ -513,7 +580,7 @@ def code_grab() :
 
   access_token = token_thing["access_token"]
 
-  test_user_thing = user_block("GDcheerios")
+  player_refresh()
 
   #f = open("debug.txt", "w")
   #f.write(f"{access_token}")
@@ -566,278 +633,16 @@ def login():
 
   return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={public_url}/code_grab&scope=public")
 
+
 @app.route("/matches/<match_name>/refresh")
 async def refresh(match_name):
 
-  print(match_name)
+  player_refresh()
 
-  levels_creation(match_data.level_difficulty)
-
-  players = {}
-
-  #players_weekly = {}
-
-  teams = {}
-
-  x = 0
-
-  def level(playerscore):
-      
-      x = 0
-
-      for level_num, level_xp in enumerate(levels, start=1):
-
-        if level_xp > playerscore:
-
-          global player_level_up_percent
-
-          previous_level_score = levels[x - 1]
-
-          player_level_up_percent1 = levels[x] - previous_level_score
-      
-          player_level_up_percent2 = playerscore - previous_level_score
-
-          player_level_up_percent = player_level_up_percent2 / player_level_up_percent1 
-
-          break
-
-        x = x + 1
-
-      global player_current_level
-
-      player_current_level = level_num - 1
-
-      global player_levelup_percent
-
-      try:
-
-        #leveling_start + level_number_change * level_expenential_growth_modifier
-
-        player_levelup_percent = int(player_level_up_percent * 100)
-      except ZeroDivisionError:
-        player_levelup_percent = int(player_level_up_percent * 100)
-
-      except NameError:
-        player_levelup_percent = "???"
-
-      #print(f'Level: {player_current_level}.')
-
-      #print(f'Progress to next level: {player_levelup_percent}%.')
-
-  def team_score(team):
-    
-    score_counting = 0
-
-    counting_var = 0
-
-    print("--------------")
-
-    print("adding up team score...")
-
-    for user in match_data.users:
-
-      if user in match_data.team_metadata.get(team):
-
-        time.sleep(1)
-
-        score_counting += api_info.user(user_name=user).total_score - match_data.initial_score[counting_var]
-
-        #print(score)
-      
-      counting_var += 1
-
-    return score_counting
-
-  def team_players(team):
-
-    players = {}
-
-    print("--------------")
-
-    print("getting player info...")
-
-    for name in match_data.team_metadata[team]:
-
-      time.sleep(2)
-
-      user_pos = match_data.users.index(name)
-
-      player = user_block(name)
-
-      playcount = player.play_count - match_data.initial_playcount[user_pos]
-
-      playcount = ("{:,}".format(playcount))
-
-      score = player.score - match_data.initial_score[user_pos]
-
-      score_formatted = ("{:,}".format(score))
-
-      avatar = player.avatar
-
-      background = player.background
-
-      link = player.link
-
-      map_background = player.map_cover
-
-      map_title = player.map_title
-
-      map_difficulty = player.map_difficulty
-
-      map_url = player.map_url
-
-      mods = player.mods
-
-      artist = player.artist
-      
-      accuracy = player.accuracy
-
-      max_combo = player.max_combo
-
-      rank = player.rank
-
-      #weekly_map_score = player.weekly_map_score
-
-      #weekly_map_score_formated = ("{:,}".format(weekly_map_score))
-      
-      try:
-        rank_color = player.rank_color
-      except AttributeError:
-        rank_color = "red"
-
-      if score == 0:
-
-        recent_score = 0
-
-      else:
-        
-        recent_score = player.recent_score
-
-        recent_score = ("{:,}".format(recent_score))
-    
-      level(score)
-
-      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
-
-      players = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
-
-    return players
-
-  if match_data.mode == "teams":
-
-    for team in match_data.team_metadata.keys():
-
-      team_data = Teams(team)
-      
-      team_users = team_data.users
-
-      teams[team] = [team_score(team), team_players(team)]
-
-      #print(f"users: {players.keys()}")
-
-      print("===============")
-
-      print(f"team users: {team_users}")
-
-      time.sleep(0.3)
-
-      print(f"team: {team}")
-
-      time.sleep(0.3)
-
-      print(f"team score: {teams[team][0]}")
-      
-      print("===============")
-  
-  else:
-
-    players = {}
-    
-    x = 0
-
-    for name in match_data.users:
-
-      time.sleep(2)
-
-      player = user_block(name)
-
-      playcount = player.play_count - match_data.initial_playcount[x]
-
-      playcount = ("{:,}".format(playcount))
-
-      score = player.score - match_data.initial_score[x]
-
-      score_formatted = ("{:,}".format(score))
-
-      avatar = player.avatar
-
-      background = player.background
-
-      link = player.link
-
-      map_background = player.map_cover
-
-      map_title = player.map_title
-
-      map_difficulty = player.map_difficulty
-
-      map_url = player.map_url
-
-      mods = player.mods
-
-      artist = player.artist
-      
-      accuracy = player.accuracy
-
-      max_combo = player.max_combo
-
-      rank = player.rank
-
-      #weekly_map_score = player.weekly_map_score
-
-      #weekly_map_score_formated = ("{:,}".format(weekly_map_score))
-      
-      try:
-        rank_color = player.rank_color
-      except AttributeError:
-        rank_color = "red"
-
-      if score == 0:
-
-        recent_score = 0
-
-      else:
-        
-        recent_score = player.recent_score
-
-        recent_score = ("{:,}".format(recent_score))
-    
-      level(score)
-
-      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
-
-      x = x + 1
-
-      print(f"{x + 1} players refreshed")
-
-  global players_sorted
-
-  players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
-
-  global teams_sorted
-
-  teams_sorted = dict(sorted(teams.items(), key=lambda x: x[1][0], reverse=True))
-
-  #print(f"teams_sorted loc: {team}")
-
-  #players_sorted_weekly = dict(sorted(players_weekly.values(), key=lambda x: x[20], reverse=True))
-
-  print("all player data refreshed!")
-
-  return redirect(f'{public_url}/matches/{match_name}/view')
+  return render_template("none.html")
 
 #@app.route("/Teams.html")
-def teams():
+def teams_web():
   team1_users = ["GDcheerios", "BirdPigeon", "kokuren"]
   team_score = []
   team_acc = []
@@ -895,7 +700,52 @@ def players():
   )
 
 @app.route("/matches/<match_name>")
-async def match_redirect(match_name):
+async def match(match_name):
+
+  def level(playerscore):
+      
+    x = 0
+
+    for level_num, level_xp in enumerate(levels, start=1):
+
+      if level_xp > playerscore:
+
+        global player_level_up_percent
+
+        previous_level_score = levels[x - 1]
+
+        player_level_up_percent1 = levels[x] - previous_level_score
+    
+        player_level_up_percent2 = playerscore - previous_level_score
+
+        player_level_up_percent = player_level_up_percent2 / player_level_up_percent1 
+
+        break
+
+      x = x + 1
+
+    global player_current_level
+
+    player_current_level = level_num - 1
+
+    global player_levelup_percent
+
+    try:
+
+      #leveling_start + level_number_change * level_expenential_growth_modifier
+
+      player_levelup_percent = int(player_level_up_percent * 100)
+    except ZeroDivisionError:
+      player_levelup_percent = int(player_level_up_percent * 100)
+
+    except NameError:
+      player_levelup_percent = "???"
+
+    #print(f'Level: {player_current_level}.')
+
+    #print(f'Progress to next level: {player_levelup_percent}%.')
+
+  players = {}
 
   print(match_name)
 
@@ -914,42 +764,402 @@ async def match_redirect(match_name):
     match_data = None
     print("match not found...")
 
-  
-  return redirect(f"{public_url}/matches/{match_name}/refresh")
+  with open("player_data.json", "r") as kfc:
+    player_data = json.load(kfc)
 
-@app.route("/matches/<match_name>/view")
-async def match(match_name):
+  if match_data.mode == "ffa":
 
-  
+    for user in match_data.users:
 
-  return render_template(
+      user_pos = match_data.users.index(user)
+
+      playcount = player_data[user][18] - match_data.initial_playcount[user_pos]
+
+      playcount = ("{:,}".format(playcount))
+
+      score = (player_data[user][0] - match_data.initial_score[user_pos])
+
+      score_formatted = ("{:,}".format(score))
+
+      avatar = player_data[user][1]
+
+      background = player_data[user][2]
+
+      link = player_data[user][3]
+
+      map_background = player_data[user][7]
+
+      map_title = player_data[user][8]
+
+      map_difficulty = player_data[user][9]
+
+      map_url = player_data[user][10]
+
+      mods = player_data[user][11]
+
+      artist = player_data[user][12]
+      
+      accuracy = player_data[user][13]
+
+      max_combo = player_data[user][14]
+
+      rank = player_data[user][15]
+
+      try:
+        rank_color = player_data[user][16]
+      except AttributeError:
+        rank_color = "red"
+
+      if score == 0:
+
+        recent_score = 0
+
+      else:
+        
+        recent_score = player_data[user][4]
+
+      levels_creation(match_data.level_difficulty)
+
+      level(score)
+
+      players[user] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+
+      players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
+
+    return render_template(
     'Current.html',  # Template file
     #recent = player_recent
     current_mode = match_data.mode,
     time = time,
     match_data = match_data,
-    players = players_sorted,
-    teams = teams_sorted
+    players = players_sorted
     #teamcount = teamcount
   )
+    
+  else:
+
+    teams = {}
+
+    def team_score(team):
+    
+      score_counting = 0
+
+      counting_var = 0
+
+      print("--------------")
+
+      print("adding up team score...")
+
+      for user in match_data.users:
+
+        if user in match_data.team_metadata.get(team):
+
+          #time.sleep(1)
+
+          score_counting += player_data[user][0] - match_data.initial_score[counting_var]
+
+          #print(score)
+        
+        counting_var += 1
+
+      return score_counting
+
+    def team_players(team):
+
+      players = {}
+
+      for user in match_data.team_metadata[team]:
+
+        user_pos = match_data.users.index(user)
+
+        playcount = player_data[user][18] - match_data.initial_playcount[user_pos]
+
+        playcount = ("{:,}".format(playcount))
+
+        score = player_data[user][0] - match_data.initial_score[user_pos]
+
+        score_formatted = ("{:,}".format(score))
+
+        avatar = player_data[user][1]
+
+        background = player_data[user][2]
+
+        link = player_data[user][3]
+
+        map_background = player_data[user][7]
+
+        map_title = player_data[user][8]
+
+        map_difficulty = player_data[user][9]
+
+        map_url = player_data[user][10]
+
+        mods = player_data[user][11]
+
+        artist = player_data[user][12]
+        
+        accuracy = player_data[user][13]
+
+        max_combo = player_data[user][14]
+
+        rank = player_data[user][15]
+
+        try:
+          rank_color = player_data[user][16]
+        except AttributeError:
+          rank_color = "red"
+
+        if score == 0:
+
+          recent_score = 0
+
+        else:
+          
+          recent_score = player_data[user][4]
+
+        levels_creation(match_data.level_difficulty)
+
+        level(score)
+
+        players[user] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+
+        players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
+
+        return players_sorted
+
+    for team in match_data.team_metadata.keys():
+
+      team_data = Teams(team)
+      
+      team_users = team_data.users
+
+      teams[team] = [team_score(team), team_players(team)]
+
+      #print(f"users: {players.keys()}")
+
+      print("===============")
+
+      print(f"team users: {team_users}")
+
+      time.sleep(0.3)
+
+      print(f"team: {team}")
+
+      time.sleep(0.3)
+
+      print(f"team score: {teams[team][0]}")
+      
+      print("===============")
+
+    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[1], reverse=True))
+
+    return render_template(
+      'Current.html',  # Template file
+      #recent = player_recent
+      current_mode = match_data.mode,
+      time = time,
+      match_data = match_data,
+      teams = teams_sorted
+      #teamcount = teamcount
+    )
 
 #work on future old matches
-"""@app.route("/matches/<match_name>/old")
-def match(match_name):
+@app.route("/matches/old/<match_name>")
+def old_match(match_name):
 
-  for user in match_data
+  def level(playerscore):
+      
+    x = 0
 
-  return render_template(
-    'Current.html',  # Template file
+    for level_num, level_xp in enumerate(levels, start=1):
+
+      if level_xp > playerscore:
+
+        global player_level_up_percent
+
+        previous_level_score = levels[x - 1]
+
+        player_level_up_percent1 = levels[x] - previous_level_score
+    
+        player_level_up_percent2 = playerscore - previous_level_score
+
+        player_level_up_percent = player_level_up_percent2 / player_level_up_percent1 
+
+        break
+
+      x = x + 1
+
+    global player_current_level
+
+    player_current_level = level_num - 1
+
+    global player_levelup_percent
+
+    try:
+
+      #leveling_start + level_number_change * level_expenential_growth_modifier
+
+      player_levelup_percent = int(player_level_up_percent * 100)
+    except ZeroDivisionError:
+      player_levelup_percent = int(player_level_up_percent * 100)
+
+    except NameError:
+      player_levelup_percent = "???"
+
+    #print(f'Level: {player_current_level}.')
+
+    #print(f'Progress to next level: {player_levelup_percent}%.')
+
+  players = {}
+
+  print(match_name)
+
+  #match_name = urllib.parse.unquote(match_name)
+
+  if match_name.find(".py") == -1 or match_name.find(".py") == "-1":
+
+    match_name = (f"{match_name}.py")
+
+  global match_data
+
+  if match_name in os.listdir("match_history/"):
+    match_name = match_name[:-3]
+    match_data = importlib.import_module(f"match_history.{match_name}")
+  else:
+    match_data = None
+    print("match not found...")
+
+  with open("player_data.json", "r") as kfc:
+    player_data = json.load(kfc)
+
+  if match_data.mode == "ffa":
+
+    for user in match_data.users:
+
+      user_pos = match_data.users.index(user)
+
+      playcount = match_data.final_playcount[user_pos] - match_data.initial_playcount[user_pos]
+
+      playcount = ("{:,}".format(playcount))
+
+      score = (match_data.final_score[user_pos] - match_data.initial_score[user_pos])
+
+      score_formatted = ("{:,}".format(score))
+
+      avatar = player_data[user][1]
+
+      background = player_data[user][2]
+
+      link = player_data[user][3]
+
+      players[user] = [score, avatar, background, link, score_formatted, playcount]
+
+      players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
+
+    return render_template(
+    'old_match.html',  # Template file
     #recent = player_recent
     current_mode = match_data.mode,
     time = time,
     match_data = match_data,
-    players = players_sorted,
-    teams = teams_sorted
+    players = players_sorted
     #teamcount = teamcount
   )
-"""
+    
+  else:
+
+    teams = {}
+
+    def team_score(team):
+    
+      score_counting = 0
+
+      counting_var = 0
+
+      print("--------------")
+
+      print("adding up team score...")
+
+      for user in match_data.users:
+
+        user_pos = match_data.users.index(user)
+
+        if user in match_data.team_metadata.get(team):
+
+          #time.sleep(1)
+
+          score_counting += match_data.final_score[user_pos] - match_data.initial_score[user_pos]
+
+          #print(score)
+        
+        counting_var += 1
+
+      return score_counting
+
+    def team_players(team):
+
+      players = {}
+
+      for user in match_data.team_metadata[team]:
+
+        user_pos = match_data.users.index(user)
+
+        playcount = match_data.final_playcount[user_pos] - match_data.initial_playcount[user_pos]
+
+        playcount = ("{:,}".format(playcount))
+
+        score = (match_data.final_score[user_pos] - match_data.initial_score[user_pos])
+
+        score_formatted = ("{:,}".format(score))
+
+        avatar = player_data[user][1]
+
+        background = player_data[user][2]
+
+        link = player_data[user][3]
+
+        players[user] = [score, avatar, background, link, score_formatted, playcount]
+
+        players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
+
+        return players_sorted
+
+    for team in match_data.team_metadata.keys():
+
+      team_data = Teams(team)
+      
+      team_users = team_data.users
+
+      teams[team] = [team_score(team), team_players(team)]
+
+      #print(f"users: {players.keys()}")
+
+      print("===============")
+
+      print(f"team users: {team_users}")
+
+      time.sleep(0.3)
+
+      print(f"team: {team}")
+
+      time.sleep(0.3)
+
+      print(f"team score: {teams[team][0]}")
+      
+      print("===============")
+
+    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[1], reverse=True))
+
+    return render_template(
+      'old_match.html',  # Template file
+      #recent = player_recent
+      current_mode = match_data.mode,
+      time = time,
+      match_data = match_data,
+      teams = teams_sorted
+      #teamcount = teamcount
+    )
+
 @app.route("/changelog.html")
 def changelog():
 

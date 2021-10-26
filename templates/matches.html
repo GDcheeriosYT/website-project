@@ -11,6 +11,8 @@
 
     <body style="background-color: purple;">
 
+        <h1 style="text-align: center; font-size: 100px;">Current Matches</h1>
+
         {% for match in current_matches %}
 
             {% if match != "__pycache__" %}
@@ -23,15 +25,17 @@
 
         <hr>
 
-        <h1 style="text-align: center;">match history is a work in progess...</h1>
-
-        <!--
+        <h1 style="text-align: center; font-size: 100px;">match history</h1>
 
         {%for match in previous_matches%}
 
-            <div style="text-align: center; font-size: 80px;"><a href="matches/{{match}}/old">{{match}}</a></div>
+            {% if match != "__pycache__" %}
+
+            <div style="text-align: center; font-size: 80px;"><a style="color: black" href="matches/old/{{match}}">{{match[:-3]}}</a></div>
         
-        {% endfor %}-->
+            {% endif %}
+
+        {% endfor %}
 
     </body>
 
