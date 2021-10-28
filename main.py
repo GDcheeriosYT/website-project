@@ -292,7 +292,7 @@ def level_difficulty_selector():
     else:
       return(difficulty_list[selection])
 
-def player_refresh():
+async def player_refresh():
   
   global players_in_matches
 
@@ -580,8 +580,6 @@ def code_grab() :
 
   access_token = token_thing["access_token"]
 
-  player_refresh()
-
   #f = open("debug.txt", "w")
   #f.write(f"{access_token}")
   #f.close
@@ -593,12 +591,12 @@ def code_grab() :
   return redirect(f"{public_url}/matches")
 
 @app.route("/start")
-
 async def main_process():
   while True:
-    task = input("1.create new match\n2.end match\n3.test\n4.exit\n")
+    task = input("1.create new match\n2.end match\n3.test async interface\n4.refresh\n5.exit\n")
     if task == "1":
       await match_initialization()
+
     elif task == "2":
       i = 0
       
@@ -622,6 +620,10 @@ async def main_process():
       print("testing")
 
     elif task == "4":
+      print("refreshing player data...\n")
+      await player_refresh()
+
+    elif task == "5":
       os.exit()
     
     else:
@@ -632,14 +634,6 @@ async def main_process():
 def login():
 
   return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={public_url}/code_grab&scope=public")
-
-
-@app.route("/matches/<match_name>/refresh")
-async def refresh(match_name):
-
-  player_refresh()
-
-  return render_template("none.html")
 
 #@app.route("/Teams.html")
 def teams_web():
