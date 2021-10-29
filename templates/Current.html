@@ -420,9 +420,9 @@
 
     </div>-->
 
-    <h1>{{ match_data.match_name }}</h1>
+    <h1>{{ match_data["match name"] }}</h1>
 
-    {% if current_mode == "teams" %}
+    {% if match_data["mode"] == "teams" %}
 
       <div class="gameBox" id="bodymovin">
 

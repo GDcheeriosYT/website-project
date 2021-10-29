@@ -13,11 +13,17 @@
 
         <h1 style="text-align: center; font-size: 100px;">Current Matches</h1>
 
+        {% if current_matches|length == 0 %}
+
+            <h1 style="text-align: center; font-size: 80px;">no matches found...</h1>
+
+        {% endif %}
+
         {% for match in current_matches %}
 
             {% if match != "__pycache__" %}
 
-            <div style="text-align: center; font-size: 80px;"><a style="color: black;" href="matches/{{match}}">{{match[:-3]}}</a></div>
+            <div style="text-align: center; font-size: 80px;"><a style="color: black;" href="matches/{{match}}">{{match[:-5]}}</a></div>
         
             {% endif %}
 
@@ -27,15 +33,23 @@
 
         <h1 style="text-align: center; font-size: 100px;">match history</h1>
 
+        {% if previous_matches|length == 0 %}
+
+            <h1 style="text-align: center; font-size: 80px;">no matches found...</h1>
+
+        {% endif %}
+
         {%for match in previous_matches%}
 
             {% if match != "__pycache__" %}
 
-            <div style="text-align: center; font-size: 80px;"><a style="color: black" href="matches/old/{{match}}">{{match[:-3]}}</a></div>
+            <div style="text-align: center; font-size: 80px;"><a style="color: black" href="matches/old/{{match}}">{{match[:-5]}}</a></div>
         
             {% endif %}
 
         {% endfor %}
+
+        
 
     </body>
 
