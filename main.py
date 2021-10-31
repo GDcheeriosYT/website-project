@@ -1,11 +1,11 @@
 import os
 
 #securing
-secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
+secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
-public_url = "http://localhost"
-client_id = "9545"
+public_url = "http://173.17.21.124"
+client_id = "5679"
 map_url = "1563044"
 
 #packages
@@ -126,11 +126,11 @@ class clans:
 
 #team in a match class
 class Teams:
-  def __init__(self, team_name):
+  def __init__(self, team_name, match_data):
 
     self.team_name = team_name
 
-    self.users = match_data.team_metadata[team_name]
+    self.users = match_data["team metadata"][team_name]
 
 
 #user block class
@@ -304,12 +304,10 @@ async def player_refresh():
 
   for file in os.listdir("matches/"):
 
-    try:
-      thing_data = importlib.import_module(f"matches.{file[:-3]}")
-    except ModuleNotFoundError:
-      pass
+    with open(f"matches/{file}", "r") as f:
+      thing_data = json.load(f)
 
-    for player in thing_data.users:
+    for player in thing_data["users"]:
 
       if player not in players_in_matches:
 
@@ -373,9 +371,6 @@ async def player_refresh():
       recent_score = ("{:,}".format(recent_score))
 
     all_players[name] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
-
-  with open(f"matches/{match_name}") as joe:
-    match_data = json.load(joe)
 
   with open("player_data.json", "w+") as kfc:
     json.dump(all_players, kfc)
@@ -867,23 +862,21 @@ async def match(match_name):
     
       score_counting = 0
 
-      counting_var = 0
-
       print("--------------")
 
       print("adding up team score...")
 
       for user in match_data["users"]:
 
+        user_pos = match_data["users"].index(user)
+
         if user in match_data["team metadata"].get(team):
 
           #time.sleep(1)
 
-          score_counting += player_data[user][0] - match_data["initial score"][counting_var]
+          score_counting += player_data[user][0] - match_data["initial score"][user_pos]
 
           #print(score)
-        
-        counting_var += 1
 
       return score_counting
 
@@ -946,13 +939,13 @@ async def match(match_name):
 
         players[user] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
-        players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
+      players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
 
-        return players_sorted
+      return players_sorted
 
     for team in match_data["team metadata"].keys():
 
-      team_data = Teams(team)
+      team_data = Teams(team, match_data)
       
       team_users = team_data.users
 
