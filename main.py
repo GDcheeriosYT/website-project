@@ -1367,6 +1367,14 @@ async def matches():
     previous_matches = previous_matches
   )
 
+@app.route("/refresh/<player_name>")
+async def web_player_refresh(player_name):
+  await player_refresh(player_name)
+
+  return render_template(
+    'none.html'
+  )
+
 #asyncio.run(main_process)
 
 if __name__ == "__main__":  # Makes sure this is the main process
