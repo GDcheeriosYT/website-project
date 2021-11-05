@@ -692,8 +692,8 @@ async def main_process():
       for user in ending_match["users"]:
         user_pos = ending_match["users"].index(user)
                 
-        player_playcount.append(player_data[user][18] - ending_match["initial playcount"][user_pos])
-        player_score.append(player_data[user][0] - ending_match["initial score"][user_pos])
+        player_playcount.append(player_data[user][18])
+        player_score.append(player_data[user][0])
 
       ending_match["final playcount"] = player_playcount
       ending_match["final score"] = player_score
@@ -1132,7 +1132,7 @@ async def match(match_name):
       
       print("===============")
 
-    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[1], reverse=True))
+    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[0], reverse=True))
 
     return render_template(
       'Current.html',  # Template file
@@ -1194,22 +1194,9 @@ def old_match(match_name):
 
   print(match_name)
 
-  #match_name = urllib.parse.unquote(match_name)
-
-  if match_name.find(".py") == -1 or match_name.find(".py") == "-1":
-
-    match_name = (f"{match_name}.py")
-
   global match_data
 
-  if match_name in os.listdir("match_history/"):
-    match_name = match_name[:-3]
-    match_data = importlib.import_module(f"match_history.{match_name}")
-  else:
-    match_data = None
-    print("match not found...")
-
-  with open(f"matches/{match_name}") as joe:
+  with open(f"match_history/{match_name}") as joe:
     match_data = json.load(joe)
 
   with open("player_data.json", "r") as kfc:
@@ -1225,7 +1212,7 @@ def old_match(match_name):
 
       playcount = ("{:,}".format(playcount))
 
-      score = (match_data["final score"][user_pos] - match_data["initital score"][user_pos])
+      score = (match_data["final score"][user_pos] - match_data["initial score"][user_pos])
 
       score_formatted = ("{:,}".format(score))
 
@@ -1245,8 +1232,7 @@ def old_match(match_name):
     time = time,
     match_data = match_data,
     players = players_sorted
-    #teamcount = teamcount
-  )
+    )
     
   else:
 
@@ -1270,7 +1256,7 @@ def old_match(match_name):
 
           #time.sleep(1)
 
-          score_counting += match_data["final score"][user_pos] - match_data["initital score"][user_pos]
+          score_counting += match_data["final score"][user_pos] - match_data["initial score"][user_pos]
 
           #print(score)
         
@@ -1304,11 +1290,11 @@ def old_match(match_name):
 
         players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
 
-        return players_sorted
+      return players_sorted
 
     for team in match_data["team metadata"].keys():
 
-      team_data = Teams(team)
+      team_data = Teams(team, match_data)
       
       team_users = team_data.users
 
@@ -1330,14 +1316,15 @@ def old_match(match_name):
       
       print("===============")
 
-    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[1], reverse=True))
+    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[0], reverse=True))
 
     return render_template(
       'old_match.html',  # Template file
       #recent = player_recent
       time = time,
       match_data = match_data,
-      teams = teams_sorted
+      teams = teams_sorted,
+      players = {}
       #teamcount = teamcount
     )
 
