@@ -361,7 +361,7 @@ async def player_refresh():
 
     if score == 0:
 
-      recent_score = 0
+      recent_score = "0"
 
     else:
       
