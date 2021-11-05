@@ -1358,9 +1358,7 @@ async def matches():
 async def web_player_refresh(player_name):
   await player_refresh(player_name)
 
-  return render_template(
-    'none.html'
-  )
+  return redirect(f"{public_url}/matches")
 
 #asyncio.run(main_process)
 
