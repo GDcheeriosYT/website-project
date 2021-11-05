@@ -1,10 +1,10 @@
 import os
 
 #securing
-secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
+secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
-public_url = "http://localhost"
-client_id = "9545"
+public_url = "http://173.17.21.124"
+client_id = "5679"
 map_url = "1563044"
 
 #packages
@@ -289,88 +289,151 @@ def level_difficulty_selector():
     else:
       return(difficulty_list[selection])
 
-async def player_refresh():
+async def player_refresh(who):
   
-  global players_in_matches
+  if who == "all":
 
-  players_in_matches = []
-  
-  global players
+    global players_in_matches
 
-  all_players = {}
-
-  for file in os.listdir("matches/"):
-
-    with open(f"matches/{file}", "r") as f:
-      thing_data = json.load(f)
-
-    for player in thing_data["users"]:
-
-      if player not in players_in_matches:
-
-        players_in_matches.append(player)
+    players_in_matches = []
     
-  for name in players_in_matches:
+    global players
 
-    print(f"loading player {name}'s data")
+    all_players = {}
 
-    #time.sleep(2)
+    for file in os.listdir("matches/"):
 
-    player = user_block(name)
+      with open(f"matches/{file}", "r") as f:
+        thing_data = json.load(f)
 
-    playcount = player.play_count
+      for player in thing_data["users"]:
 
-    score = player.score
+        if player not in players_in_matches:
 
-    score_formatted = ("{:,}".format(score))
-
-    avatar = player.avatar
-
-    background = player.background
-
-    link = player.link
-
-    map_background = player.map_cover
-
-    map_title = player.map_title
-
-    map_difficulty = player.map_difficulty
-
-    map_url = player.map_url
-
-    mods = player.mods
-
-    artist = player.artist
-    
-    accuracy = player.accuracy
-
-    max_combo = player.max_combo
-
-    rank = player.rank
-
-    #weekly_map_score = player.weekly_map_score
-
-    #weekly_map_score_formated = ("{:,}".format(weekly_map_score))
-    
-    try:
-      rank_color = player.rank_color
-    except AttributeError:
-      rank_color = "red"
-
-    if score == 0:
-
-      recent_score = 0
-
-    else:
+          players_in_matches.append(player)
       
-      recent_score = player.recent_score
+    for name in players_in_matches:
 
-      recent_score = ("{:,}".format(recent_score))
+      print(f"loading player {name}'s data")
 
-    all_players[name] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+      #time.sleep(2)
 
-  with open("player_data.json", "w+") as kfc:
-    json.dump(all_players, kfc)
+      player = user_block(name)
+
+      playcount = player.play_count
+
+      score = player.score
+
+      score_formatted = ("{:,}".format(score))
+
+      avatar = player.avatar
+
+      background = player.background
+
+      link = player.link
+
+      map_background = player.map_cover
+
+      map_title = player.map_title
+
+      map_difficulty = player.map_difficulty
+
+      map_url = player.map_url
+
+      mods = player.mods
+
+      artist = player.artist
+      
+      accuracy = player.accuracy
+
+      max_combo = player.max_combo
+
+      rank = player.rank
+
+      #weekly_map_score = player.weekly_map_score
+
+      #weekly_map_score_formated = ("{:,}".format(weekly_map_score))
+      
+      try:
+        rank_color = player.rank_color
+      except AttributeError:
+        rank_color = "red"
+
+      if score == 0:
+
+        recent_score = "0"
+
+      else:
+        
+        recent_score = player.recent_score
+
+        recent_score = ("{:,}".format(recent_score))
+
+      all_players[name] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+
+    with open("player_data.json", "w+") as kfc:
+      json.dump(all_players, kfc, indent = 4, sort_keys = True)
+  
+  else:
+
+      print(f"loading player {who}'s data")
+
+      #time.sleep(2)
+
+      player = user_block(who)
+
+      playcount = player.play_count
+
+      score = player.score
+
+      score_formatted = ("{:,}".format(score))
+
+      avatar = player.avatar
+
+      background = player.background
+
+      link = player.link
+
+      map_background = player.map_cover
+
+      map_title = player.map_title
+
+      map_difficulty = player.map_difficulty
+
+      map_url = player.map_url
+
+      mods = player.mods
+
+      artist = player.artist
+      
+      accuracy = player.accuracy
+
+      max_combo = player.max_combo
+
+      rank = player.rank
+
+      try:
+        rank_color = player.rank_color
+      except AttributeError:
+        rank_color = "red"
+
+      if score == 0:
+
+        recent_score = "0"
+
+      else:
+        
+        recent_score = player.recent_score
+
+        recent_score = ("{:,}".format(recent_score))
+
+      with open("player_data.json") as player_data:
+        player_data = json.load(player_data)
+      
+      player_data[who] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+
+      with open("player_data.json", "w") as file:
+        json.dump(player_data, file, indent = 4, sort_keys = True)
 
 async def match_start(mode):
 
@@ -541,7 +604,7 @@ async def match_initialization():
   match_dict["level difficulty"] = level_difficulty_selector()
 
   with open(f"matches/{match_name}.json", "w+") as joe:
-    json.dump(match_dict, joe)
+    json.dump(match_dict, joe, indent = 4, sort_keys = True)
 
 def user_list():
   with open("players.db", "r") as f:
@@ -636,7 +699,7 @@ async def main_process():
       ending_match["final score"] = player_score
 
       with open(f"matches/{matches[match_end]}", "w") as file: # Open the file in write mode
-        json.dump(ending_match, file) # Write the variable out to the file, json formatted
+        json.dump(ending_match, file, indent = 4, sort_keys = True) # Write the variable out to the file, json formatted
       # The file is now closed
       
       try:
@@ -659,7 +722,7 @@ async def main_process():
 
       print(matches[match_end])
 
-      task2 = input("1.add user\n2.remove user\n3.edit match name\n4.change level difficulty")
+      task2 = input("1.add user\n2.remove user\n3.edit match name\n4.change level difficulty\n")
       
       if task2 == "1": #add player
 
@@ -676,26 +739,12 @@ async def main_process():
 
         pick_user = input("\n")
 
-        if str(pick_user) == "done":
-
-          break
-
-        elif int(pick_user) > len(player_list):
-
-          print("\ntoo big!\n")
-
-        elif int(pick_user) < len(player_list) - len(player_list):
-
-          print("\ntoo small!\n")
-
-        else:
-
-          match_edit["users"].append(player_list[int(pick_user)])
-          match_edit["initial score"].append(api_info.user(user_name=player_list[int(pick_user)]).total_score)
-          match_edit["initial playcount"].append(api_info.user(user_name=player_list[int(pick_user)]).play_count)
+        match_edit["users"].append(player_list[int(pick_user)])
+        match_edit["initial score"].append(api_info.user(user_name=player_list[int(pick_user)]).total_score)
+        match_edit["initial playcount"].append(api_info.user(user_name=player_list[int(pick_user)]).play_count)
 
         with open(f"matches/{matches[match_end]}", "w") as file:
-          json.dump(match_edit, file)
+          json.dump(match_edit, file, indent = 4, sort_keys = True)
 
       elif task2 == "2": #remove player
 
@@ -717,7 +766,7 @@ async def main_process():
         match_edit["initial playcount"].pop(task3)
 
         with open(f"matches/{matches[match_end]}", "w") as file:
-          json.dump(match_edit, file)
+          json.dump(match_edit, file, indent = 4, sort_keys = True)
 
       elif task2 == "3": #change match name
         
@@ -730,11 +779,19 @@ async def main_process():
         
 
         with open(f"matches/{matches[match_end]}", "w") as file:
-          json.dump(match_edit, file)
+          json.dump(match_edit, file, indent = 4, sort_keys = True)
         
         os.rename(f"matches/{matches[match_end]}", f"matches/{task3}.json")
       
-      #elif task2 == "4":
+      elif task2 == "4": #change difficulty
+
+        with open(f"matches/{matches[match_end]}") as match_edit:
+          match_edit = json.load(match_edit)
+
+          match_edit["level difficulty"] = level_difficulty_selector()
+
+        with open(f"matches/{matches[match_end]}", "w") as file:
+          json.dump(match_edit, file, indent = 4, sort_keys = True)
       
       else:
 
@@ -744,8 +801,27 @@ async def main_process():
       print("testing")
 
     elif task == "5":
-      print("refreshing player data...\n")
-      await player_refresh()
+
+      task2 = input("1.refresh all data\n2.refresh certain player data\n")
+
+      if task2 == "1":
+
+        print("refreshing player data...\n")
+        await player_refresh("all")
+      
+      if task2 == "2":
+
+        x = 0
+
+        while x < len(player_list):
+
+          print(x, player_list[x])
+
+          x = x + 1
+
+        pick_user = input("\n")
+
+        await player_refresh(player_list[int(pick_user)])
 
     elif task == "6":
       os.exit()
@@ -920,7 +996,7 @@ async def match(match_name):
 
       if score == 0:
 
-        recent_score = 0
+        recent_score = "0"
 
       else:
         
@@ -1016,7 +1092,7 @@ async def match(match_name):
 
         if score == 0:
 
-          recent_score = 0
+          recent_score = "0"
 
         else:
           
