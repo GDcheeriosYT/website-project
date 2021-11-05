@@ -3,7 +3,6 @@ import os
 #securing
 secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
-extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
 public_url = "http://173.17.21.124"
 client_id = "5679"
 map_url = "1563044"
