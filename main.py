@@ -823,14 +823,8 @@ async def match(match_name):
         rank_color = player_data[user][16]
       except AttributeError:
         rank_color = "red"
-
-      if score == 0:
-
-        recent_score = 0
-
-      else:
-        
-        recent_score = player_data[user][4]
+      
+      recent_score = player_data[user][4]
 
       levels_creation(match_data["level difficulty"])
 
@@ -920,13 +914,7 @@ async def match(match_name):
         except AttributeError:
           rank_color = "red"
 
-        if score == 0:
-
-          recent_score = 0
-
-        else:
-          
-          recent_score = player_data[user][4]
+        recent_score = player_data[user][4]
 
         levels_creation(match_data["level difficulty"])
 
