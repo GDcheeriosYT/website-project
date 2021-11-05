@@ -1,11 +1,11 @@
 import os
 
 #securing
-secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
+secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
 extra_api_key = "6a5de2f4b1a29f26710a2a48759c463f9bef68e2"
-public_url = "http://173.17.21.124"
-client_id = "5679"
+public_url = "http://localhost"
+client_id = "9545"
 map_url = "1563044"
 
 #packages
@@ -604,7 +604,7 @@ def code_grab() :
 @app.route("/start")
 async def main_process():
   while True:
-    task = input("1.create new match\n2.end match\n3.test async interface\n4.refresh\n5.exit\n")
+    task = input("1.create new match\n2.end match\n3.edit match\n4.test async interface\n5.refresh\n6.exit\n")
     if task == "1":
       await match_initialization()
 
@@ -652,13 +652,109 @@ async def main_process():
         print("\nfile not found...")
 
     elif task == "3":
-      print("testing")
+
+      i = 0
+
+      matches = []
+
+      for match in os.listdir("matches/"):
+        matches.append(match)
+        print(f"{i} {match[:-5]}")
+        i += 1
+
+      match_end = int(input("\nwhich match will you edit?\n"))
+
+      print(matches[match_end])
+
+      task2 = input("1.add user\n2.remove user\n3.edit match name\n4.change level difficulty")
+      
+      if task2 == "1": #add player
+
+        with open(f"matches/{matches[match_end]}") as match_edit:
+          match_edit = json.load(match_edit)
+
+        x = 0
+
+        while x < len(player_list):
+
+          print(x, player_list[x])
+
+          x = x + 1
+
+        pick_user = input("\n")
+
+        if str(pick_user) == "done":
+
+          break
+
+        elif int(pick_user) > len(player_list):
+
+          print("\ntoo big!\n")
+
+        elif int(pick_user) < len(player_list) - len(player_list):
+
+          print("\ntoo small!\n")
+
+        else:
+
+          match_edit["users"].append(player_list[int(pick_user)])
+          match_edit["initial score"].append(api_info.user(user_name=player_list[int(pick_user)]).total_score)
+          match_edit["initial playcount"].append(api_info.user(user_name=player_list[int(pick_user)]).play_count)
+
+        with open(f"matches/{matches[match_end]}", "w") as file:
+          json.dump(match_edit, file)
+
+      elif task2 == "2": #remove player
+
+        with open(f"matches/{matches[match_end]}") as match_edit:
+          match_edit = json.load(match_edit)
+
+        x = 0
+
+        for user in match_edit["users"]:
+
+          print(f"{x} {user}")
+
+          x += 1
+        
+        task3 = int(input("who to remove?\n"))
+
+        match_edit["users"].pop(task3)
+        match_edit["initial score"].pop(task3)
+        match_edit["initial playcount"].pop(task3)
+
+        with open(f"matches/{matches[match_end]}", "w") as file:
+          json.dump(match_edit, file)
+
+      elif task2 == "3": #change match name
+        
+        with open(f"matches/{matches[match_end]}") as match_edit:
+          match_edit = json.load(match_edit)
+
+        task3 = input("new match name?\n")
+
+        match_edit["match name"] = task3
+        
+
+        with open(f"matches/{matches[match_end]}", "w") as file:
+          json.dump(match_edit, file)
+        
+        os.rename(f"matches/{matches[match_end]}", f"matches/{task3}.json")
+      
+      #elif task2 == "4":
+      
+      else:
+
+        print("I don't know...")
 
     elif task == "4":
+      print("testing")
+
+    elif task == "5":
       print("refreshing player data...\n")
       await player_refresh()
 
-    elif task == "5":
+    elif task == "6":
       os.exit()
     
     else:
