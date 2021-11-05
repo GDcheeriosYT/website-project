@@ -105,7 +105,7 @@ x = 1
 
 api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
 
-api_info_scoreboard = slider.client.Client("", str(extra_api_key),api_url='https://osu.ppy.sh/api')
+#api_info_scoreboard = slider.client.Client("", str(extra_api_key),api_url='https://osu.ppy.sh/api')
 
 #classes
 #making the library
@@ -548,10 +548,6 @@ async def match_initialization():
 def user_list():
   with open("players.db", "r") as f:
     player_list = f.read().splitlines()
-
-#making the api connector
-
-extra_api_key = str(extra_api_key)
 
 get_the_key = f"https://osu.ppy.sh/oauth/authorize/client_id={client_id}&redirect_uri={public_url}"
 
