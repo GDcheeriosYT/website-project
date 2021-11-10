@@ -1,10 +1,10 @@
 import os
 
 #securing
-secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
+secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
-public_url = "http://localhost"
-client_id = "9545"
+public_url = "http://173.17.21.124"
+client_id = "5679"
 
 #packages
 import requests
@@ -371,7 +371,7 @@ async def player_refresh(who):
       all_players[name] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, score_gain_data]
 
     with open("player_data.json", "w+") as kfc:
-      json.dump(all_players, kfc, indent = 4, sort_keys = True)
+      json.dump(all_players, kfc, indent = 4, sort_keys = False)
   
   else:
 
@@ -436,7 +436,7 @@ async def player_refresh(who):
       player_data[who] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, score_gain_data]
 
       with open("player_data.json", "w") as file:
-        json.dump(player_data, file, indent = 4, sort_keys = True)
+        json.dump(player_data, file, indent = 4, sort_keys = False)
 
 async def match_start(mode):
 
@@ -609,7 +609,7 @@ async def match_initialization():
   match_dict["match score history"] = ""
 
   with open(f"matches/{match_name}.json", "w+") as joe:
-    json.dump(match_dict, joe, indent = 4, sort_keys = True)
+    json.dump(match_dict, joe, indent = 4, sort_keys = False)
 
 def user_list():
   with open("players.db", "r") as f:
@@ -704,7 +704,7 @@ async def main_process():
       ending_match["final score"] = player_score
 
       with open(f"matches/{matches[match_end]}", "w") as file: # Open the file in write mode
-        json.dump(ending_match, file, indent = 4, sort_keys = True) # Write the variable out to the file, json formatted
+        json.dump(ending_match, file, indent = 4, sort_keys = False) # Write the variable out to the file, json formatted
       # The file is now closed
       
       try:
@@ -749,7 +749,7 @@ async def main_process():
         match_edit["initial playcount"].append(api_info.user(user_name=player_list[int(pick_user)]).play_count)
 
         with open(f"matches/{matches[match_end]}", "w") as file:
-          json.dump(match_edit, file, indent = 4, sort_keys = True)
+          json.dump(match_edit, file, indent = 4, sort_keys = False)
 
       elif task2 == "2": #remove player
 
@@ -771,7 +771,7 @@ async def main_process():
         match_edit["initial playcount"].pop(task3)
 
         with open(f"matches/{matches[match_end]}", "w") as file:
-          json.dump(match_edit, file, indent = 4, sort_keys = True)
+          json.dump(match_edit, file, indent = 4, sort_keys = False)
 
       elif task2 == "3": #change match name
         
@@ -784,7 +784,7 @@ async def main_process():
         
 
         with open(f"matches/{matches[match_end]}", "w") as file:
-          json.dump(match_edit, file, indent = 4, sort_keys = True)
+          json.dump(match_edit, file, indent = 4, sort_keys = False)
         
         os.rename(f"matches/{matches[match_end]}", f"matches/{task3}.json")
       
@@ -796,7 +796,7 @@ async def main_process():
           match_edit["level difficulty"] = level_difficulty_selector()
 
         with open(f"matches/{matches[match_end]}", "w") as file:
-          json.dump(match_edit, file, indent = 4, sort_keys = True)
+          json.dump(match_edit, file, indent = 4, sort_keys = False)
       
       else:
 
@@ -1021,7 +1021,7 @@ async def match(match_name):
 
       player_score_data[user] = score
 
-    score_data[f"{time.date.today()}"] = player_score_data
+    score_data[f"{time.date.today()}"] = dict(sorted(player_score_data.items()))
 
     match_data["match score history"] = score_data
     
@@ -1030,7 +1030,7 @@ async def match(match_name):
     biggest_score = sorted(biggest_score_step1, reverse=True)[0]
 
     with open(f"matches/{match_name}", "w") as file:
-        json.dump(match_data, file, indent = 4, sort_keys = True)
+        json.dump(match_data, file, indent = 4, sort_keys = False)
 
     with open(f"matches/{match_name}", "r") as file:
       match_data = json.load(file)
