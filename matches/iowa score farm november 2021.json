@@ -1,1 +1,48 @@
-{"users": ["GDcheerios", "AluV2", "st4rstrukk"], "match name": "iowa score farm november 2021", "initial score": [63615525970, 30731204748, 46268063280], "initial playcount": [47425, 28148, 63693], "mode": "ffa", "team metadata": {}, "level difficulty": "hard"}
+{
+    "initial playcount": [
+        47425,
+        28148,
+        63693
+    ],
+    "initial score": [
+        63615525970,
+        30731204748,
+        46268063280
+    ],
+    "level difficulty": "hard",
+    "match name": "iowa score farm november 2021",
+    "match score history": {
+        "2021-11-01": {
+            "AluV2": 5710532,
+            "GDcheerios": 4236731,
+            "st4rstrukk": 0
+        },
+        "2021-11-07": {
+            "AluV2": 490000000,
+            "GDcheerios": 43000000,
+            "st4rstrukk": 4500000
+        },
+        "2021-11-08": {
+            "AluV2": 560125196,
+            "GDcheerios": 775858691,
+            "st4rstrukk": 77525967
+        },
+        "2021-11-09": {
+            "AluV2": 561428468,
+            "GDcheerios": 809148786,
+            "st4rstrukk": 112963029
+        },
+        "2021-11-10": {
+            "AluV2": 571881740,
+            "GDcheerios": 940546254,
+            "st4rstrukk": 145174379
+        }
+    },
+    "mode": "ffa",
+    "team metadata": {},
+    "users": [
+        "GDcheerios",
+        "AluV2",
+        "st4rstrukk"
+    ]
+}

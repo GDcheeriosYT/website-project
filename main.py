@@ -1,11 +1,10 @@
 import os
 
 #securing
-secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
+secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
-public_url = "http://173.17.21.124"
-client_id = "5679"
-map_url = "1563044"
+public_url = "http://localhost"
+client_id = "9545"
 
 #packages
 import requests
@@ -33,6 +32,7 @@ import sqlite3
 import urllib
 import asyncio
 import shutil
+import datetime as time
 
 difficulty_list = ["beginner", "easy", "normal", "medium", "hard", "insane"]
 
@@ -108,7 +108,6 @@ api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/ap
 #classes
 #making the library
 slider.library.Library("")
-
 
 #team class
 class clans:
@@ -349,10 +348,10 @@ async def player_refresh(who):
       max_combo = player.max_combo
 
       rank = player.rank
-
-      #weekly_map_score = player.weekly_map_score
-
-      #weekly_map_score_formated = ("{:,}".format(weekly_map_score))
+      
+      score_gain_data = {}
+      
+      score_gain_data[f"{time.date.today()}"] = score
       
       try:
         rank_color = player.rank_color
@@ -369,7 +368,7 @@ async def player_refresh(who):
 
         recent_score = ("{:,}".format(recent_score))
 
-      all_players[name] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+      all_players[name] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, score_gain_data]
 
     with open("player_data.json", "w+") as kfc:
       json.dump(all_players, kfc, indent = 4, sort_keys = True)
@@ -411,6 +410,10 @@ async def player_refresh(who):
       max_combo = player.max_combo
 
       rank = player.rank
+      
+      score_gain_data = {}
+      
+      score_gain_data[f"{time.date.today()}"] = score
 
       try:
         rank_color = player.rank_color
@@ -430,7 +433,7 @@ async def player_refresh(who):
       with open("player_data.json") as player_data:
         player_data = json.load(player_data)
       
-      player_data[who] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+      player_data[who] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, score_gain_data]
 
       with open("player_data.json", "w") as file:
         json.dump(player_data, file, indent = 4, sort_keys = True)
@@ -602,6 +605,8 @@ async def match_initialization():
   match_dict["team metadata"] = teams
 
   match_dict["level difficulty"] = level_difficulty_selector()
+  
+  match_dict["match score history"] = ""
 
   with open(f"matches/{match_name}.json", "w+") as joe:
     json.dump(match_dict, joe, indent = 4, sort_keys = True)
@@ -952,6 +957,10 @@ async def match(match_name):
     player_data = json.load(kfc)
 
   if match_data["mode"] == "ffa":
+    
+    score_data = match_data["match score history"]
+      
+    player_score_data = {}
 
     for user in match_data["users"]:
 
@@ -988,7 +997,7 @@ async def match(match_name):
       max_combo = player_data[user][14]
 
       rank = player_data[user][15]
-
+      
       try:
         rank_color = player_data[user][16]
       except AttributeError:
@@ -1010,11 +1019,51 @@ async def match(match_name):
 
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
 
+      player_score_data[user] = score
+
+    score_data[f"{time.date.today()}"] = player_score_data
+
+    match_data["match score history"] = score_data
+    
+    biggest_score_step1 = list(match_data["match score history"][f"{time.date.today()}"].values())
+    
+    biggest_score = sorted(biggest_score_step1, reverse=True)[0]
+
+    with open(f"matches/{match_name}", "w") as file:
+        json.dump(match_data, file, indent = 4, sort_keys = True)
+
+    with open(f"matches/{match_name}", "r") as file:
+      match_data = json.load(file)
+      
+      
+    def get_key_of(score, dict):
+        for key, value in dict.items():
+            if score == value:
+                return key
+      
+    def previous_score_segment(playername, iteration):
+      dates = []
+      
+      for date in match_data["match score history"]:
+        dates.append(date)
+        
+      if iteration <= 1:
+        return 0
+      
+      elif iteration > 1:
+        return match_data["match score history"][dates[iteration - 2]][playername]
+      
+      
+
     return render_template(
     'Current.html',  # Template file
     #recent = player_recent,
+    math = math,
+    biggest_score = biggest_score,
     time = time,
     match_data = match_data,
+    previous_score_segment = previous_score_segment,
+    get_key_of = get_key_of,
     players = players_sorted
     #teamcount = teamcount
   )
@@ -1084,6 +1133,8 @@ async def match(match_name):
         max_combo = player_data[user][14]
 
         rank = player_data[user][15]
+        
+        score_data = player_data[user][19]
 
         try:
           rank_color = player_data[user][16]
@@ -1102,7 +1153,7 @@ async def match(match_name):
 
         level(score)
 
-        players[user] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+        players[user] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, score_data]
 
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
 
