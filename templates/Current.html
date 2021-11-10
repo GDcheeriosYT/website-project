@@ -16,6 +16,13 @@
       max-width: 80%;
       margin: 0 auto;
     }
+
+    .legend {
+      flex-shrink: 3;
+      color: #ccc;
+      background-color: #333;
+      box-shadow: 0 0 15px #000;
+    }
     
     .player_info{
       transition: ease-out 0.3s;
@@ -596,7 +603,7 @@
     <!--graph-->
 
   <div id="player-progress">
-    <ul class="charts-css legend">
+    <ul class="charts-css legend legend-rhombus">
 
       {% set dates = match_data["match score history"].values() | list %}
 
