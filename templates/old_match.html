@@ -375,6 +375,20 @@
       background-size: cover;
     }
 
+    .warning{
+      background-color: red;
+      border: 1px solid rgb(255, 255, 255);
+      border-radius: 5px;
+      box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
+      text-align: center ;
+      font-size: 30px;
+    }
+
+    .warning-text{
+      color: yellow;
+      font-style: bold;
+    }
+
   </style>
 </head>
 
@@ -419,6 +433,8 @@
     <!--<div class="weekly_map">
 
     </div>-->
+
+    <span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span>
 
     <h1>{{ match_data[match_name] }}</h1>
 
