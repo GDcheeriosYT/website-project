@@ -618,6 +618,8 @@
 
     <!--graph-->
 
+  {% if match_data["mode"] == "ffa" %}
+
   <div id="player-progress">
     <ul class="charts-css legend legend-rhombus">
 
@@ -662,6 +664,8 @@
         </tbody>
     </table>
   </div>
+
+  {% endif %}
 
   <!--<iframe src="https://web.libera.chat/?nick=Guest?#osuapicrap" style="border:0; width:100%; height:450px;"></iframe>-->
 
