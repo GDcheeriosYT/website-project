@@ -1,10 +1,10 @@
 import os
 
-#securing
-secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
+#securing / creating flask variables
+secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
-public_url = "http://173.17.21.124"
-client_id = "5679"
+public_url = "http://localhost"
+client_id = "9545"
 
 #packages
 import requests
@@ -32,10 +32,10 @@ import sqlite3
 import urllib
 import asyncio
 import shutil
-import datetime as time
+import datetime as dt
 
+#difficulty names creation
 difficulty_list = ["beginner", "easy", "normal", "medium", "hard", "insane"]
-
 difficulty_amount = len(difficulty_list)
 
 global mode
@@ -44,8 +44,8 @@ global mode
 def levels_creation(difficulty):
   level_limit = 999
 
+  #make sure levels is accesible by definitions on page constructors
   global levels
-
   levels = []
 
   if difficulty == difficulty_list[0]:
@@ -84,59 +84,45 @@ def levels_creation(difficulty):
     level_number_change = 2500000
     exponential_change = 0.09
 
-  x = 1
-
-  while x <= level_limit:
-
+  
+  x = 1 #counting variable
+  while x <= level_limit: #level increments
     levels.append(leveling_start)
 
-    #time.sleep(0.1)
 
-    x = x + 1
-    leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier)
-    
-    level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * exponential_change
+    x = x + 1 #increase counting variable to create new level
+    leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier) #where to start on new level
+    level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * exponential_change #equation to exponentially increase level score requirement
 
-x = 1
-
-'''for level in levels:
-  print(f"level {x} {level}")
-  x = x + 1'''
-
+#variable to call requests with the slider module
 api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
 
-#classes
-#making the library
+#making the library for slider
 slider.library.Library("")
 
-#team class
+#classes
+#clan class
 class clans:
   def __init__(self, name, score, accuracy):
-
     self.name = name
-
     self.score = score
-
     self.accuracy = accuracy
 
 
 #team in a match class
 class Teams:
   def __init__(self, team_name, match_data):
-
     self.team_name = team_name
-
     self.users = match_data["team metadata"][team_name]
 
 
 #user block class
 class user_block:
   def __init__(self, name):
-
     self.name = name
-
     self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.name}/osu", headers = {"Authorization": f'Bearer {access_token}'}).json()
-
+    
+    #if user isn't found construct a "ghost" user
     try:
       self.id = self.request_profile['id']
     except KeyError:
@@ -159,53 +145,50 @@ class user_block:
       self.rank = "F"
       self.rank_color = "red"
       return None
-
+    
+    #user main info
     self.play_count = self.request_profile['statistics']['play_count']
-
-    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {access_token}'})
-
-    #self.weekly_map_score_get = requests.get(f"https://osu.ppy.sh/api/v2/beatmaps/{map_url}/scores/users/{self.id}", params = {"mode":"osu"}, headers = {"Authorization": f'Bearer {access_token}'}).json()
-
-    #self.weekly_map_score = self.weekly_map_score_get["score"]
-
-    #print(self.weekly_map_score_get)
- 
+    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {access_token}'}) 
     self.score = self.request_profile["statistics"]["total_score"]
-
-    self.avatar = self.request_profile['avatar_url']
-    
+    self.avatar = self.request_profile['avatar_url']    
     self.background = self.request_profile['cover_url']
-
     self.link = (f"https://osu.ppy.sh/users/{self.id}")
-
-    #print(json.loads(self.request_scores.text))
     
+    #recent map info
+    #all except are for if recent map is not found
+    
+    #recent score from map played
     try:
       self.recent_score = (json.loads(self.request_scores.text)[0]["score"])
     except IndexError:
       self.recent_score = 0
 
+    #recent map background
     try:
       self.map_cover = (json.loads(self.request_scores.text)[0]["beatmap"]["beatmapset_id"])
       self.map_cover = f"https://assets.ppy.sh/beatmaps/{self.map_cover}/covers/cover.jpg"
     except IndexError:
       self.map_cover = "https://data.whicdn.com/images/100018401/original.gif"
 
+    #recent map url
     try:
       self.map_url = (json.loads(self.request_scores.text)[0]["beatmap"]["url"])
     except IndexError:
       self.map_url = "https://osu.ppy.sh/beatmapsets"
 
+    #recent map difficulty
     try:
       self.map_difficulty = (json.loads(self.request_scores.text)[0]["beatmap"]["difficulty_rating"])
     except IndexError:
       self.map_difficulty = "0"
 
+    #recent map title
     try:
       self.map_title = (json.loads(self.request_scores.text)[0]["beatmapset"]["title_unicode"])
     except IndexError:
       self.map_title = "not found"
 
+    #recent map mods used
     try:
       self.mods = (json.loads(self.request_scores.text)[0]["mods"])
       if len(self.mods) == 0:
@@ -214,23 +197,27 @@ class user_block:
         self.mods = self.mods
     except IndexError:
       self.mods = ""
-
+      
+    #recent map artist
     try:
       self.artist = (json.loads(self.request_scores.text)[0]["beatmapset"]["artist_unicode"])
     except IndexError:
       self.artist = ""
 
+    #recent map accuracy
     try:
       self.accuracy = (json.loads(self.request_scores.text)[0]["accuracy"])
       self.accuracy = round(self.accuracy * 100, 2)
     except IndexError:
       self.accuracy = ""
 
+    #recent map highest combo achieved
     try:
       self.max_combo = (json.loads(self.request_scores.text)[0]["max_combo"])
     except IndexError:
       self.max_combo = ""
 
+    #recent map grade
     try:
       self.rank = (json.loads(self.request_scores.text)[0]["rank"])
       if self.rank == "XH":
@@ -256,198 +243,150 @@ class user_block:
       self.rank = "F"
       self.rank_color = "red"
 
-with open("players.db", "r") as f:
 
+#save players as a list
+with open("players.db", "r") as f:
   player_list = f.read().splitlines()
 
+#level selector for match creation using levels_creation()
 def level_difficulty_selector():
 
-  x = 0
-
-  while x < difficulty_amount:
-
-    print(f"{x} {difficulty_list[x]}")
-
+  x = 0 #counting variable
+  while x < difficulty_amount: #iterate through the difficulty amount
+    print(f"{x} {difficulty_list[x]}") #print cooresponding difficulty with index
     x += 1
 
+  #select difficulty to use
   while True:
-  
     selection = int(input("what level difficulty would you like?\n"))
 
+    #test if selection isn't a number
     try:
       selection + 0
     except ValueError:
       print("number please!")
-    
+      
+    #tests if selection is too big
     if selection > difficulty_amount:
       print("too big!")
 
+    #tests if selection is too small
     elif selection < 0:
       print("too small!")
     
+    #returns difficulty
     else:
       return(difficulty_list[selection])
 
+
+#refresh player values
 async def player_refresh(who):
-  
   if who == "all":
-
     global players_in_matches
-
     players_in_matches = []
-    
     global players
-
     all_players = {}
-
+    
     for file in os.listdir("matches/"):
-
       with open(f"matches/{file}", "r") as f:
         thing_data = json.load(f)
-
+        
       for player in thing_data["users"]:
-
         if player not in players_in_matches:
-
           players_in_matches.append(player)
       
     for name in players_in_matches:
-
       print(f"loading player {name}'s data")
-
-      #time.sleep(2)
-
+      #time.sleep(2) #add delay to not request too quick
       player = user_block(name)
-
       playcount = player.play_count
-
       score = player.score
-
       score_formatted = ("{:,}".format(score))
-
       avatar = player.avatar
-
       background = player.background
-
       link = player.link
-
       map_background = player.map_cover
-
       map_title = player.map_title
-
       map_difficulty = player.map_difficulty
-
       map_url = player.map_url
-
       mods = player.mods
-
       artist = player.artist
-      
       accuracy = player.accuracy
-
       max_combo = player.max_combo
-
       rank = player.rank
       
-      score_gain_data = {}
-      
-      score_gain_data[f"{time.date.today()}"] = score
-      
+      #make sure recent map has a grade color
       try:
         rank_color = player.rank_color
       except AttributeError:
         rank_color = "red"
 
       if score == 0:
-
         recent_score = "0"
-
       else:
-        
         recent_score = player.recent_score
-
         recent_score = ("{:,}".format(recent_score))
+      
+      #create players dict object
+      all_players[name] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
-      all_players[name] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, score_gain_data]
-
+    #append data to player_data.json
     with open("player_data.json", "w+") as kfc:
       json.dump(all_players, kfc, indent = 4, sort_keys = False)
-  
+      
   else:
-
       print(f"loading player {who}'s data")
-
-      #time.sleep(2)
-
+      #time.sleep(2) #add delay to not request too quick
       player = user_block(who)
-
       playcount = player.play_count
-
       score = player.score
-
       score_formatted = ("{:,}".format(score))
-
       avatar = player.avatar
-
       background = player.background
-
       link = player.link
-
       map_background = player.map_cover
-
       map_title = player.map_title
-
       map_difficulty = player.map_difficulty
-
       map_url = player.map_url
-
       mods = player.mods
-
       artist = player.artist
-      
       accuracy = player.accuracy
-
       max_combo = player.max_combo
-
       rank = player.rank
-      
       score_gain_data = {}
-      
-      score_gain_data[f"{time.date.today()}"] = score
+      score_gain_data[f"{dt.date.today()}"] = score
 
+      #make sure recent map has a grade color
       try:
         rank_color = player.rank_color
       except AttributeError:
         rank_color = "red"
 
       if score == 0:
-
         recent_score = "0"
-
       else:
-        
         recent_score = player.recent_score
-
         recent_score = ("{:,}".format(recent_score))
-
+      
+      #open player_data and read all the data
       with open("player_data.json") as player_data:
         player_data = json.load(player_data)
       
+      #create player_data dict
       player_data[who] = [score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, score_gain_data]
 
+      #overwrite player_data.json with player_data dict
       with open("player_data.json", "w") as file:
         json.dump(player_data, file, indent = 4, sort_keys = False)
 
-async def match_start(mode):
 
+async def match_start(mode):
   #the variable which will show which mode it is
   global game_mode
-
   game_mode = mode
 
   #a list of all the players playing
   global players_selected
-
   players_selected = []
 
   #will check to see if teams or ffa is wanted
@@ -455,167 +394,115 @@ async def match_start(mode):
 
     #team mode setup
     global teams
-
     teams = {}
-
-    '''global teams_score
-
-    teams_score = {}'''
     
     #create teams
     print("\ncreate a team by typing a name\n")
-
-    x = 0
-
-    is_creating = True
-
-    while is_creating == True:
-
-      team_players = []
-
-      team_player_score = []
-
-      team_name = input("team name:\n")
-
+    x = 0 #counting variable
+    while True:
+      team_players = [] #holds players for this team
+      team_name = input("team name:\n") #create a name for this team
       if team_name == "done":
-        break
-
+        break #stop creating teams for this match
+        
       #pick players
       while True:
-
-        x = 0
-        
+        x = 0 #coounting variable
         #display player list
         while x < len(player_list):
-
           print("\n", x, player_list[x])
-
           x = x + 1
 
+        #ends creation if value is not a number
         try:
           player_selector = int(input(""))
         except ValueError:
           break
 
         if player_list[player_selector] not in players_selected:
-
           players_selected.append(player_list[player_selector])
-
+          
         if player_list[player_selector] not in team_players:
-
           team_players.append(f"{player_list[player_selector]}")
-
-          team_player_score.append(f"{api_info.user(user_name=player_list[player_selector]).total_score}")
-
+          
       teams[team_name] = team_players
-
-      #teams_score[team_name] = team_player_score
       
-
+  
+  #ffa match creation
   else:
-
     while True:
-
-      teams = {}
-
-      x = 0
-
+      teams = {} #don't ask
+      x = 0 #counting variable
       print("\nwho would you like to add to this match?\ntype done to accept players")
-
+      
       while x < len(player_list):
-
         print(x, player_list[x])
-
         x = x + 1
-
+        
       pick_user = input("")
-
+      
+      #end player picking process
       if str(pick_user) == "done":
-
         break
 
+      #check if input is too big
       elif int(pick_user) > len(player_list):
-
         print("\ntoo big!\n")
 
+      #check if input
       elif int(pick_user) < len(player_list) - len(player_list):
-
         print("\ntoo small!\n")
 
+      #goto next process
       else:
-
+        #check if this player has not been selected
         if player_list[int(pick_user)] not in players_selected:
-
           players_selected.append(player_list[int(pick_user)])
-
           print(player_list[int(pick_user)], "has been added to the list!\n")
-
           print("debug:", players_selected)
-
+        
         else:
           print("this character is already selected!\n")
-
           print("current list of players:", players_selected)
 
   global initial_score
-
   initial_score = []
-
   global initial_playcount
-
   initial_playcount = []
-
+  
+  #get player info and append them
   for player in players_selected:
-
     initial_playcount.append(api_info.user(user_name=str(player)).play_count)
-
     initial_score.append(api_info.user(user_name=str(player)).total_score)
 
 
+#initialize the match
 async def match_initialization():
-
   match_name = input("match name ")
-
   game_mode = str(input("teams or free for all\n1.teams\n2.free for all\n"))
 
   if game_mode == ("1"):
-
     mode = "teams"
-
     await match_start(mode)
 
   else:
-
     mode = "ffa"
-
     await match_start(mode)
-
-  match_dict = {}
-
-  match_dict["users"] = players_selected
-
-  match_dict["match name"] = match_name
-
-  match_dict["initial score"] = initial_score
-
-  match_dict["initial playcount"] = initial_playcount
-
-  match_dict["mode"] = mode
-
-  match_dict["team metadata"] = teams
-
-  match_dict["level difficulty"] = level_difficulty_selector()
   
-  match_dict["match score history"] = ""
-
+  #match json file constructor from global match_start(mode) variables
+  match_dict = {}
+  match_dict["users"] = players_selected
+  match_dict["match name"] = match_name
+  match_dict["initial score"] = initial_score
+  match_dict["initial playcount"] = initial_playcount
+  match_dict["mode"] = mode
+  match_dict["team metadata"] = teams
+  match_dict["level difficulty"] = level_difficulty_selector()
+  match_dict["match score history"] = {}
+  
+  #put the values in the json file
   with open(f"matches/{match_name}.json", "w+") as joe:
     json.dump(match_dict, joe, indent = 4, sort_keys = False)
-
-def user_list():
-  with open("players.db", "r") as f:
-    player_list = f.read().splitlines()
-
-get_the_key = f"https://osu.ppy.sh/oauth/authorize/client_id={client_id}&redirect_uri={public_url}"
 
 #flask set up
 app = Flask(  # Create a flask app
@@ -624,44 +511,27 @@ app = Flask(  # Create a flask app
   static_folder='static'  # Name of directory for static files
 )
 
+#home website
 @app.route('/')
 def home():
   return render_template(
     'index.html',  # Template file
   )
 
-
+#redirect code grab for getting token
 @app.route('/code_grab')
 def code_grab() :
 
   code = request.query_string
-
   name_verify = str(code).split('code=')[1]
   name_verify = re.search(r"\w+", name_verify)
-  #print(name_verify.group())
-  
-  '''random_file = open("code.txt", "w+")
-  random_file.write(name_verify.group())
-  random_file.close()'''
-
   response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':int(client_id), 'client_secret':secret, 'grant_type':'client_credentials', 'scope':'public'}, headers={'Accept':'application/json', 'Content-Type':'application/json'})
-
   token_thing = response.json()
-
   global access_token
-
   access_token = token_thing["access_token"]
-
-  #f = open("debug.txt", "w")
-  #f.write(f"{access_token}")
-  #f.close
-
-  #print(test_user_thing.request_profile)
-
-  #print(test_user_thing.request_scores)
-
   return redirect(f"{public_url}/matches")
 
+#start console interface
 @app.route("/start")
 async def main_process():
   while True:
@@ -807,7 +677,7 @@ async def main_process():
 
     elif task == "5":
 
-      task2 = input("1.refresh all data\n2.refresh certain player data\n")
+      task2 = input("1.refresh all data\n2.refresh certain player data\n3.refresh all users in a match\n")
 
       if task2 == "1":
 
@@ -827,6 +697,26 @@ async def main_process():
         pick_user = input("\n")
 
         await player_refresh(player_list[int(pick_user)])
+      
+      if task2 =="3":
+        
+        i = 0
+
+        matches = []
+
+        for match in os.listdir("matches/"):
+          matches.append(match)
+          print(f"{i} {match[:-5]}")
+          i += 1
+          
+        match_refresh = int(input("\nwhich match's users will you refresh?\n"))
+        
+        with open(f"matches/{matches[match_refresh]}") as match_data:
+          match_data = json.load(match_data)
+          
+        for user in match_data["users"]:
+          
+          await(player_refresh(user))
 
     elif task == "6":
       os.exit()
@@ -946,7 +836,7 @@ async def match(match_name):
 
   players = {}
 
-  print(match_name)
+  print(match_name) 
 
   #match_name = urllib.parse.unquote(match_name)
 
@@ -1021,11 +911,11 @@ async def match(match_name):
 
       player_score_data[user] = score
 
-    score_data[f"{time.date.today()}"] = dict(sorted(player_score_data.items()))
+    score_data[f"{dt.date.today()}"] = dict(sorted(player_score_data.items()))
 
     match_data["match score history"] = score_data
     
-    biggest_score_step1 = list(match_data["match score history"][f"{time.date.today()}"].values())
+    biggest_score_step1 = list(match_data["match score history"][f"{dt.date.today()}"].values())
     
     biggest_score = sorted(biggest_score_step1, reverse=True)[0]
 
@@ -1071,6 +961,10 @@ async def match(match_name):
   else:
 
     teams = {}
+    
+    score_data = match_data["match score history"]
+    
+    teams_score_data = {}
 
     def team_score(team):
     
@@ -1166,6 +1060,8 @@ async def match(match_name):
       team_users = team_data.users
 
       teams[team] = [team_score(team), team_players(team)]
+      
+      teams_score_data[team] = team_score(team)
 
       #print(f"users: {players.keys()}")
 
@@ -1184,14 +1080,51 @@ async def match(match_name):
       print("===============")
 
     teams_sorted = dict(sorted(teams.items(), key=lambda x: x[0], reverse=True))
+    
+    score_data[f"{dt.date.today()}"] = teams_score_data
+
+    match_data["match score history"] = score_data
+    
+    biggest_score_step1 = list(match_data["match score history"][f"{dt.date.today()}"].values())
+    
+    biggest_score = sorted(biggest_score_step1, reverse=True)[0]
+    
+    if biggest_score == 0:
+      biggest_score = 1
+
+    with open(f"matches/{match_name}", "w") as file:
+        json.dump(match_data, file, indent = 4, sort_keys = False)
+
+    with open(f"matches/{match_name}", "r") as file:
+      match_data = json.load(file)
+      
+      
+    def get_key_of(score, dict):
+        for key, value in dict.items():
+            if score == value:
+                return key
+      
+    def previous_score_segment(playername, iteration):
+      dates = []
+      
+      for date in match_data["match score history"]:
+        dates.append(date)
+        
+      if iteration <= 1:
+        return 0
+      
+      elif iteration > 1:
+        return match_data["match score history"][dates[iteration - 2]][playername]
 
     return render_template(
       'Current.html',  # Template file
       #recent = player_recent
       time = time,
       match_data = match_data,
-      teams = teams_sorted
-      #teamcount = teamcount
+      teams = teams_sorted,
+      previous_score_segment = previous_score_segment,
+      get_key_of = get_key_of,
+      biggest_score = biggest_score,
     )
 
 #work on future old matches
@@ -1366,7 +1299,7 @@ def old_match(match_name):
       print(f"team score: {teams[team][0]}")
       
       print("===============")
-
+      
     teams_sorted = dict(sorted(teams.items(), key=lambda x: x[0], reverse=True))
 
     return render_template(
