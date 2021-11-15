@@ -616,54 +616,103 @@
   
   </footer>
 
+  {% if match_data["mode"] == ffa%}
+
     <!--graph-->
 
-  {% if match_data["mode"] == "ffa" %}
+    <div id="player-progress">
+      <ul class="charts-css legend legend-rhombus">
 
-  <div id="player-progress">
-    <ul class="charts-css legend legend-rhombus">
+        {% set dates = match_data["match score history"].values() | list %}
 
-      {% set dates = match_data["match score history"].values() | list %}
+        {% for player in dates[0]%}
+        
 
-      {% for player in dates[0]%}
-      
+          <li>{{ player }}</li>
+        
+        {% endfor %}
+      </ul>
 
-        <li>{{ player }}</li>
-      
-      {% endfor %}
-    </ul>
-
-    <table class="charts-css line multiple show-heading show-labels show-data-axes" id="player-progress">
-      <caption>score progression</caption>
-        <thead>
-          <tr>
-            {% for date in match_data["match score history"].keys() %}
-            <th scope="col"> {{ date }} </th>
-            {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-
-            {% set iteration = namespace(value = 0) %}
-            {% for date in match_data["match score history"] %}
-            <th scope="col"> {{ date }} </th>
-
-            
-            {% set iteration.value = iteration.value + 1 %}
-              {% for player_score in match_data["match score history"][date].values() %}
-              
-              <!--iteration tracker: {{iteration.value}}-->
-
-            <td style="--start:{{previous_score_segment(get_key_of(player_score, match_data["match score history"][date]), iteration.value) / biggest_score}}; --size:{{player_score / biggest_score}};"><span class="data">{{ player_score }}</span></td>
-            
+      <table class="charts-css line multiple show-heading show-labels show-x-axes show-y-axes" id="player-progress">
+        <caption>score progression</caption>
+          <thead>
+            <tr>
+              {% for date in match_data["match score history"].keys() %}
+              <th scope="col"> {{ date }} </th>
               {% endfor %}
-            
-          </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-  </div>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+
+              {% set iteration = namespace(value = 0) %}
+              {% for date in match_data["match score history"] %}
+              <th scope="col"> {{ date }} </th>
+
+              
+              {% set iteration.value = iteration.value + 1 %}
+                {% for player_score in match_data["match score history"][date].values() %}
+                
+                <!--iteration tracker: {{iteration.value}}-->
+
+              <td style="--start:{{previous_score_segment(get_key_of(player_score, match_data["match score history"][date]), iteration.value) / biggest_score}}; --size:{{player_score / biggest_score}};"><span class="data">{{ player_score }}</span></td>
+              
+                {% endfor %}
+              
+            </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+    </div>
+  
+  {% else %}
+
+        <!--graph-->
+
+    <div id="player-progress">
+      <ul class="charts-css legend legend-rhombus">
+
+        {% set dates = match_data["match score history"].values() | list %}
+
+        {% for player in dates[0]%}
+        
+
+          <li>{{ player }}</li>
+        
+        {% endfor %}
+      </ul>
+
+      <table class="charts-css line multiple show-heading show-labels show-x-axes show-y-axes" id="player-progress">
+        <caption>score progression</caption>
+          <thead>
+            <tr>
+              {% for date in match_data["match score history"].keys() %}
+              <th scope="col"> {{ date }} </th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+
+              {% set iteration = namespace(value = 0) %}
+              {% for date in match_data["match score history"] %}
+              <th scope="col"> {{ date }} </th>
+
+              
+              {% set iteration.value = iteration.value + 1 %}
+                {% for player_score in match_data["match score history"][date].values() %}
+                
+                <!--iteration tracker: {{iteration.value}}-->
+
+              <td style="--start:{{previous_score_segment(get_key_of(player_score, match_data["match score history"][date]), iteration.value) / biggest_score}}; --size:{{player_score / biggest_score}};"><span class="data">{{ player_score }}</span></td>
+              
+                {% endfor %}
+              
+            </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+    </div>
 
   {% endif %}
 
