@@ -21,10 +21,7 @@
         "B",
         "blue",
         "65,121,977,410",
-        48477,
-        {
-            "2021-11-15": 65121977410
-        }
+        48477
     ],
     "AluV2": [
         31402895248,
@@ -45,10 +42,7 @@
         "F",
         "red",
         "31,402,895,248",
-        28437,
-        {
-            "2021-11-15": 31402895248
-        }
+        28437
     ],
     "st4rstrukk": [
         46502535772,
@@ -69,10 +63,7 @@
         "F",
         "red",
         "46,502,535,772",
-        63855,
-        {
-            "2021-11-15": 46502535772
-        }
+        63855
     ],
     "MossL": [
         2844334740,
@@ -93,10 +84,7 @@
         "F",
         "red",
         "2,844,334,740",
-        9606,
-        {
-            "2021-11-15": 2844334740
-        }
+        9606
     ],
     "BirdPigeon": [
         10573355649,
@@ -288,25 +276,25 @@
         98
     ],
     "wildernesexplor": [
-        6276561705,
+        6311990205,
         "https://a.ppy.sh/17681245?1600049873.png",
         "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
         "https://osu.ppy.sh/users/17681245",
-        "391,928",
+        "9,206,540",
         0,
         0,
-        "https://assets.ppy.sh/beatmaps/1626277/covers/cover.jpg",
-        "Easy",
-        3.19,
-        "https://osu.ppy.sh/beatmaps/3320216",
+        "https://assets.ppy.sh/beatmaps/1045600/covers/cover.jpg",
+        "\u30b5\u30f3\u30bf\u3055\u3093",
+        5.94,
+        "https://osu.ppy.sh/beatmaps/2185824",
         "no mods",
-        "Aries",
-        95.02,
-        151,
+        "\u3082\u3082\u3044\u308d\u30af\u30ed\u30fc\u30d0\u30fcZ",
+        93.24,
+        569,
         "A",
         "green",
-        "6,276,561,705",
-        14103
+        "6,311,990,205",
+        14126
     ],
     "Trale_Lewous": [
         25072120,
@@ -519,25 +507,25 @@
         0
     ],
     "casedama": [
-        32287660227,
+        32361043226,
         "https://a.ppy.sh/13450060?1633041789.jpeg",
         "https://assets.ppy.sh/user-profile-covers/13450060/aac0cedf56a5d02b61410eda0d8ef4e163533a1b7e1aa89d74a4929a252ea512.gif",
         "https://osu.ppy.sh/users/13450060",
-        "2,904,850",
+        "10,045,730",
         0,
         0,
-        "https://assets.ppy.sh/beatmaps/606419/covers/cover.jpg",
-        "My Sweet Maiden\uff08TV-size\uff09",
-        6.61,
-        "https://osu.ppy.sh/beatmaps/1281115",
+        "https://assets.ppy.sh/beatmaps/384772/covers/cover.jpg",
+        "\u30a2\u30b9\u30ce\u30e8\u30be\u30e9\u54e8\u6212\u73ed",
+        6.31,
+        "https://osu.ppy.sh/beatmaps/930249",
         "no mods",
-        "Mia REGINA",
-        93.88,
-        358,
+        "\u3086\u3042\u308b",
+        94.95,
+        594,
         "A",
         "green",
-        "32,287,660,227",
-        53876
+        "32,361,043,226",
+        53923
     ],
     "CheeseDude": [
         2787973770,
@@ -582,7 +570,7 @@
         9055
     ],
     "Golucky": [
-        9824834189,
+        9825528979,
         "https://a.ppy.sh/14506085?1628878011.png",
         "https://assets.ppy.sh/user-profile-covers/14506085/11e6a5722afe3b186a98a639ac744b2c21c86067431999598befb5d4559416a5.png",
         "https://osu.ppy.sh/users/14506085",
@@ -599,8 +587,8 @@
         150,
         "A",
         "green",
-        "9,824,834,189",
-        35403
+        "9,825,528,979",
+        35405
     ],
     "inferno_volt": [
         111988610,
