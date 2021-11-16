@@ -507,16 +507,14 @@ async def match_initialization():
 #flask set up
 app = Flask(  # Create a flask app
   __name__,
-  template_folder='templates',  # Name of html file folder
-  static_folder='static'  # Name of directory for static files
+  template_folder='templates', # Name of html file folder
+  static_folder='static' # Name of directory for static files
 )
 
 #home website
 @app.route('/')
 def home():
-  return render_template(
-    'index.html',  # Template file
-  )
+  return redirect("/matches")
 
 #redirect code grab for getting token
 @app.route('/code_grab')
@@ -1027,8 +1025,6 @@ async def match(match_name):
         max_combo = player_data[user][14]
 
         rank = player_data[user][15]
-        
-        score_data = player_data[user][19]
 
         try:
           rank_color = player_data[user][16]
