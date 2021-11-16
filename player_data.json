@@ -21,30 +21,34 @@
         "B",
         "blue",
         "65,121,977,410",
-        48477
+        48477,
+        {
+            "2021-11-15": 65121977410
+        }
     ],
     "AluV2": [
         31402895248,
         "https://a.ppy.sh/13460125?1634364211.jpeg",
         "https://assets.ppy.sh/user-profile-covers/13460125/ec44690e44dde15b82dd73cfdad1984bf29013e3f24c5e5ca72f6a00e2039c12.jpeg",
         "https://osu.ppy.sh/users/13460125",
-        "909,595",
+        "0",
         0,
         0,
-        "https://assets.ppy.sh/beatmaps/118494/covers/cover.jpg",
-        "Daisy",
-        3.77,
-        "https://osu.ppy.sh/beatmaps/320025",
-        [
-            "DT"
-        ],
-        "Lifetheory",
-        91.58,
-        197,
-        "B",
-        "blue",
+        "https://data.whicdn.com/images/100018401/original.gif",
+        "not found",
+        "0",
+        "https://osu.ppy.sh/beatmapsets",
+        "",
+        "",
+        "",
+        "",
+        "F",
+        "red",
         "31,402,895,248",
-        28437
+        28437,
+        {
+            "2021-11-15": 31402895248
+        }
     ],
     "st4rstrukk": [
         46502535772,
@@ -65,7 +69,10 @@
         "F",
         "red",
         "46,502,535,772",
-        63855
+        63855,
+        {
+            "2021-11-15": 46502535772
+        }
     ],
     "MossL": [
         2844334740,
@@ -86,7 +93,10 @@
         "F",
         "red",
         "2,844,334,740",
-        9606
+        9606,
+        {
+            "2021-11-15": 2844334740
+        }
     ],
     "BirdPigeon": [
         10573355649,
@@ -278,25 +288,25 @@
         98
     ],
     "wildernesexplor": [
-        6258177782,
+        6276561705,
         "https://a.ppy.sh/17681245?1600049873.png",
         "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
         "https://osu.ppy.sh/users/17681245",
-        "0",
+        "391,928",
         0,
         0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "6,258,177,782",
-        14077
+        "https://assets.ppy.sh/beatmaps/1626277/covers/cover.jpg",
+        "Easy",
+        3.19,
+        "https://osu.ppy.sh/beatmaps/3320216",
+        "no mods",
+        "Aries",
+        95.02,
+        151,
+        "A",
+        "green",
+        "6,276,561,705",
+        14103
     ],
     "Trale_Lewous": [
         25072120,
@@ -572,25 +582,25 @@
         9055
     ],
     "Golucky": [
-        9822735111,
+        9824834189,
         "https://a.ppy.sh/14506085?1628878011.png",
         "https://assets.ppy.sh/user-profile-covers/14506085/11e6a5722afe3b186a98a639ac744b2c21c86067431999598befb5d4559416a5.png",
         "https://osu.ppy.sh/users/14506085",
-        "0",
+        "386,652",
         0,
         0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "9,822,735,111",
-        35395
+        "https://assets.ppy.sh/beatmaps/1626277/covers/cover.jpg",
+        "Easy",
+        3.19,
+        "https://osu.ppy.sh/beatmaps/3320216",
+        "no mods",
+        "Aries",
+        94.85,
+        150,
+        "A",
+        "green",
+        "9,824,834,189",
+        35403
     ],
     "inferno_volt": [
         111988610,

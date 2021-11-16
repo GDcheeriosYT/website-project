@@ -1,0 +1,11 @@
+<html>
+<head>
+<title>refresh options</title>
+</head>
+<body>
+<h1>which players in what match would you like to refresh?</h1>
+{% for match in matches %}
+    <a href="/control/refresh/specific/match-specific/{{ match }}">{{ match }}</a> <br>
+{% endfor %}
+</body>
+</html>

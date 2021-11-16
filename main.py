@@ -1,10 +1,10 @@
 import os
 
 #securing / creating flask variables
-secret = "8Bb9FnS8pvjZcRXbMd3HXrbvRq1n9u9b3e454XcM"
+secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
 api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
-public_url = "http://localhost"
-client_id = "9545"
+public_url = "http://gdcheerios.com"
+client_id = "5679"
 
 #packages
 import requests
@@ -1344,12 +1344,63 @@ async def web_player_refresh(player_name):
 
   return redirect(f"{public_url}/matches")
 
-#asyncio.run(main_process)
+@app.route("/control")
+async def web_control():
+  return render_template("control.html")
+
+@app.route("/control/start_match")
+async def web_control_start_match():
+  return render_template("control/start_match.html")
+
+@app.route("/control/edit_match")
+async def web_control_edit_match():
+  return render_template("control/edit_match.html")
+
+@app.route("/control/end_match")
+async def web_control_end_match():
+  return render_template("control/end_match.html")
+
+@app.route("/control/refresh")
+async def web_control_refresh():
+  return render_template("control/refresh.html")
+
+@app.route("/control/refresh/specific")
+async def web_control_refresh_specific():
+  return render_template("control/refresh/specific.html", player_list = player_list)
+
+@app.route("/control/refresh/specific/match-specific")
+async def web_control_refresh_specific_match():
+  
+  matches = []
+
+  for match in os.listdir("matches/"):
+    matches.append(match)
+  
+  return render_template("control/refresh/match_specific.html", matches = matches)
+
+@app.route("/control/refresh/specific/<player>")
+async def web_control_refresh_specific_player(player):
+  return redirect(f"{public_url}/refresh/{player}")
+
+@app.route("/control/refresh/specific/match-specific/<match>")
+async def web_control_refresh_specific_match_refresh(match):
+  
+  with open(f"matches/{match}") as f:
+    match_data = json.load(f)
+  
+  for user in match_data["users"]:
+    await player_refresh(user)
+  
+  return redirect(f"{public_url}/control")
+
+@app.route("/control/refresh/<player>")
+async def web_control_refresh_player(player):
+    return redirect(f"{public_url}/refresh/{player}")
 
 if __name__ == "__main__":  # Makes sure this is the main process
   app.run( # Starts the site
     host='0.0.0.0',  # Establishes the host, required for repl to detect the site
     port=80,# Randomly select the port the machine hosts on.
-    debug=True
-
+    debug=True,
+    #ssl_context='adhoc'
   )
