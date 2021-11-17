@@ -253,7 +253,10 @@ with open("players.db", "r") as f:
   player_list = f.read().splitlines()
 
 #level selector for match creation using levels_creation()
-def level_difficulty_selector():
+def level_difficulty_selector(silent):
+
+  if silent == True:
+    return difficulty_list
 
   x = 0 #counting variable
   while x < difficulty_amount: #iterate through the difficulty amount
@@ -501,7 +504,7 @@ async def match_initialization():
   match_dict["initial playcount"] = initial_playcount
   match_dict["mode"] = mode
   match_dict["team metadata"] = teams
-  match_dict["level difficulty"] = level_difficulty_selector()
+  match_dict["level difficulty"] = level_difficulty_selector(False)
   match_dict["match score history"] = {}
   
   #put the values in the json file
@@ -665,7 +668,7 @@ async def main_process():
         with open(f"matches/{matches[match_end]}") as match_edit:
           match_edit = json.load(match_edit)
 
-          match_edit["level difficulty"] = level_difficulty_selector()
+          match_edit["level difficulty"] = level_difficulty_selector(False)
 
         with open(f"matches/{matches[match_end]}", "w") as file:
           json.dump(match_edit, file, indent = 4, sort_keys = False)
@@ -1350,7 +1353,14 @@ async def web_control():
 
 @app.route("/control/start_match")
 async def web_control_start_match():
-  return render_template("control/start_match.html")
+  level_difficulty_selector(True)
+  return render_template("control/start_match.html", player_list = player_list, difficulty_list = difficulty_list)
+
+@app.route('/control/start_match/', methods=['POST'])
+def web_control_start_match_name():
+    text = request.form['text']
+    processed_text = text.upper()
+    print(processed_text)
 
 @app.route("/control/edit_match")
 async def web_control_edit_match():

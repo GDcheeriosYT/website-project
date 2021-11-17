@@ -1,7 +1,25 @@
 <html>
 <head>
-<title>start match</title>
+    <title>start match</title>
 </head>
 <body>
+    <form method="POST">
+        match name<br>
+        <input name="text"><br>
+
+        <br>
+        players<br>
+        {% for player in player_list %}
+            <input type="checkbox" id="{{ player }}" name="{{ player }}" value="{{ player }}">
+            <label for="{{ player }}">{{ player }}</label><br>
+        {% endfor %}
+        <br>
+        difficulty<br>
+        {% for difficulty in difficulty_list %}
+            <input type="checkbox" id="{{ difficulty }}" name="{{ difficulty }}" value="{{ difficulty }}">
+            <label for="{{ difficulty }}">{{ difficulty }}</label><br>
+        {% endfor %}
+        <input type="submit">
+    </form>
 </body>
 </html>
