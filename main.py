@@ -38,8 +38,6 @@ import datetime as dt
 difficulty_list = ["beginner", "easy", "normal", "medium", "hard", "insane"]
 difficulty_amount = len(difficulty_list)
 
-global mode
-
 #leveling_system
 def levels_creation(difficulty):
   level_limit = 999
@@ -48,41 +46,47 @@ def levels_creation(difficulty):
   global levels
   levels = []
 
+  #beginner
   if difficulty == difficulty_list[0]:
-    level_expenential_growth_modifier = 1.00
-    leveling_start = 50000
-    level_number_change = 100000
-    exponential_change = 0.025
+    level_expenential_growth_modifier = 1.00 #IDEK why this is a thing
+    leveling_start = 100000 #starting value of level 1
+    level_number_change = 100000 #minimum change between levels
+    exponential_change = 0.05 #value that changes how hard it is to level up
 
+  #easy
   elif difficulty == difficulty_list[1]:
     level_expenential_growth_modifier = 1.00
     leveling_start = 100000
     level_number_change = 250000
-    exponential_change = 0.04
+    exponential_change = 0.05
 
+  #normal
   elif difficulty == difficulty_list[2]:
     level_expenential_growth_modifier = 1.00
-    leveling_start = 100000
-    level_number_change = 250000
-    exponential_change = 0.07
+    leveling_start = 250000
+    level_number_change = 500000
+    exponential_change = 0.05
 
+  #medium
   elif difficulty == difficulty_list[3]:
     level_expenential_growth_modifier = 1.00
     leveling_start = 500000
     level_number_change = 1000000
-    exponential_change = 0.07
+    exponential_change = 0.05
 
+  #hard
   elif difficulty == difficulty_list[4]:
     level_expenential_growth_modifier = 1.00
     leveling_start = 1000000
     level_number_change = 2000000
-    exponential_change = 0.09
+    exponential_change = 0.05
 
+  #insane
   elif difficulty == difficulty_list[5]:
     level_expenential_growth_modifier = 1.00
     leveling_start = 1000000
     level_number_change = 2500000
-    exponential_change = 0.09
+    exponential_change = 0.06
 
   
   x = 1 #counting variable
