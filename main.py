@@ -527,47 +527,47 @@ def home():
 @app.route('/code_grab')
 def code_grab() :
 
-  code = request.query_string
-  name_verify = str(code).split('code=')[1]
+  code = request.query_string #getting the url
+  name_verify = str(code).split('code=')[1] #getting the code from the url
   name_verify = re.search(r"\w+", name_verify)
-  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':int(client_id), 'client_secret':secret, 'grant_type':'client_credentials', 'scope':'public'}, headers={'Accept':'application/json', 'Content-Type':'application/json'})
-  token_thing = response.json()
+  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':int(client_id), 'client_secret':secret, 'grant_type':'client_credentials', 'scope':'public'}, headers={'Accept':'application/json', 'Content-Type':'application/json'}) #send code in return for a access token
+  token_thing = response.json() #grab the token
   global access_token
-  access_token = token_thing["access_token"]
-  return redirect(f"{public_url}/matches")
+  access_token = token_thing["access_token"] #access token
+  return redirect(f"{public_url}/") #redirect
 
 #start console interface
 @app.route("/start")
 async def main_process():
   while True:
+    #ask user what they want to do
     task = input("1.create new match\n2.end match\n3.edit match\n4.test async interface\n5.refresh\n6.exit\n")
+    
+    #start match
     if task == "1":
       await match_initialization()
 
+    #end match
     elif task == "2":
-      i = 0
-
+      i = 0 #counting variable
       player_playcount = []
-
       player_score = []
-      
       matches = []
-
+      
+      #append all matches into matches
       for match in os.listdir("matches/"):
         matches.append(match)
         print(f"{i} {match[:-5]}")
         i += 1
 
-      match_end = int(input("\nwhich match will you end?\n"))
-
-      print(matches[match_end])
+      match_end = int(input("\nwhich match will you end?\n")) #pick the match to end
 
       with open(f"matches/{matches[match_end]}") as file: # Open the file in read mode
         ending_match = json.load(file) # Set the variable to the dict version of the json file
       # The file is now closed
 
       with open("player_data.json")as player_data:
-        player_data = json.load(player_data)
+        player_data = json.load(player_data) #
 
       for user in ending_match["users"]:
         user_pos = ending_match["users"].index(user)
