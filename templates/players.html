@@ -99,6 +99,20 @@
 			color: white;
 			text-shadow: 1px 0px 3px #00ffee, 1px 4px 5px #000000;
 		}
+
+    .warning{
+      background-color: red;
+      border: 1px solid red;
+      border-radius: 5px;
+      box-shadow: 5px 5px 15px -3px black;
+      text-align: center ;
+      font-size: 30px;
+    }
+
+    .warning-text{
+      color: yellow;
+      font-style: bold;
+    }
 	</style>
 </head>
 
@@ -106,11 +120,13 @@
 
   <div class="bg-image"></div>
 
-	<div class="rectangle_menu"><a href="Teams.html">Teams</a> <a href="/">Home</a> <a href="Current.html">Current Round</a> <a href="login.html">login</a> <a href="changelog.html">changelog</a></div>
+	<div class="rectangle_menu"><a href="/">home</a> <a href="/matches">matches</a></div>
+
+  <div class="warning"><span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span><br><a href="info">more info</a></div>
 
   {% set count = namespace(value=1) %}
 
-  {% for key, value in players %}
+  {% for key, value in players.items() %}
 
   {% if count.value == 1%}
 
@@ -139,10 +155,6 @@
   {% set count.value = count.value + 1 %}
 
   {% endfor %}
-
-  <div>
-    <h1 style="color:red;">This page is WIP</h1>
-  </div>
 
 </body>
 
