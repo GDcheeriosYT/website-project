@@ -429,13 +429,13 @@
       team_value[0] = team score
       team_value[1] = call to player values-->
 
-  <div class="rectangle_menu"><a href="/">Home</a> <a href="/matches">Matches</a></div>
+  <div class="rectangle_menu"><a href="/">home</a> <a href="/matches">matches</a> <a href="/players">players</a></div>
 
     <!--<div class="weekly_map">
 
     </div>-->
 
-    <div class="warning"><span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span></div>
+    <div class="warning"><span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span><br><a href="/info">more info</a></div>
 
     <h1>{{ match_data["match name"] }}</h1>
 
@@ -633,7 +633,7 @@
         {% endfor %}
       </ul>
 
-      <table class="charts-css line multiple show-heading show-labels show-x-axes show-y-axes" id="player-progress">
+      <table class="charts-css line multiple show-heading show-labels show-data-axes show-primary-axis" id="player-progress">
         <caption>score progression</caption>
           <thead>
             <tr>
