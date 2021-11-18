@@ -45,48 +45,33 @@ def levels_creation(difficulty):
   #make sure levels is accesible by definitions on page constructors
   global levels
   levels = []
+  level_expenential_growth_modifier = 1.00
+  leveling_start = 100000 #starting value of level 1
+  level_number_change = 250000 #minimum change between levels
 
   #beginner
   if difficulty == difficulty_list[0]:
-    level_expenential_growth_modifier = 1.00 #IDEK why this is a thing
-    leveling_start = 100000 #starting value of level 1
-    level_number_change = 100000 #minimum change between levels
     exponential_change = 0.05 #value that changes how hard it is to level up
 
   #easy
   elif difficulty == difficulty_list[1]:
-    level_expenential_growth_modifier = 1.00
-    leveling_start = 100000
-    level_number_change = 250000
-    exponential_change = 0.05
+    exponential_change = 0.1
 
   #normal
   elif difficulty == difficulty_list[2]:
-    level_expenential_growth_modifier = 1.00
-    leveling_start = 250000
-    level_number_change = 500000
-    exponential_change = 0.05
+    exponential_change = 1.00
 
   #medium
   elif difficulty == difficulty_list[3]:
-    level_expenential_growth_modifier = 1.00
-    leveling_start = 500000
-    level_number_change = 1000000
-    exponential_change = 0.05
+    exponential_change = 0.1
 
   #hard
   elif difficulty == difficulty_list[4]:
-    level_expenential_growth_modifier = 1.00
-    leveling_start = 1000000
-    level_number_change = 2000000
-    exponential_change = 0.05
+    exponential_change = 0.15
 
   #insane
   elif difficulty == difficulty_list[5]:
-    level_expenential_growth_modifier = 1.00
-    leveling_start = 1000000
-    level_number_change = 2500000
-    exponential_change = 0.06
+    exponential_change = 0.20
 
   
   x = 1 #counting variable
@@ -97,6 +82,7 @@ def levels_creation(difficulty):
     x = x + 1 #increase counting variable to create new level
     leveling_start = int(leveling_start + level_number_change * level_expenential_growth_modifier) #where to start on new level
     level_expenential_growth_modifier = level_expenential_growth_modifier + level_expenential_growth_modifier * exponential_change #equation to exponentially increase level score requirement
+    
 
 #variable to call requests with the slider module
 api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
@@ -521,7 +507,7 @@ app = Flask(  # Create a flask app
 #home website
 @app.route('/')
 def home():
-  return redirect("/matches")
+  return render_template("index.html")
 
 #redirect code grab for getting token
 @app.route('/code_grab')
@@ -729,13 +715,13 @@ async def main_process():
     else:
       print("I don't know...")
 
-@app.route("/login.html",methods = ['POST', 'GET'])
+@app.route("/login",methods = ['POST', 'GET'])
 
 def login():
 
   return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={public_url}/code_grab&scope=public")
 
-#@app.route("/Teams.html")
+#@app.route("/Teams")
 def teams_web():
   team1_users = ["GDcheerios", "BirdPigeon", "kokuren"]
   team_score = []
@@ -768,28 +754,67 @@ def teams_web():
     api_info = api_info
   )
 
-#@app.route("/players.html")
+@app.route("/players")
 def players():
 
-  players = {}
+  players_dict = {}
+  
+  with open("player_data.json") as f:
+    player_data = json.load(f)
+    
+  for user in player_data.keys():
 
-  for name in player_list:
-    score_block = user_block(f"{name}")
-    name = score_block.username
-    avatar = ("https://a.ppy.sh/%s" % (score_block.id))
-    background = requests.get(f"https://osu.ppy.sh/api/v2/users/{name}", headers = {"Authorization": f'Bearer {access_token}'}).json()
-    background = background["cover_url"]
-    score = score_block.score
-    players[name] = [score, avatar, background]
+    playcount = player_data[user][18]
 
-  players = sorted(players.items(), key=lambda x: x[1], reverse=True)
+    playcount = ("{:,}".format(playcount))
+
+    score = player_data[user][0]
+
+    score_formatted = ("{:,}".format(score))
+
+    avatar = player_data[user][1]
+
+    background = player_data[user][2]
+
+    link = player_data[user][3]
+
+    map_background = player_data[user][7]
+
+    map_title = player_data[user][8]
+
+    map_difficulty = player_data[user][9]
+
+    map_url = player_data[user][10]
+
+    mods = player_data[user][11]
+
+    artist = player_data[user][12]
+    
+    accuracy = player_data[user][13]
+
+    max_combo = player_data[user][14]
+
+    rank = player_data[user][15]
+    
+    try:
+      rank_color = player_data[user][16]
+    except AttributeError:
+      rank_color = "red"
+
+    if score == 0:
+
+      recent_score = "0"
+
+    else:
+      
+      recent_score = player_data[user][4]
+      
+      players_dict[user] = [score, avatar, background, link, recent_score, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+
+    players_sorted = dict(sorted(players_dict.items(), key=lambda x: x[1], reverse=True))
 
   return render_template(
     'players.html',  # Template file
-    api_info_scoreboard = api_info_scoreboard,
-    name = name,
-    avatar = avatar,
-    score = score,
     players = players_sorted
   )
 
@@ -1406,6 +1431,10 @@ async def web_control_refresh_specific_match_refresh(match):
 @app.route("/control/refresh/<player>")
 async def web_control_refresh_player(player):
     return redirect(f"{public_url}/refresh/{player}")
+  
+@app.route("/info")
+async def warning_info():
+  return render_template("info.html")
 
 if __name__ == "__main__":  # Makes sure this is the main process
   app.run( # Starts the site
