@@ -1,0 +1,24 @@
+{
+    "users": [
+        "GDcheerios",
+        "BirdPigeon"
+    ],
+    "match name": "example match",
+    "initial score": [
+        0,
+        0
+    ],
+    "initial playcount": [
+        0,
+        0
+    ],
+    "mode": "ffa",
+    "team metadata": {},
+    "level difficulty": "normal",
+    "match score history": {
+        "2021-11-17": {
+            "BirdPigeon": 10602085761,
+            "GDcheerios": 65316084861
+        }
+    }
+}

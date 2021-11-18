@@ -801,5 +801,131 @@
         "red",
         "96,800",
         4
+    ],
+    "Tonatious": [
+        87585390204,
+        "https://a.ppy.sh/10287120?1635290568.jpeg",
+        "https://assets.ppy.sh/user-profile-covers/10287120/523a208a31e4e6d55321e06edb69e83ed7e688318edafb6d8c59615170493dba.jpeg",
+        "https://osu.ppy.sh/users/10287120",
+        "547,546",
+        0,
+        0,
+        "https://assets.ppy.sh/beatmaps/1507849/covers/cover.jpg",
+        "Wavetapper",
+        5.46,
+        "https://osu.ppy.sh/beatmaps/3088183",
+        [
+            "EZ"
+        ],
+        "Frums",
+        72.24,
+        152,
+        "C",
+        "purple",
+        "87,585,390,204",
+        37892,
+        {
+            "2021-11-17": 87585390204
+        }
+    ],
+    "headstack": [
+        374008243943,
+        "https://a.ppy.sh/10322186?1625565225.jpeg",
+        "https://assets.ppy.sh/user-profile-covers/10322186/c15b9d6b08b098e201bb5d4dd0bc87897685d3ca914fc4ac7fd588010175cecb.png",
+        "https://osu.ppy.sh/users/10322186",
+        "0",
+        0,
+        0,
+        "https://data.whicdn.com/images/100018401/original.gif",
+        "not found",
+        "0",
+        "https://osu.ppy.sh/beatmapsets",
+        "",
+        "",
+        "",
+        "",
+        "F",
+        "red",
+        "374,008,243,943",
+        134548,
+        {
+            "2021-11-17": 374008243943
+        }
+    ],
+    "mode": [
+        164950718053,
+        "https://a.ppy.sh/4580287?1631949139.jpeg",
+        "https://assets.ppy.sh/user-profile-covers/4580287/95f13e2db347e9e851e8e7d188e6f18e15b65ca5643b553e83729b7e6c305306.jpeg",
+        "https://osu.ppy.sh/users/4580287",
+        "862,130",
+        0,
+        0,
+        "https://assets.ppy.sh/beatmaps/510568/covers/cover.jpg",
+        "\ub7ec\uc2dc\uc548 \ub8f0\ub81b",
+        4.76,
+        "https://osu.ppy.sh/beatmaps/1085554",
+        [
+            "EZ",
+            "HD",
+            "DT"
+        ],
+        "\ub808\ub4dc\ubca8\ubcb3",
+        94.72,
+        97,
+        "A",
+        "green",
+        "164,950,718,053",
+        129949,
+        {
+            "2021-11-17": 164950718053
+        }
+    ],
+    "Leebs": [
+        286004179717,
+        "https://a.ppy.sh/7636779?1627706316.jpeg",
+        "https://assets.ppy.sh/user-profile-covers/7636779/af6c609344ec41450d806f1d0e1bdc3bfe2663f5c114b51fe287208ec8b725cf.jpeg",
+        "https://osu.ppy.sh/users/7636779",
+        "31,733,310",
+        0,
+        0,
+        "https://assets.ppy.sh/beatmaps/1317808/covers/cover.jpg",
+        "\u3053\u3093\u306a\u547d\u304c\u306a\u3051\u308c\u3070",
+        6.8,
+        "https://osu.ppy.sh/beatmaps/2730292",
+        "no mods",
+        "\u6708\u8a60\u307f",
+        99.37,
+        1255,
+        "A",
+        "green",
+        "286,004,179,717",
+        92957,
+        {
+            "2021-11-17": 286004179717
+        }
+    ],
+    "Checha": [
+        93926366861,
+        "https://a.ppy.sh/10157694?1633915051.jpeg",
+        "https://assets.ppy.sh/user-profile-covers/10157694/fbfdb9f28918e40b1f9578a896ee3c919f2ccc57db2e4933061861592617ec8a.png",
+        "https://osu.ppy.sh/users/10157694",
+        "0",
+        0,
+        0,
+        "https://data.whicdn.com/images/100018401/original.gif",
+        "not found",
+        "0",
+        "https://osu.ppy.sh/beatmapsets",
+        "",
+        "",
+        "",
+        "",
+        "F",
+        "red",
+        "93,926,366,861",
+        128523,
+        {
+            "2021-11-17": 93926366861
+        }
     ]
 }
