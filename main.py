@@ -59,7 +59,7 @@ def levels_creation(difficulty):
 
   #normal
   elif difficulty == difficulty_list[2]:
-    exponential_change = 1.00
+    exponential_change = 0.09
 
   #medium
   elif difficulty == difficulty_list[3]:
