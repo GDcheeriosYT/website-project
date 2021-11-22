@@ -1436,6 +1436,10 @@ async def web_control_refresh_player(player):
 async def warning_info():
   return render_template("info.html")
 
+@app.route("/client")
+async def client_webpage():
+  return render_template("client.html")
+
 if __name__ == "__main__":  # Makes sure this is the main process
   app.run( # Starts the site
     host='0.0.0.0',  # Establishes the host, required for repl to detect the site
