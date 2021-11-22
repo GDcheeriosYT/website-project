@@ -1,30 +1,32 @@
 {
     "GDcheerios": [
-        65571241023,
+        66205383120,
         "https://a.ppy.sh/11339405?1634353255.jpeg",
         "https://assets.ppy.sh/user-profile-covers/11339405/c056df887904e128eff403c21fc27e2deaa015e4c2257fa3ef0c17c52e95c3c7.jpeg",
         "https://osu.ppy.sh/users/11339405",
-        "12,508,786",
+        "1,261,360",
         0,
         0,
-        "https://assets.ppy.sh/beatmaps/711297/covers/cover.jpg",
-        "IMAGE -MATERIAL- <Version 0>",
-        6.38,
-        "https://osu.ppy.sh/beatmaps/1503731",
-        "no mods",
-        "Tatsh",
-        94.94,
-        504,
-        "A",
-        "green",
-        "65,571,241,023",
-        48879,
+        "https://assets.ppy.sh/beatmaps/1235627/covers/cover.jpg",
+        "VVelcome!!",
+        5.29,
+        "https://osu.ppy.sh/beatmaps/3179613",
+        [
+            "HD"
+        ],
+        "MisoilePunch\u266a",
+        88.76,
+        170,
+        "B",
+        "blue",
+        "66,205,383,120",
+        49329,
         {
-            "2021-11-19": 65571241023
+            "2021-11-22": 66205383120
         }
     ],
     "BirdPigeon": [
-        10607935706,
+        10616352976,
         "https://a.ppy.sh/17879839?1604628393.png",
         "https://assets.ppy.sh/user-profile-covers/17879839/8606da22a398253d8e4bdbfd1c6031ae114aa38ed0a9e28ce180f68baa14f740.png",
         "https://osu.ppy.sh/users/17879839",
@@ -41,40 +43,14 @@
         "",
         "F",
         "red",
-        "10,607,935,706",
-        33174,
-        {
-            "2021-11-19": 10607935706
-        }
+        "10,616,352,976",
+        33208
     ],
     "AluV2": [
-        31606609492,
+        31631747635,
         "https://a.ppy.sh/13460125?1634364211.jpeg",
         "https://assets.ppy.sh/user-profile-covers/13460125/ec44690e44dde15b82dd73cfdad1984bf29013e3f24c5e5ca72f6a00e2039c12.jpeg",
         "https://osu.ppy.sh/users/13460125",
-        "22,565,849",
-        0,
-        0,
-        "https://assets.ppy.sh/beatmaps/1210297/covers/cover.jpg",
-        "\u30c9\u30e9\u3048\u3082\u3093",
-        4.38,
-        "https://osu.ppy.sh/beatmaps/2519706",
-        [
-            "DT"
-        ],
-        "\u5929\u6708",
-        96.9,
-        1123,
-        "S",
-        "yellow",
-        "31,606,609,492",
-        28557
-    ],
-    "st4rstrukk": [
-        46600103917,
-        "https://a.ppy.sh/13789505?1637251064.jpeg",
-        "https://assets.ppy.sh/user-profile-covers/13789505/810a96ba76d61e45904a5a7e0753bdf41cb64d20b726463315a6edb6f7349861.jpeg",
-        "https://osu.ppy.sh/users/13789505",
         "0",
         0,
         0,
@@ -88,34 +64,50 @@
         "",
         "F",
         "red",
-        "46,600,103,917",
-        63922,
-        {
-            "2021-11-19": 46600103917
-        }
+        "31,631,747,635",
+        28573
+    ],
+    "st4rstrukk": [
+        46755390444,
+        "https://a.ppy.sh/13789505?1637251064.jpeg",
+        "https://assets.ppy.sh/user-profile-covers/13789505/fef7468b058c81f485916985ba47b8611c8b28ba0a8bf34fa5bddbff4bab6de4.jpeg",
+        "https://osu.ppy.sh/users/13789505",
+        "19,706,370",
+        0,
+        0,
+        "https://assets.ppy.sh/beatmaps/1182149/covers/cover.jpg",
+        "one",
+        6.65,
+        "https://osu.ppy.sh/beatmaps/2464761",
+        "no mods",
+        "\u5996\u7cbe\u5e1d\u570b",
+        96.02,
+        807,
+        "A",
+        "green",
+        "46,755,390,444",
+        63976
     ],
     "MossL": [
-        2908105567,
+        3009411022,
         "https://a.ppy.sh/13985346?1606538724.jpeg",
         "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
         "https://osu.ppy.sh/users/13985346",
-        "2,153,696",
+        "495,408",
         0,
         0,
-        "https://assets.ppy.sh/beatmaps/474376/covers/cover.jpg",
-        "\u305d\u308c\u306f\u5c0f\u3055\u306a\u5149\u306e\u3088\u3046\u306a",
-        4.18,
-        "https://osu.ppy.sh/beatmaps/1018869",
-        [
-            "DT"
-        ],
-        "\u3055\u30e6\u308a",
-        99.0,
-        331,
-        "A",
-        "green",
-        "2,908,105,567",
-        9683
+        "https://assets.ppy.sh/beatmaps/1533990/covers/cover.jpg",
+        "BodyPartz",
+        5.41,
+        "https://osu.ppy.sh/beatmaps/3139487",
+        "no mods",
+        "Luci4",
+        80.91,
+        164,
+        "C",
+        "purple",
+        "3,009,411,022",
+        9850
     ],
     "Trufflebuttt": [
         3489701,
@@ -136,10 +128,7 @@
         "F",
         "red",
         "3,489,701",
-        36,
-        {
-            "2021-11-19": 3489701
-        }
+        36
     ],
     "peterparkermj": [
         148356865,
@@ -160,37 +149,31 @@
         "F",
         "red",
         "148,356,865",
-        717,
-        {
-            "2021-11-19": 148356865
-        }
+        717
     ],
     "MargaritaMix08": [
-        457608260,
+        466657602,
         "https://a.ppy.sh/17965819?1626822178.jpeg",
         "https://assets.ppy.sh/user-profile-covers/17965819/c5338016f9d0de420b0d8ad30e923b45a972921d989f46cc2872695a9845e953.jpeg",
         "https://osu.ppy.sh/users/17965819",
-        "0",
+        "724,888",
         0,
         0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "457,608,260",
-        1368,
-        {
-            "2021-11-19": 457608260
-        }
+        "https://assets.ppy.sh/beatmaps/818245/covers/cover.jpg",
+        "\u30ef\u30f3\u30eb\u30fc\u30e0\u30b7\u30e5\u30ac\u30fc\u30e9\u30a4\u30d5",
+        4,
+        "https://osu.ppy.sh/beatmaps/1742193",
+        "no mods",
+        "\u30ca\u30ca\u30f2\u30a2\u30ab\u30ea",
+        81.45,
+        104,
+        "C",
+        "purple",
+        "466,657,602",
+        1395
     ],
     "kokuren": [
-        815226021,
+        815566167,
         "https://osu.ppy.sh/images/layout/avatar-guest.png",
         "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
         "https://osu.ppy.sh/users/18346314",
@@ -207,11 +190,8 @@
         "",
         "F",
         "red",
-        "815,226,021",
-        1743,
-        {
-            "2021-11-19": 815226021
-        }
+        "815,566,167",
+        1746
     ],
     "Monvee": [
         69436085,
@@ -232,10 +212,7 @@
         "F",
         "red",
         "69,436,085",
-        322,
-        {
-            "2021-11-19": 69436085
-        }
+        322
     ],
     "GoodNightTokyo": [
         125540288,
@@ -256,10 +233,7 @@
         "F",
         "red",
         "125,540,288",
-        1012,
-        {
-            "2021-11-19": 125540288
-        }
+        1012
     ],
     "Mcg_Tokyo": [
         35886575,
@@ -280,10 +254,7 @@
         "F",
         "red",
         "35,886,575",
-        443,
-        {
-            "2021-11-19": 35886575
-        }
+        443
     ],
     "Minty_Fresch": [
         13383152,
@@ -304,34 +275,28 @@
         "F",
         "red",
         "13,383,152",
-        98,
-        {
-            "2021-11-19": 13383152
-        }
+        98
     ],
     "wildernesexplor": [
-        6425837935,
+        6455222709,
         "https://a.ppy.sh/17681245?1600049873.png",
         "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
         "https://osu.ppy.sh/users/17681245",
-        "2,090,012",
+        "1,242,860",
         0,
         0,
-        "https://assets.ppy.sh/beatmaps/1112825/covers/cover.jpg",
-        "\u7d42\u7109\u30ec\u30af\u30a4\u30a8\u30e0",
-        5.38,
-        "https://osu.ppy.sh/beatmaps/2324862",
+        "https://assets.ppy.sh/beatmaps/1552275/covers/cover.jpg",
+        "Marlboro Nights",
+        4.85,
+        "https://osu.ppy.sh/beatmaps/3171845",
         "no mods",
-        "MY FIRST STORY",
-        89.73,
-        326,
-        "B",
-        "blue",
-        "6,425,837,935",
-        14238,
-        {
-            "2021-11-19": 6425837935
-        }
+        "Lonely God",
+        92.2,
+        265,
+        "A",
+        "green",
+        "6,455,222,709",
+        14281
     ],
     "Trale_Lewous": [
         25072120,
@@ -352,10 +317,7 @@
         "F",
         "red",
         "25,072,120",
-        155,
-        {
-            "2021-11-19": 25072120
-        }
+        155
     ],
     "Joe_Nuts69": [
         5044202,
@@ -376,10 +338,7 @@
         "F",
         "red",
         "5,044,202",
-        29,
-        {
-            "2021-11-19": 5044202
-        }
+        29
     ],
     "Gman709": [
         26259111,
@@ -400,10 +359,7 @@
         "F",
         "red",
         "26,259,111",
-        55,
-        {
-            "2021-11-19": 26259111
-        }
+        55
     ],
     "KekumeSai": [
         212529,
@@ -424,10 +380,7 @@
         "F",
         "red",
         "212,529",
-        3,
-        {
-            "2021-11-19": 212529
-        }
+        3
     ],
     "Smol Glum": [
         7491915762,
@@ -448,10 +401,7 @@
         "F",
         "red",
         "7,491,915,762",
-        15327,
-        {
-            "2021-11-19": 7491915762
-        }
+        15327
     ],
     "BBenji": [
         370249313,
@@ -472,10 +422,7 @@
         "F",
         "red",
         "370,249,313",
-        972,
-        {
-            "2021-11-19": 370249313
-        }
+        972
     ],
     "Nyx Duke": [
         8365956,
@@ -496,10 +443,7 @@
         "F",
         "red",
         "8,365,956",
-        83,
-        {
-            "2021-11-19": 8365956
-        }
+        83
     ],
     "brianthe8east": [
         2742561,
@@ -520,10 +464,7 @@
         "F",
         "red",
         "2,742,561",
-        29,
-        {
-            "2021-11-19": 2742561
-        }
+        29
     ],
     "vinster19": [
         511089,
@@ -544,10 +485,7 @@
         "F",
         "red",
         "511,089",
-        10,
-        {
-            "2021-11-19": 511089
-        }
+        10
     ],
     "WhiteToast": [
         0,
@@ -568,13 +506,10 @@
         "F",
         "red",
         "0",
-        0,
-        {
-            "2021-11-19": 0
-        }
+        0
     ],
     "casedama": [
-        32439013948,
+        32477276355,
         "https://a.ppy.sh/13450060?1633041789.jpeg",
         "https://assets.ppy.sh/user-profile-covers/13450060/aac0cedf56a5d02b61410eda0d8ef4e163533a1b7e1aa89d74a4929a252ea512.gif",
         "https://osu.ppy.sh/users/13450060",
@@ -591,11 +526,8 @@
         "",
         "F",
         "red",
-        "32,439,013,948",
-        54039,
-        {
-            "2021-11-19": 32439013948
-        }
+        "32,477,276,355",
+        54105
     ],
     "CheeseDude": [
         2787973770,
@@ -616,10 +548,7 @@
         "F",
         "red",
         "2,787,973,770",
-        4750,
-        {
-            "2021-11-19": 2787973770
-        }
+        4750
     ],
     "Walterdoggg": [
         5064742138,
@@ -640,34 +569,28 @@
         "F",
         "red",
         "5,064,742,138",
-        9055,
-        {
-            "2021-11-19": 5064742138
-        }
+        9055
     ],
     "Golucky": [
-        9848821387,
+        9860377059,
         "https://a.ppy.sh/14506085?1628878011.png",
         "https://assets.ppy.sh/user-profile-covers/14506085/11e6a5722afe3b186a98a639ac744b2c21c86067431999598befb5d4559416a5.png",
         "https://osu.ppy.sh/users/14506085",
-        "314,040",
+        "0",
         0,
         0,
-        "https://assets.ppy.sh/beatmaps/1354147/covers/cover.jpg",
-        "tunnel of love",
-        4.23,
-        "https://osu.ppy.sh/beatmaps/2804285",
-        "no mods",
-        "\u2661ilyTOMMY\u2661 & savagegasp",
-        97.73,
-        111,
-        "A",
-        "green",
-        "9,848,821,387",
-        35492,
-        {
-            "2021-11-19": 9848821387
-        }
+        "https://data.whicdn.com/images/100018401/original.gif",
+        "not found",
+        "0",
+        "https://osu.ppy.sh/beatmapsets",
+        "",
+        "",
+        "",
+        "",
+        "F",
+        "red",
+        "9,860,377,059",
+        35536
     ],
     "inferno_volt": [
         111988610,
@@ -688,10 +611,7 @@
         "F",
         "red",
         "111,988,610",
-        642,
-        {
-            "2021-11-19": 111988610
-        }
+        642
     ],
     "StarBoltZ": [
         0,
@@ -712,10 +632,7 @@
         "F",
         "red",
         "0",
-        0,
-        {
-            "2021-11-19": 0
-        }
+        0
     ],
     "DiamondPVPr": [
         0,
@@ -736,10 +653,7 @@
         "F",
         "red",
         "0",
-        0,
-        {
-            "2021-11-19": 0
-        }
+        0
     ],
     "Mexicutioner": [
         286236,
@@ -760,10 +674,7 @@
         "F",
         "red",
         "286,236",
-        8,
-        {
-            "2021-11-19": 286236
-        }
+        8
     ],
     "pogo5512": [
         0,
@@ -784,10 +695,7 @@
         "F",
         "red",
         "0",
-        0,
-        {
-            "2021-11-19": 0
-        }
+        0
     ],
     "UwU Aimi": [
         1719860,
@@ -808,10 +716,7 @@
         "F",
         "red",
         "1,719,860",
-        40,
-        {
-            "2021-11-19": 1719860
-        }
+        40
     ],
     "forkk": [
         12381314,
@@ -832,10 +737,7 @@
         "F",
         "red",
         "12,381,314",
-        97,
-        {
-            "2021-11-19": 12381314
-        }
+        97
     ],
     "Mcg_mm8": [
         686192,
@@ -856,10 +758,7 @@
         "F",
         "red",
         "686,192",
-        9,
-        {
-            "2021-11-19": 686192
-        }
+        9
     ],
     "Randomtangle": [
         128458,
@@ -880,10 +779,7 @@
         "F",
         "red",
         "128,458",
-        3,
-        {
-            "2021-11-19": 128458
-        }
+        3
     ],
     "Dukecj1": [
         96800,
@@ -904,10 +800,7 @@
         "F",
         "red",
         "96,800",
-        4,
-        {
-            "2021-11-19": 96800
-        }
+        4
     ],
     "aferchen": [
         167066,
@@ -928,9 +821,108 @@
         "F",
         "red",
         "167,066",
-        5,
+        5
+    ],
+    "headstack": [
+        374549628712,
+        "https://a.ppy.sh/10322186?1625565225.jpeg",
+        "https://assets.ppy.sh/user-profile-covers/10322186/c15b9d6b08b098e201bb5d4dd0bc87897685d3ca914fc4ac7fd588010175cecb.png",
+        "https://osu.ppy.sh/users/10322186",
+        "0",
+        0,
+        0,
+        "https://data.whicdn.com/images/100018401/original.gif",
+        "not found",
+        "0",
+        "https://osu.ppy.sh/beatmapsets",
+        "",
+        "",
+        "",
+        "",
+        "F",
+        "red",
+        "374,549,628,712",
+        134806,
         {
-            "2021-11-19": 167066
+            "2021-11-22": 374549628712
+        }
+    ],
+    "mode": [
+        165650121188,
+        "https://a.ppy.sh/4580287?1631949139.jpeg",
+        "https://assets.ppy.sh/user-profile-covers/4580287/95f13e2db347e9e851e8e7d188e6f18e15b65ca5643b553e83729b7e6c305306.jpeg",
+        "https://osu.ppy.sh/users/4580287",
+        "770,306",
+        0,
+        0,
+        "https://assets.ppy.sh/beatmaps/5994/covers/cover.jpg",
+        "Spaceman",
+        3.39,
+        "https://osu.ppy.sh/beatmaps/28116",
+        [
+            "NC",
+            "FL"
+        ],
+        "Lynn",
+        83.82,
+        119,
+        "C",
+        "purple",
+        "165,650,121,188",
+        130131,
+        {
+            "2021-11-22": 165650121188
+        }
+    ],
+    "Leebs": [
+        286538534492,
+        "https://a.ppy.sh/7636779?1627706316.jpeg",
+        "https://assets.ppy.sh/user-profile-covers/7636779/af6c609344ec41450d806f1d0e1bdc3bfe2663f5c114b51fe287208ec8b725cf.jpeg",
+        "https://osu.ppy.sh/users/7636779",
+        "14,445,784",
+        0,
+        0,
+        "https://assets.ppy.sh/beatmaps/1560826/covers/cover.jpg",
+        "Flowerworks",
+        4.72,
+        "https://osu.ppy.sh/beatmaps/3187837",
+        "no mods",
+        "Mili",
+        100,
+        971,
+        "SS",
+        "yellow",
+        "286,538,534,492",
+        93088,
+        {
+            "2021-11-22": 286538534492
+        }
+    ],
+    "Checha": [
+        94823780929,
+        "https://a.ppy.sh/10157694?1633915051.jpeg",
+        "https://assets.ppy.sh/user-profile-covers/10157694/fbfdb9f28918e40b1f9578a896ee3c919f2ccc57db2e4933061861592617ec8a.png",
+        "https://osu.ppy.sh/users/10157694",
+        "7,816,734",
+        0,
+        0,
+        "https://assets.ppy.sh/beatmaps/18980/covers/cover.jpg",
+        "Love Last Forever (Nightcore Mix)",
+        3.92,
+        "https://osu.ppy.sh/beatmaps/67767",
+        [
+            "HD",
+            "DT"
+        ],
+        "Molella",
+        100,
+        607,
+        "SS+",
+        "grey",
+        "94,823,780,929",
+        128748,
+        {
+            "2021-11-22": 94823780929
         }
     ]
 }
