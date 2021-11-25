@@ -34,6 +34,9 @@
 
         a{
             color: black;
+            white-space: no-wrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
     
@@ -49,7 +52,7 @@
 
         {% if current_matches|length == 0 %}
 
-            <h1 style="text-align: center; font-size: 80px;">no matches found...</h1>
+            <h1 style="white-space: nowrap; text-align: center; font-size: 80px;">no matches found...</h1>
 
         {% endif %}
 

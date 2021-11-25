@@ -69,7 +69,7 @@
       height: 3%;
       left: 0%;
       bottom: 0%;
-      transition: all 400ms ease-in;
+      transition: all 300ms ease-in;
     }
 
     .spacing {
@@ -147,7 +147,8 @@
     }
 
     .namebox{
-
+      margin-left: 10px;
+      transition: all 350ms ease-out;
     }
 
     .gameBox{
@@ -247,17 +248,25 @@
     a{
       color: black;
       text-style: bold;
+      transition: all 400ms ease-out;
     }
 
     .player_info:hover a{
       color: white;
+      transition: all 400ms ease-in;
+    }
+    
+    .player_info:hover .namebox{
+      color: white;
+      transition: all 400ms ease-in;
+      text-shadow: 4px 4px 8px #000000;
     }
 
     .player_info:hover .addedscore {
       opacity: 1;
       position: relative;
-      left: 20%;
-      bottom: 20px;
+      left: 5%;
+      bottom: 10px;
       transition: all 400ms ease-in;
     }
 
@@ -299,6 +308,7 @@
     .grade{
       display: flex;
       flex: row;
+      text-shadow: 4px 4px 8px #000000;
     }
 
     .teambox{
@@ -308,18 +318,19 @@
 
     .addedscore{
       position: relative;
-      left: 30%;
-      bottom: 70px;
+      bottom: 100px;
+      left: 10%;
       color: green;
       font-size: 90%;
       opacity: 0;
-      transition: all 400ms ease-out;
+      transition: all 300ms ease-out;
     }
-
+text-shadow: 4px 4px 8px #000000;
     .score{
       margin-left: auto;
       text-align: right;
       font-size: 68%;
+      
       transition: all 300ms ease;
     }
 
@@ -327,7 +338,7 @@
       margin-left: auto;
       text-align: right;
       font-size: 120%;
-      transition: all 300ms ease;
+      text-shadow: 4px 4px 8px #000000;
     }
 
     .flexify {
@@ -429,7 +440,7 @@
       team_value[0] = team score
       team_value[1] = call to player values-->
 
-  <div class="rectangle_menu"><a href="/">home</a> <a href="/matches">matches</a> <a href="/players">players</a> <a href="/client">Client</a></div>
+  <div class="rectangle_menu"><a href="/">Home</a> <a href="/matches">Matches</a> <a href="/players">Players</a> <a href="/client">Client</a></div>
 
     <!--<div class="weekly_map">
 
