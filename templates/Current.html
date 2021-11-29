@@ -28,9 +28,9 @@
       transition: ease-out 0.3s;
       width: 90%;
       height: 32px;
-      border: 1px solid rgb(255, 255, 255);
+      border: 0px solid rgb(0, 0, 0);
       border-radius: 5px;
-      box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
+      box-shadow: 5px 5px 15px -1px rgb(0, 0, 0);
       background-repeat: no-repeat;
       background-size: cover;
     }
@@ -568,7 +568,7 @@ text-shadow: 4px 4px 8px #000000;
 
             <div class="spacing">
 
-              <div class="player_info" id="ref{{ count.value }}" style="background-image: linear-gradient(to top, #ffffff95 10%, #ffffff00 80%), url({{ value[2] }});">
+              <div class="player_info" id="ref{{ count.value }}" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%), url({{ value[2] }});">
 
                 <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
 
@@ -627,18 +627,18 @@ text-shadow: 4px 4px 8px #000000;
   
   </footer>
 
-  {% if match_data["mode"] == ffa%}
-
-    <!--graph-->
+    <!--graph-box-->
 
     <div id="player-progress">
+
+      <!--legend-->
+
       <ul class="charts-css legend legend-rhombus">
 
         {% set dates = match_data["match score history"].values() | list %}
 
         {% for player in dates[0]%}
         
-
           <li>{{ player }}</li>
         
         {% endfor %}
@@ -647,6 +647,7 @@ text-shadow: 4px 4px 8px #000000;
       <table class="charts-css line multiple show-heading show-labels show-data-axes show-primary-axis" id="player-progress">
         <caption>score progression</caption>
           <thead>
+            <!--dates-->
             <tr>
               {% for date in match_data["match score history"].keys() %}
               <th scope="col"> {{ date }} </th>
@@ -654,6 +655,7 @@ text-shadow: 4px 4px 8px #000000;
             </tr>
           </thead>
           <tbody>
+            <!--graph-->
             <tr>
 
               {% set iteration = namespace(value = 0) %}
@@ -666,7 +668,7 @@ text-shadow: 4px 4px 8px #000000;
                 
                 <!--iteration tracker: {{iteration.value}}-->
 
-              <td style="--start:{{previous_score_segment(get_key_of(player_score, match_data["match score history"][date]), iteration.value) / biggest_score}}; --size:{{player_score / biggest_score}};"><span class="data">{{ player_score }}</span></td>
+              <td style="font-size: {{biggest_score|string|length + match_data["match score history"].keys()|length / match_data["users"]|length}}px; --start:{{previous_score_segment(get_key_of(player_score, match_data["match score history"][date]), iteration.value) / biggest_score}}; --size:{{player_score / biggest_score}}; white-space: nowrap;"><span class="data">{{ player_score }}</span></td>
               
                 {% endfor %}
               
@@ -675,63 +677,12 @@ text-shadow: 4px 4px 8px #000000;
           </tbody>
       </table>
     </div>
-  
-  {% else %}
-
-        <!--graph-->
-
-    <div id="player-progress">
-      <ul class="charts-css legend legend-rhombus">
-
-        {% set dates = match_data["match score history"].values() | list %}
-
-        {% for player in dates[0]%}
-        
-
-          <li>{{ player }}</li>
-        
-        {% endfor %}
-      </ul>
-
-      <table class="charts-css line multiple show-heading show-labels show-x-axes show-y-axes" id="player-progress">
-        <caption>score progression</caption>
-          <thead>
-            <tr>
-              {% for date in match_data["match score history"].keys() %}
-              <th scope="col"> {{ date }} </th>
-              {% endfor %}
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-
-              {% set iteration = namespace(value = 0) %}
-              {% for date in match_data["match score history"] %}
-              <th scope="col"> {{ date }} </th>
-
-              
-              {% set iteration.value = iteration.value + 1 %}
-                {% for player_score in match_data["match score history"][date].values() %}
-                
-                <!--iteration tracker: {{iteration.value}}-->
-
-              <td style="--start:{{previous_score_segment(get_key_of(player_score, match_data["match score history"][date]), iteration.value) / biggest_score}}; --size:{{player_score / biggest_score}};"><span class="data">{{ player_score }}</span></td>
-              
-                {% endfor %}
-              
-            </tr>
-              {% endfor %}
-          </tbody>
-      </table>
-    </div>
-
-  {% endif %}
 
   <!--<iframe src="https://web.libera.chat/?nick=Guest?#osuapicrap" style="border:0; width:100%; height:450px;"></iframe>-->
 
-  <script> 
-    setTimeout(() => location.reload(), 200000);
-  </script> 
+  <!--<script> 
+    setTimeout(() => location.reload(), 12413);
+  </script> -->
 
 </body>
 </html>
