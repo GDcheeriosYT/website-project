@@ -716,7 +716,7 @@ async def main_process():
 
 def login():
 
-  return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={client.public_url}/code_grab&scope=public")
+  return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id={client.client_id}&redirect_uri={client.public_url}/code_grab&scope=public")
 
 #@app.route("/Teams")
 def teams_web():
