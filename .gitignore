@@ -1,0 +1,6 @@
+
+Client_Credentials.py
+#ignore all .json files
+*.json
+__pycache__
+.vscode
