@@ -1,10 +1,7 @@
 import os
 
-#securing / creating flask variables
-secret = "6NRqh4oEYvWkypWxKBCr0Fu82NYFRhmf2Yj8DKjh"
-api_key = "952f25aee05178bd249c6781a88e98a098afa08b"
-public_url = "http://gdcheerios.com"
-client_id = "5679"
+#securing / importing flask variables
+import Client_Credentials as client
 
 #packages
 import requests
@@ -85,7 +82,7 @@ def levels_creation(difficulty):
     
 
 #variable to call requests with the slider module
-api_info = slider.client.Client("", str(api_key), api_url='https://osu.ppy.sh/api')
+api_info = slider.client.Client("", str(client.api_key), api_url='https://osu.ppy.sh/api')
 
 #making the library for slider
 slider.library.Library("")
@@ -516,11 +513,11 @@ def code_grab() :
   code = request.query_string #getting the url
   name_verify = str(code).split('code=')[1] #getting the code from the url
   name_verify = re.search(r"\w+", name_verify)
-  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':int(client_id), 'client_secret':secret, 'grant_type':'client_credentials', 'scope':'public'}, headers={'Accept':'application/json', 'Content-Type':'application/json'}) #send code in return for a access token
+  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':int(client.client_id), 'client_secret':client.secret, 'grant_type':'client_credentials', 'scope':'public'}, headers={'Accept':'application/json', 'Content-Type':'application/json'}) #send code in return for a access token
   token_thing = response.json() #grab the token
   global access_token
   access_token = token_thing["access_token"] #access token
-  return redirect(f"{public_url}/") #redirect
+  return redirect(f"{client.public_url}/") #redirect
 
 #start console interface
 @app.route("/start")
@@ -719,7 +716,7 @@ async def main_process():
 
 def login():
 
-  return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={public_url}/code_grab&scope=public")
+  return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={client.public_url}/code_grab&scope=public")
 
 #@app.route("/Teams")
 def teams_web():
@@ -1370,7 +1367,7 @@ async def matches():
 async def web_player_refresh(player_name):
   await player_refresh(player_name)
 
-  return redirect(f"{public_url}/matches")
+  return redirect(f"{client.public_url}/matches")
 
 @app.route("/control")
 async def web_control():
@@ -1415,7 +1412,7 @@ async def web_control_refresh_specific_match():
 
 @app.route("/control/refresh/specific/<player>")
 async def web_control_refresh_specific_player(player):
-  return redirect(f"{public_url}/refresh/{player}")
+  return redirect(f"{client.public_url}/refresh/{player}")
 
 @app.route("/control/refresh/specific/match-specific/<match>")
 async def web_control_refresh_specific_match_refresh(match):
@@ -1426,11 +1423,11 @@ async def web_control_refresh_specific_match_refresh(match):
   for user in match_data["users"]:
     await player_refresh(user)
   
-  return redirect(f"{public_url}/control")
+  return redirect(f"{client.public_url}/control")
 
 @app.route("/control/refresh/<player>")
 async def web_control_refresh_player(player):
-    return redirect(f"{public_url}/refresh/{player}")
+    return redirect(f"{client.public_url}/refresh/{player}")
   
 @app.route("/info")
 async def warning_info():
