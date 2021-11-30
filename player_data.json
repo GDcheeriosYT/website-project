@@ -1,911 +1,1290 @@
 {
-    "GDcheerios": [
-        66725794064,
-        "https://a.ppy.sh/11339405?1634353255.jpeg",
-        "https://assets.ppy.sh/user-profile-covers/11339405/c056df887904e128eff403c21fc27e2deaa015e4c2257fa3ef0c17c52e95c3c7.jpeg",
-        "https://osu.ppy.sh/users/11339405",
-        "538,719",
-        0,
-        0,
-        "https://assets.ppy.sh/beatmaps/19137/covers/cover.jpg",
-        "Clu Clu Lovely Day",
-        2.14,
-        "https://osu.ppy.sh/beatmaps/67483",
-        [
-            "HD",
-            "HR",
-            "DT"
-        ],
-        "U",
-        90.29,
-        198,
-        "B",
-        "blue",
-        "66,725,794,064",
-        49769
-    ],
-    "BirdPigeon": [
-        10640784976,
-        "https://a.ppy.sh/17879839?1604628393.png",
-        "https://assets.ppy.sh/user-profile-covers/17879839/8606da22a398253d8e4bdbfd1c6031ae114aa38ed0a9e28ce180f68baa14f740.png",
-        "https://osu.ppy.sh/users/17879839",
-        "947,820",
-        0,
-        0,
-        "https://assets.ppy.sh/beatmaps/1554918/covers/cover.jpg",
-        "\u3069\u3093\u306a\u541b\u3067\u3082\u611b\u3057\u3066\u308b",
-        5.17,
-        "https://osu.ppy.sh/beatmaps/3176712",
-        "no mods",
-        "\u305f\u304b\u3084\u3093",
-        92.89,
-        170,
-        "A",
-        "green",
-        "10,640,784,976",
-        33296
-    ],
-    "AluV2": [
-        31925925854,
-        "https://a.ppy.sh/13460125?1634364211.jpeg",
-        "https://assets.ppy.sh/user-profile-covers/13460125/ec44690e44dde15b82dd73cfdad1984bf29013e3f24c5e5ca72f6a00e2039c12.jpeg",
-        "https://osu.ppy.sh/users/13460125",
-        "1,392,708",
-        0,
-        0,
-        "https://assets.ppy.sh/beatmaps/274111/covers/cover.jpg",
-        "Hours ft. Lady Leshurr & Paigey Cakey",
-        4.8,
-        "https://osu.ppy.sh/beatmaps/647443",
-        "no mods",
-        "SON OF KICK",
-        96.95,
-        255,
-        "A",
-        "green",
-        "31,925,925,854",
-        28678
-    ],
-    "st4rstrukk": [
-        47686861072,
-        "https://a.ppy.sh/13789505?1637251064.jpeg",
-        "https://assets.ppy.sh/user-profile-covers/13789505/fef7468b058c81f485916985ba47b8611c8b28ba0a8bf34fa5bddbff4bab6de4.jpeg",
-        "https://osu.ppy.sh/users/13789505",
-        "10,317,360",
-        0,
-        0,
-        "https://assets.ppy.sh/beatmaps/662526/covers/cover.jpg",
-        "Hades: The rise",
-        7.27,
-        "https://osu.ppy.sh/beatmaps/1402392",
-        "no mods",
-        "\u5996\u7cbe\u5e1d\u570b",
-        86.62,
-        570,
-        "B",
-        "blue",
-        "47,686,861,072",
-        64291
-    ],
-    "MossL": [
-        3097305983,
-        "https://a.ppy.sh/13985346?1606538724.jpeg",
-        "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
-        "https://osu.ppy.sh/users/13985346",
-        "3,614,674",
-        0,
-        0,
-        "https://assets.ppy.sh/beatmaps/1341232/covers/cover.jpg",
-        "\u661f\u3068\u604b\u3059\u308b\u30b3\u30f3\u30c1\u30a7\u30eb\u30c8",
-        5.47,
-        "https://osu.ppy.sh/beatmaps/2778308",
-        "no mods",
-        "nayuta",
-        95.76,
-        434,
-        "S",
-        "yellow",
-        "3,097,305,983",
-        9990
-    ],
-    "Trufflebuttt": [
-        3489701,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
-        "https://osu.ppy.sh/users/19160758",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "3,489,701",
-        36
-    ],
-    "peterparkermj": [
-        148356865,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
-        "https://osu.ppy.sh/users/17822521",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "148,356,865",
-        717
-    ],
-    "MargaritaMix08": [
-        473923655,
-        "https://a.ppy.sh/17965819?1626822178.jpeg",
-        "https://assets.ppy.sh/user-profile-covers/17965819/c5338016f9d0de420b0d8ad30e923b45a972921d989f46cc2872695a9845e953.jpeg",
-        "https://osu.ppy.sh/users/17965819",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "473,923,655",
-        1422
-    ],
-    "kokuren": [
-        815566167,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
-        "https://osu.ppy.sh/users/18346314",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "815,566,167",
-        1746
-    ],
-    "Monvee": [
-        69436085,
-        "https://a.ppy.sh/18993227?1604699789.jpeg",
-        "https://assets.ppy.sh/user-profile-covers/18993227/c2771bbb58fada8a74f37cd79854c4a9ec129a935c8c51390adabe2d4921f552.jpeg",
-        "https://osu.ppy.sh/users/18993227",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "69,436,085",
-        322
-    ],
-    "GoodNightTokyo": [
-        125540288,
-        "https://a.ppy.sh/16369108?1590363727.jpeg",
-        "https://osu.ppy.sh/images/headers/profile-covers/c5.jpg",
-        "https://osu.ppy.sh/users/16369108",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "125,540,288",
-        1012
-    ],
-    "Mcg_Tokyo": [
-        35886575,
-        "https://a.ppy.sh/18037392?1602885654.jpeg",
-        "https://osu.ppy.sh/images/headers/profile-covers/c1.jpg",
-        "https://osu.ppy.sh/users/18037392",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "35,886,575",
-        443
-    ],
-    "Minty_Fresch": [
-        13383152,
-        "https://a.ppy.sh/17352685?1591816876.jpeg",
-        "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
-        "https://osu.ppy.sh/users/17352685",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "13,383,152",
-        98
-    ],
-    "wildernesexplor": [
-        6465081506,
-        "https://a.ppy.sh/17681245?1600049873.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
-        "https://osu.ppy.sh/users/17681245",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "6,465,081,506",
-        14302
-    ],
-    "Trale_Lewous": [
-        25072120,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c8.jpg",
-        "https://osu.ppy.sh/users/24499503",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "25,072,120",
-        155
-    ],
-    "Joe_Nuts69": [
-        5044202,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c5.jpg",
-        "https://osu.ppy.sh/users/24576716",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "5,044,202",
-        29
-    ],
-    "Gman709": [
-        26259111,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
-        "https://osu.ppy.sh/users/24650709",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "26,259,111",
-        55
-    ],
-    "KekumeSai": [
-        212529,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
-        "https://osu.ppy.sh/users/24650798",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "212,529",
-        3
-    ],
-    "Smol Glum": [
-        7491915762,
-        "https://a.ppy.sh/14670213?1608960024.jpeg",
-        "https://assets.ppy.sh/user-profile-covers/14670213/5db2fc6f3547620093e844fa327ad45452ffc717147d33f08ba6740fffdf6d09.jpeg",
-        "https://osu.ppy.sh/users/14670213",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "7,491,915,762",
-        15327
-    ],
-    "BBenji": [
-        370249313,
-        "https://a.ppy.sh/20861610?1618163143.jpeg",
-        "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
-        "https://osu.ppy.sh/users/20861610",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "370,249,313",
-        972
-    ],
-    "Nyx Duke": [
-        8365956,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
-        "https://osu.ppy.sh/users/18355390",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "8,365,956",
-        83
-    ],
-    "brianthe8east": [
-        2742561,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c1.jpg",
-        "https://osu.ppy.sh/users/20762152",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "2,742,561",
-        29
-    ],
-    "vinster19": [
-        511089,
-        "https://a.ppy.sh/24036177?1623546145.jpeg",
-        "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
-        "https://osu.ppy.sh/users/24036177",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "511,089",
-        10
-    ],
-    "WhiteToast": [
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "unknown",
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "unknown",
-        "unknown",
-        0,
-        0,
-        "F",
-        "red",
-        "0",
-        0
-    ],
-    "casedama": [
-        33151280906,
-        "https://a.ppy.sh/13450060?1633041789.jpeg",
-        "https://assets.ppy.sh/user-profile-covers/13450060/aac0cedf56a5d02b61410eda0d8ef4e163533a1b7e1aa89d74a4929a252ea512.gif",
-        "https://osu.ppy.sh/users/13450060",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "33,151,280,906",
-        54555
-    ],
-    "CheeseDude": [
-        2787973770,
-        "https://a.ppy.sh/17090247?1589822240.jpeg",
-        "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
-        "https://osu.ppy.sh/users/17090247",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "2,787,973,770",
-        4750
-    ],
-    "Walterdoggg": [
-        5092730474,
-        "https://a.ppy.sh/17681359?1617901114.jpeg",
-        "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
-        "https://osu.ppy.sh/users/17681359",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "5,092,730,474",
-        9066
-    ],
-    "Golucky": [
-        9932296489,
-        "https://a.ppy.sh/14506085?1628878011.png",
-        "https://assets.ppy.sh/user-profile-covers/14506085/11e6a5722afe3b186a98a639ac744b2c21c86067431999598befb5d4559416a5.png",
-        "https://osu.ppy.sh/users/14506085",
-        "908,008",
-        0,
-        0,
-        "https://assets.ppy.sh/beatmaps/465035/covers/cover.jpg",
-        "Maledetti Scarafaggi",
-        6.06,
-        "https://osu.ppy.sh/beatmaps/1026834",
-        "no mods",
-        "Giorgio Vanni",
-        88.91,
-        107,
-        "B",
-        "blue",
-        "9,932,296,489",
-        35698
-    ],
-    "inferno_volt": [
-        111988610,
-        "https://a.ppy.sh/17967231?1596513618.jpeg",
-        "https://osu.ppy.sh/images/headers/profile-covers/c8.jpg",
-        "https://osu.ppy.sh/users/17967231",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "111,988,610",
-        642
-    ],
-    "StarBoltZ": [
-        0,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c1.jpg",
-        "https://osu.ppy.sh/users/21475272",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "0",
-        0
-    ],
-    "DiamondPVPr": [
-        0,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
-        "https://osu.ppy.sh/users/17906393",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "0",
-        0
-    ],
-    "Mexicutioner": [
-        286236,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
-        "https://osu.ppy.sh/users/19252662",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "286,236",
-        8
-    ],
-    "pogo5512": [
-        0,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
-        "https://osu.ppy.sh/users/21475233",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "0",
-        0
-    ],
-    "UwU Aimi": [
-        1719860,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
-        "https://osu.ppy.sh/users/19999589",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "1,719,860",
-        40
-    ],
-    "forkk": [
-        12381314,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
-        "https://osu.ppy.sh/users/21837210",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "12,381,314",
-        97
-    ],
-    "Mcg_mm8": [
-        686192,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
-        "https://osu.ppy.sh/users/15027674",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "686,192",
-        9
-    ],
-    "Randomtangle": [
-        128458,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
-        "https://osu.ppy.sh/users/25897425",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "128,458",
-        3
-    ],
-    "Dukecj1": [
-        96800,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
-        "https://osu.ppy.sh/users/19266174",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "96,800",
-        4
-    ],
-    "aferchen": [
-        1106611,
-        "https://osu.ppy.sh/images/layout/avatar-guest.png",
-        "https://osu.ppy.sh/images/headers/profile-covers/c5.jpg",
-        "https://osu.ppy.sh/users/27260180",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "1,106,611",
-        21
-    ],
-    "headstack": [
-        376868150346,
-        "https://a.ppy.sh/10322186?1625565225.jpeg",
-        "https://assets.ppy.sh/user-profile-covers/10322186/c15b9d6b08b098e201bb5d4dd0bc87897685d3ca914fc4ac7fd588010175cecb.png",
-        "https://osu.ppy.sh/users/10322186",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "376,868,150,346",
-        135410
-    ],
-    "mode": [
-        166182335949,
-        "https://a.ppy.sh/4580287?1631949139.jpeg",
-        "https://assets.ppy.sh/user-profile-covers/4580287/95f13e2db347e9e851e8e7d188e6f18e15b65ca5643b553e83729b7e6c305306.jpeg",
-        "https://osu.ppy.sh/users/4580287",
-        "14,574,794",
-        0,
-        0,
-        "https://assets.ppy.sh/beatmaps/732077/covers/cover.jpg",
-        "Bad Boy",
-        4.33,
-        "https://osu.ppy.sh/beatmaps/1647371",
-        [
-            "HD"
-        ],
-        "\ub808\ub4dc\ubca8\ubcb3",
-        100,
-        829,
-        "SS+",
-        "grey",
-        "166,182,335,949",
-        130286
-    ],
-    "Leebs": [
-        288397134527,
-        "https://a.ppy.sh/7636779?1627706316.jpeg",
-        "https://assets.ppy.sh/user-profile-covers/7636779/af6c609344ec41450d806f1d0e1bdc3bfe2663f5c114b51fe287208ec8b725cf.jpeg",
-        "https://osu.ppy.sh/users/7636779",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "288,397,134,527",
-        93300
-    ],
-    "Checha": [
-        95108777918,
-        "https://a.ppy.sh/10157694?1637956051.jpeg",
-        "https://assets.ppy.sh/user-profile-covers/10157694/fbfdb9f28918e40b1f9578a896ee3c919f2ccc57db2e4933061861592617ec8a.png",
-        "https://osu.ppy.sh/users/10157694",
-        "0",
-        0,
-        0,
-        "https://data.whicdn.com/images/100018401/original.gif",
-        "not found",
-        "0",
-        "https://osu.ppy.sh/beatmapsets",
-        "",
-        "",
-        "",
-        "",
-        "F",
-        "red",
-        "95,108,777,918",
-        128930
-    ]
+    "13450060": {
+        "user data": {
+            "name": "casedama",
+            "score": 33158304516,
+            "playcount": 54563,
+            "avatar url": "https://a.ppy.sh/13450060?1633041789.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/13450060/aac0cedf56a5d02b61410eda0d8ef4e163533a1b7e1aa89d74a4929a252ea512.gif",
+            "profile url": "https://osu.ppy.sh/users/13450060"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "11339405": {
+        "user data": {
+            "name": "GDcheerios",
+            "score": 66725794064,
+            "playcount": 49769,
+            "avatar url": "https://a.ppy.sh/11339405?1634353255.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/11339405/c056df887904e128eff403c21fc27e2deaa015e4c2257fa3ef0c17c52e95c3c7.jpeg",
+            "profile url": "https://osu.ppy.sh/users/11339405"
+        },
+        "recent map data": {
+            "map title": "Clu Clu Lovely Day",
+            "map difficulty": 2.14,
+            "map url": "https://osu.ppy.sh/beatmaps/67483",
+            "map background url": "https://assets.ppy.sh/beatmaps/19137/covers/cover.jpg",
+            "mods": [
+                "HD",
+                "HR",
+                "DT"
+            ],
+            "artist": "U",
+            "accuracy": 90.29,
+            "max combo": 198,
+            "map grade": "B",
+            "rank color": "blue",
+            "recent score": "538,719"
+        },
+        "user tags": {
+            "development tags": [
+                "programmer",
+                "designer"
+            ],
+            "award tags": []
+        }
+    },
+    "17879839": {
+        "user data": {
+            "name": "BirdPigeon",
+            "score": 10640784976,
+            "playcount": 33296,
+            "avatar url": "https://a.ppy.sh/17879839?1604628393.png",
+            "background url": "https://assets.ppy.sh/user-profile-covers/17879839/8606da22a398253d8e4bdbfd1c6031ae114aa38ed0a9e28ce180f68baa14f740.png",
+            "profile url": "https://osu.ppy.sh/users/17879839"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "19160758": {
+        "user data": {
+            "name": "Trufflebuttt",
+            "score": 3489701,
+            "playcount": 36,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
+            "profile url": "https://osu.ppy.sh/users/19160758"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "10287120": {
+        "user data": {
+            "name": "OurAngeIYu",
+            "score": 89595818488,
+            "playcount": 38230,
+            "avatar url": "https://a.ppy.sh/10287120?1635290568.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/10287120/523a208a31e4e6d55321e06edb69e83ed7e688318edafb6d8c59615170493dba.jpeg",
+            "profile url": "https://osu.ppy.sh/users/10287120"
+        },
+        "recent map data": {
+            "map title": "Make A Move (Speed Up Ver.)",
+            "map difficulty": 6.15,
+            "map url": "https://osu.ppy.sh/beatmaps/879540",
+            "map background url": "https://assets.ppy.sh/beatmaps/403525/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "Icon For Hire",
+            "accuracy": 96.98,
+            "max combo": 282,
+            "map grade": "A",
+            "rank color": "green",
+            "recent score": "2,976,990"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "17822521": {
+        "user data": {
+            "name": "peterparkermj",
+            "score": 148356865,
+            "playcount": 717,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
+            "profile url": "https://osu.ppy.sh/users/17822521"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "17965819": {
+        "user data": {
+            "name": "MargaritaMix08",
+            "score": 473923655,
+            "playcount": 1422,
+            "avatar url": "https://a.ppy.sh/17965819?1626822178.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/17965819/c5338016f9d0de420b0d8ad30e923b45a972921d989f46cc2872695a9845e953.jpeg",
+            "profile url": "https://osu.ppy.sh/users/17965819"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "18346314": {
+        "user data": {
+            "name": "Kokuren",
+            "score": 815566167,
+            "playcount": 1746,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
+            "profile url": "https://osu.ppy.sh/users/18346314"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "18993227": {
+        "user data": {
+            "name": "Monvee",
+            "score": 69436085,
+            "playcount": 322,
+            "avatar url": "https://a.ppy.sh/18993227?1604699789.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/18993227/c2771bbb58fada8a74f37cd79854c4a9ec129a935c8c51390adabe2d4921f552.jpeg",
+            "profile url": "https://osu.ppy.sh/users/18993227"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "16369108": {
+        "user data": {
+            "name": "GoodNightTokyo",
+            "score": 125540288,
+            "playcount": 1012,
+            "avatar url": "https://a.ppy.sh/16369108?1590363727.jpeg",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c5.jpg",
+            "profile url": "https://osu.ppy.sh/users/16369108"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "18037392": {
+        "user data": {
+            "name": "Mcg_Tokyo",
+            "score": 35886575,
+            "playcount": 443,
+            "avatar url": "https://a.ppy.sh/18037392?1602885654.jpeg",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c1.jpg",
+            "profile url": "https://osu.ppy.sh/users/18037392"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "17352685": {
+        "user data": {
+            "name": "Minty_Fresch",
+            "score": 13383152,
+            "playcount": 98,
+            "avatar url": "https://a.ppy.sh/17352685?1591816876.jpeg",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
+            "profile url": "https://osu.ppy.sh/users/17352685"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "7545218": {
+        "user data": {
+            "name": "fooders",
+            "score": 222878357773,
+            "playcount": 77220,
+            "avatar url": "https://a.ppy.sh/7545218?1637933679.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/7545218/b8b9c59130c5adc136695ca8dfe98fb4def3154ee2952146cc5fc518dc8f28a7.gif",
+            "profile url": "https://osu.ppy.sh/users/7545218"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "7562902": {
+        "user data": {
+            "name": "mrekk",
+            "score": 274585945830,
+            "playcount": 121184,
+            "avatar url": "https://a.ppy.sh/7562902?1637460212.jpeg",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
+            "profile url": "https://osu.ppy.sh/users/7562902"
+        },
+        "recent map data": {
+            "map title": "Witch Doctor",
+            "map difficulty": 7.26,
+            "map url": "https://osu.ppy.sh/beatmaps/1762937",
+            "map background url": "https://assets.ppy.sh/beatmaps/67937/covers/cover.jpg",
+            "mods": [
+                "HD",
+                "DT"
+            ],
+            "artist": "Cartoons",
+            "accuracy": 84.23,
+            "max combo": 282,
+            "map grade": "B",
+            "rank color": "blue",
+            "recent score": "2,333,492"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "13789505": {
+        "user data": {
+            "name": "st4rstrukk",
+            "score": 47727840567,
+            "playcount": 64315,
+            "avatar url": "https://a.ppy.sh/13789505?1637251064.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/13789505/fef7468b058c81f485916985ba47b8611c8b28ba0a8bf34fa5bddbff4bab6de4.jpeg",
+            "profile url": "https://osu.ppy.sh/users/13789505"
+        },
+        "recent map data": {
+            "map title": "\u5929\u304b\u3051\u308b\u661f TV ver.",
+            "map difficulty": 6.78,
+            "map url": "https://osu.ppy.sh/beatmaps/899732",
+            "map background url": "https://assets.ppy.sh/beatmaps/414667/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "Suara",
+            "accuracy": 99.14,
+            "max combo": 548,
+            "map grade": "A",
+            "rank color": "green",
+            "recent score": "7,220,140"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "24036177": {
+        "user data": {
+            "name": "vinster19",
+            "score": 511089,
+            "playcount": 10,
+            "avatar url": "https://a.ppy.sh/24036177?1623546145.jpeg",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
+            "profile url": "https://osu.ppy.sh/users/24036177"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "8861593": {
+        "user data": {
+            "name": "BronyUS 3",
+            "score": 194129927266,
+            "playcount": 124342,
+            "avatar url": "https://a.ppy.sh/8861593?1635289677.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/8861593/88bc6aa0d492948e056f6a2d72ff7eb78c7981e6df6ee52687e3d72c92553a29.png",
+            "profile url": "https://osu.ppy.sh/users/8861593"
+        },
+        "recent map data": {
+            "map title": "\u5b30\u5150\u30af\u30a4\u30f3\u30d3\u30fc",
+            "map difficulty": 5.88,
+            "map url": "https://osu.ppy.sh/beatmaps/2352989",
+            "map background url": "https://assets.ppy.sh/beatmaps/1126144/covers/cover.jpg",
+            "mods": [
+                "HR"
+            ],
+            "artist": "-45",
+            "accuracy": 91.4,
+            "max combo": 223,
+            "map grade": "B",
+            "rank color": "blue",
+            "recent score": "4,445,413"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "20322801": {
+        "user data": {
+            "name": "bm38573",
+            "score": 2470438,
+            "playcount": 26,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
+            "profile url": "https://osu.ppy.sh/users/20322801"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "17681245": {
+        "user data": {
+            "name": "wildernesexplor",
+            "score": 6468058968,
+            "playcount": 14310,
+            "avatar url": "https://a.ppy.sh/17681245?1600049873.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
+            "profile url": "https://osu.ppy.sh/users/17681245"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "24499503": {
+        "user data": {
+            "name": "Trale_Lewous",
+            "score": 25072120,
+            "playcount": 155,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c8.jpg",
+            "profile url": "https://osu.ppy.sh/users/24499503"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "24576716": {
+        "user data": {
+            "name": "Joe_Nuts69",
+            "score": 5044202,
+            "playcount": 29,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c5.jpg",
+            "profile url": "https://osu.ppy.sh/users/24576716"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "24650709": {
+        "user data": {
+            "name": "Gman709",
+            "score": 26259111,
+            "playcount": 55,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
+            "profile url": "https://osu.ppy.sh/users/24650709"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "24650798": {
+        "user data": {
+            "name": "KekumeSai",
+            "score": 212529,
+            "playcount": 3,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
+            "profile url": "https://osu.ppy.sh/users/24650798"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "14670213": {
+        "user data": {
+            "name": "Smol Glum",
+            "score": 7491915762,
+            "playcount": 15327,
+            "avatar url": "https://a.ppy.sh/14670213?1608960024.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/14670213/5db2fc6f3547620093e844fa327ad45452ffc717147d33f08ba6740fffdf6d09.jpeg",
+            "profile url": "https://osu.ppy.sh/users/14670213"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "20861610": {
+        "user data": {
+            "name": "BBenji",
+            "score": 370249313,
+            "playcount": 972,
+            "avatar url": "https://a.ppy.sh/20861610?1618163143.jpeg",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
+            "profile url": "https://osu.ppy.sh/users/20861610"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "18355390": {
+        "user data": {
+            "name": "Nyx Duke",
+            "score": 8365956,
+            "playcount": 83,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
+            "profile url": "https://osu.ppy.sh/users/18355390"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "20762152": {
+        "user data": {
+            "name": "brianthe8east",
+            "score": 2742561,
+            "playcount": 29,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c1.jpg",
+            "profile url": "https://osu.ppy.sh/users/20762152"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "17090247": {
+        "user data": {
+            "name": "CheeseDude",
+            "score": 2787973770,
+            "playcount": 4750,
+            "avatar url": "https://a.ppy.sh/17090247?1589822240.jpeg",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
+            "profile url": "https://osu.ppy.sh/users/17090247"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "17681359": {
+        "user data": {
+            "name": "Walterdoggg",
+            "score": 5092730474,
+            "playcount": 9066,
+            "avatar url": "https://a.ppy.sh/17681359?1617901114.jpeg",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
+            "profile url": "https://osu.ppy.sh/users/17681359"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "15027674": {
+        "user data": {
+            "name": "Mcg_mm8",
+            "score": 686192,
+            "playcount": 9,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
+            "profile url": "https://osu.ppy.sh/users/15027674"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "21837210": {
+        "user data": {
+            "name": "Forkk",
+            "score": 12381314,
+            "playcount": 97,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
+            "profile url": "https://osu.ppy.sh/users/21837210"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "21475233": {
+        "user data": {
+            "name": "pogo5512",
+            "score": 0,
+            "playcount": 0,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
+            "profile url": "https://osu.ppy.sh/users/21475233"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "19252662": {
+        "user data": {
+            "name": "Mexicutioner",
+            "score": 286236,
+            "playcount": 8,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
+            "profile url": "https://osu.ppy.sh/users/19252662"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "17906393": {
+        "user data": {
+            "name": "DiamondPVPr",
+            "score": 0,
+            "playcount": 0,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
+            "profile url": "https://osu.ppy.sh/users/17906393"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "21475272": {
+        "user data": {
+            "name": "StarBoltZ",
+            "score": 0,
+            "playcount": 0,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c1.jpg",
+            "profile url": "https://osu.ppy.sh/users/21475272"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "17967231": {
+        "user data": {
+            "name": "inferno_volt",
+            "score": 111988610,
+            "playcount": 642,
+            "avatar url": "https://a.ppy.sh/17967231?1596513618.jpeg",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c8.jpg",
+            "profile url": "https://osu.ppy.sh/users/17967231"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "14506085": {
+        "user data": {
+            "name": "Golucky",
+            "score": 9945805035,
+            "playcount": 35731,
+            "avatar url": "https://a.ppy.sh/14506085?1628878011.png",
+            "background url": "https://assets.ppy.sh/user-profile-covers/14506085/11e6a5722afe3b186a98a639ac744b2c21c86067431999598befb5d4559416a5.png",
+            "profile url": "https://osu.ppy.sh/users/14506085"
+        },
+        "recent map data": {
+            "map title": "Maledetti Scarafaggi",
+            "map difficulty": 6.06,
+            "map url": "https://osu.ppy.sh/beatmaps/1026834",
+            "map background url": "https://assets.ppy.sh/beatmaps/465035/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "Giorgio Vanni",
+            "accuracy": 88.91,
+            "max combo": 107,
+            "map grade": "B",
+            "rank color": "blue",
+            "recent score": "908,008"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "19999589": {
+        "user data": {
+            "name": "UwU Aimi",
+            "score": 1719860,
+            "playcount": 40,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
+            "profile url": "https://osu.ppy.sh/users/19999589"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "25897425": {
+        "user data": {
+            "name": "Randomtangle",
+            "score": 128458,
+            "playcount": 3,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
+            "profile url": "https://osu.ppy.sh/users/25897425"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "13460125": {
+        "user data": {
+            "name": "AluV2",
+            "score": 31925925854,
+            "playcount": 28678,
+            "avatar url": "https://a.ppy.sh/13460125?1634364211.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/13460125/ec44690e44dde15b82dd73cfdad1984bf29013e3f24c5e5ca72f6a00e2039c12.jpeg",
+            "profile url": "https://osu.ppy.sh/users/13460125"
+        },
+        "recent map data": {
+            "map title": "Hours ft. Lady Leshurr & Paigey Cakey",
+            "map difficulty": 4.8,
+            "map url": "https://osu.ppy.sh/beatmaps/647443",
+            "map background url": "https://assets.ppy.sh/beatmaps/274111/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "SON OF KICK",
+            "accuracy": 96.95,
+            "max combo": 255,
+            "map grade": "A",
+            "rank color": "green",
+            "recent score": "1,392,708"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "13985346": {
+        "user data": {
+            "name": "MossL",
+            "score": 3097471963,
+            "playcount": 9992,
+            "avatar url": "https://a.ppy.sh/13985346?1606538724.jpeg",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
+            "profile url": "https://osu.ppy.sh/users/13985346"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "10322186": {
+        "user data": {
+            "name": "headstack",
+            "score": 376868150346,
+            "playcount": 135410,
+            "avatar url": "https://a.ppy.sh/10322186?1625565225.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/10322186/c15b9d6b08b098e201bb5d4dd0bc87897685d3ca914fc4ac7fd588010175cecb.png",
+            "profile url": "https://osu.ppy.sh/users/10322186"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "4580287": {
+        "user data": {
+            "name": "mode",
+            "score": 166182335949,
+            "playcount": 130286,
+            "avatar url": "https://a.ppy.sh/4580287?1631949139.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/4580287/95f13e2db347e9e851e8e7d188e6f18e15b65ca5643b553e83729b7e6c305306.jpeg",
+            "profile url": "https://osu.ppy.sh/users/4580287"
+        },
+        "recent map data": {
+            "map title": "Bad Boy",
+            "map difficulty": 4.33,
+            "map url": "https://osu.ppy.sh/beatmaps/1647371",
+            "map background url": "https://assets.ppy.sh/beatmaps/732077/covers/cover.jpg",
+            "mods": [
+                "HD"
+            ],
+            "artist": "\ub808\ub4dc\ubca8\ubcb3",
+            "accuracy": 100,
+            "max combo": 829,
+            "map grade": "SS+",
+            "rank color": "grey",
+            "recent score": "14,574,794"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "7636779": {
+        "user data": {
+            "name": "Leebs",
+            "score": 288683523488,
+            "playcount": 93373,
+            "avatar url": "https://a.ppy.sh/7636779?1627706316.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/7636779/af6c609344ec41450d806f1d0e1bdc3bfe2663f5c114b51fe287208ec8b725cf.jpeg",
+            "profile url": "https://osu.ppy.sh/users/7636779"
+        },
+        "recent map data": {
+            "map title": "\u6df1\u6d77\u5c11\u5973",
+            "map difficulty": 4.68,
+            "map url": "https://osu.ppy.sh/beatmaps/518731",
+            "map background url": "https://assets.ppy.sh/beatmaps/221768/covers/cover.jpg",
+            "mods": [
+                "DT"
+            ],
+            "artist": "Sharlo",
+            "accuracy": 95.78,
+            "max combo": 586,
+            "map grade": "A",
+            "rank color": "green",
+            "recent score": "8,960,109"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "10157694": {
+        "user data": {
+            "name": "BronyBR",
+            "score": 95178457719,
+            "playcount": 128946,
+            "avatar url": "https://a.ppy.sh/10157694?1637956051.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/10157694/fbfdb9f28918e40b1f9578a896ee3c919f2ccc57db2e4933061861592617ec8a.png",
+            "profile url": "https://osu.ppy.sh/users/10157694"
+        },
+        "recent map data": {
+            "map title": "My Dearest Nightmare",
+            "map difficulty": 4.22,
+            "map url": "https://osu.ppy.sh/beatmaps/3156527",
+            "map background url": "https://assets.ppy.sh/beatmaps/1542543/covers/cover.jpg",
+            "mods": [
+                "HD",
+                "DT"
+            ],
+            "artist": "rN",
+            "accuracy": 100,
+            "max combo": 1026,
+            "map grade": "SS+",
+            "rank color": "grey",
+            "recent score": "16,678,723"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "27260180": {
+        "user data": {
+            "name": "aferchen",
+            "score": 1106611,
+            "playcount": 21,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c5.jpg",
+            "profile url": "https://osu.ppy.sh/users/27260180"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "19266174": {
+        "user data": {
+            "name": "Dukecj1",
+            "score": 96800,
+            "playcount": 4,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
+            "profile url": "https://osu.ppy.sh/users/19266174"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    }
 }
