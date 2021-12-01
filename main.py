@@ -499,8 +499,8 @@ async def main_process():
       for user in ending_match["users"]:
         user_pos = ending_match["users"].index(user)
                 
-        player_playcount.append(player_data[user][18])
-        player_score.append(player_data[user][0])
+        player_playcount.append(player_data[user]["playcount"])
+        player_score.append(player_data[user]["score"])
 
       ending_match["final playcount"] = player_playcount
       ending_match["final score"] = player_score
