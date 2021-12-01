@@ -716,15 +716,16 @@ def players():
 
 @app.route("/matches/<match_name>")
 async def match(match_name):
+  
+  levels = []
+  
+  for current_lvl in range(1, 1000):
+    xp_to_next_level = math.floor(2000 * (current_lvl ** 3) + 100000 * current_lvl)
+    print(current_lvl, xp_to_next_level)
+    levels.append(xp_to_next_level)
 
   def level(playerscore):
     
-    levels = []
-    
-    for i in range(1, 1000):
-      xp_to_next_level = math.floor(4 * (i ** 4) + 500000 * i)
-      print(i, xp_to_next_level)
-      levels.append(xp_to_next_level)
       
     x = 0
 
