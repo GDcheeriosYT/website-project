@@ -171,10 +171,30 @@ class UserDataGrabber:
   :specific_data: input as list, will return the specified data in the list
   '''
   def __init__(self, id=0, name=None, pull_user_data=False, pull_recent_map_data=False, pull_user_tags=False, specific_data=[]):
-    if id in player_data:
-      None
-    else:
-      return("No player with such id...")
+    if id != 0:
+      if id in player_data:
+        None
+      else:
+        return(f"No player with such id {id} was found...")
+    
+    if name != None:
+      for userid in player_data:
+        if name in player_data[userid]["user data"]["name"]:
+          None
+        else:
+          return(f"No player with such name {name} was found...")
+    
+    if pull_user_data == True:
+      if id != 0:
+        return(player_data[id]["user data"])
+      
+      if name != None:
+        for userid in player_data:
+          if name in player_data[userid]["user data"]["name"]:
+            return(player_data[userid]["user data"])
+          else:
+            return(f"No player with such name {name} was found...")
+
 
 
 
