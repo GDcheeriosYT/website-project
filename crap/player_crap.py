@@ -168,18 +168,26 @@ class UserDataGrabber:
   :pull_user_data: if True will return a dictionary of all the items in user data
   :pull_recent_map_data: if True will return a dictionary of all the items in recent map data
   :pull_user_tags: if True will return a dictionary of all the items in user tags
-  :specific_data: input as list, will return the specified data in the list
+  :specific_data: input as list, each value should be a string will return the specified data found in the list
   '''
   def __init__(self, id=0, name=None, pull_user_data=False, pull_recent_map_data=False, pull_user_tags=False, specific_data=[]):
     if id != 0:
       if id in player_data:
-        None
+        if len(specific_data) != 0:
+          data_list = [] #list containing the specified data
+          for data in specific_data:
+            for key in player_data[id].items():
+              for value in player_data[id][key]:
+                if data == value:
+                  data_list.append(player_data[id][key][value])
+        else:
+          return(player_data[id])
       else:
         return(f"No player with such id {id} was found...")
     
     if name != None:
       for userid in player_data:
-        if name in player_data[userid]["user data"]["name"]:
+        if name == player_data[userid]["user data"]["name"]:
           None
         else:
           return(f"No player with such name {name} was found...")
@@ -190,8 +198,30 @@ class UserDataGrabber:
       
       if name != None:
         for userid in player_data:
-          if name in player_data[userid]["user data"]["name"]:
+          if name == player_data[userid]["user data"]["name"]:
             return(player_data[userid]["user data"])
+          else:
+            return(f"No player with such name {name} was found...")
+    
+    if pull_recent_map_data == True:
+      if id != 0:
+        return(player_data[id]["recent map data"])
+      
+      if name != None:
+        for userid in player_data:
+          if name == player_data[userid]["recent map data"]["name"]:
+            return(player_data[userid]["recent map data"])
+          else:
+            return(f"No player with such name {name} was found...")
+    
+    if pull_user_tags == True:
+      if id != 0:
+        return(player_data[id]["user tags"])
+      
+      if name != None:
+        for userid in player_data:
+          if name == player_data[userid]["user tags"]["name"]:
+            return(player_data[userid]["user tags"])
           else:
             return(f"No player with such name {name} was found...")
 
@@ -303,3 +333,24 @@ class RefreshAllPlayers:
       #overwrite player_data.json with player_data dict
       with open("player_data.json", "w") as file:
         json.dump(player_data, file, indent = 4, sort_keys = False)
+        
+
+
+
+#read player data
+def player_list():
+  '''
+  returns a list of all the player names
+  '''
+  with open("player_data.json") as f:
+    player_data = json.load(f)
+  
+  players = []
+  x = 0
+  
+  for id in player_data:
+    players.append(player_data[id]["user data"]["name"])
+    print(x+1, player_data[id]["user data"]["name"])
+    
+  selection = input("which player?\n")
+  return(players[selection])
