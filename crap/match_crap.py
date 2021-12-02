@@ -33,6 +33,18 @@ class StartMatch:
   '''
   def __init__(self, team_mode=False, teams=0, match_name=f"match{match_amount()}"):
     
+    if team_mode == True:
+      teams = {}
+      for i in range(teams):
+        players = []
+        team_name = input("give this team a name\n")
+        while True:
+          player_input = player_crap.player_list()
+          if player_input == "done":
+            break
+          players.append(player_input)
+        teams[f"{team_name}"] = players
+    
     #match json file constructor from global match_start(mode) variables
     match_dict = {}
     match_dict["users"] = players_selected

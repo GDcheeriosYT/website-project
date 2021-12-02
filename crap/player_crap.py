@@ -235,8 +235,6 @@ class PlayerRefresh:
   :id: the user id
   '''
   async def __init__(self, id):
-    
-    self.id
       
     print(f"loading user {id}'s data")
     time.sleep(2) #add delay to not request too quick
@@ -349,8 +347,13 @@ def player_list():
   x = 0
   
   for id in player_data:
-    players.append(player_data[id]["user data"]["name"])
-    print(x+1, player_data[id]["user data"]["name"])
+    players.append(id)
+    print(x, player_data[id]["user data"]["name"])
+    x += 1
     
   selection = input("which player?\n")
+  
+  if input == "done":
+    return("done")
+  
   return(players[selection])
