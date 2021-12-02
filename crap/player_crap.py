@@ -1,0 +1,285 @@
+#packages
+import json
+import time
+import requests
+from crap import authentication_crap
+
+#open player_data and read all the data
+with open("player_data.json") as player_data:
+  player_data = json.load(player_data)
+
+#user crap class
+class UserConstructor:
+  def __init__(self, id):
+    '''
+    constructs users to be placed in player_data.json
+    
+    :id: users id
+    '''
+    self.id = id
+    self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/osu", headers = {"Authorization": f'Bearer {authentication_crap.get_access_token()}'}).json()
+    time.sleep(1)
+    
+    #if user isn't found construct a "ghost" user
+    try:
+      self.name = self.request_profile['username']
+    except KeyError:
+      self.id = "unknown"
+      self.name = (f"Unknown")
+      self.play_count = 0
+      self.score = 0
+      self.avatar = "https://data.whicdn.com/images/100018401/original.gif"
+      self.background = "https://data.whicdn.com/images/100018401/original.gif"
+      self.link = "https://data.whicdn.com/images/100018401/original.gif"
+      self.recent_score = 0
+      self.map_cover = "https://data.whicdn.com/images/100018401/original.gif"
+      self.map_url = "https://data.whicdn.com/images/100018401/original.gif"
+      self.map_difficulty = 0
+      self.mods = "unknown"
+      self.map_title = "unknown"
+      self.artist = "unknown"
+      self.accuracy = 0
+      self.max_combo = 0
+      self.rank = "F"
+      self.rank_color = "red"
+      return None
+    
+    #user main info
+    self.name = self.request_profile['username']
+    self.play_count = self.request_profile['statistics']['play_count']
+    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {access_token}'}) 
+    time.sleep(1)
+    self.score = self.request_profile["statistics"]["total_score"]
+    self.avatar = self.request_profile['avatar_url']    
+    self.background = self.request_profile['cover_url']
+    self.link = (f"https://osu.ppy.sh/users/{self.id}")
+    
+    #recent map info
+    #all except are for if recent map is not found
+    #recent score from map played
+    try:
+      self.recent_score = (json.loads(self.request_scores.text)[0]["score"])
+    except IndexError:
+      self.recent_score = 0
+
+    #recent map background
+    try:
+      self.map_cover = (json.loads(self.request_scores.text)[0]["beatmap"]["beatmapset_id"])
+      self.map_cover = f"https://assets.ppy.sh/beatmaps/{self.map_cover}/covers/cover.jpg"
+    except IndexError:
+      self.map_cover = "https://data.whicdn.com/images/100018401/original.gif"
+
+    #recent map url
+    try:
+      self.map_url = (json.loads(self.request_scores.text)[0]["beatmap"]["url"])
+    except IndexError:
+      self.map_url = "https://osu.ppy.sh/beatmapsets"
+
+    #recent map difficulty
+    try:
+      self.map_difficulty = (json.loads(self.request_scores.text)[0]["beatmap"]["difficulty_rating"])
+    except IndexError:
+      self.map_difficulty = "0"
+
+    #recent map title
+    try:
+      self.map_title = (json.loads(self.request_scores.text)[0]["beatmapset"]["title_unicode"])
+    except IndexError:
+      self.map_title = "not found"
+
+    #recent map mods used
+    try:
+      self.mods = (json.loads(self.request_scores.text)[0]["mods"])
+      if len(self.mods) == 0:
+        self.mods = "no mods"
+      else:
+        self.mods = self.mods
+    except IndexError:
+      self.mods = ""
+      
+    #recent map artist
+    try:
+      self.artist = (json.loads(self.request_scores.text)[0]["beatmapset"]["artist_unicode"])
+    except IndexError:
+      self.artist = ""
+
+    #recent map accuracy
+    try:
+      self.accuracy = (json.loads(self.request_scores.text)[0]["accuracy"])
+      self.accuracy = round(self.accuracy * 100, 2)
+    except IndexError:
+      self.accuracy = ""
+
+    #recent map highest combo achieved
+    try:
+      self.max_combo = (json.loads(self.request_scores.text)[0]["max_combo"])
+    except IndexError:
+      self.max_combo = ""
+      
+    #recent map grade
+    try:
+      self.rank = (json.loads(self.request_scores.text)[0]["rank"])
+      if self.rank == "XH":
+        self.rank = "SS+"
+        self.rank_color = "grey"
+      elif self.rank == "SH":
+        self.rank = "S+"
+        self.rank_color = "grey"
+      elif self.rank == "S":
+        self.rank_color = "yellow"
+      elif self.rank == "X":
+        self.rank = "SS"
+        self.rank_color = "yellow"
+      elif self.rank == "A":
+        self.rank_color = "green"
+      elif self.rank == "B":
+        self.rank_color = "blue"
+      elif self.rank == "C":
+        self.rank_color = "purple"
+      elif self.rank == "D":
+        self.rank_color = "red"
+    except IndexError:
+      self.rank = "F"
+      self.rank_color = "red"
+      
+    #user tags
+    with open("player_data.json")as f:
+      player_data = json.load(f)
+    
+    try:
+      self.development_tags = player_data[self.id]["user tags"]["development tags"]
+    except KeyError:
+      self.development_tags = []
+    
+    try:
+      self.award_tags = player_data[self.id]["user tags"]["award tags"]
+    except KeyError:
+      self.award_tags = []
+
+
+
+
+class UserDataGrabber:
+  '''
+  grab user data
+  
+  :id: users id to specift data from a player with that id
+  :name: users name to specift data from a player with that name
+  :pull_user_data: if True will return a dictionary of all the items in user data
+  :pull_recent_map_data: if True will return a dictionary of all the items in recent map data
+  :pull_user_tags: if True will return a dictionary of all the items in user tags
+  :specific_data: input as list, will return the specified data in the list
+  '''
+  def __init__(self, id=0, name=None, pull_user_data=False, pull_recent_map_data=False, pull_user_tags=False, specific_data=[]):
+    if id in player_data:
+      None
+    else:
+      return("No player with such id...")
+
+
+
+class PlayerRefresh:
+  '''
+  refreshes a player's data
+  
+  :id: the user id
+  '''
+  async def __init__(self, id):
+    
+    self.id
+      
+    print(f"loading user {id}'s data")
+    time.sleep(2) #add delay to not request too quick
+    player = UserConstructor(id)
+    name = player.name
+    playcount = player.play_count
+    score = player.score
+    avatar = player.avatar
+    background = player.background
+    link = player.link
+    map_background = player.map_cover
+    map_title = player.map_title
+    map_difficulty = player.map_difficulty
+    map_url = player.map_url
+    mods = player.mods
+    artist = player.artist
+    accuracy = player.accuracy
+    max_combo = player.max_combo
+    rank = player.rank
+    development_tags = player.development_tags
+    award_tags = player.award_tags
+
+    #make sure recent map has a grade color
+    try:
+      rank_color = player.rank_color
+    except AttributeError:
+      rank_color = "red"
+
+    if score == 0:
+      recent_score = "0"
+    else:
+      recent_score = player.recent_score
+      recent_score = ("{:,}".format(recent_score))
+    
+    
+    #create player_data dict
+    user_data = {"name" : name, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
+    recent_map_data = {"map title" : map_title, "map difficulty" : map_difficulty, "map url" : map_url, "map background url" : map_background, "mods" : mods, "artist" : artist, "accuracy" : accuracy, "max combo" : max_combo, "map grade" : rank, "rank color" : rank_color, "recent score" : recent_score}
+    user_tags = {"development tags" : development_tags, "award tags" : award_tags}
+    player_data[id] = {"user data" : user_data, "recent map data" : recent_map_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+
+    #overwrite player_data.json with player_data dict
+    with open("player_data.json", "w") as file:
+      json.dump(player_data, file, indent = 4, sort_keys = False)
+
+
+
+
+class RefreshAllPlayers:
+  '''
+  refreshes all players data
+  '''
+  async def __init__(self):
+    for userid in player_data:
+      print(f"loading user {userid}'s data")
+      time.sleep(2) #add delay to not request too quick
+      player = UserConstructor(userid)
+      name = player.name
+      playcount = player.play_count
+      score = player.score
+      avatar = player.avatar
+      background = player.background
+      link = player.link
+      map_background = player.map_cover
+      map_title = player.map_title
+      map_difficulty = player.map_difficulty
+      map_url = player.map_url
+      mods = player.mods
+      artist = player.artist
+      accuracy = player.accuracy
+      max_combo = player.max_combo
+      rank = player.rank
+      development_tags = player.development_tags
+      award_tags = player.award_tags
+
+      #make sure recent map has a grade color
+      try:
+        rank_color = player.rank_color
+      except AttributeError:
+        rank_color = "red"
+
+      if score == 0:
+        recent_score = "0"
+      else:
+        recent_score = player.recent_score
+        recent_score = ("{:,}".format(recent_score))
+      
+      #create player_data dict
+      user_data = {"name" : name, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
+      recent_map_data = {"map title" : map_title, "map difficulty" : map_difficulty, "map url" : map_url, "map background url" : map_background, "mods" : mods, "artist" : artist, "accuracy" : accuracy, "max combo" : max_combo, "map grade" : rank, "rank color" : rank_color, "recent score" : recent_score}
+      user_tags = {"development tags" : development_tags, "award tags" : award_tags}
+      player_data[userid] = {"user data" : user_data, "recent map data" : recent_map_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+
+      #overwrite player_data.json with player_data dict
+      with open("player_data.json", "w") as file:
+        json.dump(player_data, file, indent = 4, sort_keys = False)

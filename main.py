@@ -1,203 +1,15 @@
 import os
 
-#securing / importing flask variables
-import Client_Credentials as client
-
 #packages
-import requests
-import aiohttp
-import asyncio
-import slider
-import numpy
-import scipy
-import re
-from flask import Flask, redirect, url_for, request, render_template
-from threading import Timer
+from flask import Flask, redirect, request, render_template
 import math
-import importlib
-import lxml
-from lxml import html
-import requests
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from dataclasses import dataclass
-from typing import List
-from collections import OrderedDict
 import json
 import time
-import sqlite3
-import urllib
-import asyncio
 import shutil
 import datetime as dt
 
-#variable to call requests with the slider module
-api_info = slider.client.Client("", str(client.api_key), api_url='https://osu.ppy.sh/api')
-
-#making the library for slider
-slider.library.Library("")
-
-#classes
-#clan class
-class clans:
-  def __init__(self, name, score, accuracy):
-    self.name = name
-    self.score = score
-    self.accuracy = accuracy
-
-
-#team in a match class
-class Teams:
-  def __init__(self, team_name, match_data):
-    self.team_name = team_name
-    self.users = match_data["team metadata"][team_name]
-
-
-#user block class
-class user_block:
-  def __init__(self, id):
-    self.id = id
-    self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/osu", headers = {"Authorization": f'Bearer {access_token}'}).json()
-    
-    print(self.request_profile['username'])
-    
-    
-    #if user isn't found construct a "ghost" user
-    try:
-      self.name = self.request_profile['username']
-    except KeyError:
-      self.id = "unknown"
-      self.name = (f"{name} (BANNED)")
-      self.play_count = 0
-      self.score = 0
-      self.avatar = "https://data.whicdn.com/images/100018401/original.gif"
-      self.background = "https://data.whicdn.com/images/100018401/original.gif"
-      self.link = "https://data.whicdn.com/images/100018401/original.gif"
-      self.recent_score = 0
-      self.map_cover = "https://data.whicdn.com/images/100018401/original.gif"
-      self.map_url = "https://data.whicdn.com/images/100018401/original.gif"
-      self.map_difficulty = 0
-      self.mods = "unknown"
-      self.map_title = "unknown"
-      self.artist = "unknown"
-      self.accuracy = 0
-      self.max_combo = 0
-      self.rank = "F"
-      self.rank_color = "red"
-      return None
-    
-    #user main info
-    self.name = self.request_profile['username']
-    self.play_count = self.request_profile['statistics']['play_count']
-    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {access_token}'}) 
-    self.score = self.request_profile["statistics"]["total_score"]
-    self.avatar = self.request_profile['avatar_url']    
-    self.background = self.request_profile['cover_url']
-    self.link = (f"https://osu.ppy.sh/users/{self.id}")
-    
-    #recent map info
-    #all except are for if recent map is not found
-    
-    #recent score from map played
-    try:
-      self.recent_score = (json.loads(self.request_scores.text)[0]["score"])
-    except IndexError:
-      self.recent_score = 0
-
-    #recent map background
-    try:
-      self.map_cover = (json.loads(self.request_scores.text)[0]["beatmap"]["beatmapset_id"])
-      self.map_cover = f"https://assets.ppy.sh/beatmaps/{self.map_cover}/covers/cover.jpg"
-    except IndexError:
-      self.map_cover = "https://data.whicdn.com/images/100018401/original.gif"
-
-    #recent map url
-    try:
-      self.map_url = (json.loads(self.request_scores.text)[0]["beatmap"]["url"])
-    except IndexError:
-      self.map_url = "https://osu.ppy.sh/beatmapsets"
-
-    #recent map difficulty
-    try:
-      self.map_difficulty = (json.loads(self.request_scores.text)[0]["beatmap"]["difficulty_rating"])
-    except IndexError:
-      self.map_difficulty = "0"
-
-    #recent map title
-    try:
-      self.map_title = (json.loads(self.request_scores.text)[0]["beatmapset"]["title_unicode"])
-    except IndexError:
-      self.map_title = "not found"
-
-    #recent map mods used
-    try:
-      self.mods = (json.loads(self.request_scores.text)[0]["mods"])
-      if len(self.mods) == 0:
-        self.mods = "no mods"
-      else:
-        self.mods = self.mods
-    except IndexError:
-      self.mods = ""
-      
-    #recent map artist
-    try:
-      self.artist = (json.loads(self.request_scores.text)[0]["beatmapset"]["artist_unicode"])
-    except IndexError:
-      self.artist = ""
-
-    #recent map accuracy
-    try:
-      self.accuracy = (json.loads(self.request_scores.text)[0]["accuracy"])
-      self.accuracy = round(self.accuracy * 100, 2)
-    except IndexError:
-      self.accuracy = ""
-
-    #recent map highest combo achieved
-    try:
-      self.max_combo = (json.loads(self.request_scores.text)[0]["max_combo"])
-    except IndexError:
-      self.max_combo = ""
-
-    #recent map grade
-    try:
-      self.rank = (json.loads(self.request_scores.text)[0]["rank"])
-      if self.rank == "XH":
-        self.rank = "SS+"
-        self.rank_color = "grey"
-      elif self.rank == "SH":
-        self.rank = "S+"
-        self.rank_color = "grey"
-      elif self.rank == "S":
-        self.rank_color = "yellow"
-      elif self.rank == "X":
-        self.rank = "SS"
-        self.rank_color = "yellow"
-      elif self.rank == "A":
-        self.rank_color = "green"
-      elif self.rank == "B":
-        self.rank_color = "blue"
-      elif self.rank == "C":
-        self.rank_color = "purple"
-      elif self.rank == "D":
-        self.rank_color = "red"
-    except IndexError:
-      self.rank = "F"
-      self.rank_color = "red"
-      
-    #user tags
-    with open("player_data.json")as f:
-      player_data = json.load(f)
-    
-    try:
-      self.development_tags = player_data[self.id]["user tags"]["development tags"]
-    except KeyError:
-      self.development_tags = []
-    
-    try:
-      self.award_tags = player_data[self.id]["user tags"]["award tags"]
-    except KeyError:
-      self.award_tags = []
-
+#my packages
+from crap import player_crap, function_crap
 
 #read player data
 def player_list():
@@ -213,106 +25,6 @@ def player_list():
     
   selection = input("which player?\n")
   return(players[selection])
-
-
-#refresh player values
-async def player_refresh(id):
-  
-  #open player_data and read all the data
-  with open("player_data.json") as player_data:
-    player_data = json.load(player_data)
-    
-  if id == "all":
-    for userid in player_data:
-      print(f"loading user {userid}'s data")
-      time.sleep(2) #add delay to not request too quick
-      player = user_block(userid)
-      name = player.name
-      playcount = player.play_count
-      score = player.score
-      avatar = player.avatar
-      background = player.background
-      link = player.link
-      map_background = player.map_cover
-      map_title = player.map_title
-      map_difficulty = player.map_difficulty
-      map_url = player.map_url
-      mods = player.mods
-      artist = player.artist
-      accuracy = player.accuracy
-      max_combo = player.max_combo
-      rank = player.rank
-      development_tags = player.development_tags
-      award_tags = player.award_tags
-
-      #make sure recent map has a grade color
-      try:
-        rank_color = player.rank_color
-      except AttributeError:
-        rank_color = "red"
-
-      if score == 0:
-        recent_score = "0"
-      else:
-        recent_score = player.recent_score
-        recent_score = ("{:,}".format(recent_score))
-      
-      
-      #create player_data dict
-      user_data = {"name" : name, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
-      recent_map_data = {"map title" : map_title, "map difficulty" : map_difficulty, "map url" : map_url, "map background url" : map_background, "mods" : mods, "artist" : artist, "accuracy" : accuracy, "max combo" : max_combo, "map grade" : rank, "rank color" : rank_color, "recent score" : recent_score}
-      user_tags = {"development tags" : development_tags, "award tags" : award_tags}
-      player_data[userid] = {"user data" : user_data, "recent map data" : recent_map_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
-
-      #overwrite player_data.json with player_data dict
-      with open("player_data.json", "w") as file:
-        json.dump(player_data, file, indent = 4, sort_keys = False)
-    
-  else:
-    
-    print(f"loading user {id}'s data")
-    time.sleep(2) #add delay to not request too quick
-    player = user_block(id)
-    name = player.name
-    playcount = player.play_count
-    score = player.score
-    avatar = player.avatar
-    background = player.background
-    link = player.link
-    map_background = player.map_cover
-    map_title = player.map_title
-    map_difficulty = player.map_difficulty
-    map_url = player.map_url
-    mods = player.mods
-    artist = player.artist
-    accuracy = player.accuracy
-    max_combo = player.max_combo
-    rank = player.rank
-    development_tags = player.development_tags
-    award_tags = player.award_tags
-
-    #make sure recent map has a grade color
-    try:
-      rank_color = player.rank_color
-    except AttributeError:
-      rank_color = "red"
-
-    if score == 0:
-      recent_score = "0"
-    else:
-      recent_score = player.recent_score
-      recent_score = ("{:,}".format(recent_score))
-    
-    
-    #create player_data dict
-    user_data = {"name" : name, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
-    recent_map_data = {"map title" : map_title, "map difficulty" : map_difficulty, "map url" : map_url, "map background url" : map_background, "mods" : mods, "artist" : artist, "accuracy" : accuracy, "max combo" : max_combo, "map grade" : rank, "rank color" : rank_color, "recent score" : recent_score}
-    user_tags = {"development tags" : development_tags, "award tags" : award_tags}
-    player_data[id] = {"user data" : user_data, "recent map data" : recent_map_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
-
-    #overwrite player_data.json with player_data dict
-    with open("player_data.json", "w") as file:
-      json.dump(player_data, file, indent = 4, sort_keys = False)
 
 
 async def match_start(mode):
@@ -407,7 +119,7 @@ async def match_start(mode):
   
   #get player info and append them
   for player in players_selected:
-    initial_playcount.append(api_info.user(user_name=str(player)).play_count)
+    initial_playcount.append(player_crap.user_block)
     initial_score.append(api_info.user(user_name=str(player)).total_score)
 
 
@@ -450,19 +162,6 @@ app = Flask(  # Create a flask app
 def home():
   return render_template("index.html")
 
-#redirect code grab for getting token
-@app.route('/code_grab')
-def code_grab() :
-
-  code = request.query_string #getting the url
-  name_verify = str(code).split('code=')[1] #getting the code from the url
-  name_verify = re.search(r"\w+", name_verify)
-  response = requests.post("https://osu.ppy.sh/oauth/token", json = { 'client_id':int(client.client_id), 'client_secret':client.secret, 'grant_type':'client_credentials', 'scope':'public'}, headers={'Accept':'application/json', 'Content-Type':'application/json'}) #send code in return for a access token
-  token_thing = response.json() #grab the token
-  global access_token
-  access_token = token_thing["access_token"] #access token
-  return redirect(f"{client.public_url}/") #redirect
-
 #start console interface
 @app.route("/start")
 async def main_process():
@@ -499,8 +198,8 @@ async def main_process():
       for user in ending_match["users"]:
         user_pos = ending_match["users"].index(user)
                 
-        player_playcount.append(player_data[user]["playcount"])
-        player_score.append(player_data[user]["score"])
+        player_playcount.append(player_data[user]["user data"]["playcount"])
+        player_score.append(player_data[user]["user data"]["score"])
 
       ending_match["final playcount"] = player_playcount
       ending_match["final score"] = player_score
@@ -604,7 +303,7 @@ async def main_process():
       if task2 == "1":
 
         print("refreshing player data...\n")
-        await player_refresh("all")
+        await player_crap.RefreshAllPlayers()
       
       if task2 == "2":
 
@@ -616,9 +315,9 @@ async def main_process():
 
           x = x + 1
 
-        pick_user = input("\n")
+        pick_user = input("pick user id\n")
 
-        await player_refresh(player_list[int(pick_user)])
+        await player_crap.PlayerRefresh(player_list[int(pick_user)])
       
       if task2 =="3":
         
@@ -716,57 +415,6 @@ def players():
 
 @app.route("/matches/<match_name>")
 async def match(match_name):
-  
-  levels = []
-  
-  for current_lvl in range(1, 1000):
-    xp_to_next_level = math.floor(2000 * (current_lvl ** 3) + 100000 * current_lvl)
-    print(current_lvl, xp_to_next_level)
-    levels.append(xp_to_next_level)
-
-  def level(playerscore):
-    
-      
-    x = 0
-
-    for level_num, level_xp in enumerate(levels, start=1):
-
-      if level_xp > playerscore:
-
-        global player_level_up_percent
-
-        previous_level_score = levels[x - 1]
-
-        player_level_up_percent1 = levels[x] - previous_level_score
-    
-        player_level_up_percent2 = playerscore - previous_level_score
-
-        player_level_up_percent = player_level_up_percent2 / player_level_up_percent1 
-
-        break
-
-      x = x + 1
-
-    global player_current_level
-
-    player_current_level = level_num - 1
-
-    global player_levelup_percent
-
-    try:
-
-      #leveling_start + level_number_change * level_expenential_growth_modifier
-
-      player_levelup_percent = int(player_level_up_percent * 100)
-    except ZeroDivisionError:
-      player_levelup_percent = int(player_level_up_percent * 100)
-
-    except NameError:
-      player_levelup_percent = "???"
-
-    #print(f'Level: {player_current_level}.')
-
-    #print(f'Progress to next level: {player_levelup_percent}%.')
 
   players = {}
 
@@ -1065,49 +713,6 @@ async def match(match_name):
 #work on future old matches
 @app.route("/matches/old/<match_name>")
 def old_match(match_name):
-
-  def level(playerscore):
-      
-    x = 0
-
-    for level_num, level_xp in enumerate(levels, start=1):
-
-      if level_xp > playerscore:
-
-        global player_level_up_percent
-
-        previous_level_score = levels[x - 1]
-
-        player_level_up_percent1 = levels[x] - previous_level_score
-    
-        player_level_up_percent2 = playerscore - previous_level_score
-
-        player_level_up_percent = player_level_up_percent2 / player_level_up_percent1 
-
-        break
-
-      x = x + 1
-
-    global player_current_level
-
-    player_current_level = level_num - 1
-
-    global player_levelup_percent
-
-    try:
-
-      #leveling_start + level_number_change * level_expenential_growth_modifier
-
-      player_levelup_percent = int(player_level_up_percent * 100)
-    except ZeroDivisionError:
-      player_levelup_percent = int(player_level_up_percent * 100)
-
-    except NameError:
-      player_levelup_percent = "???"
-
-    #print(f'Level: {player_current_level}.')
-
-    #print(f'Progress to next level: {player_levelup_percent}%.')
 
   players = {}
 
