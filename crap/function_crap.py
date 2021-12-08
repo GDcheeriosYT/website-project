@@ -12,6 +12,7 @@ def level(score, output):
     '''
     Constructor for levels in matches
     :score: player score
+    :output: which output it will return
     '''
     
     x = 0
