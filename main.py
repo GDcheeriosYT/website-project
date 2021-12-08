@@ -9,7 +9,17 @@ import shutil
 import datetime as dt
 
 #my packages
-from crap import player_crap, function_crap
+from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap
+
+#api setup
+
+async def authentication():
+  while True:
+    await authentication_crap.client_grant_loop()
+    global access_token
+    access_token = authentication_crap.get_access_token()
+
+authentication()
 
 #flask set up
 app = Flask(  # Create a flask app
@@ -25,225 +35,7 @@ def home():
 
 #start console interface
 @app.route("/start")
-async def main_process():
-  while True:
-    #ask user what they want to do
-    task = input("1.create new match\n2.end match\n3.edit match\n4.test async interface\n5.refresh\n6.exit\n")
-    
-    #start match
-    if task == "1":
-      await match_initialization()
 
-    #end match
-    elif task == "2":
-      i = 0 #counting variable
-      player_playcount = []
-      player_score = []
-      matches = []
-      
-      #append all matches into matches
-      for match in os.listdir("matches/"):
-        matches.append(match)
-        print(f"{i} {match[:-5]}")
-        i += 1
-
-      match_end = int(input("\nwhich match will you end?\n")) #pick the match to end
-
-      with open(f"matches/{matches[match_end]}") as file: # Open the file in read mode
-        ending_match = json.load(file) # Set the variable to the dict version of the json file
-      # The file is now closed
-
-      with open("player_data.json")as player_data:
-        player_data = json.load(player_data) #
-
-      for user in ending_match["users"]:
-        user_pos = ending_match["users"].index(user)
-                
-        player_playcount.append(player_data[user]["user data"]["playcount"])
-        player_score.append(player_data[user]["user data"]["score"])
-
-      ending_match["final playcount"] = player_playcount
-      ending_match["final score"] = player_score
-
-      with open(f"matches/{matches[match_end]}", "w") as file: # Open the file in write mode
-        json.dump(ending_match, file, indent = 4, sort_keys = False) # Write the variable out to the file, json formatted
-      # The file is now closed
-      
-      try:
-        shutil.move(f"matches/{matches[match_end]}", f"match_history/")
-      except FileNotFoundError:
-        print("\nfile not found...")
-
-    elif task == "3":
-
-      i = 0
-
-      matches = []
-
-      for match in os.listdir("matches/"):
-        matches.append(match)
-        print(f"{i} {match[:-5]}")
-        i += 1
-
-      match_end = int(input("\nwhich match will you edit?\n"))
-
-      print(matches[match_end])
-
-      task2 = input("1.add user\n2.remove user\n3.edit match name\n4.change level difficulty\n")
-      
-      if task2 == "1": #add player
-
-        with open(f"matches/{matches[match_end]}") as match_edit:
-          match_edit = json.load(match_edit)
-
-        x = 0
-
-        while x < len(player_list):
-
-          print(x, player_list[x])
-
-          x = x + 1
-
-        pick_user = input("\n")
-
-        match_edit["users"].append(player_list[int(pick_user)])
-        match_edit["initial score"].append(api_info.user(user_name=player_list[int(pick_user)]).total_score)
-        match_edit["initial playcount"].append(api_info.user(user_name=player_list[int(pick_user)]).play_count)
-
-        with open(f"matches/{matches[match_end]}", "w") as file:
-          json.dump(match_edit, file, indent = 4, sort_keys = False)
-
-      elif task2 == "2": #remove player
-
-        with open(f"matches/{matches[match_end]}") as match_edit:
-          match_edit = json.load(match_edit)
-
-        x = 0
-
-        for user in match_edit["users"]:
-
-          print(f"{x} {user}")
-
-          x += 1
-        
-        task3 = int(input("who to remove?\n"))
-
-        match_edit["users"].pop(task3)
-        match_edit["initial score"].pop(task3)
-        match_edit["initial playcount"].pop(task3)
-
-        with open(f"matches/{matches[match_end]}", "w") as file:
-          json.dump(match_edit, file, indent = 4, sort_keys = False)
-
-      elif task2 == "3": #change match name
-        
-        with open(f"matches/{matches[match_end]}") as match_edit:
-          match_edit = json.load(match_edit)
-
-        task3 = input("new match name?\n")
-
-        match_edit["match name"] = task3
-        
-
-        with open(f"matches/{matches[match_end]}", "w") as file:
-          json.dump(match_edit, file, indent = 4, sort_keys = False)
-        
-        os.rename(f"matches/{matches[match_end]}", f"matches/{task3}.json")
-      
-      else:
-
-        print("I don't know...")
-
-    elif task == "4":
-      print("testing")
-
-    elif task == "5":
-
-      task2 = input("1.refresh all data\n2.refresh certain player data\n3.refresh all users in a match\n")
-
-      if task2 == "1":
-
-        print("refreshing player data...\n")
-        await player_crap.RefreshAllPlayers()
-      
-      if task2 == "2":
-
-        x = 0
-
-        while x < len(player_list):
-
-          print(x, player_list[x])
-
-          x = x + 1
-
-        pick_user = input("pick user id\n")
-
-        await player_crap.PlayerRefresh(player_list[int(pick_user)])
-      
-      if task2 =="3":
-        
-        i = 0
-
-        matches = []
-
-        for match in os.listdir("matches/"):
-          matches.append(match)
-          print(f"{i} {match[:-5]}")
-          i += 1
-          
-        match_refresh = int(input("\nwhich match's users will you refresh?\n"))
-        
-        with open(f"matches/{matches[match_refresh]}") as match_data:
-          match_data = json.load(match_data)
-          
-        for user in match_data["users"]:
-          
-          await(player_refresh(user))
-
-    elif task == "6":
-      os.exit()
-    
-    else:
-      print("I don't know...")
-
-@app.route("/login",methods = ['POST', 'GET'])
-
-def login():
-
-  return redirect(f"https://osu.ppy.sh/oauth/authorize?response_type=code&client_id={client.client_id}&redirect_uri={client.public_url}/code_grab&scope=public")
-
-#@app.route("/Teams")
-def teams_web():
-  team1_users = ["GDcheerios", "BirdPigeon", "kokuren"]
-  team_score = []
-  team_acc = []
-
-  for user in team1_users:
-    team_score.append(api_info.user(user_name=user).total_score)
-    team_acc.append(api_info.user(user_name=user).accuracy)
-
-    def listToString(seq):
-      return ''.join(seq)
-      
-    team_avg = sum(team_acc) / len(team_acc)
-
-  total_team_score = sum(team_score)
-    
-  team1 = team("طفل محرج", total_team_score, team_avg)
-
-  team1_users_string = listToString(team1_users)
-
-  print(team)
-  
-  return render_template(
-    'Teams.html',  # Template file
-    team1 = team1,
-    team1_users = team1_users,
-    team_score = team_score,
-    total_team_score = total_team_score,
-    team_acc = team_acc,
-    api_info = api_info
-  )
 
 @app.route("/players")
 def players():
@@ -329,7 +121,6 @@ async def match(match_name):
         else:
           recent_score = player_data[id]["recent map data"]["recent score"]
 
-        level(score)
       except:
         name = "Unknown User"
         playcount = 0
@@ -349,11 +140,9 @@ async def match(match_name):
         rank = "F"
         rank_color = "red"
         recent_score = 0
-        
-        level(score)
 
 
-      players[name] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+      players[name] = [score, avatar, background, link, recent_score, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
 
@@ -489,9 +278,7 @@ async def match(match_name):
           
           recent_score = player_data[user][4]
 
-        level(score)
-
-        players[user] = [score, avatar, background, link, recent_score, player_current_level, player_levelup_percent, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, score_data]
+        players[user] = [score, avatar, background, link, recent_score, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, score_data]
 
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
 
@@ -741,7 +528,10 @@ async def matches():
 
 @app.route("/refresh/<player_name>")
 async def web_player_refresh(player_name):
-  await player_refresh(player_name)
+  if player_name == "all":
+    await player_crap.refresh_all_players()
+  else:
+    player_crap.player_refresh(player_name)
 
   return redirect(f"{client.public_url}/matches")
 

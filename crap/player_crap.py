@@ -47,7 +47,7 @@ class UserConstructor:
     #user main info
     self.name = self.request_profile['username']
     self.play_count = self.request_profile['statistics']['play_count']
-    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {access_token}'}) 
+    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {authentication_crap.get_access_token()}'}) 
     time.sleep(1)
     self.score = self.request_profile["statistics"]["total_score"]
     self.avatar = self.request_profile['avatar_url']    
@@ -159,7 +159,7 @@ class UserConstructor:
 
 
 
-class UserDataGrabber:
+def user_data_grabber(self, id=0, name=None, pull_user_data=False, pull_recent_map_data=False, pull_user_tags=False, specific_data=[]):
   '''
   grab user data
   
@@ -170,75 +170,129 @@ class UserDataGrabber:
   :pull_user_tags: if True will return a dictionary of all the items in user tags
   :specific_data: input as list, each value should be a string will return the specified data found in the list
   '''
-  def __init__(self, id=0, name=None, pull_user_data=False, pull_recent_map_data=False, pull_user_tags=False, specific_data=[]):
-    if id != 0:
-      if id in player_data:
-        if len(specific_data) != 0:
-          data_list = [] #list containing the specified data
-          for data in specific_data:
-            for key in player_data[id].items():
-              for value in player_data[id][key]:
-                if data == value:
-                  data_list.append(player_data[id][key][value])
-        else:
-          return(player_data[id])
+  if id == "done":
+    return()
+  
+  if id != 0:
+    if id in player_data:
+      if len(specific_data) != 0:
+        data_list = [] #list containing the specified data
+        for data in specific_data:
+          for key in player_data[id].items():
+            for value in player_data[id][key]:
+              if data == value:
+                data_list.append(player_data[id][key][value])
+        return(data_list)
       else:
-        return(f"No player with such id {id} was found...")
+        return(player_data[id])
+    else:
+      return(f"No player with such id {id} was found...")
+  
+  if name != None:
+    for userid in player_data:
+      if name == player_data[userid]["user data"]["name"]:
+        None
+      else:
+        return(f"No player with such name {name} was found...")
+  
+  if pull_user_data == True:
+    if id != 0:
+      return(player_data[id]["user data"])
     
     if name != None:
       for userid in player_data:
         if name == player_data[userid]["user data"]["name"]:
-          None
+          return(player_data[userid]["user data"])
         else:
           return(f"No player with such name {name} was found...")
+  
+  if pull_recent_map_data == True:
+    if id != 0:
+      return(player_data[id]["recent map data"])
     
-    if pull_user_data == True:
-      if id != 0:
-        return(player_data[id]["user data"])
-      
-      if name != None:
-        for userid in player_data:
-          if name == player_data[userid]["user data"]["name"]:
-            return(player_data[userid]["user data"])
-          else:
-            return(f"No player with such name {name} was found...")
+    if name != None:
+      for userid in player_data:
+        if name == player_data[userid]["recent map data"]["name"]:
+          return(player_data[userid]["recent map data"])
+        else:
+          return(f"No player with such name {name} was found...")
+  
+  if pull_user_tags == True:
+    if id != 0:
+      return(player_data[id]["user tags"])
     
-    if pull_recent_map_data == True:
-      if id != 0:
-        return(player_data[id]["recent map data"])
-      
-      if name != None:
-        for userid in player_data:
-          if name == player_data[userid]["recent map data"]["name"]:
-            return(player_data[userid]["recent map data"])
-          else:
-            return(f"No player with such name {name} was found...")
-    
-    if pull_user_tags == True:
-      if id != 0:
-        return(player_data[id]["user tags"])
-      
-      if name != None:
-        for userid in player_data:
-          if name == player_data[userid]["user tags"]["name"]:
-            return(player_data[userid]["user tags"])
-          else:
-            return(f"No player with such name {name} was found...")
+    if name != None:
+      for userid in player_data:
+        if name == player_data[userid]["user tags"]["name"]:
+          return(player_data[userid]["user tags"])
+        else:
+          return(f"No player with such name {name} was found...")
 
 
 
 
-class PlayerRefresh:
+async def player_refresh(id):
   '''
   refreshes a player's data
   
   :id: the user id
   '''
-  async def __init__(self, id):
-      
-    print(f"loading user {id}'s data")
+    
+  print(f"loading user {id}'s data")
+  time.sleep(2) #add delay to not request too quick
+  player = UserConstructor(id)
+  name = player.name
+  playcount = player.play_count
+  score = player.score
+  avatar = player.avatar
+  background = player.background
+  link = player.link
+  map_background = player.map_cover
+  map_title = player.map_title
+  map_difficulty = player.map_difficulty
+  map_url = player.map_url
+  mods = player.mods
+  artist = player.artist
+  accuracy = player.accuracy
+  max_combo = player.max_combo
+  rank = player.rank
+  development_tags = player.development_tags
+  award_tags = player.award_tags
+
+  #make sure recent map has a grade color
+  try:
+    rank_color = player.rank_color
+  except AttributeError:
+    rank_color = "red"
+
+  if score == 0:
+    recent_score = "0"
+  else:
+    recent_score = player.recent_score
+    recent_score = ("{:,}".format(recent_score))
+  
+  
+  #create player_data dict
+  user_data = {"name" : name, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
+  recent_map_data = {"map title" : map_title, "map difficulty" : map_difficulty, "map url" : map_url, "map background url" : map_background, "mods" : mods, "artist" : artist, "accuracy" : accuracy, "max combo" : max_combo, "map grade" : rank, "rank color" : rank_color, "recent score" : recent_score}
+  user_tags = {"development tags" : development_tags, "award tags" : award_tags}
+  player_data[id] = {"user data" : user_data, "recent map data" : recent_map_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+
+  #overwrite player_data.json with player_data dict
+  with open("player_data.json", "w") as file:
+    json.dump(player_data, file, indent = 4, sort_keys = False)
+
+
+
+
+async def refresh_all_players():
+  '''
+  refreshes all players data
+  '''
+  for userid in player_data:
+    print(f"loading user {userid}'s data")
     time.sleep(2) #add delay to not request too quick
-    player = UserConstructor(id)
+    player = UserConstructor(userid)
     name = player.name
     playcount = player.play_count
     score = player.score
@@ -269,68 +323,15 @@ class PlayerRefresh:
       recent_score = player.recent_score
       recent_score = ("{:,}".format(recent_score))
     
-    
     #create player_data dict
     user_data = {"name" : name, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
     recent_map_data = {"map title" : map_title, "map difficulty" : map_difficulty, "map url" : map_url, "map background url" : map_background, "mods" : mods, "artist" : artist, "accuracy" : accuracy, "max combo" : max_combo, "map grade" : rank, "rank color" : rank_color, "recent score" : recent_score}
     user_tags = {"development tags" : development_tags, "award tags" : award_tags}
-    player_data[id] = {"user data" : user_data, "recent map data" : recent_map_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+    player_data[userid] = {"user data" : user_data, "recent map data" : recent_map_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
     #overwrite player_data.json with player_data dict
     with open("player_data.json", "w") as file:
       json.dump(player_data, file, indent = 4, sort_keys = False)
-
-
-
-
-class RefreshAllPlayers:
-  '''
-  refreshes all players data
-  '''
-  async def __init__(self):
-    for userid in player_data:
-      print(f"loading user {userid}'s data")
-      time.sleep(2) #add delay to not request too quick
-      player = UserConstructor(userid)
-      name = player.name
-      playcount = player.play_count
-      score = player.score
-      avatar = player.avatar
-      background = player.background
-      link = player.link
-      map_background = player.map_cover
-      map_title = player.map_title
-      map_difficulty = player.map_difficulty
-      map_url = player.map_url
-      mods = player.mods
-      artist = player.artist
-      accuracy = player.accuracy
-      max_combo = player.max_combo
-      rank = player.rank
-      development_tags = player.development_tags
-      award_tags = player.award_tags
-
-      #make sure recent map has a grade color
-      try:
-        rank_color = player.rank_color
-      except AttributeError:
-        rank_color = "red"
-
-      if score == 0:
-        recent_score = "0"
-      else:
-        recent_score = player.recent_score
-        recent_score = ("{:,}".format(recent_score))
-      
-      #create player_data dict
-      user_data = {"name" : name, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
-      recent_map_data = {"map title" : map_title, "map difficulty" : map_difficulty, "map url" : map_url, "map background url" : map_background, "mods" : mods, "artist" : artist, "accuracy" : accuracy, "max combo" : max_combo, "map grade" : rank, "rank color" : rank_color, "recent score" : recent_score}
-      user_tags = {"development tags" : development_tags, "award tags" : award_tags}
-      player_data[userid] = {"user data" : user_data, "recent map data" : recent_map_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
-
-      #overwrite player_data.json with player_data dict
-      with open("player_data.json", "w") as file:
-        json.dump(player_data, file, indent = 4, sort_keys = False)
         
 
 

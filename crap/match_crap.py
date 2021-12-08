@@ -23,7 +23,7 @@ def match_amount(currently_running=True, ended=True):
 
 
 
-class StartMatch:
+def start_match(team_mode=False, teams=2, match_name=f"match{match_amount()}"):
   '''
   starts a match
   
@@ -31,30 +31,49 @@ class StartMatch:
   :teams: int, will tell how many teams there are
   :match_name: string, will decide match name
   '''
-  def __init__(self, team_mode=False, teams=0, match_name=f"match{match_amount()}"):
-    
-    if team_mode == True:
-      teams = {}
-      for i in range(teams):
-        players = []
-        team_name = input("give this team a name\n")
-        while True:
-          player_input = player_crap.player_list()
-          if player_input == "done":
-            break
-          players.append(player_input)
-        teams[f"{team_name}"] = players
-    
-    #match json file constructor from global match_start(mode) variables
-    match_dict = {}
-    match_dict["users"] = players_selected
-    match_dict["match name"] = match_name
-    match_dict["initial score"] = initial_score
-    match_dict["initial playcount"] = initial_playcount
-    match_dict["mode"] = mode
-    match_dict["team metadata"] = teams
-    match_dict["match score history"] = {}
-    
-    #put the values in the json file
-    with open(f"matches/{match_name}.json", "w+") as joe:
-      json.dump(match_dict, joe, indent = 4, sort_keys = False)
+  
+  if team_mode == True:
+    mode = "teams"
+    players_selected = []
+    initial_score = []
+    initial_playcount = []
+    teams = {}
+    for i in range(teams):
+      players = []
+      team_name = input("give this team a name\n")
+      while True:
+        player_input = player_crap.player_list()
+        initial_score.append(player_crap.user_data_grabber(id=player_input, specific_data=["score"]))
+        initial_playcount.append(player_crap.user_data_grabber(id=player_input, specific_data=["playcount"]))
+        if player_input == "done":
+          break
+        players.append(player_input)
+        players_selected.append(player_input)
+      teams[f"{team_name}"] = players
+  
+  else:
+    mode = "ffa"
+    players_selected = []
+    initial_score = []
+    initial_playcount = []
+    while True:
+      player_input = player_crap.player_list()
+      initial_score.append(player_crap.user_data_grabber(id=player_input, specific_data=["score"]))
+      initial_playcount.append(player_crap.user_data_grabber(id=player_input, specific_data=["playcount"]))
+      if player_input == "done":
+        break
+      players_selected.append(player_input)
+  
+  #match json file constructor from global match_start(mode) variables
+  match_dict = {}
+  match_dict["users"] = players_selected
+  match_dict["match name"] = match_name
+  match_dict["initial score"] = initial_score
+  match_dict["initial playcount"] = initial_playcount
+  match_dict["mode"] = mode
+  match_dict["team metadata"] = teams
+  match_dict["match score history"] = {}
+  
+  #put the values in the json file
+  with open(f"matches/{match_name}.json", "w+") as joe:
+    json.dump(match_dict, joe, indent = 4, sort_keys = False)
