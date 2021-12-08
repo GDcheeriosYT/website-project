@@ -29,27 +29,26 @@
     "11339405": {
         "user data": {
             "name": "GDcheerios",
-            "score": 67670087435,
-            "playcount": 50314,
+            "score": 67749643007,
+            "playcount": 50372,
             "avatar url": "https://a.ppy.sh/11339405?1634353255.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/11339405/c056df887904e128eff403c21fc27e2deaa015e4c2257fa3ef0c17c52e95c3c7.jpeg",
             "profile url": "https://osu.ppy.sh/users/11339405"
         },
         "recent map data": {
-            "map title": "\u4e0d\u53ef\u601d\u8b70\u306e\u30ab\u30eb\u30c6 (TV Size)",
-            "map difficulty": 4.02,
-            "map url": "https://osu.ppy.sh/beatmaps/2265282",
-            "map background url": "https://assets.ppy.sh/beatmaps/1083001/covers/cover.jpg",
+            "map title": "\u304b\u3093\u3057\u3083\u2606\u304b\u3093\u3052\u304d (Cut Ver.)",
+            "map difficulty": 5.59,
+            "map url": "https://osu.ppy.sh/beatmaps/2399963",
+            "map background url": "https://assets.ppy.sh/beatmaps/1149583/covers/cover.jpg",
             "mods": [
-                "HD",
-                "DT"
+                "HD"
             ],
-            "artist": "\u53cc\u8449\u7406\u592e (CV: \u7a2e\ufa11\u6566\u7f8e)",
-            "accuracy": 92.1,
-            "max combo": 203,
-            "map grade": "B",
-            "rank color": "blue",
-            "recent score": "689,048"
+            "artist": "U",
+            "accuracy": 98.99,
+            "max combo": 300,
+            "map grade": "A",
+            "rank color": "green",
+            "recent score": "3,304,471"
         },
         "user tags": {
             "development tags": [
