@@ -6,20 +6,12 @@ import math
 import json
 import time
 import shutil
+import asyncio
 import datetime as dt
+import Client_Credentials as client
 
 #my packages
 from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap
-
-#api setup
-
-async def authentication():
-  while True:
-    await authentication_crap.client_grant_loop()
-    global access_token
-    access_token = authentication_crap.get_access_token()
-
-authentication()
 
 #flask set up
 app = Flask(  # Create a flask app
@@ -28,6 +20,14 @@ app = Flask(  # Create a flask app
   static_folder='static' # Name of directory for static files
 )
 
+#api setup
+@app.route("/benis")
+async def authentication():
+  print("attempting to grant client")
+  global access_token
+  access_token = authentication_crap.client_grant()
+  return redirect(f"{client.public_url}/")
+    
 #home website
 @app.route('/')
 def home():
@@ -531,7 +531,12 @@ async def web_player_refresh(player_name):
   if player_name == "all":
     await player_crap.refresh_all_players()
   else:
-    player_crap.player_refresh(player_name)
+    try:
+      int(player_name) + 0
+    except:
+      player_name = player_crap.user_data_grabber(name=f"{player_name}", specific_data=["id"])[0]
+    
+    await player_crap.player_refresh(player_name)
 
   return redirect(f"{client.public_url}/matches")
 

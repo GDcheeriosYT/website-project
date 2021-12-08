@@ -3,6 +3,7 @@ import json
 import time
 import requests
 from crap import authentication_crap
+import __main__
 
 #open player_data and read all the data
 with open("player_data.json") as player_data:
@@ -17,7 +18,7 @@ class UserConstructor:
     :id: users id
     '''
     self.id = id
-    self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/osu", headers = {"Authorization": f'Bearer {authentication_crap.get_access_token()}'}).json()
+    self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/osu", headers = {"Authorization": f'Bearer {__main__.access_token}'}).json()
     time.sleep(1)
     
     #if user isn't found construct a "ghost" user
@@ -47,7 +48,7 @@ class UserConstructor:
     #user main info
     self.name = self.request_profile['username']
     self.play_count = self.request_profile['statistics']['play_count']
-    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {authentication_crap.get_access_token()}'}) 
+    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {__main__.access_token}'}) 
     time.sleep(1)
     self.score = self.request_profile["statistics"]["total_score"]
     self.avatar = self.request_profile['avatar_url']    
@@ -159,7 +160,7 @@ class UserConstructor:
 
 
 
-def user_data_grabber(self, id=0, name=None, pull_user_data=False, pull_recent_map_data=False, pull_user_tags=False, specific_data=[]):
+def user_data_grabber(id=0, name=None, pull_user_data=False, pull_recent_map_data=False, pull_user_tags=False, specific_data=[]):
   '''
   grab user data
   
@@ -189,11 +190,27 @@ def user_data_grabber(self, id=0, name=None, pull_user_data=False, pull_recent_m
       return(f"No player with such id {id} was found...")
   
   if name != None:
-    for userid in player_data:
-      if name == player_data[userid]["user data"]["name"]:
-        None
-      else:
-        return(f"No player with such name {name} was found...")
+    if len(specific_data) != 0:
+      data_list = [] #list containing the specified data
+      for data in specific_data:
+        if data == "id":
+          for id in player_data:
+            if player_data[id]["user data"]["name"] == name:
+              data_list.append(id)
+        for id in player_data:
+          for key in player_data[id]:
+            if key == data:
+              data_list.append(player_data[id][key])
+            for value in player_data[id][key]:
+              if value == data:
+                data_list.append(player_data[id][key][value])
+      return(data_list)
+    else:
+      for id in player_data:
+        if player_data[id]["name"] == name:
+          return(player_data[id])
+  else:
+    return(f"No player with such name {name} was found...")
   
   if pull_user_data == True:
     if id != 0:
@@ -278,6 +295,8 @@ async def player_refresh(id):
   user_tags = {"development tags" : development_tags, "award tags" : award_tags}
   player_data[id] = {"user data" : user_data, "recent map data" : recent_map_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
+  print(json.dumps(player_data[id], indent=4, sort_keys=False))
+  
   #overwrite player_data.json with player_data dict
   with open("player_data.json", "w") as file:
     json.dump(player_data, file, indent = 4, sort_keys = False)
@@ -328,6 +347,8 @@ async def refresh_all_players():
     recent_map_data = {"map title" : map_title, "map difficulty" : map_difficulty, "map url" : map_url, "map background url" : map_background, "mods" : mods, "artist" : artist, "accuracy" : accuracy, "max combo" : max_combo, "map grade" : rank, "rank color" : rank_color, "recent score" : recent_score}
     user_tags = {"development tags" : development_tags, "award tags" : award_tags}
     player_data[userid] = {"user data" : user_data, "recent map data" : recent_map_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+
+    print(json.dumps(player_data[userid], indent=4, sort_keys=False))
 
     #overwrite player_data.json with player_data dict
     with open("player_data.json", "w") as file:
