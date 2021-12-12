@@ -35,10 +35,9 @@ async def main_process():
       # The file is now closed
 
       with open("player_data.json")as player_data:
-        player_data = json.load(player_data) #
+        player_data = json.load(player_data)
 
       for user in ending_match["users"]:
-        user_pos = ending_match["users"].index(user)
                 
         player_playcount.append(player_data[user]["user data"]["playcount"])
         player_score.append(player_data[user]["user data"]["score"])
@@ -80,11 +79,14 @@ async def main_process():
         x = 0
         
         player = player_crap.player_list()
-        player_match_info = player_crap.UserDataGrabber(player, specific_data=["score", "playcount"])
+        player_match_info = player_crap.user_data_grabber(player, specific_data=["score", "playcount"])
 
         match_edit["users"].append(player)
         match_edit["initial score"].append(player_match_info[0])
         match_edit["initial playcount"].append(player_match_info[1])
+        
+        for date in match_edit["match score history"]:
+          match_edit["match score history"][date][player_crap.user_data_grabber(player, specific_data=["name"])[0]] = 0
 
         with open(f"matches/{matches[match_end]}", "w") as file:
           json.dump(match_edit, file, indent = 4, sort_keys = False)
@@ -98,16 +100,20 @@ async def main_process():
 
         for user in match_edit["users"]:
 
-          print(f"{x} {user}")
+          print(f"{x} {player_crap.user_data_grabber(user, specific_data=['name'])[0]} | {user}")
 
           x += 1
         
         task3 = int(input("who to remove?\n"))
 
-        match_edit["users"].pop(task3)
         match_edit["initial score"].pop(task3)
         match_edit["initial playcount"].pop(task3)
+        
+        for date in match_edit["match score history"]:
+          match_edit["match score history"][date].pop(player_crap.user_data_grabber(match_edit["users"][task3], specific_data=["name"])[0])
 
+        match_edit["users"].pop(task3)
+        
         with open(f"matches/{matches[match_end]}", "w") as file:
           json.dump(match_edit, file, indent = 4, sort_keys = False)
 
@@ -140,7 +146,7 @@ async def main_process():
       if task2 == "1":
 
         print("refreshing player data...\n")
-        await player_crap.RefreshAllPlayers()
+        await player_crap.refresh_all_players()
       
       if task2 == "2":
 
@@ -148,7 +154,7 @@ async def main_process():
 
         player = player_crap.player_list()
 
-        await player_crap.PlayerRefresh(player)
+        await player_crap.player_refresh(player)
       
       if task2 =="3":
         
@@ -168,10 +174,10 @@ async def main_process():
           
         for user in match_data["users"]:
           
-          await(player_crap.PlayerRefresh())
+          await(player_crap.player_refresh(user))
 
     elif task == "6":
-      os.exit()
+      exit()
     
     else:
       print("I don't know...")
