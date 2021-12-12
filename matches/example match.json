@@ -16,13 +16,53 @@
     "team metadata": {},
     "level difficulty": "normal",
     "match score history": {
-        "2021-12-07": {
+        "2021-11-17": {
+            "BirdPigeon": 10607040371,
+            "GDcheerios": 65316084861
+        },
+        "2021-11-18": {
+            "BirdPigeon": 10607040371,
+            "GDcheerios": 65337508889
+        },
+        "2021-11-19": {
+            "BirdPigeon": 10607935706,
+            "GDcheerios": 65589488899
+        },
+        "2021-11-20": {
+            "BirdPigeon": 10607935706,
+            "GDcheerios": 65621245362
+        },
+        "2021-11-21": {
+            "BirdPigeon": 10616352976,
+            "GDcheerios": 65903403257
+        },
+        "2021-11-22": {
+            "BirdPigeon": 10616352976,
+            "GDcheerios": 66205383120
+        },
+        "2021-11-23": {
+            "BirdPigeon": 10616391536,
+            "GDcheerios": 66248511544
+        },
+        "2021-11-25": {
+            "BirdPigeon": 10629541762,
+            "GDcheerios": 66248511544
+        },
+        "2021-11-27": {
+            "BirdPigeon": 10634486394,
+            "GDcheerios": 66351253009
+        },
+        "2021-11-29": {
+            "BirdPigeon": 10640784976,
+            "GDcheerios": 66967169863
+        },
+        "2021-12-02": {
             "BirdPigeon": 10640784976,
             "GDcheerios": 67111630763
         },
-        "2021-12-12": {
+        "2021-12-07": {
             "BirdPigeon": 10651062664,
-            "GDcheerios": 67749643007
+            "GDcheerios": 67681117621
         }
     }
 }
