@@ -2,7 +2,7 @@
 import json
 import time
 import requests
-from crap import authentication_crap
+from crap import authentication_crap, function_crap
 import __main__
 
 #open player_data and read all the data
@@ -13,9 +13,16 @@ with open("player_data.json") as player_data:
 class UserConstructor:
   def __init__(self, id):
     '''
-    constructs users to be placed in player_data.json
+    constructs a player data object
     
-    :id: users id
+    returns
+    
+    a player object
+    
+    Parameters
+    
+    id : int
+      user id to request data from osu api
     '''
     self.id = id
     self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/osu", headers = {"Authorization": f'Bearer {__main__.access_token}'}).json()
@@ -179,7 +186,7 @@ def user_data_grabber(id=0, name=None, pull_user_data=False, pull_recent_map_dat
       if len(specific_data) != 0:
         data_list = [] #list containing the specified data
         for data in specific_data:
-          for key in player_data[id].items():
+          for key in player_data[id]:
             for value in player_data[id][key]:
               if data == value:
                 data_list.append(player_data[id][key][value])
@@ -378,4 +385,74 @@ def player_list():
   if input == "done":
     return("done")
   
-  return(players[selection])
+  return(players[int(selection)])
+
+
+
+
+def player_match_constructor(id, match_data):
+  '''
+  will return a list of the players stats
+  
+  id : int
+    user id
+  
+  match_data : JSON
+    specifying the match_data
+  '''
+  
+  player_thing = []
+  
+  user_pos = match_data["users"].index(id)
+  
+  try:
+    name = player_data[id]["user data"]["name"]
+    playcount = player_data[id]["user data"]["playcount"] - match_data["initial playcount"][user_pos]
+    playcount = ("{:,}".format(playcount))
+    score = (player_data[id]["user data"]["score"] - match_data["initial score"][user_pos])
+    score_formatted = ("{:,}".format(score))
+    avatar = player_data[id]["user data"]["avatar url"]
+    background = player_data[id]["user data"]["background url"]
+    link = player_data[id]["user data"]["profile url"]
+    map_background = player_data[id]["recent map data"]["map background url"]
+    map_title = player_data[id]["recent map data"]["map title"]
+    map_difficulty = player_data[id]["recent map data"]["map difficulty"]
+    map_url = player_data[id]["recent map data"]["map url"]
+    mods = player_data[id]["recent map data"]["mods"]
+    artist = player_data[id]["recent map data"]["artist"]
+    accuracy = player_data[id]["recent map data"]["accuracy"]
+    max_combo = player_data[id]["recent map data"]["max combo"]
+    rank = player_data[id]["recent map data"]["map grade"]
+    
+    try:
+      rank_color = player_data[id]["recent map data"]["rank color"]
+    except AttributeError:
+      rank_color = "red"
+
+    if score == 0:
+      recent_score = "0"
+
+    else:
+      recent_score = player_data[id]["recent map data"]["recent score"]
+
+  except:
+    name = "Unknown User"
+    playcount = 0
+    score = 0
+    score_formatted = 0
+    avatar = "https://data.whicdn.com/images/100018401/original.gif"
+    background = "https://data.whicdn.com/images/100018401/original.gif"
+    link = "https://data.whicdn.com/images/100018401/original.gif"
+    map_background = "https://data.whicdn.com/images/100018401/original.gif"
+    map_title = "Unkown"
+    map_difficulty = 0
+    map_url = "https://data.whicdn.com/images/100018401/original.gif"
+    mods = []
+    artist = "Unknown"
+    accuracy = 0
+    max_combo = 0
+    rank = "F"
+    rank_color = "red"
+    recent_score = 0
+
+  return(name, [score, avatar, background, link, recent_score, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount])

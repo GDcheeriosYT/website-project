@@ -36,33 +36,33 @@
             "profile url": "https://osu.ppy.sh/users/11339405"
         },
         "recent map data": {
-            "map title": "\u304b\u3093\u3057\u3083\u2606\u304b\u3093\u3052\u304d (Cut Ver.)",
-            "map difficulty": 5.59,
-            "map url": "https://osu.ppy.sh/beatmaps/2399963",
-            "map background url": "https://assets.ppy.sh/beatmaps/1149583/covers/cover.jpg",
-            "mods": [
-                "HD"
-            ],
-            "artist": "U",
-            "accuracy": 98.99,
-            "max combo": 300,
-            "map grade": "A",
-            "rank color": "green",
-            "recent score": "3,304,471"
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
         },
         "user tags": {
             "development tags": [
                 "programmer",
                 "designer"
             ],
-            "award tags": ["iowa score farm november 2021 winner"]
+            "award tags": [
+                "iowa score farm november 2021 winner"
+            ]
         }
     },
     "17879839": {
         "user data": {
             "name": "BirdPigeon",
-            "score": 10651062664,
-            "playcount": 33311,
+            "score": 10656610559,
+            "playcount": 33336,
             "avatar url": "https://a.ppy.sh/17879839?1604628393.png",
             "background url": "https://assets.ppy.sh/user-profile-covers/17879839/8606da22a398253d8e4bdbfd1c6031ae114aa38ed0a9e28ce180f68baa14f740.png",
             "profile url": "https://osu.ppy.sh/users/17879839"
@@ -1123,38 +1123,11 @@
     "10322186": {
         "user data": {
             "name": "headstack",
-            "score": 377995169351,
-            "playcount": 135856,
+            "score": 378008403356,
+            "playcount": 135864,
             "avatar url": "https://a.ppy.sh/10322186?1625565225.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/10322186/c15b9d6b08b098e201bb5d4dd0bc87897685d3ca914fc4ac7fd588010175cecb.png",
             "profile url": "https://osu.ppy.sh/users/10322186"
-        },
-        "recent map data": {
-            "map title": "Wild Side (TV Size)",
-            "map difficulty": 6.56,
-            "map url": "https://osu.ppy.sh/beatmaps/2206954",
-            "map background url": "https://assets.ppy.sh/beatmaps/1055990/covers/cover.jpg",
-            "mods": "no mods",
-            "artist": "ALI",
-            "accuracy": 94.06,
-            "max combo": 549,
-            "map grade": "S",
-            "rank color": "yellow",
-            "recent score": "4,812,612"
-        },
-        "user tags": {
-            "development tags": [],
-            "award tags": []
-        }
-    },
-    "4580287": {
-        "user data": {
-            "name": "mode",
-            "score": 167191703442,
-            "playcount": 130623,
-            "avatar url": "https://a.ppy.sh/4580287?1638875822.jpeg",
-            "background url": "https://assets.ppy.sh/user-profile-covers/4580287/95f13e2db347e9e851e8e7d188e6f18e15b65ca5643b553e83729b7e6c305306.jpeg",
-            "profile url": "https://osu.ppy.sh/users/4580287"
         },
         "recent map data": {
             "map title": "not found",
@@ -1174,29 +1147,58 @@
             "award tags": []
         }
     },
+    "4580287": {
+        "user data": {
+            "name": "mode",
+            "score": 168067032755,
+            "playcount": 130884,
+            "avatar url": "https://a.ppy.sh/4580287?1639110543.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/4580287/95f13e2db347e9e851e8e7d188e6f18e15b65ca5643b553e83729b7e6c305306.jpeg",
+            "profile url": "https://osu.ppy.sh/users/4580287"
+        },
+        "recent map data": {
+            "map title": "Justice Monster",
+            "map difficulty": 7.07,
+            "map url": "https://osu.ppy.sh/beatmaps/2527867",
+            "map background url": "https://assets.ppy.sh/beatmaps/1026767/covers/cover.jpg",
+            "mods": [
+                "HD"
+            ],
+            "artist": "\u3042\u3084\u307d\u3093\u305a\uff0a",
+            "accuracy": 98.46,
+            "max combo": 971,
+            "map grade": "A",
+            "rank color": "green",
+            "recent score": "37,317,434"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
     "7636779": {
         "user data": {
             "name": "Leebs",
-            "score": 290385712787,
-            "playcount": 93671,
+            "score": 291695818860,
+            "playcount": 93753,
             "avatar url": "https://a.ppy.sh/7636779?1627706316.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/7636779/af6c609344ec41450d806f1d0e1bdc3bfe2663f5c114b51fe287208ec8b725cf.jpeg",
             "profile url": "https://osu.ppy.sh/users/7636779"
         },
         "recent map data": {
-            "map title": "\u7d43-ito-",
-            "map difficulty": 5.05,
-            "map url": "https://osu.ppy.sh/beatmaps/2255707",
-            "map background url": "https://assets.ppy.sh/beatmaps/1077982/covers/cover.jpg",
+            "map title": "Jack-the-Ripper",
+            "map difficulty": 5.44,
+            "map url": "https://osu.ppy.sh/beatmaps/81560",
+            "map background url": "https://assets.ppy.sh/beatmaps/23907/covers/cover.jpg",
             "mods": [
-                "DT"
+                "HR"
             ],
-            "artist": "\u30a8\u30df\u30eb\u306e\u611b\u3057\u305f\u6708\u591c\u306b\u7b2cIII\u5e7b\u60f3\u66f2\u3092",
-            "accuracy": 78.3,
-            "max combo": 125,
-            "map grade": "C",
-            "rank color": "purple",
-            "recent score": "1,505,469"
+            "artist": "sasakure.UK",
+            "accuracy": 97.15,
+            "max combo": 577,
+            "map grade": "S",
+            "rank color": "yellow",
+            "recent score": "6,291,077"
         },
         "user tags": {
             "development tags": [],
@@ -1206,26 +1208,26 @@
     "10157694": {
         "user data": {
             "name": "BronyBR",
-            "score": 96125368584,
-            "playcount": 129283,
+            "score": 97614056064,
+            "playcount": 129583,
             "avatar url": "https://a.ppy.sh/10157694?1637956051.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/10157694/fbfdb9f28918e40b1f9578a896ee3c919f2ccc57db2e4933061861592617ec8a.png",
             "profile url": "https://osu.ppy.sh/users/10157694"
         },
         "recent map data": {
-            "map title": "\u58f0",
-            "map difficulty": 6.83,
-            "map url": "https://osu.ppy.sh/beatmaps/2105804",
-            "map background url": "https://assets.ppy.sh/beatmaps/1006176/covers/cover.jpg",
+            "map title": "\u4f5c\u66f2\u3059\u308b\u306a\u3089\u3044\u307e\u306e\u3046\u3061\uff01",
+            "map difficulty": 6.93,
+            "map url": "https://osu.ppy.sh/beatmaps/1206499",
+            "map background url": "https://assets.ppy.sh/beatmaps/567753/covers/cover.jpg",
             "mods": [
                 "HD"
             ],
-            "artist": "majiko",
-            "accuracy": 98.63,
-            "max combo": 1267,
+            "artist": "LamazeP",
+            "accuracy": 99.18,
+            "max combo": 1609,
             "map grade": "A",
             "rank color": "green",
-            "recent score": "36,124,574"
+            "recent score": "45,500,647"
         },
         "user tags": {
             "development tags": [],
