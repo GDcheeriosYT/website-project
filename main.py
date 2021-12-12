@@ -334,9 +334,11 @@ async def matches():
 
   for match in os.listdir("match_history/"):
     previous_matches.append(match)
+    
 
   return render_template(
     'matches.html',
+    match_data = match_crap.get_match_data,
     current_matches = current_matches,
     previous_matches = previous_matches
   )

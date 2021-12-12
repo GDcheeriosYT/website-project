@@ -77,3 +77,16 @@ def start_match(team_mode=False, teams=2, match_name=f"match{match_amount()}"):
   #put the values in the json file
   with open(f"matches/{match_name}.json", "w+") as joe:
     json.dump(match_dict, joe, indent = 4, sort_keys = False)
+    
+
+
+
+def get_match_data(match_name, match_open=True):
+  if match_open == True:
+    with open(f"matches/{match_name}") as f:
+      match_data = json.load(f)
+    return(match_data)
+  else:
+    with open(f"match_history/{match_name}") as f:
+      match_data = json.load(f)
+    return(match_data)
