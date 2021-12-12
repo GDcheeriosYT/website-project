@@ -9,8 +9,6 @@ import time
 import shutil
 import asyncio
 import datetime as dt
-import Client_Credentials as client
-
 
 #osu packages
 import Client_Credentials as client
@@ -40,7 +38,6 @@ async def home():
 
 #start console interface
 @app.route("/start")
-
 async def start():
   await console_interface_crap.main_process()
   return redirect(f"{client.public_url}/matches")
@@ -98,61 +95,7 @@ async def match(match_name):
     for id in match_data["users"]:
 
       player = player_crap.player_match_constructor(id, match_data)
-      user_pos = match_data["users"].index(id)
-      
-      try:
-        name = player_data[id]["user data"]["name"]
-        playcount = player_data[id]["user data"]["playcount"] - match_data["initial playcount"][user_pos]
-        playcount = ("{:,}".format(playcount))
-        score = (player_data[id]["user data"]["score"] - match_data["initial score"][user_pos])
-        score_formatted = ("{:,}".format(score))
-        avatar = player_data[id]["user data"]["avatar url"]
-        background = player_data[id]["user data"]["background url"]
-        link = player_data[id]["user data"]["profile url"]
-        map_background = player_data[id]["recent map data"]["map background url"]
-        map_title = player_data[id]["recent map data"]["map title"]
-        map_difficulty = player_data[id]["recent map data"]["map difficulty"]
-        map_url = player_data[id]["recent map data"]["map url"]
-        mods = player_data[id]["recent map data"]["mods"]
-        artist = player_data[id]["recent map data"]["artist"]
-        accuracy = player_data[id]["recent map data"]["accuracy"]
-        max_combo = player_data[id]["recent map data"]["max combo"]
-        rank = player_data[id]["recent map data"]["map grade"]
-        
-        try:
-          rank_color = player_data[id]["recent map data"]["rank color"]
-        except AttributeError:
-          rank_color = "red"
 
-        if score == 0:
-          recent_score = "0"
-
-        else:
-          recent_score = player_data[id]["recent map data"]["recent score"]
-
-      except:
-        name = "Unknown User"
-        playcount = 0
-        score = 0
-        score_formatted = 0
-        avatar = "https://data.whicdn.com/images/100018401/original.gif"
-        background = "https://data.whicdn.com/images/100018401/original.gif"
-        link = "https://data.whicdn.com/images/100018401/original.gif"
-        map_background = "https://data.whicdn.com/images/100018401/original.gif"
-        map_title = "Unkown"
-        map_difficulty = 0
-        map_url = "https://data.whicdn.com/images/100018401/original.gif"
-        mods = []
-        artist = "Unknown"
-        accuracy = 0
-        max_combo = 0
-        rank = "F"
-        rank_color = "red"
-        recent_score = 0
-
-
-      players[name] = [score, avatar, background, link, recent_score, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
-      
       players[player[0]] = player[1]
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
       player_score_data[player[0]] = player[1][0]
@@ -213,118 +156,6 @@ async def match(match_name):
       new_team = Teams(team, match_name)
       teams[team] = [new_team.score, new_team.users]
       team_score_data[team] = new_team.score
-    teams_score_data = {}
-
-    def team_score(team):
-    
-      score_counting = 0
-
-      print("--------------")
-
-      print("adding up team score...")
-
-      for user in match_data["users"]:
-
-        user_pos = match_data["users"].index(user)
-
-        if user in match_data["team metadata"].get(team):
-
-          #time.sleep(1)
-
-          score_counting += player_data[user][0] - match_data["initial score"][user_pos]
-
-          #print(score)
-
-      return score_counting
-
-    def team_players(team):
-
-      players = {}
-
-      for user in match_data["team metadata"][team]:
-
-        user_pos = match_data["users"].index(user)
-
-        playcount = player_data[user][18] - match_data["initial playcount"][user_pos]
-
-        playcount = ("{:,}".format(playcount))
-
-        score = player_data[user][0] - match_data["initial score"][user_pos]
-
-        score_formatted = ("{:,}".format(score))
-
-        avatar = player_data[user][1]
-
-        background = player_data[user][2]
-
-        link = player_data[user][3]
-
-        map_background = player_data[user][7]
-
-        map_title = player_data[user][8]
-
-        map_difficulty = player_data[user][9]
-
-        map_url = player_data[user][10]
-
-        mods = player_data[user][11]
-
-        artist = player_data[user][12]
-        
-        accuracy = player_data[user][13]
-
-        max_combo = player_data[user][14]
-
-        rank = player_data[user][15]
-
-        try:
-          rank_color = player_data[user][16]
-        except AttributeError:
-          rank_color = "red"
-
-        if score == 0:
-
-          recent_score = "0"
-
-        else:
-          
-          recent_score = player_data[user][4]
-
-        players[user] = [score, avatar, background, link, recent_score, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, score_data]
-
-      players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
-
-      return players_sorted
-
-    for team in match_data["team metadata"].keys():
-
-      team_data = Teams(team, match_data)
-      
-      team_users = team_data.users
-
-      teams[team] = [team_score(team), team_players(team)]
-      
-      teams_score_data[team] = team_score(team)
-
-      #print(f"users: {players.keys()}")
-
-      print("===============")
-
-      print(f"team users: {team_users}")
-
-      time.sleep(0.3)
-
-      print(f"team: {team}")
-
-      time.sleep(0.3)
-
-      print(f"team score: {teams[team][0]}")
-      
-      print("===============")
-
-    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[0], reverse=True))
-    
-    score_data[f"{dt.date.today()}"] = teams_score_data
 
     score_data[f"{dt.date.today()}"] = dict(sorted(team_score_data.items()))
     teams_sorted = dict(sorted(teams.items(), key=lambda x: x[1], reverse=True))
