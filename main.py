@@ -1,4 +1,5 @@
 import os
+from crap.team_crap import Teams
 
 #packages
 from flask import Flask, redirect, request, render_template
@@ -8,6 +9,10 @@ import time
 import shutil
 import asyncio
 import datetime as dt
+import Client_Credentials as client
+
+
+#osu packages
 import Client_Credentials as client
 
 #my packages
@@ -30,15 +35,18 @@ async def authentication():
     
 #home website
 @app.route('/')
-def home():
+async def home():
   return render_template("index.html")
 
 #start console interface
 @app.route("/start")
 
+async def start():
+  await console_interface_crap.main_process()
+  return redirect(f"{client.public_url}/matches")
 
 @app.route("/players")
-def players():
+async def players():
 
   players_dict = {}
   
@@ -89,6 +97,7 @@ async def match(match_name):
 
     for id in match_data["users"]:
 
+      player = player_crap.player_match_constructor(id, match_data)
       user_pos = match_data["users"].index(id)
       
       try:
@@ -143,10 +152,10 @@ async def match(match_name):
 
 
       players[name] = [score, avatar, background, link, recent_score, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
-
+      
+      players[player[0]] = player[1]
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
-
-      player_score_data[name] = score
+      player_score_data[player[0]] = player[1][0]
 
     score_data[f"{dt.date.today()}"] = dict(sorted(player_score_data.items()))
 
@@ -196,11 +205,14 @@ async def match(match_name):
   )
     
   else:
-
     teams = {}
-    
     score_data = match_data["match score history"]
+    team_score_data = {}
     
+    for team in match_data["team metadata"]:
+      new_team = Teams(team, match_name)
+      teams[team] = [new_team.score, new_team.users]
+      team_score_data[team] = new_team.score
     teams_score_data = {}
 
     def team_score(team):
@@ -314,10 +326,11 @@ async def match(match_name):
     
     score_data[f"{dt.date.today()}"] = teams_score_data
 
+    score_data[f"{dt.date.today()}"] = dict(sorted(team_score_data.items()))
+    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[1], reverse=True))
+    score_data[f"{dt.date.today()}"] = team_score_data
     match_data["match score history"] = score_data
-    
     biggest_score_step1 = list(match_data["match score history"][f"{dt.date.today()}"].values())
-    
     biggest_score = sorted(biggest_score_step1, reverse=True)[0]
     
     if biggest_score == 0:
@@ -327,8 +340,7 @@ async def match(match_name):
         json.dump(match_data, file, indent = 4, sort_keys = False)
 
     with open(f"matches/{match_name}", "r") as file:
-      match_data = json.load(file)
-      
+      match_data = json.load(file)  
       
     def get_key_of(score, dict):
         for key, value in dict.items():
@@ -361,13 +373,10 @@ async def match(match_name):
 #work on future old matches
 @app.route("/matches/old/<match_name>")
 def old_match(match_name):
-
   players = {}
-
   print(match_name)
-
   global match_data
-
+  
   with open(f"match_history/{match_name}") as joe:
     match_data = json.load(joe)
 
@@ -375,29 +384,18 @@ def old_match(match_name):
     player_data = json.load(kfc)
 
   if match_data["mode"] == "ffa":
-
     for user in match_data["users"]:
-
       user_pos = match_data["users"].index(user)
-
       playcount = match_data["final playcount"][user_pos] - match_data["initial playcount"][user_pos]
-
       playcount = ("{:,}".format(playcount))
-
       score = (match_data["final score"][user_pos] - match_data["initial score"][user_pos])
-
       score_formatted = ("{:,}".format(score))
-
       avatar = player_data[user][1]
-
       background = player_data[user][2]
-
       link = player_data[user][3]
-
       players[user] = [score, avatar, background, link, score_formatted, playcount]
-
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
-
+      
     return render_template(
     'old_match.html',  # Template file
     #recent = player_recent
@@ -407,33 +405,19 @@ def old_match(match_name):
     )
     
   else:
-
     teams = {}
-
     def team_score(team):
-    
       score_counting = 0
-
       counting_var = 0
-
       print("--------------")
-
       print("adding up team score...")
-
       for user in match_data["users"]:
-
         user_pos = match_data["users"].index(user)
-
         if user in match_data["team metadata"].get(team):
-
           #time.sleep(1)
-
           score_counting += match_data["final score"][user_pos] - match_data["initial score"][user_pos]
-
           #print(score)
-        
         counting_var += 1
-
       return score_counting
 
     def team_players(team):
