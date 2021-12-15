@@ -7,22 +7,26 @@
     <style>
 
         .match-box{
+            display: block;
             text-align: center; 
             font-size: 80px;
             border: 2px solid black;
             border-radius: 10px;
             width: 50%;
             height: 24%;
-            padding-bottom: 42px;
             margin: auto;
             box-shadow: 5px 5px 15px 5px #000000;
+            block-size: fit-content
         }
 
         .data-box{
             border: 2px solid black;
+            background: -webkit-linear-gradient(#00000095 10%, #00000000 80%);
+            color: black;
+            text-shadow: 2px 2px 20px #000000;
             border-radius: 10px;
-            box-shadow: 1px 1px 15px 1px #000000;
-            padding: 5px;
+            box-shadow: 1px 1px 9px 1px #000000;
+            padding: 1%;
             margin: auto;
         }
 
@@ -30,7 +34,7 @@
             display: flex;
             flex-wrap: nowrap;
             font-size: 32px;
-            padding: 5px;
+            padding: 1%;
         }
         
         .spacing{
@@ -69,6 +73,7 @@
             white-space: no-wrap;
             overflow: hidden;
             text-overflow: ellipsis;
+	        font-size: 100%;
         }
     </style>
     
@@ -93,7 +98,7 @@
             {% if match != "__pycache__" %}
 
             <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
-                <a style="color: black;" href="matches/{{match}}">{{match[:-5]}}</a>
+                <a href="matches/{{match}}">{{match[:-5]}}</a>
                 <div class="match-data">
                     <div class="data-box">users = {{match_data(match, True)["users"]|length}}</div>
                     <div class="data-box">mode = {{match_data(match, True)["mode"]}}</div>
@@ -120,7 +125,7 @@
             {% if match != "__pycache__" %}
 
             <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
-                <a style="color: black;" href="matches/{{match}}">{{match[:-5]}}</a>
+                <a href="matches/{{match}}">{{match[:-5]}}</a>
                 <div class="match-data">
                     <div class="data-box">users = {{match_data(match, False)["users"]|length}}</div>
                     <div class="data-box">mode = {{match_data(match, False)["mode"]}}</div>
