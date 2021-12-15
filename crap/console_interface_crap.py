@@ -13,7 +13,29 @@ async def main_process():
     
     #start match
     if task == "1":
-      await match_crap.start_match()
+      task2 = input("free for all?\nY|N\n")
+      if task2 == "y":
+        task3 = input("match name\n")
+        if task3 == "":
+          await match_crap.start_match(False)
+        else:
+          await match_crap.start_match(False, match_name=task3)
+      else:
+        task3 = int(input("amount of teams\n"))
+        if task3 == "":
+          task4 = input("match name\n")
+          if task4 == "":
+            await match_crap.start_match(True)
+          else:
+            await match_crap.start_match(True, match_name=task3)
+        else:
+          task4 = input("match name\n")
+          if task4 == "":
+            await match_crap.start_match(True, teams=task3)
+          else:
+            await match_crap.start_match(True, teams=task3, match_name=task4)
+      
+        
 
     #end match
     elif task == "2":
