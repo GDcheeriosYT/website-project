@@ -4,19 +4,55 @@
 
         <title>matches</title>
 
+        <script src="{{url_for('static', filename='script.js')}}"></script>
+
     <style>
 
-        .match-box{
+        .bg-image {
+            filter: blur(5px);
+            top: 0;
+            overflow: hidden;
+            bottom: 0;
+            position: absolute;
+            right: 0;
+            left: 0;
+            z-index: 0;
+            background-size: cover;
+        }
+
+        .fade{
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .bg-image img {
+            min-width: 100%;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: opacity 1s;
+        }
+
+        .match-box {
             display: block;
-            text-align: center; 
+            text-align: center;
             font-size: 80px;
             border: 2px solid black;
             border-radius: 10px;
             width: 50%;
-            height: 24%;
+            min-height: 24%;
             margin: auto;
             box-shadow: 5px 5px 15px 5px #000000;
-            block-size: fit-content
+            block-size: fit-content;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .match-box a{
+            position: relative;
+            z-index: 1;
         }
 
         .data-box{
@@ -29,12 +65,14 @@
             padding: 1%;
             margin: auto;
         }
-
-        .match-data{
+        
+        .match-data {
             display: flex;
             flex-wrap: nowrap;
             font-size: 32px;
             padding: 1%;
+            z-index: 1;
+            position: relative;
         }
         
         .spacing{
@@ -75,12 +113,47 @@
             text-overflow: ellipsis;
 	        font-size: 100%;
         }
+
+        .overlay{
+            height: 100%;
+            width: 100%;
+            z-index: 2;
+            position: relative;
+            background: rgba(255,255,255,0.3);
+            background-image: linear-gradient(to top, #00000095 10%, #00000000 80%);
+        }
     </style>
     
     </head>
 
     <body style="background-color: purple;">
 
+        {% for match in current_matches %}
+
+        <script removeme>
+            window.currentMatch = []
+        </script>
+            
+            {% for id in match_data(match, True)["users"] %}
+            
+                <script removeme>
+                    window.currentMatch.push('{{ player_data(id, specific_data=["background url"])[0] }}')
+                </script>
+
+            {% endfor %}
+            
+            <script removeme>
+                window.currentMatches.push(window.currentMatch)
+            </script>
+            
+        {% endfor %}
+
+        <script removeme>
+            document.querySelectorAll("[removeme]").forEach((el) => {
+                el.remove()
+            })
+        </script>
+            
         <div class="rectangle_menu"><a href="/">Home</a> <a href="/players">Players</a> <a href="/client">Client</a></div>
 
         <div class="warning"><span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span><br><a href="/info">more info</a></div>
@@ -103,9 +176,13 @@
                     <div class="data-box">users = {{match_data(match, True)["users"]|length}}</div>
                     <div class="data-box">mode = {{match_data(match, True)["mode"]}}</div>
                 </div>
+                <div class="bg-image" test="{{loop.index - 1}}"> 
+                    <img onload="test({{loop.index - 1}})" test="{{loop.index - 1}}" src="{{ player_data(match_data(match, True)["users"][random_number(0 ,match_data(match, True)["users"]|length - 1)], specific_data=["background url"])[0] }}">
+                    <div class="overlay"></div>
+                </div>
             </div>
-            <div class="spacing"><br><div>
-        
+        <div class="spacing"><br></div>
+            
             {% endif %}
 
         {% endfor %}
@@ -131,7 +208,7 @@
                     <div class="data-box">mode = {{match_data(match, False)["mode"]}}</div>
                 </div>
             </div>
-            <div class="spacing"><br><div>
+            <div class="spacing"><br></div>
                 
             {% endif %}
 

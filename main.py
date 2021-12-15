@@ -307,13 +307,6 @@ def old_match(match_name):
       #teamcount = teamcount
     )
 
-@app.route("/changelog.html")
-def changelog():
-
-  return render_template(
-    'changelog.html'
-  )
-
 @app.route("/matches")
 async def matches():
 
@@ -331,6 +324,8 @@ async def matches():
   return render_template(
     'matches.html',
     match_data = match_crap.get_match_data,
+    player_data = player_crap.user_data_grabber,
+    random_number = function_crap.randnum,
     current_matches = current_matches,
     previous_matches = previous_matches
   )
@@ -420,6 +415,6 @@ if __name__ == "__main__":  # Makes sure this is the main process
   app.run( # Starts the site
     host='0.0.0.0',  # Establishes the host, required for repl to detect the site
     port=80,# Randomly select the port the machine hosts on.
-    debug=False,
+    debug=True,
     #ssl_context='adhoc'
   )
