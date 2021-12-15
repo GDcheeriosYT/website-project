@@ -3,13 +3,14 @@
     <head>
 
         <title>matches</title>
-
+	<meta name="description" content="View matches that are currently in progress and matches that were in progress at one point">
+	<meta name="author" content="GDcheerios">
         <script src="{{url_for('static', filename='script.js')}}"></script>
 
     <style>
 
         .bg-image {
-            filter: blur(5px);
+            filter: blur(0.3vw);
             top: 0;
             overflow: hidden;
             bottom: 0;
@@ -38,11 +39,11 @@
         .match-box {
             display: block;
             text-align: center;
-            font-size: 80px;
-            border: 2px solid black;
-            border-radius: 10px;
-            width: 50%;
-            min-height: 24%;
+            font-size: 5vw;
+            border: 0.2vw solid black;
+            border-radius: 2vw;
+            width: 70vw;
+            min-height: 6vw;
             margin: auto;
             box-shadow: 5px 5px 15px 5px #000000;
             block-size: fit-content;
@@ -56,20 +57,20 @@
         }
 
         .data-box{
-            border: 2px solid black;
+            border: 0.2vw solid black;
             background: -webkit-linear-gradient(#00000095 10%, #00000000 80%);
             color: black;
             text-shadow: 2px 2px 20px #000000;
-            border-radius: 10px;
+            border-radius: 4vw;
             box-shadow: 1px 1px 9px 1px #000000;
-            padding: 1%;
+            padding: 1vw;
             margin: auto;
         }
         
         .match-data {
             display: flex;
             flex-wrap: nowrap;
-            font-size: 32px;
+            font-size: 3vw;
             padding: 1%;
             z-index: 1;
             position: relative;
