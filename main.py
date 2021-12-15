@@ -22,14 +22,6 @@ app = Flask(  # Create a flask app
   template_folder='templates', # Name of html file folder
   static_folder='static' # Name of directory for static files
 )
-
-#api setup
-@app.route("/benis")
-async def authentication():
-  print("attempting to grant client")
-  global access_token
-  access_token = authentication_crap.client_grant()
-  return redirect(f"{client.public_url}/")
     
 #home website
 @app.route('/')
