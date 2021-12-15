@@ -207,104 +207,44 @@ def old_match(match_name):
     player_data = json.load(kfc)
 
   if match_data["mode"] == "ffa":
-    for user in match_data["users"]:
-      user_pos = match_data["users"].index(user)
-      playcount = match_data["final playcount"][user_pos] - match_data["initial playcount"][user_pos]
-      playcount = ("{:,}".format(playcount))
-      score = (match_data["final score"][user_pos] - match_data["initial score"][user_pos])
-      score_formatted = ("{:,}".format(score))
-      avatar = player_data[user][1]
-      background = player_data[user][2]
-      link = player_data[user][3]
-      players[user] = [score, avatar, background, link, score_formatted, playcount]
+    for id in match_data["users"]:
+      player = player_crap.player_match_constructor(id, match_data)
+      players[player[0]] = player[1]
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
+
+    biggest_score_step1 = list(match_data["match score history"].keys())[-1]
+    biggest_score_step2 = list(match_data["match score history"][biggest_score_step1].values())
+    biggest_score = sorted(biggest_score_step2, reverse=True)[0]
+    
+    if biggest_score == 0:
+      biggest_score = 1
+  
+    def get_key_of(score, dict):
+        for key, value in dict.items():
+            if score == value:
+                return key
       
+    def previous_score_segment(playername, iteration):
+      dates = []
+      
+      for date in match_data["match score history"]:
+        dates.append(date)
+        
+      if iteration <= 1:
+        return 0
+      
+      elif iteration > 1:
+        return match_data["match score history"][dates[iteration - 2]][playername]
+  
     return render_template(
     'old_match.html',  # Template file
     #recent = player_recent
     time = time,
     match_data = match_data,
-    players = players_sorted
-    )
-    
-  else:
-    teams = {}
-    def team_score(team):
-      score_counting = 0
-      counting_var = 0
-      print("--------------")
-      print("adding up team score...")
-      for user in match_data["users"]:
-        user_pos = match_data["users"].index(user)
-        if user in match_data["team metadata"].get(team):
-          #time.sleep(1)
-          score_counting += match_data["final score"][user_pos] - match_data["initial score"][user_pos]
-          #print(score)
-        counting_var += 1
-      return score_counting
-
-    def team_players(team):
-
-      players = {}
-
-      for user in match_data["team metadata"][team]:
-
-        user_pos = match_data["users"].index(user)
-
-        playcount = match_data["final playcount"][user_pos] - match_data["initial playcount"][user_pos]
-
-        playcount = ("{:,}".format(playcount))
-
-        score = (match_data["final score"][user_pos] - match_data["initial score"][user_pos])
-
-        score_formatted = ("{:,}".format(score))
-
-        avatar = player_data[user][1]
-
-        background = player_data[user][2]
-
-        link = player_data[user][3]
-
-        players[user] = [score, avatar, background, link, score_formatted, playcount]
-
-        players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
-
-      return players_sorted
-
-    for team in match_data["team metadata"].keys():
-
-      team_data = Teams(team, match_data)
-      
-      team_users = team_data.users
-
-      teams[team] = [team_score(team), team_players(team)]
-
-      #print(f"users: {players.keys()}")
-
-      print("===============")
-
-      print(f"team users: {team_users}")
-
-      time.sleep(0.3)
-
-      print(f"team: {team}")
-
-      time.sleep(0.3)
-
-      print(f"team score: {teams[team][0]}")
-      
-      print("===============")
-      
-    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[0], reverse=True))
-
-    return render_template(
-      'old_match.html',  # Template file
-      #recent = player_recent
-      time = time,
-      match_data = match_data,
-      teams = teams_sorted,
-      players = {}
-      #teamcount = teamcount
+    players = players_sorted,
+    previous_score_segment = previous_score_segment,
+    get_key_of = get_key_of,
+    biggest_score = biggest_score
     )
 
 @app.route("/matches")
