@@ -13,27 +13,77 @@ async def main_process():
     
     #start match
     if task == "1":
-      task2 = input("free for all?\nY|N\n")
-      if task2 == "y":
+      task2 = input("teams or free for all?\nT|F\n")
+      
+      #FFA
+      if task2 == "f" or task2 == "F":
         task3 = input("match name\n")
+        
+        #match default name
         if task3 == "":
           await match_crap.start_match(False)
+          
+        #match name
         else:
           await match_crap.start_match(False, match_name=task3)
-      else:
-        task3 = int(input("amount of teams\n"))
+          
+          
+      #TEAMS 
+      elif task2 == "t" or task2 == "T":
+        task3 = input("amount of teams\n")
+        
+        #team default amount
         if task3 == "":
           task4 = input("match name\n")
+          
+          #match default name
           if task4 == "":
             await match_crap.start_match(True)
+          
+          #match name
           else:
             await match_crap.start_match(True, match_name=task3)
+        
+        #team amount
         else:
           task4 = input("match name\n")
+          
+          #match default name
           if task4 == "":
-            await match_crap.start_match(True, teams=task3)
+            await match_crap.start_match(True, team_amount=task3)
+            
+          #match name
           else:
-            await match_crap.start_match(True, teams=task3, match_name=task4)
+            await match_crap.start_match(True, team_amount=task3, match_name=task4)
+            
+        
+      #TEAMS default
+      else:
+        task3 = input("amount of teams\n")
+        
+        #team default amount
+        if task3 == "":
+          task4 = input("match name\n")
+          
+          #match default name
+          if task4 == "":
+            await match_crap.start_match(True)
+          
+          #match name
+          else:
+            await match_crap.start_match(True, match_name=task3)
+        
+        #team amount
+        else:
+          task4 = input("match name\n")
+          
+          #match default name
+          if task4 == "":
+            await match_crap.start_match(True, team_amount=task3)
+            
+          #match name
+          else:
+            await match_crap.start_match(True, team_amount=task3, match_name=task4)
       
         
 

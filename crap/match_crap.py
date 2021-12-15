@@ -15,7 +15,7 @@ def match_amount(currently_running=True, ended=True):
       count+=1
   
   if ended == True:
-    for match in os.listdir("matches/"):
+    for match in os.listdir("match_history/"):
       count+=1
   
   return(count)
@@ -23,7 +23,7 @@ def match_amount(currently_running=True, ended=True):
 
 
 
-def start_match(team_mode=False, teams=2, match_name=f"match{match_amount()}"):
+async def start_match(team_mode=False, team_amount=2, match_name=(f"match{match_amount()}")):
   '''
   starts a match
   
@@ -38,17 +38,18 @@ def start_match(team_mode=False, teams=2, match_name=f"match{match_amount()}"):
     initial_score = []
     initial_playcount = []
     teams = {}
-    for i in range(teams):
+    for i in range(team_amount):
       players = []
       team_name = input("give this team a name\n")
       while True:
         player_input = player_crap.player_list()
-        initial_score.append(player_crap.user_data_grabber(id=player_input, specific_data=["score"]))
-        initial_playcount.append(player_crap.user_data_grabber(id=player_input, specific_data=["playcount"]))
         if player_input == "done":
           break
-        players.append(player_input)
-        players_selected.append(player_input)
+        else:
+          players.append(player_input)
+          players_selected.append(player_input)
+          initial_score.append(player_crap.user_data_grabber(id=player_input, specific_data=["score"])[0])
+          initial_playcount.append(player_crap.user_data_grabber(id=player_input, specific_data=["playcount"])[0])
       teams[f"{team_name}"] = players
   
   else:
@@ -58,11 +59,12 @@ def start_match(team_mode=False, teams=2, match_name=f"match{match_amount()}"):
     initial_playcount = []
     while True:
       player_input = player_crap.player_list()
-      initial_score.append(player_crap.user_data_grabber(id=player_input, specific_data=["score"]))
-      initial_playcount.append(player_crap.user_data_grabber(id=player_input, specific_data=["playcount"]))
       if player_input == "done":
         break
-      players_selected.append(player_input)
+      else:
+        players_selected.append(player_input)
+        initial_score.append(player_crap.user_data_grabber(id=player_input, specific_data=["score"])[0])
+        initial_playcount.append(player_crap.user_data_grabber(id=player_input, specific_data=["playcount"])[0])
   
   #match json file constructor from global match_start(mode) variables
   match_dict = {}

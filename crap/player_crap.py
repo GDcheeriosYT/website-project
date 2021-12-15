@@ -386,10 +386,10 @@ def player_list():
     
   selection = input("which player?\n")
   
-  if input == "done":
+  try:
+    return(players[int(selection)])
+  except:
     return("done")
-  
-  return(players[int(selection)])
 
 
 
@@ -404,8 +404,6 @@ def player_match_constructor(id, match_data):
   match_data : JSON
     specifying the match_data
   '''
-  
-  player_thing = []
   
   user_pos = match_data["users"].index(id)
   
