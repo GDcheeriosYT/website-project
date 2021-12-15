@@ -150,7 +150,7 @@ async def match(match_name):
       team_score_data[team] = new_team.score
 
     score_data[f"{dt.date.today()}"] = dict(sorted(team_score_data.items()))
-    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[1], reverse=True))
+    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[0], reverse=True))
     score_data[f"{dt.date.today()}"] = team_score_data
     match_data["match score history"] = score_data
     biggest_score_step1 = list(match_data["match score history"][f"{dt.date.today()}"].values())
