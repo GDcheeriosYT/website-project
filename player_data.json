@@ -1130,20 +1130,17 @@
             "profile url": "https://osu.ppy.sh/users/10322186"
         },
         "recent map data": {
-            "map title": "DREAM SOLISTER",
-            "map difficulty": 5.51,
-            "map url": "https://osu.ppy.sh/beatmaps/790415",
-            "map background url": "https://assets.ppy.sh/beatmaps/359501/covers/cover.jpg",
-            "mods": [
-                "HD",
-                "DT"
-            ],
-            "artist": "TRUE",
-            "accuracy": 96.81,
-            "max combo": 841,
-            "map grade": "A",
-            "rank color": "green",
-            "recent score": "30,961,291"
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
         },
         "user tags": {
             "development tags": [],
@@ -1153,26 +1150,26 @@
     "4580287": {
         "user data": {
             "name": "mode",
-            "score": 168275160258,
-            "playcount": 130937,
+            "score": 168333090999,
+            "playcount": 130953,
             "avatar url": "https://a.ppy.sh/4580287?1639110543.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/4580287/95f13e2db347e9e851e8e7d188e6f18e15b65ca5643b553e83729b7e6c305306.jpeg",
             "profile url": "https://osu.ppy.sh/users/4580287"
         },
         "recent map data": {
-            "map title": "Every Summertime",
-            "map difficulty": 4.32,
-            "map url": "https://osu.ppy.sh/beatmaps/3227017",
-            "map background url": "https://assets.ppy.sh/beatmaps/1580400/covers/cover.jpg",
+            "map title": "\u304c\u3093\u3070\u308c\uff01\u8718\u86db\u5b50\u3055\u3093\u306e\u30c6\u30fc\u30de (TV Size)",
+            "map difficulty": 8.53,
+            "map url": "https://osu.ppy.sh/beatmaps/2786980",
+            "map background url": "https://assets.ppy.sh/beatmaps/1345755/covers/cover.jpg",
             "mods": [
                 "HD"
             ],
-            "artist": "NIKI",
-            "accuracy": 98.39,
-            "max combo": 475,
+            "artist": "\u79c1\uff08CV:\u60a0\u6728\u78a7\uff09",
+            "accuracy": 93.32,
+            "max combo": 398,
             "map grade": "A",
             "rank color": "green",
-            "recent score": "4,286,558"
+            "recent score": "3,143,440"
         },
         "user tags": {
             "development tags": [],
