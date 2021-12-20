@@ -74,8 +74,8 @@ async def players():
     players = players_sorted
   )
 
-@app.route("/matches/<match_name>")
-async def match(match_name):
+@app.route("/matches/<match_name>/<graph_view>")
+async def match(match_name, graph_view):
 
   players = {}
 
@@ -90,11 +90,8 @@ async def match(match_name):
     player_data = json.load(kfc)
 
   if match_data["mode"] == "ffa":
-    
-    score_data = match_data["match score history"]
-      
     player_score_data = {}
-
+    
     for id in match_data["users"]:
 
       player = player_crap.player_match_constructor(id, match_data)
@@ -155,22 +152,33 @@ async def match(match_name):
       
       players[player[0]] = player[1]
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
-      player_score_data[player[0]] = player[1][0]
-
+      player_score_data[player[0]] = player[1]
+    
+    #normal graph data updater
+    score_data = match_data["match score history"]["overall score"]
     score_data[f"{dt.date.today()}"] = dict(sorted(player_score_data.items()))
-
-    match_data["match score history"] = score_data
-    
-    biggest_score_step1 = list(match_data["match score history"][f"{dt.date.today()}"].values())
-    
+    match_data["match score history"]["overall score"] = score_data
+    biggest_score_step1 = list(match_data["match score history"]["overall score"][f"{dt.date.today()}"].values())
     biggest_score = sorted(biggest_score_step1, reverse=True)[0]
+    
+    #daily score graph data updater
+    score_data = match_data["match score history"]["daily score"]
+    player_score_data = {}
+    
+    dates = list(match_data["match score history"]["overall score"].keys())
+    for user in match_data["match score history"]["overall score"][dates[-1]]:
+      print(match_data["match score history"]["overall score"][dates[len(dates) - 1]][user][0])
+      player_score_data[player[0]] = match_data["match score history"]["overall score"][dates[len(dates) - 1]][user][0] - match_data["match score history"]["overall score"][dates[len(dates) - 2]][user]
+    score_data[f"{dt.date.today()}"] = player_score_data
+    match_data["match score history"]["daily score"] = score_data
+
+
 
     with open(f"matches/{match_name}", "w") as file:
         json.dump(match_data, file, indent = 4, sort_keys = False)
 
     with open(f"matches/{match_name}", "r") as file:
       match_data = json.load(file)
-      
       
     def get_key_of(score, dict):
         for key, value in dict.items():
@@ -180,16 +188,27 @@ async def match(match_name):
     def previous_score_segment(playername, iteration):
       dates = []
       
-      for date in match_data["match score history"]:
-        dates.append(date)
+      if graph_view == "normal":
+        for date in match_data["match score history"]["overall score"]:
+          dates.append(date)
+      elif graph_view == "daily-score-gain":
+        for date in match_data["match score history"]["daily score"]:
+          dates.append(date)
+      else:
+        for date in match_data["match score history"]["daily playcount"]:
+          dates.append(date)
         
       if iteration <= 1:
         return 0
       
       elif iteration > 1:
-        return match_data["match score history"][dates[iteration - 2]][playername]
-      
-      
+        if graph_view == "normal":
+          return match_data["match score history"]["overall score"][dates[iteration - 2]][playername]
+        elif graph_view == "daily-score-gain":
+          return match_data["match score history"]["daily score"][dates[iteration - 2]][playername]
+        else:
+          return match_data["match score history"]["daily playcount"][dates[iteration - 2]][playername]
+          
 
     return render_template(
     'Current.html',  # Template file
@@ -200,7 +219,9 @@ async def match(match_name):
     match_data = match_data,
     previous_score_segment = previous_score_segment,
     get_key_of = get_key_of,
-    players = players_sorted
+    players = players_sorted,
+    match_name = match_name,
+    graph_view = graph_view
     #teamcount = teamcount
   )
     
@@ -368,6 +389,8 @@ async def match(match_name):
       previous_score_segment = previous_score_segment,
       get_key_of = get_key_of,
       biggest_score = biggest_score,
+      match_name = match_name,
+      graph_view = graph_view
     )
 
 #work on future old matches
@@ -523,7 +546,19 @@ async def web_player_refresh(player_name):
     await player_crap.player_refresh(player_name)
 
   return redirect(f"{client.public_url}/matches")
+#tests
+@app.route("/tests/<test_num>")
+async def tests(test_num):
+  return render_template(
+    f"templates/tests/{test_num}.html",
+    test_num = test_num
+  )
+  
+@app.route("/tests/create")
+async def test_create():
+  test_new_id = len(os.listdir("/templates/tests"))
 
+#website control
 @app.route("/control")
 async def web_control():
   return render_template("control.html")

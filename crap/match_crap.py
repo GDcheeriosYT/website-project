@@ -72,7 +72,12 @@ def start_match(team_mode=False, teams=2, match_name=f"match{match_amount()}"):
   match_dict["initial playcount"] = initial_playcount
   match_dict["mode"] = mode
   match_dict["team metadata"] = teams
+  
+  #setting up stat gain graphs
   match_dict["match score history"] = {}
+  match_dict["match score history"]["overall score"] = {}
+  match_dict["match score history"]["daily score"] = {}
+  match_dict["match score history"]["daily playcount"] = {}
   
   #put the values in the json file
   with open(f"matches/{match_name}.json", "w+") as joe:

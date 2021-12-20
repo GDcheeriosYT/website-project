@@ -29,13 +29,19 @@
     "11339405": {
         "user data": {
             "name": "GDcheerios",
+<<<<<<< Updated upstream
             "score": 67749643007,
             "playcount": 50372,
+=======
+            "score": 68375616858,
+            "playcount": 50751,
+>>>>>>> Stashed changes
             "avatar url": "https://a.ppy.sh/11339405?1634353255.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/11339405/c056df887904e128eff403c21fc27e2deaa015e4c2257fa3ef0c17c52e95c3c7.jpeg",
             "profile url": "https://osu.ppy.sh/users/11339405"
         },
         "recent map data": {
+<<<<<<< Updated upstream
             "map title": "not found",
             "map difficulty": "0",
             "map url": "https://osu.ppy.sh/beatmapsets",
@@ -47,6 +53,19 @@
             "map grade": "F",
             "rank color": "red",
             "recent score": "0"
+=======
+            "map title": "\u308f\u305f\u3057\u306e\u305f\u3081\u306e\u7269\u8a9e \uff5eMy Uncompleted Story\uff5e",
+            "map difficulty": 5.61,
+            "map url": "https://osu.ppy.sh/beatmaps/1517923",
+            "map background url": "https://assets.ppy.sh/beatmaps/718701/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "fh\u00e1na",
+            "accuracy": 94.53,
+            "max combo": 502,
+            "map grade": "A",
+            "rank color": "green",
+            "recent score": "6,055,520"
+>>>>>>> Stashed changes
         },
         "user tags": {
             "development tags": [

@@ -11,6 +11,15 @@
 
   <style>
 
+    .graph-style-box{
+      border: 0px solid rgb(0, 0, 0);
+      border-radius: 5px;
+      box-shadow: 5px 5px 15px -1px rgb(0, 0, 0);
+      font-size: 30px;
+      text-align: center;
+      display: block;
+    }
+
     #player-progress.line{
       height: 300px;
       max-width: 80%;
@@ -619,48 +628,65 @@ text-shadow: 4px 4px 8px #000000;
     </div>
   </div>
 
-    <!--graph-box-->
+  <div>
+    <h1>graph view</h1>
+    <div class="graph-style-box">
+      <a href="/matches/{{match_name}}/normal">overall score gain</a>
+      <a href="/matches/{{match_name}}/daily-score-gain">daily score gain</a>
+    </div>
+  </div>
 
-    <div id="player-progress">
-
-      <!--legend-->
-
+  
+  <!--graph-box-->
+  
+  <div id="player-progress">
+    
+    <!--legend-->
+    
+    <details>
+      
+      <summary style="font-size: 80px;">player legend</summary>
+      
       <ul class="charts-css legend legend-rhombus">
-
-        {% set dates = match_data["match score history"].values() | list %}
-
+        
+        {% set dates = match_data["match score history"]["overall score"].values() | list %}
+        
         {% for player in dates[0]%}
         
-          <li>{{ player }}</li>
+        <li>{{ player }}</li>
         
         {% endfor %}
       </ul>
-
-      <table class="charts-css line multiple show-heading show-labels show-data-axes show-primary-axis" id="player-progress">
-        <caption>score progression</caption>
-          <thead>
-            <!--dates-->
-            <tr>
-              {% for date in match_data["match score history"].keys() %}
-              <th scope="col"> {{ date }} </th>
-              {% endfor %}
-            </tr>
-          </thead>
-          <tbody>
-            <!--graph-->
-            <tr>
+      
+    </details>
+    
+    
+    <table class="charts-css line multiple show-heading show-labels show-data-axes show-primary-axis" id="player-progress">
+      <caption>score progression</caption>
+      <thead>
+        <!--dates-->
+        <tr>
+          {% for date in match_data["match score history"]["overall score"].keys() %}
+          <th scope="col"> {{ date }} </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% if graph_view == "normal" %}
+        <!--graph-->
+        <tr>
 
               {% set iteration = namespace(value = 0) %}
-              {% for date in match_data["match score history"] %}
+              {% for date in match_data["match score history"]["overall score"] %}
               <th scope="col"> {{ date }} </th>
 
               
               {% set iteration.value = iteration.value + 1 %}
-                {% for player_score in match_data["match score history"][date].values() %}
+                {% for player_score in match_data["match score history"]["overall score"][date].values() %}
                 
                 <!--iteration tracker: {{iteration.value}}-->
 
-              <td style="font-size: {{biggest_score|string|length + match_data["match score history"].keys()|length / match_data["users"]|length}}px; --start:{{previous_score_segment(get_key_of(player_score, match_data["match score history"][date]), iteration.value) / biggest_score}}; --size:{{player_score / biggest_score}}; white-space: nowrap;"><span class="data">{{ player_score }}</span></td>
+              <td style="font-size: {{biggest_score|string|length + match_data["match score history"]["overall score"].keys()|length / match_data["users"]|length}}px; --start:{{previous_score_segment(get_key_of(player_score, match_data["match score history"]["overall score"][date]), iteration.value) / biggest_score}}; --size:{{player_score / biggest_score}}; white-space: nowrap;"><span class="data">{{ player_score }}</span></td>
               
                 {% endfor %}
               
@@ -669,6 +695,11 @@ text-shadow: 4px 4px 8px #000000;
           </tbody>
       </table>
     </div>
+
+
+  {% endif %}
+
+  <br>
 
   <!--<iframe src="https://web.libera.chat/?nick=Guest?#osuapicrap" style="border:0; width:100%; height:450px;"></iframe>-->
 

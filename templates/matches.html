@@ -60,8 +60,24 @@
 
             {% if match != "__pycache__" %}
 
+<<<<<<< Updated upstream
             <div style="text-align: center; font-size: 80px;"><a style="color: black;" href="matches/{{match}}">{{match[:-5]}}</a></div>
         
+=======
+            <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
+                <a href="matches/{{match}}/normal">{{match[:-5]}}</a>
+                <div class="match-data">
+                    <div class="data-box">users = {{match_data(match, True)["users"]|length}}</div>
+                    <div class="data-box">mode = {{match_data(match, True)["mode"]}}</div>
+                </div>
+                <div class="bg-image" test="{{loop.index - 1}}"> 
+                    <img onload="test({{loop.index - 1}})" test="{{loop.index - 1}}" src="{{ player_data(match_data(match, True)["users"][random_number(0 ,match_data(match, True)["users"]|length - 1)], specific_data=["background url"])[0] }}">
+                    <div class="overlay"></div>
+                </div>
+            </div>
+        <div class="spacing"><br></div>
+            
+>>>>>>> Stashed changes
             {% endif %}
 
         {% endfor %}
