@@ -170,8 +170,6 @@
         {% for match in current_matches %}
 
             {% if match != "__pycache__" %}
-
-            <div style="text-align: center; font-size: 80px;"><a style="color: black;" href="matches/{{match}}">{{match[:-5]}}</a></div>
         
             <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
                 <a href="matches/{{match}}/normal">{{match[:-5]}}</a>

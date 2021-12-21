@@ -666,9 +666,15 @@ text-shadow: 4px 4px 8px #000000;
       <thead>
         <!--dates-->
         <tr>
+          {% if graph_view == "normal" %}
           {% for date in match_data["match score history"]["overall score"].keys() %}
           <th scope="col"> {{ date }} </th>
           {% endfor %}
+          {% elif graph_view == "normal" %}
+          {% for date in match_data["match score history"]["daily score"].keys() %}
+          <th scope="col"> {{ date }} </th>
+          {% endfor %}
+          {% endif %}
         </tr>
       </thead>
       <tbody>
@@ -697,7 +703,34 @@ text-shadow: 4px 4px 8px #000000;
     </div>
 
 
-  {% endif %}
+      {% endif %}
+
+      {% if graph_view == "daily-score-gain" %}
+      <!--graph-->
+      <tr>
+
+            {% set iteration = namespace(value = 0) %}
+            {% for date in match_data["match score history"]["daily score"] %}
+            <th scope="col"> {{ date }} </th>
+
+            
+            {% set iteration.value = iteration.value + 1 %}
+              {% for player_score in match_data["match score history"]["daily score"][date].values() %}
+              
+              <!--iteration tracker: {{iteration.value}}-->
+
+            <td style="font-size: {{biggest_score|string|length + match_data["match score history"]["daily score"].keys()|length / match_data["users"]|length}}px; --start:{{previous_score_segment(get_key_of(player_score, match_data["match score history"]["daily score"][date]), iteration.value) / biggest_score}}; --size:{{player_score / biggest_score}}; white-space: nowrap;"><span class="data">{{ player_score }}</span></td>
+            
+              {% endfor %}
+            
+          </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
+
+
+    {% endif %}
 
   <br>
 

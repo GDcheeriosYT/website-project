@@ -87,14 +87,12 @@ async def match(match_name, graph_view):
 
       players[player[0]] = player[1]
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
-      player_score_data[player[0]] = player[1]
+      player_score_data[player[0]] = player[1][0]
     
     #normal graph data updater
     score_data = match_data["match score history"]["overall score"]
     score_data[f"{dt.date.today()}"] = dict(sorted(player_score_data.items()))
     match_data["match score history"]["overall score"] = score_data
-    biggest_score_step1 = list(match_data["match score history"]["overall score"][f"{dt.date.today()}"].values())
-    biggest_score = sorted(biggest_score_step1, reverse=True)[0]
     
     #daily score graph data updater
     score_data = match_data["match score history"]["daily score"]
@@ -102,12 +100,20 @@ async def match(match_name, graph_view):
     
     dates = list(match_data["match score history"]["overall score"].keys())
     for user in match_data["match score history"]["overall score"][dates[-1]]:
-      print(match_data["match score history"]["overall score"][dates[len(dates) - 1]][user][0])
-      player_score_data[player[0]] = match_data["match score history"]["overall score"][dates[len(dates) - 1]][user][0] - match_data["match score history"]["overall score"][dates[len(dates) - 2]][user]
-    score_data[f"{dt.date.today()}"] = player_score_data
-    match_data["match score history"]["daily score"] = score_data
-
-
+      player_score_data[user] = match_data["match score history"]["overall score"][dates[len(dates) - 1]][user] - match_data["match score history"]["overall score"][dates[len(dates) - 2]][user]
+      score_data[f"{dt.date.today()}"] = player_score_data
+      match_data["match score history"]["daily score"] = score_data
+      
+    
+    if graph_view == "normal":
+      biggest_score_step1 = list(match_data["match score history"]["overall score"][f"{dt.date.today()}"].values())
+      biggest_score = sorted(biggest_score_step1, reverse=True)[0]
+    elif graph_view == "daily-score-gain":
+      biggest_score_step1 = list(match_data["match score history"]["daily score"][f"{dt.date.today()}"].values())
+      biggest_score = sorted(biggest_score_step1, reverse=True)[0]
+    else:
+      biggest_score_step1 = list(match_data["match score history"]["daily playcount"][f"{dt.date.today()}"].values())
+      biggest_score = sorted(biggest_score_step1, reverse=True)[0]
 
     with open(f"matches/{match_name}", "w") as file:
         json.dump(match_data, file, indent = 4, sort_keys = False)
@@ -140,7 +146,10 @@ async def match(match_name, graph_view):
         if graph_view == "normal":
           return match_data["match score history"]["overall score"][dates[iteration - 2]][playername]
         elif graph_view == "daily-score-gain":
-          return match_data["match score history"]["daily score"][dates[iteration - 2]][playername]
+          try:
+            return match_data["match score history"]["daily score"][dates[iteration - 2]][playername]
+          except:
+            return 0        
         else:
           return match_data["match score history"]["daily playcount"][dates[iteration - 2]][playername]
           
