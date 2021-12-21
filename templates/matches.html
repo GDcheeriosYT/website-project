@@ -3,8 +3,83 @@
     <head>
 
         <title>matches</title>
+	<meta name="description" content="View matches that are currently in progress and matches that were in progress at one point">
+	<meta name="author" content="GDcheerios">
+        <script src="{{url_for('static', filename='script.js')}}"></script>
 
     <style>
+
+        .bg-image {
+            filter: blur(0.3vw);
+            top: 0;
+            overflow: hidden;
+            bottom: 0;
+            position: absolute;
+            right: 0;
+            left: 0;
+            z-index: 0;
+            background-size: cover;
+        }
+
+        .fade{
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .bg-image img {
+            min-width: 100%;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: opacity 1s;
+        }
+
+        .match-box {
+            display: block;
+            text-align: center;
+            font-size: 5vw;
+            border: 0.2vw solid black;
+            border-radius: 2vw;
+            width: 70vw;
+            min-height: 6vw;
+            margin: auto;
+            box-shadow: 5px 5px 15px 5px #000000;
+            block-size: fit-content;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .match-box a{
+            position: relative;
+            z-index: 1;
+        }
+
+        .data-box{
+            border: 0.2vw solid black;
+            background: -webkit-linear-gradient(#00000095 10%, #00000000 80%);
+            color: black;
+            text-shadow: 2px 2px 20px #000000;
+            border-radius: 4vw;
+            box-shadow: 1px 1px 9px 1px #000000;
+            padding: 1vw;
+            margin: auto;
+        }
+        
+        .match-data {
+            display: flex;
+            flex-wrap: nowrap;
+            font-size: 3vw;
+            padding: 1%;
+            z-index: 1;
+            position: relative;
+        }
+        
+        .spacing{
+            margin-bottom: 5px;
+        }
+
         .warning{
         background-color: red;
         border: 1px solid red;
@@ -37,6 +112,16 @@
             white-space: no-wrap;
             overflow: hidden;
             text-overflow: ellipsis;
+	        font-size: 100%;
+        }
+
+        .overlay{
+            height: 100%;
+            width: 100%;
+            z-index: 2;
+            position: relative;
+            background: rgba(255,255,255,0.3);
+            background-image: linear-gradient(to top, #00000095 10%, #00000000 80%);
         }
     </style>
     
@@ -44,6 +129,32 @@
 
     <body style="background-color: purple;">
 
+        {% for match in current_matches %}
+
+        <script removeme>
+            window.currentMatch = []
+        </script>
+            
+            {% for id in match_data(match, True)["users"] %}
+            
+                <script removeme>
+                    window.currentMatch.push('{{ player_data(id, specific_data=["background url"])[0] }}')
+                </script>
+
+            {% endfor %}
+            
+            <script removeme>
+                window.currentMatches.push(window.currentMatch)
+            </script>
+            
+        {% endfor %}
+
+        <script removeme>
+            document.querySelectorAll("[removeme]").forEach((el) => {
+                el.remove()
+            })
+        </script>
+            
         <div class="rectangle_menu"><a href="/">Home</a> <a href="/players">Players</a> <a href="/client">Client</a></div>
 
         <div class="warning"><span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span><br><a href="/info">more info</a></div>
@@ -60,10 +171,8 @@
 
             {% if match != "__pycache__" %}
 
-<<<<<<< Updated upstream
             <div style="text-align: center; font-size: 80px;"><a style="color: black;" href="matches/{{match}}">{{match[:-5]}}</a></div>
         
-=======
             <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
                 <a href="matches/{{match}}/normal">{{match[:-5]}}</a>
                 <div class="match-data">
@@ -77,14 +186,13 @@
             </div>
         <div class="spacing"><br></div>
             
->>>>>>> Stashed changes
             {% endif %}
 
         {% endfor %}
 
         <hr>
 
-        <h1 style="text-align: center; font-size: 100px;">match history</h1>
+        <h1 style="text-align: center; font-size: 100px;">Match History</h1>
 
         {% if previous_matches|length == 0 %}
 
@@ -96,8 +204,15 @@
 
             {% if match != "__pycache__" %}
 
-            <div style="text-align: center; font-size: 80px;"><a style="color: black" href="matches/old/{{match}}">{{match[:-5]}}</a></div>
-        
+            <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
+                <a href="matches/old/{{match}}">{{match[:-5]}}</a>
+                <div class="match-data">
+                    <div class="data-box">users = {{match_data(match, False)["users"]|length}}</div>
+                    <div class="data-box">mode = {{match_data(match, False)["mode"]}}</div>
+                </div>
+            </div>
+            <div class="spacing"><br></div>
+                
             {% endif %}
 
         {% endfor %}

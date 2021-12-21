@@ -3,7 +3,6 @@ import json
 import time
 import requests
 from crap import authentication_crap, function_crap
-import __main__
 
 #open player_data and read all the data
 with open("player_data.json") as player_data:
@@ -25,7 +24,7 @@ class UserConstructor:
       user id to request data from osu api
     '''
     self.id = id
-    self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/osu", headers = {"Authorization": f'Bearer {__main__.access_token}'}).json()
+    self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/osu", headers = {"Authorization": f'Bearer {authentication_crap.access_token}'}).json()
     time.sleep(1)
     
     #if user isn't found construct a "ghost" user
@@ -55,7 +54,7 @@ class UserConstructor:
     #user main info
     self.name = self.request_profile['username']
     self.play_count = self.request_profile['statistics']['play_count']
-    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {__main__.access_token}'}) 
+    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {authentication_crap.access_token}'}) 
     time.sleep(1)
     self.score = self.request_profile["statistics"]["total_score"]
     self.avatar = self.request_profile['avatar_url']    
@@ -262,6 +261,8 @@ async def player_refresh(id):
   :id: the user id
   '''
     
+  authentication_crap.check_access()
+  
   print(f"loading user {id}'s data")
   time.sleep(2) #add delay to not request too quick
   player = UserConstructor(id)
@@ -315,6 +316,9 @@ async def refresh_all_players():
   '''
   refreshes all players data
   '''
+  
+  authentication_crap.check_access()
+  
   for userid in player_data:
     print(f"loading user {userid}'s data")
     time.sleep(2) #add delay to not request too quick
@@ -382,10 +386,10 @@ def player_list():
     
   selection = input("which player?\n")
   
-  if input == "done":
+  try:
+    return(players[int(selection)])
+  except:
     return("done")
-  
-  return(players[int(selection)])
 
 
 
@@ -400,8 +404,6 @@ def player_match_constructor(id, match_data):
   match_data : JSON
     specifying the match_data
   '''
-  
-  player_thing = []
   
   user_pos = match_data["users"].index(id)
   

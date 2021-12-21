@@ -9,8 +9,6 @@ import time
 import shutil
 import asyncio
 import datetime as dt
-import Client_Credentials as client
-
 
 #osu packages
 import Client_Credentials as client
@@ -24,14 +22,6 @@ app = Flask(  # Create a flask app
   template_folder='templates', # Name of html file folder
   static_folder='static' # Name of directory for static files
 )
-
-#api setup
-@app.route("/benis")
-async def authentication():
-  print("attempting to grant client")
-  global access_token
-  access_token = authentication_crap.client_grant()
-  return redirect(f"{client.public_url}/")
     
 #home website
 @app.route('/')
@@ -40,7 +30,6 @@ async def home():
 
 #start console interface
 @app.route("/start")
-
 async def start():
   await console_interface_crap.main_process()
   return redirect(f"{client.public_url}/matches")
@@ -95,61 +84,7 @@ async def match(match_name, graph_view):
     for id in match_data["users"]:
 
       player = player_crap.player_match_constructor(id, match_data)
-      user_pos = match_data["users"].index(id)
-      
-      try:
-        name = player_data[id]["user data"]["name"]
-        playcount = player_data[id]["user data"]["playcount"] - match_data["initial playcount"][user_pos]
-        playcount = ("{:,}".format(playcount))
-        score = (player_data[id]["user data"]["score"] - match_data["initial score"][user_pos])
-        score_formatted = ("{:,}".format(score))
-        avatar = player_data[id]["user data"]["avatar url"]
-        background = player_data[id]["user data"]["background url"]
-        link = player_data[id]["user data"]["profile url"]
-        map_background = player_data[id]["recent map data"]["map background url"]
-        map_title = player_data[id]["recent map data"]["map title"]
-        map_difficulty = player_data[id]["recent map data"]["map difficulty"]
-        map_url = player_data[id]["recent map data"]["map url"]
-        mods = player_data[id]["recent map data"]["mods"]
-        artist = player_data[id]["recent map data"]["artist"]
-        accuracy = player_data[id]["recent map data"]["accuracy"]
-        max_combo = player_data[id]["recent map data"]["max combo"]
-        rank = player_data[id]["recent map data"]["map grade"]
-        
-        try:
-          rank_color = player_data[id]["recent map data"]["rank color"]
-        except AttributeError:
-          rank_color = "red"
 
-        if score == 0:
-          recent_score = "0"
-
-        else:
-          recent_score = player_data[id]["recent map data"]["recent score"]
-
-      except:
-        name = "Unknown User"
-        playcount = 0
-        score = 0
-        score_formatted = 0
-        avatar = "https://data.whicdn.com/images/100018401/original.gif"
-        background = "https://data.whicdn.com/images/100018401/original.gif"
-        link = "https://data.whicdn.com/images/100018401/original.gif"
-        map_background = "https://data.whicdn.com/images/100018401/original.gif"
-        map_title = "Unkown"
-        map_difficulty = 0
-        map_url = "https://data.whicdn.com/images/100018401/original.gif"
-        mods = []
-        artist = "Unknown"
-        accuracy = 0
-        max_combo = 0
-        rank = "F"
-        rank_color = "red"
-        recent_score = 0
-
-
-      players[name] = [score, avatar, background, link, recent_score, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
-      
       players[player[0]] = player[1]
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
       player_score_data[player[0]] = player[1]
@@ -293,24 +228,44 @@ def old_match(match_name):
     player_data = json.load(kfc)
 
   if match_data["mode"] == "ffa":
-    for user in match_data["users"]:
-      user_pos = match_data["users"].index(user)
-      playcount = match_data["final playcount"][user_pos] - match_data["initial playcount"][user_pos]
-      playcount = ("{:,}".format(playcount))
-      score = (match_data["final score"][user_pos] - match_data["initial score"][user_pos])
-      score_formatted = ("{:,}".format(score))
-      avatar = player_data[user][1]
-      background = player_data[user][2]
-      link = player_data[user][3]
-      players[user] = [score, avatar, background, link, score_formatted, playcount]
+    for id in match_data["users"]:
+      player = player_crap.player_match_constructor(id, match_data)
+      players[player[0]] = player[1]
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
+
+    biggest_score_step1 = list(match_data["match score history"].keys())[-1]
+    biggest_score_step2 = list(match_data["match score history"][biggest_score_step1].values())
+    biggest_score = sorted(biggest_score_step2, reverse=True)[0]
+    
+    if biggest_score == 0:
+      biggest_score = 1
+  
+    def get_key_of(score, dict):
+        for key, value in dict.items():
+            if score == value:
+                return key
       
+    def previous_score_segment(playername, iteration):
+      dates = []
+      
+      for date in match_data["match score history"]:
+        dates.append(date)
+        
+      if iteration <= 1:
+        return 0
+      
+      elif iteration > 1:
+        return match_data["match score history"][dates[iteration - 2]][playername]
+  
     return render_template(
     'old_match.html',  # Template file
     #recent = player_recent
     time = time,
     match_data = match_data,
-    players = players_sorted
+    players = players_sorted,
+    previous_score_segment = previous_score_segment,
+    get_key_of = get_key_of,
+    biggest_score = biggest_score
     )
     
   else:
@@ -374,7 +329,7 @@ def changelog():
   return render_template(
     'changelog.html'
   )
-
+   
 @app.route("/matches")
 async def matches():
 
@@ -387,9 +342,13 @@ async def matches():
 
   for match in os.listdir("match_history/"):
     previous_matches.append(match)
+    
 
   return render_template(
     'matches.html',
+    match_data = match_crap.get_match_data,
+    player_data = player_crap.user_data_grabber,
+    random_number = function_crap.randnum,
     current_matches = current_matches,
     previous_matches = previous_matches
   )

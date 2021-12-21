@@ -1,5 +1,6 @@
 #packages
 import math
+import random
     
 levels = []
 
@@ -35,3 +36,11 @@ def level(score, output):
         return(player_current_level, player_levelup_percent)
     else:
         return(player_levelup_percent)
+    
+def randnum(min, max):
+    '''
+    returns a random number
+    '''
+    
+    return(random.randint(min, max))
+    
