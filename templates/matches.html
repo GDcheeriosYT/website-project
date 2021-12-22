@@ -5,129 +5,13 @@
         <title>matches</title>
 	<meta name="description" content="View matches that are currently in progress and matches that were in progress at one point">
 	<meta name="author" content="GDcheerios">
-        <script src="{{url_for('static', filename='script.js')}}"></script>
+    <script src="{{url_for('static', filename='script.js')}}"></script>
 
-    <style>
-
-        .bg-image {
-            filter: blur(0.3vw);
-            top: 0;
-            overflow: hidden;
-            bottom: 0;
-            position: absolute;
-            right: 0;
-            left: 0;
-            z-index: 0;
-            background-size: cover;
-        }
-
-        .fade{
-            opacity: 0;
-            z-index: 1;
-        }
-
-        .bg-image img {
-            min-width: 100%;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            transition: opacity 1s;
-        }
-
-        .match-box {
-            display: block;
-            text-align: center;
-            font-size: 5vw;
-            border: 0.2vw solid black;
-            border-radius: 2vw;
-            width: 70vw;
-            min-height: 6vw;
-            margin: auto;
-            box-shadow: 5px 5px 15px 5px #000000;
-            block-size: fit-content;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .match-box a{
-            position: relative;
-            z-index: 1;
-        }
-
-        .data-box{
-            border: 0.2vw solid black;
-            background: -webkit-linear-gradient(#00000095 10%, #00000000 80%);
-            color: black;
-            text-shadow: 2px 2px 20px #000000;
-            border-radius: 4vw;
-            box-shadow: 1px 1px 9px 1px #000000;
-            padding: 1vw;
-            margin: auto;
-        }
-        
-        .match-data {
-            display: flex;
-            flex-wrap: nowrap;
-            font-size: 3vw;
-            padding: 1%;
-            z-index: 1;
-            position: relative;
-        }
-        
-        .spacing{
-            margin-bottom: 5px;
-        }
-
-        .warning{
-        background-color: red;
-        border: 1px solid red;
-        border-radius: 5px;
-        box-shadow: 5px 5px 15px -3px black;
-        text-align: center ;
-        font-size: 30px;
-        }
-
-        .warning-text{
-        color: yellow;
-        font-style: bold;
-        }
-
-        .rectangle_menu {
-			height: 60px;
-			background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
-			background-color: purple;
-			background-size: 40%;
-			border-radius: 15px;
-			opacity: 1.0;
-			font-size: 35px;
-			text-align: center;
-			font-family: Aller-Bold, sans-serif;
-			object-fit: fill;
-		}
-
-        a{
-            color: black;
-            white-space: no-wrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-	        font-size: 100%;
-        }
-
-        .overlay{
-            height: 100%;
-            width: 100%;
-            z-index: 2;
-            position: relative;
-            background: rgba(255,255,255,0.3);
-            background-image: linear-gradient(to top, #00000095 10%, #00000000 80%);
-        }
-    </style>
+    <link rel="stylesheet" href="/static/style.css">
     
     </head>
 
-    <body style="background-color: purple;">
+    <body>
 
         {% for match in current_matches %}
 
@@ -159,7 +43,7 @@
 
         <div class="warning"><span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span><br><a href="/info">more info</a></div>
 
-        <h1 style="text-align: center; font-size: 100px;">Current Matches</h1>
+        <h1 class="white-text" style="text-align: center; font-size: 100px;">Current Matches</h1>
 
         {% if current_matches|length == 0 %}
 
@@ -190,11 +74,11 @@
 
         <hr>
 
-        <h1 style="text-align: center; font-size: 100px;">Match History</h1>
+        <h1 class="white-text" style="text-align: center; font-size: 100px;">Match History</h1>
 
         {% if previous_matches|length == 0 %}
 
-            <h1 style="text-align: center; font-size: 80px;">no matches found...</h1>
+            <h1 class="white-text" style="text-align: center; font-size: 80px;">no matches found...</h1>
 
         {% endif %}
 
