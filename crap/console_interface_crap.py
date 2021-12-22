@@ -50,11 +50,11 @@ async def main_process():
           
           #match default name
           if task4 == "":
-            await match_crap.start_match(True, team_amount=task3)
+            await match_crap.start_match(True, team_amount=int(task3))
             
           #match name
           else:
-            await match_crap.start_match(True, team_amount=task3, match_name=task4)
+            await match_crap.start_match(True, team_amount=int(task3), match_name=task4)
             
         
       #TEAMS default
