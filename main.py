@@ -149,7 +149,7 @@ async def match(match_name, graph_view):
           try:
             return match_data["match score history"]["daily score"][dates[iteration - 2]][playername]
           except:
-            return 0        
+            return 0
         else:
           return match_data["match score history"]["daily playcount"][dates[iteration - 2]][playername]
           
@@ -180,11 +180,11 @@ async def match(match_name, graph_view):
       team_score_data[team] = new_team.score
 
     score_data[f"{dt.date.today()}"] = dict(sorted(team_score_data.items()))
-    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[0], reverse=True))
+    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[0], reverse=False))
     score_data[f"{dt.date.today()}"] = team_score_data
     match_data["match score history"] = score_data
     biggest_score_step1 = list(match_data["match score history"][f"{dt.date.today()}"].values())
-    biggest_score = sorted(biggest_score_step1, reverse=True)[0]
+    biggest_score = sorted(biggest_score_step1, reverse=False)[0]
     
     if biggest_score == 0:
       biggest_score = 1
