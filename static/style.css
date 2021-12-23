@@ -2,11 +2,11 @@ body{
   background: radial-gradient(circle, rgba(15,41,48,1) 0%, rgba(2,11,13,1) 100%);
   background-repeat: no-repeat; 
   background-attachment: fixed;
+  font-family: arial;
 }
 
 :root{
   --transition-speed: 400ms;
-  
 } 
 
 .graph-style-box{
@@ -33,21 +33,25 @@ body{
 
 .player_info{
   transition: ease-out var(--transition-speed);
-  width: 70vw;
-  height: 5vw;
+  width: 30vw;
+  height: 3vw;
   border: 0px solid rgb(0, 0, 0);
   border-radius: 1vw;
   box-shadow: 5px 5px 15px -1px rgb(0, 0, 0);
   background-repeat: no-repeat;
   background-size: cover;
   margin: 0 auto;
+  margin-left: 5px;
+  margin-right: 5px;
+  display: block;
 }
 
 .player_info:hover{
   transition: var(--transition-speed) ease-in;
   opacity: 1.0;
-  width: 70vw;
-  height: 30vw;
+  padding: 5px;
+  min-width: fit-content;
+  height: fit-content;
   border: 5px solid rgb(255, 255, 255);
   border-radius: 2vw;
   box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
@@ -72,8 +76,8 @@ body{
   opacity: 1;
   position: relative;
   width: 3%;
-  padding-left: 5px;
-  padding-top: 30px;
+  padding-left: 1vw;
+  padding-top: 3vw;
   height: 3%;
   left: 0%;
   bottom: 0%;
@@ -84,10 +88,7 @@ body{
   margin-bottom: 0px;
   margin-top: 0px;
   text-align: left;
-  font-size: 3vw;
-  font-family: arial;
-  white-space: nowrap;
-  overflow: hidden;
+  font-size: 2vw;
 }
 
 .map_info{
@@ -95,11 +96,11 @@ body{
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  height: 10%;
-  width: 5%;
+  height: 3vw;
+  width: 1vw;
   margin-left: auto;
   margin-right: auto;
-  font-size: 100%;
+  font-size: 1vw;
   transition: all var(--transition-speed) ease-in;
   background-repeat: no-repeat;
   background-size: cover;
@@ -114,9 +115,9 @@ body{
   transition: all var(--transition-speed) ease-out;
   opacity: 100%;
   position: relative;
-  top: 13%;
-  width: 85%;
-  height: 128px;
+  top: 0.3vw;
+  width: 40vw;
+  height: 7vw;
 }
 
 .player_info img {
@@ -124,8 +125,8 @@ body{
   position: relative;
   left: 1vw;
   bottom: 0vw;
-  width: 3vw;
-  height: 1vw;
+  width: 0px;
+  height: 0px;
   transition: all var(--transition-speed) ease-out;
 }
 
@@ -135,8 +136,8 @@ body{
   object-fit: cover;
   left: 1vw;
   bottom: 0vw;
-  width: 11vw;
-  height: 11vw;
+  width: 8vw;
+  height: 8vw;
   border: 2px solid #fff;
   border-radius: 2vw;
   box-shadow: 5px 5px 5px #000000;
@@ -152,9 +153,11 @@ body{
   position: relative;
   border: 5px hidden #1C6EA4;
   border-radius: 15px;
-  background: radial-gradient(circle, rgba(20,56,39,1) 0%, rgba(38,104,73,1) 35%, rgba(0,0,0,1) 100%);
+  background: radial-gradient(circle, rgb(20, 48, 56) 0%, rgb(33, 180, 203) 35%, rgb(0, 0, 0) 100%);
   padding-bottom: 2vw;
   box-shadow: 5px 5px 15px 5px #000000;
+  margin: 0 auto;
+  overflow: hidden;
 }
 
 .recent_info{
@@ -193,13 +196,21 @@ body{
   }
 }
 
-.match{
+.match-teams{
   text-align: center;
-  /*background: linear-gradient(0deg, #266849, #143827);*/
-  /*box-shadow: 20px 20px 50px 10px black inset;*/
   border-radius: 5vw;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.match{
+  text-align: center;
+  border-radius: 5vw;
+  margin-left: auto;
+  margin-right: auto;
+  flex-wrap: wrap;
 }
 
 .rectangle_menu {
@@ -257,17 +268,20 @@ a{
 
 h1{
   text-align: center;
+  color: white;
+  text-shadow: 4px 4px 8px #f4f4f4;
+  font-weight: bold;
 }
 
 .teammode{
   text-transform: uppercase;
-  background: linear-gradient(to right, #16bf0d 0%, #156311 100%);
+  background: linear-gradient(to right, #0ccdeb 0%, #114663 100%);
   border-radius: 5vw;
 }
 
 .single{
   text-transform: uppercase;
-  background: linear-gradient(to right, #16bf0d 0%, #156311 100%);
+  background: linear-gradient(to right, #0ccdeb 0%, #114663 100%);
   border-radius: 5vw;
 }
 
@@ -295,8 +309,9 @@ h1{
   opacity: 0;
   transition: all var(--transition-speed) ease-out;
 }
-text-shadow: 4px 4px 8px #000000;
+
 .score{
+  text-shadow: 4px 4px 8px #000000;
   margin-left: auto;
   text-align: right;
   font-size: 68%;
@@ -328,17 +343,19 @@ text-shadow: 4px 4px 8px #000000;
 }
 
 .teambox {
+  flex: column;
+  position: relative;
   margin-left: auto;
   margin-right: auto;
   transition: ease-out 0.3s;
-  width: 80vw;
-  height: 3.5vw;
   font-size: 1.7vw;
-  border: 5px hidden #1C6EA4;
+  border: 5px #1C6EA4;
   border-radius: 1vw;
   box-shadow: 5px 5px 15px 5px #000000;
   background: rgb(20,61,12);
-  background: radial-gradient(circle, rgba(20,61,12,1) 0%, rgba(0,164,69,1) 100%);
+  background: radial-gradient(circle, rgb(12, 61, 56) 0%, rgb(0, 161, 164) 100%);
+  margin-bottom: 10px;
+  padding: 5px;
 }
 
 .weekly_map {
@@ -418,10 +435,10 @@ text-shadow: 4px 4px 8px #000000;
   display: block;
   text-align: center;
   font-size: 5vw;
-  border: 0.2vw solid rgba(127, 221, 255, 0.667));
+  border: 0.2vw solid rgba(127, 221, 255, 0.667);
   border-radius: 2vw;
   width: 70vw;
-  min-height: 6vw;
+  min-height: 86px;
   margin: auto;
   box-shadow: 5px 5px 15px 5px #00c8ff61;
   block-size: fit-content;
@@ -436,7 +453,7 @@ text-shadow: 4px 4px 8px #000000;
 }
 
 .data-box{
-  border: 0.2vw solid rgba(127, 221, 255, 0.667));
+  border: 0.2vw solid rgba(127, 221, 255, 0.667);
   background: -webkit-linear-gradient(#00000095 10%, #00000000 80%);
   text-shadow: 2px 2px 20px #000000;
   border-radius: 4vw;
