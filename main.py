@@ -165,8 +165,8 @@ async def match(match_name, graph_view):
     get_key_of = get_key_of,
     players = players_sorted,
     match_name = match_name,
-    graph_view = graph_view
-    #teamcount = teamcount
+    graph_view = graph_view,
+    get_data = player_crap.user_data_grabber
   )
     
   else:
@@ -221,6 +221,7 @@ async def match(match_name, graph_view):
       previous_score_segment = previous_score_segment,
       get_key_of = get_key_of,
       biggest_score = biggest_score,
+      get_data = player_crap.user_data_grabber
     )
 
 #work on future old matches
@@ -274,7 +275,8 @@ def old_match(match_name):
     players = players_sorted,
     previous_score_segment = previous_score_segment,
     get_key_of = get_key_of,
-    biggest_score = biggest_score
+    biggest_score = biggest_score,
+    get_data = player_crap.user_data_grabber
     )
     
   else:
@@ -329,6 +331,7 @@ def old_match(match_name):
       previous_score_segment = previous_score_segment,
       get_key_of = get_key_of,
       biggest_score = biggest_score,
+      get_data = player_crap.user_data_grabber
     )
 
 
