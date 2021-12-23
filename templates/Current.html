@@ -58,15 +58,15 @@
 
     <div class="warning"><span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span><br><a href="/info">more info</a></div>
 
-    <h1>{{ match_data["match name"] }}</h1>
+    <h1 style="font-size: 5vw; margin: 3 auto;">{{ match_data["match name"] }}</h1>
 
     {% if match_data["mode"] == "teams" %}
 
       <div class="gameBox" id="bodymovin">
 
-        <h1 class="teams">Teams</h1>
+        <h1 style="font-size: 4vw;">Teams</h1>
 
-        <div class="match">
+        <div class="match-teams">
   
           {% set count_team = namespace(value=1) %}  
 
@@ -120,6 +120,7 @@
 
               {% endfor %}
 
+            </div>
           {% set count_team.value = count_team.value + 1 %}
 
           {% endfor %}
@@ -142,7 +143,7 @@
 
             <div class="spacing">
 
-              <div class="player_info" id="ref{{ count.value }}" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%), url({{ value[2] }});">
+              <div class="player_info" id="ref{{ count.value }}" style="background-image: linear-gradient(to top, #ffffff95 10%, #ffffff00 80%), url({{ value[2] }});">
 
                 <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
 
