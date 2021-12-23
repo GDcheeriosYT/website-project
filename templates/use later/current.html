@@ -1,0 +1,82 @@
+<div id="player-progress">
+    
+  <details id="legend">
+    
+    <summary style="font-size: 80px;">player legend</summary>
+    
+    <ul class="charts-css legend legend-rhombus">
+      
+      {% set dates = match_data["match score history"]["overall score"].values() | list %}
+      
+      {% for player in dates[0]%}
+      
+      <li>{{ player }}</li>
+      
+      {% endfor %}
+    </ul>
+    
+  </details>
+  
+  
+  <table class="charts-css line multiple show-heading show-labels show-data-axes show-primary-axis" id="player-progress">
+    <caption>score progression</caption>
+    <thead id="data">
+      <tr>
+        {% if graph_view == "normal" %}
+        {% for date in match_data["match score history"]["overall score"].keys() %}
+        <th scope="col"> {{ date }} </th>
+        {% endfor %}
+        {% elif graph_view == "normal" %}
+        {% for date in match_data["match score history"]["daily score"].keys() %}
+        <th scope="col"> {{ date }} </th>
+        {% endfor %}
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody id="graph">
+      {% if graph_view == "normal" %}
+      <tr>
+
+            {% set iteration = namespace(value = 0) %}
+            {% for date in match_data["match score history"]["overall score"] %}
+            <th scope="col"> {{ date }} </th>
+
+            
+            {% set iteration.value = iteration.value + 1 %}
+              {% for player_score in match_data["match score history"]["overall score"][date].values() %}
+
+            <td style="font-size: {{biggest_score|string|length + match_data["match score history"]["overall score"].keys()|length / match_data["users"]|length}}px; --start:{{previous_score_segment(get_key_of(player_score, match_data["match score history"]["overall score"][date]), iteration.value) / biggest_score}}; --size:{{player_score / biggest_score}}; white-space: nowrap;"><span class="data">{{ player_score }}</span></td>
+            
+              {% endfor %}
+            
+          </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
+
+
+    {% endif %}
+
+    {% if graph_view == "daily-score-gain" %}
+    <tr>
+
+          {% set iteration = namespace(value = 0) %}
+          {% for date in match_data["match score history"]["daily score"] %}
+          <th scope="col"> {{ date }} </th>
+
+          
+          {% set iteration.value = iteration.value + 1 %}
+            {% for player_score in match_data["match score history"]["daily score"][date].values() %}
+
+          <td style="font-size: {{biggest_score|string|length + match_data["match score history"]["daily score"].keys()|length / match_data["users"]|length}}px; --start:{{previous_score_segment(get_key_of(player_score, match_data["match score history"]["daily score"][date]), iteration.value) / biggest_score}}; --size:{{player_score / biggest_score}}; white-space: nowrap;"><span class="data">{{ player_score }}</span></td>
+          
+            {% endfor %}
+          
+        </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
+
+{% endif %}
