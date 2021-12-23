@@ -46,5 +46,9 @@ function getRandomInt(max){
 function randomizeGallery(){
 
 }
+
+function addScore(initialScore, recentScore){
+    console.log(initialScore + recentScore)
+}
   
 window.currentMatches = []
