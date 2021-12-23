@@ -32,12 +32,13 @@ async def start_match(team_mode=False, team_amount=2, match_name=(f"match{match_
   :match_name: string, will decide match name
   '''
   
+  teams = {}
+  
   if team_mode == True:
     mode = "teams"
     players_selected = []
     initial_score = []
     initial_playcount = []
-    teams = {}
     for i in range(team_amount):
       players = []
       team_name = input("give this team a name\n")
