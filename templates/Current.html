@@ -72,7 +72,7 @@
                     <div class="playcount">{{ value[18] }} maps played</div>
                     <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress> {{ value[6] }}%</div>
                     {% if value[4] != "0" %}
-                      <div class="map_info" style="background-image:url({{value[7]}});">
+                      <!--<div class="map_info" style="background-image:url({{value[7]}});">
                         <span class="extra_text"><b>Recent Map:</b></span>
                         <span class="map_title"><b><a style="color: black;" href="{{value[10]}}">{{value[12]}}-{{value[8]}}</a></b></span>
                         <span style="text-align: center;"><b>☆{{value[9]}}☆</b></span>
@@ -80,7 +80,7 @@
                         <span style="position: relative; left: 7%; font-size: 120%; bottom: 10%;"><b>{{value[13]}}%</b></span>
                         <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;"><b>{{value[14]}}x</b></span>
                         <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;">{{value[11]}}</span>
-                      </div>
+                      </div>-->
                     {% endif %}
                   </div>
                 </div>
@@ -107,7 +107,7 @@
                 <div class="playcount">{{ value[18] }} maps played</div>
                 <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress> {{ value[6] }}%</div>
                 {% if value[4] != "0" %}
-                  <div class="map_info" style="background-image:url({{value[7]}});">
+                  <!--<div class="map_info" style="background-image:url({{value[7]}});margin">
                     <span class="extra_text"><b>Recent Map:</b></span>
                     <span class="map_title"><b><a style="color: black;" href="{{value[10]}}">{{value[12]}}-{{value[8]}}</a></b></span>
                     <span style="text-align: center;"><b>☆{{value[9]}}☆</b></span>
@@ -115,10 +115,10 @@
                     <span style="position: relative; left: 7%; font-size: 120%; bottom: 10%;"><b>{{value[13]}}%</b></span>
                     <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;"><b>{{value[14]}}x</b></span>
                     <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;">{{value[11]}}</span>
-                  </div> 
+                  </div>-->
                 {% endif %}
+                </div>
               </div>
-            </div>
           {% set count.value = count.value + 1 %}
           {% endfor %}
         </div>
