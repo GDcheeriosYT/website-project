@@ -72,25 +72,7 @@
 
           {% for team_key, team_value in teams.items() %}
 
-            {% if count_team.value == 1%}
-
-              {% set color = "background: linear-gradient(to bottom, #cfc09f 22%,#634f2c 24%, #cfc09f 26%, #cfc09f 27%,#ffecb3 40%,#3a2c0f 78%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #fff; position: relative; text-transform: uppercase; margin: 0; font-weight: 400;" %}
-            
-            {% elif count_team.value == 2 %}
-
-              {% set color = "grey" %}
-            
-            {% elif count_team.value == 3 %}
-
-              {% set color = "brown" %}
-
-            {% else %}
-
-              {% set color = "white" %}
-            
-            {% endif %}
-
-            <div class="teambox"><h1 class="namebox"><span style="{{ color }}">#{{ count_team.value }} {{ team_key }}</span> <span class="score">{{team_value[0]}}</span></h1></div>
+            <div class="teambox"><h1 class="namebox"><span>#{{ count_team.value }} {{ team_key }}</span> <span class="score">{{team_value[0]}}</span></h1>
 
               {% set count_player = namespace(value=1) %}
 
@@ -157,24 +139,6 @@
           {% set count = namespace(value=1) %}  
 
           {% for key, value in players.items() %}
-
-            {% if count.value == 1%}
-
-              {% set color = "background: linear-gradient(to bottom, #cfc09f 22%,#634f2c 24%, #cfc09f 26%, #cfc09f 27%,#ffecb3 40%,#3a2c0f 78%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #fff; position: relative; text-transform: uppercase; margin: 0; font-weight: 400;" %}
-            
-            {% elif count.value == 2 %}
-
-              {% set color = "grey" %}
-            
-            {% elif count.value == 3 %}
-
-              {% set color = "brown" %}
-
-            {% else %}
-
-              {% set color = "white" %}
-            
-            {% endif %}
 
             <div class="spacing">
 
