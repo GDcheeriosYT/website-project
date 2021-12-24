@@ -425,6 +425,7 @@ def player_match_constructor(id, match_data):
     accuracy = player_data[id]["recent map data"]["accuracy"]
     max_combo = player_data[id]["recent map data"]["max combo"]
     rank = player_data[id]["recent map data"]["map grade"]
+    player_id = id
     
     try:
       rank_color = player_data[id]["recent map data"]["rank color"]
@@ -456,5 +457,6 @@ def player_match_constructor(id, match_data):
     rank = "F"
     rank_color = "red"
     recent_score = 0
+    player_id = 0
 
-  return(name, [score, avatar, background, link, recent_score, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount])
+  return(name, [score, avatar, background, link, recent_score, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, player_id])

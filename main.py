@@ -22,6 +22,20 @@ app = Flask(  # Create a flask app
   template_folder='templates', # Name of html file folder
   static_folder='static' # Name of directory for static files
 )
+
+#player score grab api crap
+@app.route("/grab/<ids>/<match_name>")
+async def grabber(ids, match_name):
+  id_list = ids.split("+")
+  with open(f"matches/{match_name}.json") as f:
+    match_data = json.load(f)
+  
+  new_dict = {}
+  for id in id_list:
+    user_pos = match_data["users"].index(id)
+    score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0] - match_data["initial score"][user_pos]
+    new_dict[id] = score
+  return new_dict
     
 #home website
 @app.route('/')
@@ -88,6 +102,7 @@ async def match(match_name, graph_view):
       players[player[0]] = player[1]
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
       player_score_data[player[0]] = player[1][0]
+      print(player[1][19])
     
     #normal graph data updater
     score_data = match_data["match score history"]["overall score"]
