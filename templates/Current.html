@@ -51,49 +51,51 @@
           return
         }
         console.log("scoreDiff", scoreDiff)
-        const dur = 2000
-        const frametime = dur / scoreDiff
-        let interval = setInterval(() => {
-          let change = 10000000
-          if (scoreDiff < change){
-            change = 5000000
-          }
-          if (scoreDiff < change){
-            change = 2500000
-          }
-          if (scoreDiff < change){
-            change = 1000000
-          }
-          if (scoreDiff < change){
-            change = 500000
-          }
-          if (scoreDiff < change){
-            change = 250000
-          }
-          if (scoreDiff < change){
-            change = 100000
-          }
-          if (scoreDiff < change){
-            change = 50000
-          }
-          if (scoreDiff < change){
-            change = 25000
-          }
-          if (scoreDiff < change){
-            change = 10000
-          }
-          if (scoreDiff < change){
-            change = scoreDiff
-          }
-          score += change
-          scoreDiff -= change
-          scoreEl.textContent = score + ' score'
-          if (scoreDiff == 0){
-            clearInterval(interval)
-          }
-        }, frametime)
+        //const dur = 2000
+        //const frametime = dur / scoreDiff
+        //let change = 10000000
+        //let interval = setInterval(() => {
+        //  if (scoreDiff < change){
+        //    change = 5000000
+        //  }
+        //  if (scoreDiff < change){
+        //    change = 2500000
+        //  }
+        //  if (scoreDiff < change){
+        //    change = 1000000
+        //  }
+        //  if (scoreDiff < change){
+        //    change = 500000
+        //  }
+        //  if (scoreDiff < change){
+        //    change = 250000
+        //  }
+        //  if (scoreDiff < change){
+        //    change = 100000
+        //  }
+        //  if (scoreDiff < change){
+        //    change = 50000
+        //  }
+        //  if (scoreDiff < change){
+        //    change = 25000
+        //  }
+        //  if (scoreDiff < change){
+        //    change = 10000
+        //  }
+        //  if (scoreDiff < change){
+        //    change = scoreDiff
+        //  }
+        //  score += change
+        //  scoreDiff -= change
+        //  scoreEl.textContent = score + ' score'
+        //  if (scoreDiff == 0){
+        //    clearInterval(interval)
+        //  }
+        //}, 50)
+        updateNumberOverTime(returnValuesInBetween(score, player_list[key]), scoreEl);
+        console.log("score update over time")
       });
-    }
+    }//
     
     function updatePlayers(){
       fetch("http://gdcheerios.com/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
@@ -107,6 +109,44 @@
         player_list[key] += 5
       });
       reRender()
+    }
+
+    let config = {
+      duration: 500,
+      fps: 60,
+    };
+    
+    function returnValuesInBetween(startValue, endValue) {
+      let resultArray = [];
+      let totalCaptureAmount = Math.floor(config.duration / config.fps);
+    
+      let incrementer = (endValue - startValue) / totalCaptureAmount;
+      console.log(incrementer);
+    
+      for (let i = 0; i < totalCaptureAmount; i++) {
+        resultArray.push(Math.floor(startValue + incrementer * i));
+      }
+      resultArray.push(endValue);
+      return resultArray;
+    }
+    
+    function updateNumberOverTime(numberArray, element) {
+      let incrementer = Math.floor(config.duration / numberArray.length);
+    
+      for (let i = 0; i < numberArray.length; i++) {
+        let currentValue = numberArray[i];
+        setTimeout(
+          () => {
+            element.textContent = numberWithCommas(currentValue) + " score";
+          },
+          (i + 1) * incrementer,
+          currentValue
+        );
+      }
+    }
+
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
     }
   </script>
 
