@@ -24,7 +24,6 @@
       players.forEach((el)=> {
         const scoreEl = el.querySelector('.score')
         const score = parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", ""))
-        console.log(score)
         player_list[el.dataset.id] = score
       })
       player_ids =Object.keys(player_list).join("+")
@@ -42,7 +41,7 @@
 
     function reRender(){
       console.log("reRender", player_list)
-      Object.keys(player_list).forEach(key => {
+      Object.keys(player_list).forEach((key, i) => {
         const player = document.querySelector(".player_info[data-id='" + key + "']")
         const scoreEl = player.querySelector('.score')
         let score = parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", ""))
@@ -50,58 +49,19 @@
         if (scoreDiff < 1){
           return
         }
+        let isLastPlayer = (i == Object.keys(player_list).length - 1)
+        //todo convert isLastPlayer to isLastUpdate
+        console.log("rerender", isLastPlayer)
+
         console.log("scoreDiff", scoreDiff)
-        //const dur = 2000
-        //const frametime = dur / scoreDiff
-        //let change = 10000000
-        //let interval = setInterval(() => {
-        //  if (scoreDiff < change){
-        //    change = 5000000
-        //  }
-        //  if (scoreDiff < change){
-        //    change = 2500000
-        //  }
-        //  if (scoreDiff < change){
-        //    change = 1000000
-        //  }
-        //  if (scoreDiff < change){
-        //    change = 500000
-        //  }
-        //  if (scoreDiff < change){
-        //    change = 250000
-        //  }
-        //  if (scoreDiff < change){
-        //    change = 100000
-        //  }
-        //  if (scoreDiff < change){
-        //    change = 50000
-        //  }
-        //  if (scoreDiff < change){
-        //    change = 25000
-        //  }
-        //  if (scoreDiff < change){
-        //    change = 10000
-        //  }
-        //  if (scoreDiff < change){
-        //    change = scoreDiff
-        //  }
-        //  score += change
-        //  scoreDiff -= change
-        //  scoreEl.textContent = score + ' score'
-        //  if (scoreDiff == 0){
-        //    clearInterval(interval)
-        //  }
-        //}, 50)
-        updateNumberOverTime(returnValuesInBetween(score, player_list[key]), scoreEl);
-        console.log("score update over time")
+        updateNumberOverTime(returnValuesInBetween(score, player_list[key]), scoreEl,  isLastPlayer);
       });
-    }//
+    }
     
     function updatePlayers(){
       fetch("http://gdcheerios.com/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
         .then(res => res.json())
         .then(data => handleResponse(data))
-      
     }
 
     function test(num){
@@ -111,8 +71,16 @@
       reRender()
     }
 
+    function addSome(index){
+      let key = Object.keys(player_list)[index]
+      console.log(Object.values(player_list)[index])
+      player_list[key] += 500
+      console.log(Object.values(player_list)[index])
+      reRender()
+    }
+
     let config = {
-      duration: 1700,
+      duration: 950,
       fps: 10,
     };
     
@@ -130,19 +98,32 @@
       return resultArray;
     }
     
-    function updateNumberOverTime(numberArray, element) {
+    function updateNumberOverTime(numberArray, element, isLastPlayer) {
       let incrementer = Math.floor(config.duration / numberArray.length);
-    
+      console.log(isLastPlayer)
       for (let i = 0; i < numberArray.length; i++) {
         let currentValue = numberArray[i];
+        const dur = (i + 1) * incrementer
         setTimeout(
           () => {
             element.textContent = numberWithCommas(currentValue) + " score";
+            if (isLastPlayer && i == numberArray.length - 1){
+              setTimeout(onReRendered(), dur)
+            }
           },
-          (i + 1) * incrementer,
+          dur,
           currentValue
         );
       }
+    }
+
+    function onReRendered(){
+      let player_array = Object.keys(player_list).map(key => ({player_id:key, score:player_list[key]}))
+      //console.log(player_list)
+      console.log("first", player_array)
+      player_array.sort((a, b) => (a.score > b.score) ? 1 : -1)
+      console.log("second", player_array)
+      console.log("done")
     }
 
     function numberWithCommas(x) {
@@ -198,10 +179,7 @@
                 <div class="spacing">
                   <div class="player_info" style="background-image: linear-gradient(to top, #ffffff95 40%, #ffffff00 90%), url({{ value[2] }});">
                     <h1 class="namebox"><span style="{{ color }}">#{{ count_player.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
-                    <div class="flexify">
-                      <img src="{{ value[1] }}">
-                      <h1 class="addedscore">+{{value[4]}}</h1>
-                    </div>
+                    <img src="{{ value[1] }}">
                     <div class="playcount">{{ value[18] }} maps played</div>
                     <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress> {{ value[6] }}%</div>
                     {% if value[4] != "0" %}
@@ -233,10 +211,7 @@
             <div class="spacing">
               <div class="player_info" data-id="{{ value[19] }}" style="background-image: linear-gradient(to top, #ffffff, #ffffff50), url({{ value[2] }});">
                 <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
-                <div class="flexify">
-                  <img src="{{ value[1] }}">
-                  <h1 class="addedscore">+{{value[4]}}</h1>
-                </div>
+                <img src="{{ value[1] }}">
                 <div class="playcount">{{ value[18] }} maps played</div>
                 <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress> {{ value[6] }}%</div>
                 {% if value[4] != "0" %}
