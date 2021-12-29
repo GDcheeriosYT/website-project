@@ -181,7 +181,6 @@
             <div class="teambox"><h1 class="namebox"><span>#{{ count_team.value }} {{ team_key }}</span> <span class="score">{{team_value[0]}}</span></h1>
               {% set count_player = namespace(value=1) %}
               {% for key, value in team_value[1].items() %}
-                <div class="spacing">
                   <div class="player_info" style="background-image: linear-gradient(to top, #ffffff95 40%, #ffffff00 90%), url({{ value[2] }});">
                     <h1 class="namebox"><span style="{{ color }}">#{{ count_player.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
                     <img src="{{ value[1] }}">
@@ -199,7 +198,6 @@
                       </div>-->
                     {% endif %}
                   </div>
-                </div>
               {% set count_player.value = count_player.value + 1 %}
               {% endfor %}
             </div>
@@ -213,7 +211,6 @@
         <div class="match">
           {% set count = namespace(value=1) %}  
           {% for key, value in players.items() %}
-            <div class="spacing">
               <div class="player_info" data-id="{{ value[19] }}" style="background-image: linear-gradient(to top, #ffffff, #ffffff50), url({{ value[2] }});">
                 <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
                 <img src="{{ value[1] }}">
@@ -230,7 +227,6 @@
                     <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;">{{value[11]}}</span>
                   </div>-->
                 {% endif %}
-                </div>
               </div>
           {% set count.value = count.value + 1 %}
           {% endfor %}
