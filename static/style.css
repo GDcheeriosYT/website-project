@@ -251,11 +251,7 @@ a{
 }
 
 .player_info:hover .addedscore {
-  opacity: 1;
-  position: relative;
-  left: 5%;
-  bottom: 10px;
-  transition: all var(--transition-speed) ease-in;
+  
 }
 
 .extra_text{
@@ -303,13 +299,10 @@ h1{
 }
 
 .addedscore{
-  position: relative;
-  bottom: 100px;
-  left: 10%;
+  position: relative; 
+  opacity: 0; 
+  animation: scoreAdd 1800ms;
   color: green;
-  font-size: 90%;
-  opacity: 0;
-  transition: all var(--transition-speed) ease-out;
 }
 
 .score{
@@ -480,4 +473,21 @@ h1{
   position: relative;
   background: rgba(255,255,255,0.3);
   background-image: linear-gradient(to top, #00000095 10%, #00000000 80%);
+}
+
+@keyframes scoreAdd{
+  0% {
+    top: -200px;
+    opacity: 0;
+  }
+  50%{
+    top: -150px;
+    transition: ease-in;
+    opacity: 1;
+  }
+  100%{
+    top: -50px;
+    transition: ease-out;
+    opacity: 0;
+  }
 }

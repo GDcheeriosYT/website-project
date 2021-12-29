@@ -51,10 +51,12 @@
         }
         let isLastPlayer = (i == Object.keys(player_list).length - 1)
         //todo convert isLastPlayer to isLastUpdate
-        console.log("rerender", isLastPlayer)
-
-        console.log("scoreDiff", scoreDiff)
-        updateNumberOverTime(returnValuesInBetween(score, player_list[key]), scoreEl,  isLastPlayer);
+        var scoreThing = document.createElement("h1");
+          scoreThing.innerHTML = "+" + numberWithCommas(player_list[key] - parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", "")))
+          scoreThing.classList.add("addedscore")
+          document.querySelector(".player_info[data-id='" + key + "']").appendChild(scoreThing)
+          setTimeout(() => {updateNumberOverTime(returnValuesInBetween(score, filtered_list[key]), scoreEl,  isLastPlayer);}, 1200)
+          setTimeout(() => {scoreThing.remove()}, 1800)
       });
     }
     
