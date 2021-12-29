@@ -18,7 +18,7 @@
 
   <script>
     let player_ids;
-    const player_list = {}
+    let player_list = {}
     window.onload = function(){
       const players = document.querySelectorAll(".player_info")
       players.forEach((el)=> {
@@ -36,20 +36,32 @@
       Object.keys(data).forEach(key => {
         player_list[key] = data[key]
       });
+      let player_array = Object.keys(player_list).map(key => ({player_id:key, score:player_list[key]}))
+      player_array.sort((a, b) => (a.score > b.score) ? -1 : 1)
+      player_list = {}
+      player_array.forEach((el) => {
+        const {player_id, score} = el
+        player_list = {...player_list, [player_id]: score}
+      })
       reRender()
     }
 
     function reRender(){
-      console.log("reRender", player_list)
+      const filtered_list = {}
       Object.keys(player_list).forEach((key, i) => {
         const player = document.querySelector(".player_info[data-id='" + key + "']")
         const scoreEl = player.querySelector('.score')
         let score = parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", ""))
         let scoreDiff = player_list[key] - score
-        if (scoreDiff < 1){
-          return
+        if (scoreDiff > 0) {
+          filtered_list[key] = player_list[key]
         }
-        let isLastPlayer = (i == Object.keys(player_list).length - 1)
+      })
+      Object.keys(filtered_list).forEach((key, i) => {
+        const player = document.querySelector(".player_info[data-id='" + key + "']")
+        const scoreEl = player.querySelector('.score')
+        let score = parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", ""))
+        let isLastPlayer = (i == Object.keys(filtered_list).length - 1)
         //todo convert isLastPlayer to isLastUpdate
         var scoreThing = document.createElement("h1");
           scoreThing.innerHTML = "+" + numberWithCommas(player_list[key] - parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", "")))
@@ -75,9 +87,7 @@
 
     function addSome(index){
       let key = Object.keys(player_list)[index]
-      console.log(Object.values(player_list)[index])
       player_list[key] += 500
-      console.log(Object.values(player_list)[index])
       reRender()
     }
 
@@ -102,7 +112,6 @@
     
     function updateNumberOverTime(numberArray, element, isLastPlayer) {
       let incrementer = Math.floor(config.duration / numberArray.length);
-      console.log(isLastPlayer)
       for (let i = 0; i < numberArray.length; i++) {
         let currentValue = numberArray[i];
         const dur = (i + 1) * incrementer
@@ -120,12 +129,6 @@
     }
 
     function onReRendered(){
-      let player_array = Object.keys(player_list).map(key => ({player_id:key, score:player_list[key]}))
-      //console.log(player_list)
-      console.log("first", player_array)
-      player_array.sort((a, b) => (a.score > b.score) ? 1 : -1)
-      console.log("second", player_array)
-      console.log("done")
     }
 
     function numberWithCommas(x) {
