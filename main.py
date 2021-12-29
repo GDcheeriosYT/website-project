@@ -102,9 +102,8 @@ async def match(match_name, graph_view):
       players[player[0]] = player[1]
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
       player_score_data[player[0]] = player[1][0]
-      print(player[1][19])
     
-    #normal graph data updater
+    '''#normal graph data updater
     score_data = match_data["match score history"]["overall score"]
     score_data[f"{dt.date.today()}"] = dict(sorted(player_score_data.items()))
     match_data["match score history"]["overall score"] = score_data
@@ -128,7 +127,7 @@ async def match(match_name, graph_view):
       biggest_score = sorted(biggest_score_step1, reverse=True)[0]
     else:
       biggest_score_step1 = list(match_data["match score history"]["daily playcount"][f"{dt.date.today()}"].values())
-      biggest_score = sorted(biggest_score_step1, reverse=True)[0]
+      biggest_score = sorted(biggest_score_step1, reverse=True)[0]'''
 
     with open(f"matches/{match_name}", "w") as file:
         json.dump(match_data, file, indent = 4, sort_keys = False)
@@ -173,7 +172,7 @@ async def match(match_name, graph_view):
     'Current.html',  # Template file
     #recent = player_recent,
     math = math,
-    biggest_score = biggest_score,
+    #biggest_score = biggest_score,
     time = time,
     match_data = match_data,
     previous_score_segment = previous_score_segment,
@@ -229,7 +228,6 @@ async def match(match_name, graph_view):
 
     return render_template(
       'Current.html',  # Template file
-      #recent = player_recent
       time = time,
       match_data = match_data,
       teams = teams_sorted,
@@ -257,30 +255,6 @@ def old_match(match_name):
       player = player_crap.player_match_constructor(id, match_data)
       players[player[0]] = player[1]
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
-
-    biggest_score_step1 = list(match_data["match score history"].keys())[-1]
-    biggest_score_step2 = list(match_data["match score history"][biggest_score_step1].values())
-    biggest_score = sorted(biggest_score_step2, reverse=True)[0]
-    
-    if biggest_score == 0:
-      biggest_score = 1
-  
-    def get_key_of(score, dict):
-        for key, value in dict.items():
-            if score == value:
-                return key
-      
-    def previous_score_segment(playername, iteration):
-      dates = []
-      
-      for date in match_data["match score history"]:
-        dates.append(date)
-        
-      if iteration <= 1:
-        return 0
-      
-      elif iteration > 1:
-        return match_data["match score history"][dates[iteration - 2]][playername]
   
     return render_template(
     'old_match.html',  # Template file
@@ -288,9 +262,6 @@ def old_match(match_name):
     time = time,
     match_data = match_data,
     players = players_sorted,
-    previous_score_segment = previous_score_segment,
-    get_key_of = get_key_of,
-    biggest_score = biggest_score,
     get_data = player_crap.user_data_grabber
     )
     
@@ -308,34 +279,6 @@ def old_match(match_name):
     teams_sorted = dict(sorted(teams.items(), key=lambda x: x[0], reverse=True))
     score_data[f"{dt.date.today()}"] = team_score_data
     match_data["match score history"] = score_data
-    biggest_score_step1 = list(match_data["match score history"][f"{dt.date.today()}"].values())
-    biggest_score = sorted(biggest_score_step1, reverse=True)[0]
-    
-    if biggest_score == 0:
-      biggest_score = 1
-
-    with open(f"matches/{match_name}", "w") as file:
-        json.dump(match_data, file, indent = 4, sort_keys = False)
-
-    with open(f"matches/{match_name}", "r") as file:
-      match_data = json.load(file)  
-      
-    def get_key_of(score, dict):
-        for key, value in dict.items():
-            if score == value:
-                return key
-      
-    def previous_score_segment(playername, iteration):
-      dates = []
-      
-      for date in match_data["match score history"]:
-        dates.append(date)
-        
-      if iteration <= 1:
-        return 0
-      
-      elif iteration > 1:
-        return match_data["match score history"][dates[iteration - 2]][playername]
 
     return render_template(
       'Current.html',  # Template file
@@ -343,9 +286,6 @@ def old_match(match_name):
       time = time,
       match_data = match_data,
       teams = teams_sorted,
-      previous_score_segment = previous_score_segment,
-      get_key_of = get_key_of,
-      biggest_score = biggest_score,
       get_data = player_crap.user_data_grabber
     )
 
