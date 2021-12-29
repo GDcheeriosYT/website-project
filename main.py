@@ -35,7 +35,9 @@ async def grabber(ids, match_name):
     user_pos = match_data["users"].index(id)
     score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0] - match_data["initial score"][user_pos]
     new_dict[id] = score
-  return new_dict
+  
+  sorted_dict = dict(sorted(new_dict.items(), key=lambda x: x[1], reverse=True))
+  return json.dumps(sorted_dict)
     
 #home website
 @app.route('/')
