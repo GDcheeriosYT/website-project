@@ -2,7 +2,7 @@ import os
 from crap.team_crap import Teams
 
 #packages
-from flask import Flask, redirect, request, render_template
+from flask import Flask, redirect, render_template
 import math
 import json
 import time
