@@ -1,2 +1,2 @@
-# osu-api--crap
+# website-project
 http://gdcheerios.com
