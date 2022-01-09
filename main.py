@@ -24,7 +24,7 @@ app = Flask(  # Create a flask app
 )
 
 #player score grab api crap
-@app.route("/grab/<ids>/<match_name>")
+@app.route("/api/grab/<ids>/<match_name>")
 async def grabber(ids, match_name):
   id_list = ids.split("+")
   with open(f"matches/{match_name}.json") as f:
@@ -44,13 +44,18 @@ async def grabber(ids, match_name):
 async def home():
   return render_template("index.html")
 
+#home osu website
+@app.route('/osu')
+async def osu_home():
+  return render_template("osu/index.html")
+
 #start console interface
 @app.route("/start")
 async def start():
   await console_interface_crap.main_process()
   return redirect(f"{client.public_url}/matches")
 
-@app.route("/players")
+@app.route("/osu/players")
 async def players():
 
   players_dict = {}
@@ -75,11 +80,11 @@ async def players():
     players_sorted = dict(sorted(players_dict.items(), key=lambda x: x[1], reverse=True))
 
   return render_template(
-    'players.html',  # Template file
+    'osu/players.html',  # Template file
     players = players_sorted
   )
 
-@app.route("/matches/<match_name>/<graph_view>")
+@app.route("/osu/matches/<match_name>/<graph_view>")
 async def match(match_name, graph_view):
 
   players = {}
@@ -171,7 +176,7 @@ async def match(match_name, graph_view):
           
 
     return render_template(
-    'Current.html',  # Template file
+    'osu/Current.html',  # Template file
     #recent = player_recent,
     math = math,
     #biggest_score = biggest_score,
@@ -229,7 +234,7 @@ async def match(match_name, graph_view):
         return match_data["match score history"][dates[iteration - 2]][playername]
 
     return render_template(
-      'Current.html',  # Template file
+      'osu/Current.html',  # Template file
       time = time,
       match_data = match_data,
       teams = teams_sorted,
@@ -240,7 +245,7 @@ async def match(match_name, graph_view):
     )
 
 #work on future old matches
-@app.route("/matches/old/<match_name>")
+@app.route("/osu/matches/old/<match_name>")
 def old_match(match_name):
   players = {}
   print(match_name)
@@ -259,7 +264,7 @@ def old_match(match_name):
       players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
   
     return render_template(
-    'old_match.html',  # Template file
+    'osu/old_match.html',  # Template file
     #recent = player_recent
     time = time,
     match_data = match_data,
@@ -290,16 +295,8 @@ def old_match(match_name):
       teams = teams_sorted,
       get_data = player_crap.user_data_grabber
     )
-
-
-@app.route("/changelog.html")
-def changelog():
-
-  return render_template(
-    'changelog.html'
-  )
    
-@app.route("/matches")
+@app.route("/osu/matches")
 async def matches():
 
   current_matches = []
@@ -314,7 +311,7 @@ async def matches():
     
 
   return render_template(
-    'matches.html',
+    'osu/matches.html',
     match_data = match_crap.get_match_data,
     player_data = player_crap.user_data_grabber,
     random_number = function_crap.randnum,
@@ -334,7 +331,7 @@ async def web_player_refresh(player_name):
     
     await player_crap.player_refresh(player_name)
 
-  return redirect(f"{client.public_url}/matches")
+  return redirect(f"{client.public_url}/osu/matches")
 #tests
 @app.route("/tests/<test_num>")
 async def tests(test_num):
@@ -351,69 +348,14 @@ async def test_create():
 @app.route("/control")
 async def web_control():
   return render_template("control.html")
-
-@app.route("/control/start_match")
-async def web_control_start_match():
-  return render_template("control/start_match.html", player_list = player_list, difficulty_list = difficulty_list)
-
-@app.route('/control/start_match/', methods=['POST'])
-def web_control_start_match_name():
-    text = request.form['text']
-    processed_text = text.upper()
-    print(processed_text)
-
-@app.route("/control/edit_match")
-async def web_control_edit_match():
-  return render_template("control/edit_match.html")
-
-@app.route("/control/end_match")
-async def web_control_end_match():
-  return render_template("control/end_match.html")
-
-@app.route("/control/refresh")
-async def web_control_refresh():
-  return render_template("control/refresh.html")
-
-@app.route("/control/refresh/specific")
-async def web_control_refresh_specific():
-  return render_template("control/refresh/specific.html", player_list = player_list)
-
-@app.route("/control/refresh/specific/match-specific")
-async def web_control_refresh_specific_match():
-  
-  matches = []
-
-  for match in os.listdir("matches/"):
-    matches.append(match)
-  
-  return render_template("control/refresh/match_specific.html", matches = matches)
-
-@app.route("/control/refresh/specific/<player>")
-async def web_control_refresh_specific_player(player):
-  return redirect(f"{client.public_url}/refresh/{player}")
-
-@app.route("/control/refresh/specific/match-specific/<match>")
-async def web_control_refresh_specific_match_refresh(match):
-  
-  with open(f"matches/{match}") as f:
-    match_data = json.load(f)
-  
-  for user in match_data["users"]:
-    await player_refresh(user)
-  
-  return redirect(f"{client.public_url}/control")
-
-@app.route("/control/refresh/<player>")
-async def web_control_refresh_player(player):
-    return redirect(f"{client.public_url}/refresh/{player}")
   
 @app.route("/info")
 async def warning_info():
   return render_template("info.html")
 
-@app.route("/client")
+@app.route("/osu/client")
 async def client_webpage():
-  return render_template("client.html")
+  return render_template("osu/client.html")
 
 if __name__ == "__main__":  # Makes sure this is the main process
   app.run( # Starts the site

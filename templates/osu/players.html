@@ -1,0 +1,70 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Players</title>
+	<meta name="description" content="view total score for all players in database">
+	<meta name="author" content="GDcheerios">
+
+	<link rel="stylesheet" href="/static/style.css">
+	
+</head>
+
+<body>
+
+  <div class="bg-image"></div>
+
+	<div class="rectangle_menu"><a href="/">Home</a> <a href="/matches">Matches</a> <a href="/client">Client</a></div>
+
+  <div class="warning"><span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span><br><a href="info">more info</a></div>
+
+  {% set count_player = namespace(value=1) %}
+
+  {% for key, value in players.items() %}
+
+  {% if count_player.value == 1%}
+
+    {% set color = "yellow" %}
+  
+  {% elif count_player.value == 2 %}
+
+    {% set color = "grey" %}
+  
+  {% elif count_player.value == 3 %}
+
+    {% set color = "brown" %}
+
+  {% else %}
+
+    {% set color = "white" %}
+  
+  {% endif %}
+
+  <div class="spacing">
+
+    <div class="player_info" id="ref{{ count_player.value }}" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%), url({{ value[2] }});">
+
+      <h1 class="namebox"><span style="{{ color }}">#{{ count_player.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[6] }} score</span></h1>
+
+      <div class="flexify">
+
+        <img src="{{ value[1] }}">
+
+      </div>
+
+      <div class="playcount">{{ value[5] }} maps played</div>
+
+    </div>
+
+  </div>
+
+  {% set count_player.value = count_player.value + 1 %}
+
+  {% endfor %}
+
+</body>
+
+</html>

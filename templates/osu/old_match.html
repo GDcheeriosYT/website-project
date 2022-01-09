@@ -1,0 +1,232 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+
+  <title>match {{ match_data["match name"] }}</title>
+  <meta name="description" content="view the match {{match_data["match name"]}}">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+  <!--<script src="anime.min.js"></script>-->
+
+  <!--
+    --player key values--
+              
+      key = name
+      count.value = the ranking of the player on the leaderboard
+      value[0] = score
+      value[1] = avatar link
+      value[2] = background link
+      value[3] = user profile link
+      value[4] = recent score gained since last submitted play
+      value[5] = level 
+      value[6] = progress to next level 
+      value[7] = user recent map background 
+      value[8] = user recent map name 
+      value[9] = user recent map difficulty
+      value[10] = map url
+      value[11] = mods used
+      value[12] = song artist
+      value[13] = accuracy
+      value[14] = max combo
+      value[15] = grade of the map just played
+      value[16] = grade color
+      value[17] = formatted score
+      value[18] = play count 
+      value[19] = score data for different days
+      
+      --team key values--
+
+      team_key = team name
+      count.value = the ranking of the team and player depending on location in jinja2 loop
+      team_value[0] = team score
+      team_value[1] = call to player values-->
+
+  <div class="rectangle_menu"><a href="/">Home</a> <a href="/matches">Matches</a> <a href="/players">Players</a> <a href="/client">Client</a></div>
+
+    <!--<div class="weekly_map">
+
+    </div>-->
+
+    <div class="warning"><span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span><br><a href="/info">more info</a></div>
+
+    <h1>{{ match_data["match name"] }}</h1>
+
+    {% if match_data["mode"] == "teams" %}
+
+      <div class="gameBox" id="bodymovin">
+
+        <h1 class="teams">Teams</h1>
+
+        <div class="match">
+  
+          {% set count_team = namespace(value=1) %}  
+
+          {% for team_key, team_value in teams.items() %}
+
+            {% if count_team.value == 1%}
+
+              {% set color = "background: linear-gradient(to bottom, #cfc09f 22%,#634f2c 24%, #cfc09f 26%, #cfc09f 27%,#ffecb3 40%,#3a2c0f 78%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #fff; position: relative; text-transform: uppercase; margin: 0; font-weight: 400;" %}
+            
+            {% elif count_team.value == 2 %}
+
+              {% set color = "grey" %}
+            
+            {% elif count_team.value == 3 %}
+
+              {% set color = "brown" %}
+
+            {% else %}
+
+              {% set color = "white" %}
+            
+            {% endif %}
+
+            <div class="teambox"><h1 class="namebox"><span style="{{ color }}">#{{ count_team.value }} {{ team_key }}</span> <span class="score">{{team_value[0]}}</span></h1></div>
+
+              {% set count_player = namespace(value=1) %}
+
+              {% for key, value in team_value[1].items() %}
+
+                <div class="spacing">
+
+                  <div class="player_info" id="ref{{ count_player.value }}" style="background-image: linear-gradient(to top, #ffffff95 10%, #ffffff00 80%), url({{ value[2] }});">
+
+                    <h1 class="namebox"><span style="{{ color }}">#{{ count_player.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
+
+                    <div class="flexify">
+
+                      <img src="{{ value[1] }}">
+
+                      <h1 class="addedscore">+{{value[4]}}</h1>
+
+                    </div>
+
+                    <div class="playcount">{{ value[18] }} maps played</div>
+
+                    <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress> {{ value[6] }}%</div>
+
+                    {% if value[4] != "0" %}
+
+                      <div class="map_info" style="background-image:url({{value[7]}});">
+                    
+                          <span class="extra_text"><b>Recent Map:</b></span>
+                          <span class="map_title"><b><a style="color: black;" href="{{value[10]}}">{{value[12]}}-{{value[8]}}</a></b></span>
+                          <span style="text-align: center;"><b>☆{{value[9]}}☆</b></span>
+                          <span style="color: {{value[16]}}; font-size: 260%; margin-left: 10px; position: relative; top: 10%;">{{value[15]}}</span>
+                          <span style="position: relative; left: 7%; font-size: 120%; bottom: 10%;"><b>{{value[13]}}%</b></span>
+                          <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;"><b>{{value[14]}}x</b></span>
+                          <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;">{{value[11]}}</span>
+
+                      </div>
+                    
+                    {% endif %}
+ 
+                  </div>
+              
+                </div>
+
+              {% set count_player.value = count_player.value + 1 %}
+
+              {% endfor %}
+
+          {% set count_team.value = count_team.value + 1 %}
+
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+    {% else %}
+
+      <div class="gameBox" id="bodymovin">
+
+        <h1 class="single">Free For All</h1>
+
+        <div class="match">
+  
+          {% set count = namespace(value=1) %}  
+
+          {% for key, value in players.items() %}
+
+            {% if count.value == 1%}
+
+              {% set color = "background: linear-gradient(to bottom, #cfc09f 22%,#634f2c 24%, #cfc09f 26%, #cfc09f 27%,#ffecb3 40%,#3a2c0f 78%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #fff; position: relative; text-transform: uppercase; margin: 0; font-weight: 400;" %}
+            
+            {% elif count.value == 2 %}
+
+              {% set color = "grey" %}
+            
+            {% elif count.value == 3 %}
+
+              {% set color = "brown" %}
+
+            {% else %}
+
+              {% set color = "white" %}
+            
+            {% endif %}
+
+            <div class="spacing">
+
+              <div class="player_info" id="ref{{ count.value }}" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%), url({{ value[2] }});">
+
+                <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
+
+                <div class="flexify">
+
+                  <img src="{{ value[1] }}">
+
+                  <h1 class="addedscore">+{{value[4]}}</h1>
+
+                </div>
+
+                <div class="playcount">{{ value[18] }} maps played</div>
+
+                <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress> {{ value[6] }}%</div>
+
+                {% if value[4] != "0" %}
+
+                  <!--<div class="map_info" style="background-image:url({{value[7]}});">
+                
+                      <span class="extra_text"><b>Recent Map:</b></span>
+                      <span class="map_title"><b><a style="color: black;" href="{{value[10]}}">{{value[12]}}-{{value[8]}}</a></b></span>
+                      <span style="text-align: center;"><b>☆{{value[9]}}☆</b></span>
+                      <span style="color: {{value[16]}}; font-size: 260%; margin-left: 10px; position: relative; top: 10%;">{{value[15]}}</span>
+                      <span style="position: relative; left: 7%; font-size: 120%; bottom: 10%;"><b>{{value[13]}}%</b></span>
+                      <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;"><b>{{value[14]}}x</b></span>
+                      <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;">{{value[11]}}</span>
+
+                  </div>-->
+                
+                {% endif %}
+
+              </div>
+            
+            </div>
+
+          {% set count.value = count.value + 1 %}
+
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+      <!--<p style="color:blue;"> brian is the second best courtesy  brayden  is first xo xo brian hightower </p>-->
+
+    {% endif %}
+    <h2></h2>
+    </div>
+  </div>
+
+</body>
+</html>

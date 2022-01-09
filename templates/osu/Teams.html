@@ -1,0 +1,105 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Teams</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <style>
+  .player_info1{
+      text-align: center;
+      border-radius: 10px;
+      height: 200%;
+      text-shadow: 1px 0px 3px #ffd77a, 1px 4px 5px #ffd77a; 
+      color: yellow;
+      background-image: url("https://i.redd.it/udc029ei4ti51.png");
+      width: 80%;
+      background-size:50%;
+      background-repeat: no-repeat;
+      font-size: 180%;
+      border: 3px solid yellow;
+      position: relative;
+      top: 5px;
+    }
+
+    table{
+      width: 100%;
+      border-radius: 10px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    @keyframes intro {
+      from {background-color: white;}
+      to {background-color: #ffdf94;}
+    }
+
+    .rectangle_menu {
+      height: 60px;
+      background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
+      background-color: #ffdf94;
+      background-size: 40%;
+      border-radius: 15px;
+      font-size: 35px; 
+      animation-name: intro;
+      animation-duration: 1s;
+      animation-delay: 0s;
+      text-align: center;
+      font-family: Aller-Bold, sans-serif;
+      object-fit: fill;
+    }
+    a {
+      color: white;
+      text-shadow: 1px 0px 3px #00ffee,1px 4px 5px #000000;
+    }
+  </style>
+</head>
+
+<body style="background-image: url(https://www.vipfpng.com/png/full/273-2736409_keep-calm-and-hunt-witches-ariadusts-death-the.png); background-color: #eba400; background-size: 123%">
+  <script src="js/scripts.js"></script>
+  <div class="rectangle_menu"><a href="players.html">Players</a> <a href="/">Home</a> <a href="Current.html">Current Round</a> <a href="login.html">login</a> <a href="changelog.html">changelog</a></div>
+
+  <div class="player_info1">
+
+    <h1>#1 {{ team1.name }}</h1>
+
+    <table>
+      <tr>
+        <th>name</th>
+        <th>score</th>
+        <th>accuracy</th>
+      </tr>
+      <tr style="">
+        <td>team</td>
+        <td>{{ team1.score }}</td>
+        <td>{{ team1.accuracy }}</td>
+      </tr>
+      <tr>
+        <td>{{ team1_users[0] }}</td>
+        <td>{{ team_score[0] }}</td>
+        <td>{{ team_acc[0] }}</td>
+      </tr>
+      <tr>
+        <td>{{ team1_users[1] }}</td>
+        <td>{{ team_score[1] }}</td>
+        <td>{{ team_acc[1] }}</td>
+      </tr>
+      <tr>
+        <td>{{ team1_users[2] }}</td>
+        <td>{{ team_score[2] }}</td>
+        <td>{{ team_acc[2] }}</td>
+      </tr>
+    </table>
+
+  </div>
+
+  <hr>
+  
+  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdxADByEHbRfl6LN6CDSt7EDou6dnxBc4BVNXrsaY8eDnv2Ew/viewform?embedded=true" width="640" height="538" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+
+</body>
+</html>

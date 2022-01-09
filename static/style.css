@@ -216,13 +216,13 @@ body{
 }
 
 .rectangle_menu {
-  height: 7vw;
+  min-height: 7vw;
   background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
   background-color: #002e35;
   background-size: cover;
   background-repeat: no-repeat;
-  border-radius: 5vw;
   font-size: 6vw;
+  border-radius: 1vw;
   text-align: center;
   font-family: Aller-Bold, sans-serif;
   object-fit: fill;
@@ -381,7 +381,8 @@ h1{
   color: white;
   text-shadow: 0px 0px 0.6vw #000000;
   font-size: 2.2vw;
-  margin: 0  auto;
+  margin: 0 auto;
+  margin-top: 7px;
   white-space: nowrap;
   background-repeat: no-repeat;
   background-size: cover;
@@ -490,4 +491,42 @@ h1{
     transition: ease-out;
     opacity: 0;
   }
+}
+
+li{
+  
+}
+
+.dropdown-content{
+  opacity: 0;
+  position: absolute;
+  background-color: #f9f9f900;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+  text-decoration: none;
+  list-style: none;
+  max-height: 0px;
+  transition: ease 500ms;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  text-decoration: overline;
+  list-style: none;
+  transition: ease 500ms;
+}
+
+.dropdown:hover{
+  text-decoration: overline white;
+}
+
+.dropdown:hover .dropdown-content {
+  transition: ease 500ms;
+  display: block;
+  min-height: fit-content;
+  overflow: hidden;
+  opacity: 100;
+  max-height: 109090190190910px;
 }
