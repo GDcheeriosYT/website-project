@@ -181,6 +181,7 @@ def user_data_grabber(id=0, name=None, pull_user_data=False, pull_recent_map_dat
     return()
   
   if id != 0:
+    id = str(id)
     if id in player_data:
       if len(specific_data) != 0:
         data_list = [] #list containing the specified data
