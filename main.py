@@ -9,6 +9,7 @@ import time
 import shutil
 import asyncio
 import datetime as dt
+from tabulate import tabulate
 
 #osu packages
 import Client_Credentials as client
@@ -38,7 +39,57 @@ async def grabber(ids, match_name):
   
   sorted_dict = dict(sorted(new_dict.items(), key=lambda x: x[1], reverse=True))
   return json.dumps(sorted_dict)
+
+#api for refresh client
+#match grabber
+@app.route('/api/matches/<time>')
+def api_match_request(time):
+  returns = {}
+  returns["matches"] = []
+  if time == "current":
+    for match in os.listdir("matches/"):
+      returns["matches"].append(match)
+    return returns
+  else:
+    for match in os.listdir("match_history/"):
+      returns["matches"].append(match)
+    return returns
+
+#match data grabber
+@app.route('/api/match-get/<time>/<match>')
+def match_get(time, match):
+  with open("player_data.json") as f:
+    player_data = json.load(f)
+  if time == "current":
+    with open(f"matches/{match}") as f:
+      match_data = json.load(f)
+      
+    table = {}
+    table["players"] = []
+    table["score"] = []
+    table["playcount"] = []
     
+    players = {}
+    
+    for user in match_data["users"]:
+      player = player_crap.player_match_constructor(user, match_data)
+
+      players[player[1][19]] = player[1]
+      
+    players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
+    
+    for key in players_sorted.keys():
+      user_pos = match_data["users"].index(str(key))
+      player_thing = player_crap.user_data_grabber(id=key, specific_data=["name", "score", "playcount"])
+      table["players"].append(player_thing[0])
+      table["score"].append(player_thing[1] - match_data["initial score"][user_pos])
+      table["playcount"].append(player_thing[2] - match_data["initial playcount"][user_pos])
+    
+    print(tabulate(table, headers="keys", tablefmt="grid"))
+    return(table)
+  else:
+    return None
+
 #home website
 @app.route('/')
 async def home():
