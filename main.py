@@ -383,17 +383,24 @@ async def web_player_refresh(player_name):
     await player_crap.player_refresh(player_name)
 
   return redirect(f"{client.public_url}/osu/matches")
+
 #tests
 @app.route("/tests/<test_num>")
 async def tests(test_num):
   return render_template(
-    f"templates/tests/{test_num}.html",
+    f"tests/{test_num}.html",
     test_num = test_num
   )
   
 @app.route("/tests/create")
 async def test_create():
-  test_new_id = len(os.listdir("/templates/tests"))
+  test_new_id = len(os.listdir("templates/tests"))
+  template = open("templates/tests/test-template.html", "r")
+  f = open(f"templates/tests/test{test_new_id}.html", "w+")
+  for line in template:
+    f.write(line)
+  f.close()
+  return render_template(f"tests/test{test_new_id}.html")
 
 #website control
 @app.route("/control")
