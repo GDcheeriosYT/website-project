@@ -1,259 +1,262 @@
 <!doctype html>
 
 <html lang="en">
-<head>
-
-  <meta charset="utf-8">
-
-  <title>match {{ match_data["match name"] }}</title>
-  <meta name="description" content="view the match {{match_data["match name"]}}">
-  <meta name="author" content="SitePoint">
-
-  <link rel="stylesheet" href="/static/style.css">
-  <script src="/static/script.js"></script>
-
-</head>
-
-<body>
-
-  <script>
-    let player_ids;
-    let player_list = {}
-    window.onload = function(){
-      const players = document.querySelectorAll(".player_info")
-      players.forEach((el)=> {
-        const scoreEl = el.querySelector('.score')
-        const score = parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", ""))
-        player_list[el.dataset.id] = score
-      })
-      player_ids =Object.keys(player_list).join("+")
-      setInterval(() =>{
-        updatePlayers()
-      }, 5000)
-    }
+  <head>
+    {% block head %}
     
-    function handleResponse(data){
-      Object.keys(data).forEach(key => {
-        player_list[key] = data[key]
-      });
-      let player_array = Object.keys(player_list).map(key => ({player_id:key, score:player_list[key]}))
-      player_array.sort((a, b) => (a.score > b.score) ? -1 : 1)
-      player_list = {}
-      player_array.forEach((el) => {
-        const {player_id, score} = el
-        player_list = {...player_list, [player_id]: score}
-      })
-      reRender()
-    }
-
-    function reRender(){
-      const filtered_list = {}
-      Object.keys(player_list).forEach((key, i) => {
-        const player = document.querySelector(".player_info[data-id='" + key + "']")
-        const scoreEl = player.querySelector('.score')
-        let score = parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", ""))
-        let scoreDiff = player_list[key] - score
-        if (scoreDiff > 0) {
-          filtered_list[key] = player_list[key]
-        }
-      })
-      Object.keys(filtered_list).forEach((key, i) => {
-        const player = document.querySelector(".player_info[data-id='" + key + "']")
-        const scoreEl = player.querySelector('.score')
-        let score = parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", ""))
-        let isLastPlayer = (i == Object.keys(filtered_list).length - 1)
-        //todo convert isLastPlayer to isLastUpdate
-        var scoreThing = document.createElement("h1");
+    <meta charset="utf-8">
+    
+    <title>match {{ match_data["match name"] }}</title>
+    <meta name="description" content="view the match {{match_data["match name"]}}">
+    <meta name="author" content="SitePoint">
+    
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/script.js"></script>
+    
+    {% endblock %}
+  </head>
+  {% extends 'base.html' %}
+  <body>
+    {% block body %}
+    
+    <script>
+      let player_ids;
+      let player_list = {}
+      window.onload = function(){
+        const players = document.querySelectorAll(".player_info")
+        players.forEach((el)=> {
+          const scoreEl = el.querySelector('.score')
+          const score = parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", ""))
+          player_list[el.dataset.id] = score
+        })
+        player_ids =Object.keys(player_list).join("+")
+        setInterval(() =>{
+          updatePlayers()
+        }, 5000)
+      }
+      
+      function handleResponse(data){
+        Object.keys(data).forEach(key => {
+          player_list[key] = data[key]
+        });
+        let player_array = Object.keys(player_list).map(key => ({player_id:key, score:player_list[key]}))
+        player_array.sort((a, b) => (a.score > b.score) ? -1 : 1)
+        player_list = {}
+        player_array.forEach((el) => {
+          const {player_id, score} = el
+          player_list = {...player_list, [player_id]: score}
+        })
+        reRender()
+      }
+      
+      function reRender(){
+        const filtered_list = {}
+        Object.keys(player_list).forEach((key, i) => {
+          const player = document.querySelector(".player_info[data-id='" + key + "']")
+          const scoreEl = player.querySelector('.score')
+          let score = parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", ""))
+          let scoreDiff = player_list[key] - score
+          if (scoreDiff > 0) {
+            filtered_list[key] = player_list[key]
+          }
+        })
+        Object.keys(filtered_list).forEach((key, i) => {
+          const player = document.querySelector(".player_info[data-id='" + key + "']")
+          const scoreEl = player.querySelector('.score')
+          let score = parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", ""))
+          let isLastPlayer = (i == Object.keys(filtered_list).length - 1)
+          //todo convert isLastPlayer to isLastUpdate
+          var scoreThing = document.createElement("h1");
           scoreThing.innerHTML = "+" + numberWithCommas(player_list[key] - parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", "")))
           scoreThing.classList.add("addedscore")
           document.querySelector(".player_info[data-id='" + key + "']").appendChild(scoreThing)
           setTimeout(() => {updateNumberOverTime(returnValuesInBetween(score, filtered_list[key]), scoreEl,  isLastPlayer);}, 1200)
           setTimeout(() => {scoreThing.remove()}, 1800)
-      });
-    }
-    
-    function updatePlayers(){
-      fetch("http://gdcheerios.com/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
+        });
+      }
+      
+      function updatePlayers(){
+        fetch("http://gdcheerios.com/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
         .then(res => res.json())
         .then(data => handleResponse(data))
-    }
-
-    function test(num){
-      Object.keys(player_list).forEach(key => {
-        player_list[key] += num
-      });
-      reRender()
-    }
-
-    function addSome(index){
-      let key = Object.keys(player_list)[index]
-      player_list[key] += 500
-      reRender()
-    }
-
-    let config = {
-      duration: 1300,
-      fps: 6,
-    };
-    
-    function returnValuesInBetween(startValue, endValue) {
-      let resultArray = [];
-      let totalCaptureAmount = Math.floor(config.duration / config.fps);
-    
-      let incrementer = (endValue - startValue) / totalCaptureAmount;
-      console.log(incrementer);
-    
-      for (let i = 0; i < totalCaptureAmount; i++) {
-        resultArray.push(Math.floor(startValue + incrementer * i));
       }
-      resultArray.push(endValue);
-      return resultArray;
-    }
-    
-    function updateNumberOverTime(numberArray, element, isLastPlayer) {
-      let incrementer = Math.floor(config.duration / numberArray.length);
-      for (let i = 0; i < numberArray.length; i++) {
-        let currentValue = numberArray[i];
-        const dur = (i + 1) * incrementer
-        setTimeout(
-          () => {
-            element.textContent = numberWithCommas(currentValue) + " score";
-            if (isLastPlayer && i == numberArray.length - 1){
-              setTimeout(onReRendered(), dur)
-            }
-          },
-          dur,
-          currentValue
-        );
-      }
-    }
-
-    function onReRendered(){
-    }
-
-    function numberWithCommas(x) {
-      return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-    }
-  </script>
-
-  <!--
-      --player key values--
-              
-      key = name
-      count.value = the ranking of the player on the leaderboard
-      value[0] = score
-      value[1] = avatar link
-      value[2] = background link
-      value[3] = user profile link
-      value[4] = recent score gained since last submitted play
-      value[5] = level 
-      value[6] = progress to next level
-      value[7] = user recent map background
-      value[8] = user recent map name 
-      value[9] = user recent map difficulty
-      value[10] = map url
-      value[11] = mods used
-      value[12] = song artist
-      value[13] = accuracy
-      value[14] = max combo
-      value[15] = grade of the map just played
-      value[16] = grade color
-      value[17] = formatted score
-      value[18] = play count
-      value[19] = user id
       
-      --team key values--
-
-      team_key = team name
-      count.value = the ranking of the team and player depending on location in jinja2 loop
-      team_value[0] = team score
-      team_value[1] = call to player values-->
-
-  <div class="rectangle_menu"><a href="/">Home</a> <a href="/matches">Matches</a> <a href="/players">Players</a> <a href="/client">Client</a></div>
-    <div class="warning"><span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span><br><a href="/info">more info</a></div>
-    <h1 style="font-size: 5vw; margin: 3 auto;">{{ match_data["match name"] }}</h1>
-    {% if match_data["mode"] == "teams" %}
-      <div class="gameBox" id="bodymovin">
-        <h1 style="font-size: 4vw;">Teams</h1>
-        <div class="match-teams">
-          {% set count_team = namespace(value=1) %}  
-          {% for team_key, team_value in teams.items() %}
+      function test(num){
+        Object.keys(player_list).forEach(key => {
+          player_list[key] += num
+        });
+        reRender()
+      }
+      
+      function addSome(index){
+        let key = Object.keys(player_list)[index]
+        player_list[key] += 500
+        reRender()
+      }
+      
+      let config = {
+        duration: 1300,
+        fps: 6,
+      };
+      
+      function returnValuesInBetween(startValue, endValue) {
+        let resultArray = [];
+        let totalCaptureAmount = Math.floor(config.duration / config.fps);
+        
+        let incrementer = (endValue - startValue) / totalCaptureAmount;
+        console.log(incrementer);
+        
+        for (let i = 0; i < totalCaptureAmount; i++) {
+          resultArray.push(Math.floor(startValue + incrementer * i));
+        }
+        resultArray.push(endValue);
+        return resultArray;
+      }
+      
+      function updateNumberOverTime(numberArray, element, isLastPlayer) {
+        let incrementer = Math.floor(config.duration / numberArray.length);
+        for (let i = 0; i < numberArray.length; i++) {
+          let currentValue = numberArray[i];
+          const dur = (i + 1) * incrementer
+          setTimeout(
+            () => {
+              element.textContent = numberWithCommas(currentValue) + " score";
+              if (isLastPlayer && i == numberArray.length - 1){
+                setTimeout(onReRendered(), dur)
+              }
+            },
+            dur,
+            currentValue
+            );
+          }
+        }
+        
+        function onReRendered(){
+        }
+        
+        function numberWithCommas(x) {
+          return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        }
+      </script>
+      
+      <!--
+        --player key values--
+        
+        key = name
+        count.value = the ranking of the player on the leaderboard
+        value[0] = score
+        value[1] = avatar link
+        value[2] = background link
+        value[3] = user profile link
+        value[4] = recent score gained since last submitted play
+        value[5] = level 
+        value[6] = progress to next level
+        value[7] = user recent map background
+        value[8] = user recent map name 
+        value[9] = user recent map difficulty
+        value[10] = map url
+        value[11] = mods used
+        value[12] = song artist
+        value[13] = accuracy
+        value[14] = max combo
+        value[15] = grade of the map just played
+        value[16] = grade color
+        value[17] = formatted score
+        value[18] = play count
+        value[19] = user id
+        
+        --team key values--
+        
+        team_key = team name
+        count.value = the ranking of the team and player depending on location in jinja2 loop
+        team_value[0] = team score
+        team_value[1] = call to player values-->
+        
+        <div class="warning"><span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span><br><a href="/info">more info</a></div>
+        <h1 style="font-size: 5vw; margin: 3 auto;">{{ match_data["match name"] }}</h1>
+        {% if match_data["mode"] == "teams" %}
+        <div class="gameBox" id="bodymovin">
+          <h1 style="font-size: 4vw;">Teams</h1>
+          <div class="match-teams">
+            {% set count_team = namespace(value=1) %}  
+            {% for team_key, team_value in teams.items() %}
             <div class="teambox"><h1 class="namebox"><span>#{{ count_team.value }} {{ team_key }}</span> <span class="score">{{team_value[0]}}</span></h1>
               {% set count_player = namespace(value=1) %}
               {% for key, value in team_value[1].items() %}
-                  <div class="player_info" style="background-image: linear-gradient(to top, #ffffff95 40%, #ffffff00 90%), url({{ value[2] }});">
-                    <h1 class="namebox"><span style="{{ color }}">#{{ count_player.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
-                    <img src="{{ value[1] }}">
-                    <div class="playcount">{{ value[18] }} maps played</div>
-                    <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress> {{ value[6] }}%</div>
-                    {% if value[4] != "0" %}
-                      <!--<div class="map_info" style="background-image:url({{value[7]}});">
-                        <span class="extra_text"><b>Recent Map:</b></span>
-                        <span class="map_title"><b><a style="color: black;" href="{{value[10]}}">{{value[12]}}-{{value[8]}}</a></b></span>
-                        <span style="text-align: center;"><b>☆{{value[9]}}☆</b></span>
-                        <span style="color: {{value[16]}}; font-size: 260%; margin-left: 10px; position: relative; top: 10%;">{{value[15]}}</span>
-                        <span style="position: relative; left: 7%; font-size: 120%; bottom: 10%;"><b>{{value[13]}}%</b></span>
-                        <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;"><b>{{value[14]}}x</b></span>
-                        <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;">{{value[11]}}</span>
-                      </div>-->
-                    {% endif %}
-                  </div>
-              {% set count_player.value = count_player.value + 1 %}
-              {% endfor %}
-            </div>
-          {% set count_team.value = count_team.value + 1 %}
-          {% endfor %}
-        </div>
-      </div>
-    {% else %}
-      <div class="gameBox" id="bodymovin">
-        <h1 class="single">Free For All</h1>
-        <div class="match">
-          {% set count = namespace(value=1) %}  
-          {% for key, value in players.items() %}
-              <div class="player_info" data-id="{{ value[19] }}" style="background-image: linear-gradient(to top, #ffffff, #ffffff50), url({{ value[2] }});">
-                <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
+              <div class="player_info" style="background-image: linear-gradient(to top, #ffffff95 40%, #ffffff00 90%), url({{ value[2] }});">
+                <h1 class="namebox"><span style="{{ color }}">#{{ count_player.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
                 <img src="{{ value[1] }}">
                 <div class="playcount">{{ value[18] }} maps played</div>
                 <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress> {{ value[6] }}%</div>
                 {% if value[4] != "0" %}
-                  <!--<div class="map_info" style="background-image:url({{value[7]}});margin">
-                    <span class="extra_text"><b>Recent Map:</b></span>
-                    <span class="map_title"><b><a style="color: black;" href="{{value[10]}}">{{value[12]}}-{{value[8]}}</a></b></span>
-                    <span style="text-align: center;"><b>☆{{value[9]}}☆</b></span>
-                    <span style="color: {{value[16]}}; font-size: 260%; margin-left: 10px; position: relative; top: 10%;">{{value[15]}}</span>
-                    <span style="position: relative; left: 7%; font-size: 120%; bottom: 10%;"><b>{{value[13]}}%</b></span>
-                    <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;"><b>{{value[14]}}x</b></span>
-                    <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;">{{value[11]}}</span>
-                  </div>-->
+                <!--<div class="map_info" style="background-image:url({{value[7]}});">
+                  <span class="extra_text"><b>Recent Map:</b></span>
+                  <span class="map_title"><b><a style="color: black;" href="{{value[10]}}">{{value[12]}}-{{value[8]}}</a></b></span>
+                  <span style="text-align: center;"><b>☆{{value[9]}}☆</b></span>
+                  <span style="color: {{value[16]}}; font-size: 260%; margin-left: 10px; position: relative; top: 10%;">{{value[15]}}</span>
+                  <span style="position: relative; left: 7%; font-size: 120%; bottom: 10%;"><b>{{value[13]}}%</b></span>
+                  <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;"><b>{{value[14]}}x</b></span>
+                  <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;">{{value[11]}}</span>
+                </div>-->
                 {% endif %}
               </div>
-          {% set count.value = count.value + 1 %}
-          {% endfor %}
+              {% set count_player.value = count_player.value + 1 %}
+              {% endfor %}
+            </div>
+            {% set count_team.value = count_team.value + 1 %}
+            {% endfor %}
+          </div>
         </div>
+        {% else %}
+        <div class="gameBox" id="bodymovin">
+          <h1 class="single">Free For All</h1>
+          <div class="match">
+            {% set count = namespace(value=1) %}  
+            {% for key, value in players.items() %}
+            <div class="player_info" data-id="{{ value[19] }}" style="background-image: linear-gradient(to top, #ffffff, #ffffff50), url({{ value[2] }});">
+              <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
+              <img src="{{ value[1] }}">
+              <div class="playcount">{{ value[18] }} maps played</div>
+              <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress> {{ value[6] }}%</div>
+              {% if value[4] != "0" %}
+              <!--<div class="map_info" style="background-image:url({{value[7]}});margin">
+                <span class="extra_text"><b>Recent Map:</b></span>
+                <span class="map_title"><b><a style="color: black;" href="{{value[10]}}">{{value[12]}}-{{value[8]}}</a></b></span>
+                <span style="text-align: center;"><b>☆{{value[9]}}☆</b></span>
+                <span style="color: {{value[16]}}; font-size: 260%; margin-left: 10px; position: relative; top: 10%;">{{value[15]}}</span>
+                <span style="position: relative; left: 7%; font-size: 120%; bottom: 10%;"><b>{{value[13]}}%</b></span>
+                <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;"><b>{{value[14]}}x</b></span>
+                <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;">{{value[11]}}</span>
+              </div>-->
+              {% endif %}
+            </div>
+            {% set count.value = count.value + 1 %}
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        <h2></h2>
       </div>
-    {% endif %}
-    <h2></h2>
     </div>
-  </div>
-  <div>
-    <h1>graph view</h1>
-    <div class="graph-style-box">
-      <a href="/matches/{{match_name}}/normal">overall score gain</a>
-      <a href="/matches/{{match_name}}/daily-score-gain">daily score gain</a>
+    <div>
+      <h1>graph view</h1>
+      <div class="graph-style-box">
+        <a href="/matches/{{match_name}}/normal">overall score gain</a>
+        <a href="/matches/{{match_name}}/daily-score-gain">daily score gain</a>
+      </div>
     </div>
-  </div>
-  <!--graph-box-->
-  
-  <h1>graphs temporarily removed because of an issue...</h1>
-
-  <br>
-
-  <script>
+    <!--graph-box-->
     
-  </script>
-
-  <!--<iframe src="https://web.libera.chat/?nick=Guest?#osuapicrap" style="border:0; width:100%; height:450px;"></iframe>-->
-
-</body>
-</html>
+    <h1>graphs temporarily removed because of an issue...</h1>
+    
+    <br>
+    
+    <script>
+      
+    </script>
+    
+    <!--<iframe src="https://web.libera.chat/?nick=Guest?#osuapicrap" style="border:0; width:100%; height:450px;"></iframe>-->
+    
+    {% endblock %}
+  </body>
+  </html>

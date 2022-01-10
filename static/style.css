@@ -417,6 +417,11 @@ h1{
   box-shadow: 0px 0px 17px 4px #72e1ff61;
 }
 
+ul{
+  margin: 0 auto;
+  padding: 1px 0px;
+}
+
 .bg-image img {
   min-width: 100%;
   position: absolute;
@@ -493,20 +498,20 @@ h1{
   }
 }
 
-li{
-  
+a:hover{
+  transition: ease 500ms;
+  color: #d3f9ff;
+  text-shadow: 1px 1px 15px rgb(255, 255, 255);
 }
 
 .dropdown-content{
   opacity: 0;
   position: absolute;
-  background-color: #f9f9f900;
+  background-color: #00a9bfbc;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  padding: 12px 16px;
   z-index: 1;
   text-decoration: none;
   list-style: none;
-  max-height: 0px;
   transition: ease 500ms;
 }
 
@@ -518,15 +523,16 @@ li{
   transition: ease 500ms;
 }
 
-.dropdown:hover{
-  text-decoration: overline white;
-}
-
 .dropdown:hover .dropdown-content {
   transition: ease 500ms;
   display: block;
-  min-height: fit-content;
   overflow: hidden;
   opacity: 100;
-  max-height: 109090190190910px;
+}
+
+p{
+  font-size: 10vw;
+  color: white;
+  text-shadow: 1px 1px 10px whitesmoke;
+  margin: 0 auto;
 }

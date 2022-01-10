@@ -407,7 +407,7 @@ async def test_create():
 async def web_control():
   return render_template("control.html")
   
-@app.route("/info")
+@app.route("/osu/info")
 async def warning_info():
   return render_template("info.html")
 
