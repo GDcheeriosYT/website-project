@@ -65,6 +65,7 @@ def match_get(time, match):
       match_data = json.load(f)
       
     table = {}
+    table["rank"] = []
     table["players"] = []
     table["score"] = []
     table["playcount"] = []
@@ -78,14 +79,19 @@ def match_get(time, match):
       
     players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
     
+    x = 1
+    
     for key in players_sorted.keys():
       user_pos = match_data["users"].index(str(key))
       player_thing = player_crap.user_data_grabber(id=key, specific_data=["name", "score", "playcount"])
+      table["rank"].append(f"#{x}")
       table["players"].append(player_thing[0])
-      table["score"].append(player_thing[1] - match_data["initial score"][user_pos])
-      table["playcount"].append(player_thing[2] - match_data["initial playcount"][user_pos])
+      table["score"].append("{:,}".format(player_thing[1] - match_data["initial score"][user_pos]))
+      table["playcount"].append("{:,}".format(player_thing[2] - match_data["initial playcount"][user_pos]))
+      x += 1
     
-    print(tabulate(table, headers="keys", tablefmt="grid"))
+    print("\n", match_data["match name"])
+    print(tabulate(table, headers="keys", tablefmt="fancy_grid"))
     return(table)
   else:
     return None
