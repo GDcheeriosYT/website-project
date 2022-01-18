@@ -3,6 +3,7 @@ from crap.team_crap import Teams
 
 #packages
 from flask import Flask, redirect, render_template
+from flask_admin import Admin
 import math
 import json
 import time
@@ -23,6 +24,10 @@ app = Flask(  # Create a flask app
   template_folder='templates', # Name of html file folder
   static_folder='static' # Name of directory for static files
 )
+
+#admin stuff
+admin = Admin(app)
+# Add administrative views here
 
 #player score grab api crap
 @app.route("/api/grab/<ids>/<match_name>")
