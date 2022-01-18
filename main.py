@@ -3,7 +3,6 @@ from crap.team_crap import Teams
 
 #packages
 from flask import Flask, redirect, render_template
-import flask_login
 import math
 import json
 import time
@@ -24,10 +23,6 @@ app = Flask(  # Create a flask app
   template_folder='templates', # Name of html file folder
   static_folder='static' # Name of directory for static files
 )
-
-#login stuff
-login_manager = flask_login.LoginManager()
-login_manager.init_app(app)
 
 #player score grab api crap
 @app.route("/api/grab/<ids>/<match_name>")
