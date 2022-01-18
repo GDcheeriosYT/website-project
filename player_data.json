@@ -1356,5 +1356,32 @@
             "development tags": [],
             "award tags": []
         }
+    },
+    "16078655": {
+        "user data": {
+            "name": "WJGaming",
+            "score": 23858,
+            "playcount": 1,
+            "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c8.jpg",
+            "profile url": "https://osu.ppy.sh/users/16078655"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
     }
 }

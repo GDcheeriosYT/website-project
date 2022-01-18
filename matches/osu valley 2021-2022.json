@@ -36,7 +36,8 @@
         0,
         4,
         0,
-        0
+        0,
+        1
     ],
     "initial score": [
         55732467442,
@@ -75,19 +76,23 @@
         0,
         96800,
         0,
-        0
+        0,
+        23858
     ],
     "level difficulty": "normal",
     "match name": "osu valley 2021-2022",
     "match score history": {
         "overall score": {
-            "TheImmortalKing": 0
+            "TheImmortalKing": 0,
+            "WJGaming": 0
         },
         "daily score": {
-            "TheImmortalKing": 0
+            "TheImmortalKing": 0,
+            "WJGaming": 0
         },
         "daily playcount": {
-            "TheImmortalKing": 0
+            "TheImmortalKing": 0,
+            "WJGaming": 0
         }
     },
     "mode": "ffa",
@@ -129,6 +134,7 @@
         "25897425",
         "19266174",
         "27260180",
-        "28065296"
+        "28065296",
+        "16078655"
     ]
 }
