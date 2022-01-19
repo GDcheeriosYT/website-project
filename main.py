@@ -421,6 +421,10 @@ async def warning_info():
 async def client_webpage():
   return render_template("osu/client.html")
 
+@app.route("/minecraft")
+async def minecraft():
+  return render_template("minecraft/index.html")
+
 if __name__ == "__main__":  # Makes sure this is the main process
   app.run( # Starts the site
     host='0.0.0.0',  # Establishes the host, required for repl to detect the site
