@@ -421,6 +421,10 @@ async def warning_info():
 async def client_webpage():
   return render_template("osu/client.html")
 
+@app.route("/osu/collabs")
+async def collabs():
+  return render_template("osu/collabs.html")
+
 @app.route("/minecraft")
 async def minecraft():
   return render_template("minecraft/index.html")
