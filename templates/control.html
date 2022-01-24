@@ -1,11 +1,20 @@
+{% extends 'base.html' %}
 <html>
 <head>
-<title>website control</title>
+  {% block head %}
+  <title>website control</title>
+  <link rel="stylesheet" href="/static/style.css">
+  {% endblock %}
 </head>
 <body>
-<a href="control/start_match">start match</a>
-<a href="control/edit_match">edit match</a>
-<a href="control/end_match">end match</a>
-<a href="control/refresh">refresh players</a>
+  {% block body %}
+    <div class="api-block">
+      <h1>Start Match</h1>
+      <div class="api-block-extra">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name"><br><br>
+      </div>
+    </div>
+  {% endblock %}
 </body>
 </html>
