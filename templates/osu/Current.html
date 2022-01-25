@@ -71,6 +71,11 @@
             playerStatus.querySelector(".status").innerHTML = "online"
             playerStatus.querySelector(".status").classList = "status active"
           }
+          else{
+            playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
+            playerStatus.querySelector(".status").innerHTML = "online"
+            playerStatus.querySelector(".status").classList = "status"
+          }
         })
         
         reRenderPlayerScores()
