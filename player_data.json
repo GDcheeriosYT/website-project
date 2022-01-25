@@ -29,27 +29,24 @@
     "11339405": {
         "user data": {
             "name": "GDcheerios",
-            "score": 70055946358,
-            "playcount": 51845,
+            "score": 70087363187,
+            "playcount": 51877,
             "avatar url": "https://a.ppy.sh/11339405?1642918480.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/11339405/201b33610a718d81f4f5875751e9f1d9e9f797b6863c91f7ac99bd2155d45d41.png",
             "profile url": "https://osu.ppy.sh/users/11339405"
         },
         "recent map data": {
-            "map title": "Snow",
-            "map difficulty": 4.01,
-            "map url": "https://osu.ppy.sh/beatmaps/2231384",
-            "map background url": "https://assets.ppy.sh/beatmaps/1065610/covers/cover.jpg",
-            "mods": [
-                "HD",
-                "DT"
-            ],
-            "artist": "Ricky Montgomery",
-            "accuracy": 93.97,
-            "max combo": 244,
+            "map title": "Still in my heart feat. \u3077\u306b\u3077\u306b\u96fb\u6a5f",
+            "map difficulty": 6.9,
+            "map url": "https://osu.ppy.sh/beatmaps/2210863",
+            "map background url": "https://assets.ppy.sh/beatmaps/961460/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "PSYQUI",
+            "accuracy": 92.99,
+            "max combo": 372,
             "map grade": "A",
             "rank color": "green",
-            "recent score": "3,711,791"
+            "recent score": "4,470,846"
         },
         "user tags": {
             "development tags": [
