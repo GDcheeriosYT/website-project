@@ -17,6 +17,8 @@ import Client_Credentials as client
 #my packages
 from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap
 
+live_player_status = {}
+
 #flask set up
 app = Flask(  # Create a flask app
   __name__,
@@ -95,6 +97,25 @@ def match_get(time, match):
     return(table)
   else:
     return None
+
+#live status api
+@app.route("/api/live/del/<id>", methods=["post"])
+async def del_live_status(id):
+  global live_player_status
+  live_player_status.pop(id)
+  return({})
+
+@app.route("/api/live/get/<id>", methods=["get"])
+async def get_live_status(id):
+  player_info = live_player_status[id]
+  return(player_info)
+
+@app.route("/api/live/update/<id>", methods=["post"])
+async def update_live_status(id):
+  global live_player_status
+  info = request.json
+  live_player_status[id] = info
+  return({})
 
 #home website
 @app.route('/')
@@ -244,7 +265,8 @@ async def match(match_name, graph_view):
     players = players_sorted,
     match_name = match_name,
     graph_view = graph_view,
-    get_data = player_crap.user_data_grabber
+    get_data = player_crap.user_data_grabber,
+    live_status = live_player_status
   )
     
   else:
