@@ -1,10 +1,14 @@
+{% extends 'base.html' %}
 <html>
   <head>
+    {% block head %}
     <title>test {{test_num}}</title>
     <meta name="description" content="test{{test_num}}">
     <link rel="stylesheet" href="/static/style.css">
+    {% endblock %}
   </head>
-    {% extends 'base.html' %}
   <body>
+    {% block body %}
+    {% endblock %}
   </body>
 </html>
