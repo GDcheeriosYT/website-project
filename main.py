@@ -1,8 +1,10 @@
 import os
+
+from numpy import broadcast
 from crap.team_crap import Teams
 
 #packages
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, request
 import math
 import json
 import time
@@ -37,10 +39,12 @@ async def grabber(ids, match_name):
   for id in id_list:
     user_pos = match_data["users"].index(id)
     score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0] - match_data["initial score"][user_pos]
-    new_dict[id] = score
-  
-  sorted_dict = dict(sorted(new_dict.items(), key=lambda x: x[1], reverse=True))
-  return json.dumps(sorted_dict)
+    if id in live_player_status:
+      new_dict[id] = {"score" : score,"liveStatus" : live_player_status[id]}
+    else:
+      new_dict[id] = {"score" : score,"liveStatus" : None}
+      
+  return new_dict
 
 #api for refresh client
 #match grabber
@@ -448,9 +452,7 @@ async def minecraft():
   return render_template("minecraft/index.html")
 
 if __name__ == "__main__":  # Makes sure this is the main process
-  app.run( # Starts the site
+  app.run(
     host='0.0.0.0',  # Establishes the host, required for repl to detect the site
     port=80,# Randomly select the port the machine hosts on.
-    debug=True,
-    #ssl_context='adhoc'
-  )
+    debug=True)
