@@ -53,7 +53,6 @@
       function reRender(){
         Object.keys(player_list).forEach((key, i) => {
           const player = document.querySelector(".live-status[data-id='" + key + "']")
-          //console.log(player_list[key])
           player.classList = "live-status"
           const data = player_list[key]
           if (data.liveStatus){
@@ -61,12 +60,16 @@
             const {gameplay, mapInfo} = data.liveStatus
             //gameplay:accuracy,score,combo
             //mapInfo:background  => metadata:artist,difficulty,title
-            player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist
+            player.style.backgroundImage = "linear-gradient(to top, #5A5A5A, #5A5A5A50)," + " url(" + mapInfo.background + ")"
+            player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
             player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
             player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
             player.querySelector(".gameplay-score").innerHTML = numberWithCommas(gameplay.score) + " score"
             player.querySelector(".gameplay-combo").innerHTML = numberWithCommas(gameplay.combo) + "x"
             player.querySelector(".gameplay-accuracy").innerHTML = gameplay.accuracy + "%"
+            playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
+            playerStatus.querySelector(".status").innerHTML = "online"
+            playerStatus.querySelector(".status").classList = "status active"
           }
         })
         
@@ -240,12 +243,23 @@
             {% for key, value in players.items() %}
             <div style="display: flex;">
               <div class="player_info" data-id="{{ value[19] }}" style="background-image: linear-gradient(to top, #ffffff, #ffffff50), url({{ value[2] }});">
-                <h1 class="namebox"><span style="{{ color }}">#{{ count.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
-                <img src="{{ value[1] }}">
-                <div class="playcount">{{ value[18] }} maps played</div>
-                <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress> {{ value[6] }}%</div>
+                <div style="display: flex;">
+                  <h1 class="namebox">
+                    <span style="{{ color }}">#{{ count.value }}
+                      <img src="{{ value[1] }}"><a href="{{ value[3] }}">
+                      {{ key }}
+                      </a>
+                    </span>
+                    <span class="score">
+                      {{ value[17] }} score
+                    </span>
+                    <span class="status">
+                      offline
+                    </span>
+                  </h1>
+                </div>
               </div>
-              <div class="live-status" style="transform: translateX(-100%);" data-id="{{value[19]}}">
+              <div class="live-status" style="transform: translateX(-100%); background" data-id="{{value[19]}}">
                 <div class="map-info">
                   <div class="left">
                     <span class="map-artist">
@@ -262,21 +276,15 @@
                   </div>
                 </div>
                 <div class="gameplay">
+                  <span class="gameplay-accuracy">
+                    69.420%
+                  </span>
                   <h4 class="gameplay-score">
                     69,420
                   </h4>
-                  <div class="bottom">
-                    <div class="left">
-                      <span class="gameplay-accuracy">
-                        69.420%
-                      </span>
-                    </div>
-                    <div class="right">
-                      <span class="gameplay-combo">
-                        69,420x
-                      </span>
-                    </div>
-                  </div>
+                  <span class="gameplay-combo">
+                    69,420x
+                  </span>
                 </div>
               </div>
             </div>
