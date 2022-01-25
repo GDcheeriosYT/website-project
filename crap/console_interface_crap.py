@@ -141,7 +141,7 @@ async def main_process():
 
       print(matches[match_end])
 
-      task2 = input("1.add user\n2.remove user\n3.edit match name\n4.change level difficulty\n")
+      task2 = input("1.add user\n2.remove user\n3.edit match name\n")
       
       if task2 == "1": #add player
 
