@@ -160,7 +160,6 @@ body{
   box-shadow: 5px 5px 15px 5px #000000;
   margin: 0 auto;
   overflow: hidden;
-  z-index: -2;
 }
 
 .recent_info{
@@ -600,7 +599,6 @@ label{
   box-shadow: 1px 1px 9px 1px #a0fcffa1;
   padding: 12px;
   opacity: 0;
-  z-index: -1;
 }
 
 .live-status.active{
