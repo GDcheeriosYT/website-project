@@ -391,8 +391,8 @@
             "name": "st4rstrukk",
             "score": 49959896839,
             "playcount": 65319,
-            "avatar url": "https://a.ppy.sh/13789505?1642012169.jpeg",
-            "background url": "https://assets.ppy.sh/user-profile-covers/13789505/c675210d4194b47f665f11d2b9b51f5e9fba3d6a1ab9ffe36e6001422bec53c9.jpeg",
+            "avatar url": "https://a.ppy.sh/13789505?1643143101.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/13789505/426a17370d3bcf1645f8de7b0e007d98bb7399cec6d80b66b599f77e3aaa4179.png",
             "profile url": "https://osu.ppy.sh/users/13789505"
         },
         "recent map data": {
@@ -1342,24 +1342,26 @@
     "15501089": {
         "user data": {
             "name": "MoofLol",
-            "score": 39551140370,
-            "playcount": 25158,
-            "avatar url": "https://a.ppy.sh/15501089?1616804089.jpeg",
+            "score": 39566803080,
+            "playcount": 25163,
+            "avatar url": "https://a.ppy.sh/15501089?1643144148.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/15501089/1b85d30b1328f808b700bdc39c9d0f6bf073875a80de802e9948ad4588d222c2.jpeg",
             "profile url": "https://osu.ppy.sh/users/15501089"
         },
         "recent map data": {
-            "map title": "\u304a\u308f\u308a\u3068\u306f\u3058\u307e\u308a\u306e\u304a\u3068",
-            "map difficulty": 5.84,
-            "map url": "https://osu.ppy.sh/beatmaps/1674513",
-            "map background url": "https://assets.ppy.sh/beatmaps/790045/covers/cover.jpg",
-            "mods": "no mods",
-            "artist": "\u6885\u5e72\u8336\u6f2c\u3051",
-            "accuracy": 96.46,
-            "max combo": 409,
-            "map grade": "A",
-            "rank color": "green",
-            "recent score": "3,895,954"
+            "map title": "\u3069\u3045\u30fc\u307e\u3044\u3079\u3059\u3068!",
+            "map difficulty": 3.82,
+            "map url": "https://osu.ppy.sh/beatmaps/2750671",
+            "map background url": "https://assets.ppy.sh/beatmaps/1108769/covers/cover.jpg",
+            "mods": [
+                "DT"
+            ],
+            "artist": "\u5927\u7a7a\u30b9\u30d0\u30eb",
+            "accuracy": 98.08,
+            "max combo": 268,
+            "map grade": "S",
+            "rank color": "yellow",
+            "recent score": "1,359,048"
         },
         "user tags": {
             "development tags": [],
