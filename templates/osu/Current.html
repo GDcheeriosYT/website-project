@@ -32,7 +32,7 @@
         player_ids =Object.keys(player_list).join("+")
         setInterval(() =>{
           updatePlayers()
-        }, 350)
+        }, 1000)
       }
       
       function handleResponse(data){
@@ -49,7 +49,9 @@
         //})
         reRender()
       }
-      
+      accuracy = []
+      combo = []
+      score = []
       function reRender(){
         Object.keys(player_list).forEach((key, i) => {
           const player = document.querySelector(".live-status[data-id='" + key + "']")
@@ -58,18 +60,24 @@
           if (data.liveStatus){
             player.classList = "live-status active"
             const {gameplay, mapInfo} = data.liveStatus
+            combo.push(gameplay.combo)
+            accuracy.push(gameplay.accuracy)
+            score.push(gameplay.score)
             //gameplay:accuracy,score,combo
             //mapInfo:background  => metadata:artist,difficulty,title
             player.style.backgroundImage = "linear-gradient(to top, #5A5A5A, #5A5A5A50)," + " url(" + mapInfo.background + ")"
             player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
             player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
             player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
-            player.querySelector(".gameplay-score").innerHTML = numberWithCommas(gameplay.score) + " score"
-            player.querySelector(".gameplay-combo").innerHTML = numberWithCommas(gameplay.combo) + "x"
-            player.querySelector(".gameplay-accuracy").innerHTML = gameplay.accuracy + "%"
+            //console.log(combo)
+            //console.log(accuracy)
+            //console.log(score)
+            updateNumberOverTime(returnValuesInBetween(score[score.length - 2], gameplay.score), player.querySelector(".gameplay-score"), " score")
+            updateNumberOverTime(returnValuesInBetween(combo[combo.length - 2], gameplay.combo), player.querySelector(".gameplay-combo"), "x")
+            updateNumberOverTime(returnValuesInBetween(accuracy[accuracy.length - 2], gameplay.accuracy), player.querySelector(".gameplay-accuracy"), "%")
             playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
             playerStatus.querySelector(".status").innerHTML = "online"
-            playerStatus.querySelector(".status").classList = "status active"
+            playerStatus.querySelector(".status").classList = "status active" 
           }
           else{
             playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
@@ -127,17 +135,17 @@
       }
       
       let config = {
-        duration: 1300,
+        duration: 1200,
         fps: 6,
       };
       
       function returnValuesInBetween(startValue, endValue) {
         let resultArray = [];
         let totalCaptureAmount = Math.floor(config.duration / config.fps);
-        
+      
         let incrementer = (endValue - startValue) / totalCaptureAmount;
-        console.log(incrementer);
-        
+        //console.log(incrementer);
+      
         for (let i = 0; i < totalCaptureAmount; i++) {
           resultArray.push(Math.floor(startValue + incrementer * i));
         }
@@ -145,30 +153,24 @@
         return resultArray;
       }
       
-      function updateNumberOverTime(numberArray, element, isLastPlayer) {
+      function updateNumberOverTime(numberArray, element, ending) {
         let incrementer = Math.floor(config.duration / numberArray.length);
+      
         for (let i = 0; i < numberArray.length; i++) {
           let currentValue = numberArray[i];
-          const dur = (i + 1) * incrementer
           setTimeout(
             () => {
-              element.textContent = numberWithCommas(currentValue);
-              if (isLastPlayer && i == numberArray.length - 1){
-                setTimeout(onReRendered(), dur)
-              }
+              element.textContent = numberWithCommas(currentValue) + ending;
             },
-            dur,
+            (i + 1) * incrementer,
             currentValue
-            );
-          }
+          );
         }
-        
-        function onReRendered(){
-        }
-        
-        function numberWithCommas(x) {
-          return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-        }
+      }
+  
+      function numberWithCommas(x) {
+        return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+      }
 
     </script>
       
@@ -268,27 +270,27 @@
                 <div class="map-info">
                   <div class="left">
                     <span class="map-artist">
-                      da vinchi - 
+                      artist - 
                     </span>
                     <span class="map-title">
-                      some shitty map
+                      map
                     </span>
                   </div>
                   <div class="right">
                     <span class="map-difficulty">
-                      fucking stupidly hard
+                      easy
                     </span>
                   </div>
                 </div>
                 <div class="gameplay">
                   <span class="gameplay-accuracy">
-                    69.420%
+                    0%
                   </span>
                   <h4 class="gameplay-score">
-                    69,420
+                    0 score
                   </h4>
                   <span class="gameplay-combo">
-                    69,420x
+                    0x
                   </span>
                 </div>
               </div>
