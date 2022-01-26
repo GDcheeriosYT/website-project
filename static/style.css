@@ -551,27 +551,6 @@ label{
   height: fit-content;
 }
 
-@keyframes left-out{
-  0%{
-    left: -100px;
-    width: 0px;
-    height: 0px;
-    opacity: 0;
-  }
-  50%{
-    left: 0px;
-    width: 124px;
-    height: 50px;
-    opacity: 1;
-  }
-  100%{
-    left: 0px;
-    width: 124px;
-    height: 200px;
-    opacity: 1;
-  }
-}
-
 .api-block{
   width: 224px;
   height: 224px;
@@ -586,11 +565,15 @@ label{
 
 .api-block-extra{
   position: relative;
+  left: -100px;
+  width: 0px;
+  height: 0px;
+  opacity: 0;
   border-radius: 2vw;
   box-shadow: 2px 2px 9px 1px #004e51;
   background-color:#1ca1fa;
-  padding: 2%;
-  padding-right: 7%;
+  padding: 2vw;
+  padding-right: 7vw;
 }
 
 .api-block:hover .api-block-extra{
