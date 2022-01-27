@@ -77,12 +77,9 @@
             player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
             player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
             player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
-            //console.log(combo)
-            //console.log(accuracy)
-            //console.log(score)
-            updateNumberOverTime(returnValuesInBetween(gameplay.score[lists.score.length - 2], gameplay.score), player.querySelector(".gameplay-score"), " score")
-            updateNumberOverTime(returnValuesInBetween(gameplay.combo[lists.combo.length - 2], gameplay.combo), player.querySelector(".gameplay-combo"), "x")
-            updateNumberOverTime(returnValuesInBetween(gameplay.accuracy[lists.accuracy.length - 2], parseInt(gameplay.accuracy)), player.querySelector(".gameplay-accuracy"), "%")
+            updateNumberOverTime(returnValuesInBetween(lists.score[lists.score.length - 2], gameplay.score), player.querySelector(".gameplay-score"), " score")
+            updateNumberOverTime(returnValuesInBetween(lists.combo[lists.combo.length - 2], gameplay.combo), player.querySelector(".gameplay-combo"), "x")
+            updateNumberOverTime(returnValuesInBetween(parseInt(lists.accuracy[lists.accuracy.length - 2]), parseInt(gameplay.accuracy)), player.querySelector(".gameplay-accuracy"), "%")
             playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
             playerStatus.querySelector(".status").innerHTML = "online"
             playerStatus.querySelector(".status").classList = "status active" 
