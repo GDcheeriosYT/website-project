@@ -121,9 +121,9 @@
       
       function test(num){
         Object.keys(player_list).forEach(key => {
-          player_list[key] += num
+          player_list[key]["score"] += num
         });
-        reRender()
+        reRenderPlayerScores()
       }
       
       
