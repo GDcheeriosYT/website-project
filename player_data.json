@@ -32,26 +32,27 @@
     "11339405": {
         "user data": {
             "name": "GDcheerios",
-            "score": 70166831006,
-            "playcount": 51959,
+            "score": 70196897814,
+            "playcount": 51985,
             "avatar url": "https://a.ppy.sh/11339405?1642918480.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/11339405/201b33610a718d81f4f5875751e9f1d9e9f797b6863c91f7ac99bd2155d45d41.png",
             "profile url": "https://osu.ppy.sh/users/11339405"
         },
         "recent map data": {
-            "map title": "Exceptional (TV Size)",
-            "map difficulty": 4.81,
-            "map url": "https://osu.ppy.sh/beatmaps/2518170",
-            "map background url": "https://assets.ppy.sh/beatmaps/814676/covers/cover.jpg",
+            "map title": "\u9752\u7a7a\u30e2\u30fc\u30cb\u30f3\u30b0\u30b0\u30ed\u30fc\u30ea\u30fc (TV Size)",
+            "map difficulty": 4.31,
+            "map url": "https://osu.ppy.sh/beatmaps/1696678",
+            "map background url": "https://assets.ppy.sh/beatmaps/808138/covers/cover.jpg",
             "mods": [
-                "HD"
+                "HD",
+                "DT"
             ],
-            "artist": "China Anne McClain",
-            "accuracy": 93.9,
-            "max combo": 144,
-            "map grade": "S+",
-            "rank color": "grey",
-            "recent score": "508,561"
+            "artist": "\u82b1\u5742\u7d50\u8863(CV: M\u00b7A\u00b7O)",
+            "accuracy": 91.21,
+            "max combo": 66,
+            "map grade": "B",
+            "rank color": "blue",
+            "recent score": "247,167"
         },
         "user tags": {
             "development tags": [
