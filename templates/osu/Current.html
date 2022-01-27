@@ -96,7 +96,7 @@
       }
       
       function updatePlayers(){
-        fetch("http://localhost/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
+        fetch("http://gdcheerios.com/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
         .then(res => res.json())
         .then(data => handleResponse(data))
       }
