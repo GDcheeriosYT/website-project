@@ -47,6 +47,29 @@
         //})
         reRender()
       }
+      
+      function reRenderPlayerScores(){
+        Object.keys(player_list).forEach((key, i) => {
+          const player = document.querySelector(".player_info[data-id='" + key + "']")
+          const scoreEl = player.querySelector('.score')
+          let score = parseInt(scoreEl.textContent.replace(/\,/g, ''));
+          let scoreDiff = (player_list[key]["score"] - score)
+          if(scoreDiff!=0){
+            var scoreThing = document.createElement("h1");
+            if (scoreDiff>0){
+              scoreThing.innerHTML = "+" + numberWithCommas(scoreDiff)
+            }
+            else{
+              scoreThing.innerHTML = numberWithCommas(scoreDiff)
+            }
+            scoreThing.classList.add("addedscore")
+            player.querySelector(".namebox").appendChild(scoreThing)
+            updateNumberOverTime(returnValuesInBetween(score, player_list[key]["score"]), scoreEl, " score")
+            setTimeout(() => {scoreThing.remove()}, 2000)
+          }
+        });
+      }
+
       accuracy = []
       combo = []
       score = []
@@ -59,7 +82,7 @@
             player.classList = "live-status active"
             const {gameplay, mapInfo} = data.liveStatus
             combo.push(gameplay.combo)
-            accuracy.push(gameplay.accuracy)
+            accuracy.push(parseInt(gameplay.accuracy))
             score.push(gameplay.score)
             //gameplay:accuracy,score,combo
             //mapInfo:background  => metadata:artist,difficulty,title
@@ -72,7 +95,7 @@
             //console.log(score)
             updateNumberOverTime(returnValuesInBetween(score[score.length - 2], gameplay.score), player.querySelector(".gameplay-score"), " score")
             updateNumberOverTime(returnValuesInBetween(combo[combo.length - 2], gameplay.combo), player.querySelector(".gameplay-combo"), "x")
-            updateNumberOverTime(returnValuesInBetween(accuracy[accuracy.length - 2], gameplay.accuracy), player.querySelector(".gameplay-accuracy"), "%")
+            updateNumberOverTime(returnValuesInBetween(accuracy[accuracy.length - 2], parseInt(gameplay.accuracy)), player.querySelector(".gameplay-accuracy"), "%")
             playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
             playerStatus.querySelector(".status").innerHTML = "online"
             playerStatus.querySelector(".status").classList = "status active" 
@@ -83,34 +106,6 @@
             playerStatus.querySelector(".status").classList = "status"
           }
         })
-        
-        reRenderPlayerScores()
-      }
-
-      function reRenderPlayerScores(){
-        const filtered_list = {}
-        Object.keys(player_list).forEach((key, i) => {
-          const player = document.querySelector(".player_info[data-id='" + key + "']")
-          const scoreEl = player.querySelector('.score')
-          let score = parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", ""))
-          let scoreDiff = player_list[key] - score
-          if (scoreDiff > 0) {
-            filtered_list[key] = player_list[key]
-          }
-        })
-        Object.keys(filtered_list).forEach((key, i) => {
-          const player = document.querySelector(".player_info[data-id='" + key + "']")
-          const scoreEl = player.querySelector('.score')
-          let score = parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", ""))
-          let isLastPlayer = (i == Object.keys(filtered_list).length - 1)
-          //todo convert isLastPlayer to isLastUpdate
-          var scoreThing = document.createElement("h1");
-          scoreThing.innerHTML = "+" + numberWithCommas(player_list[key] - parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", "")))
-          scoreThing.classList.add("addedscore")
-          document.querySelector(".player_info[data-id='" + key + "']").appendChild(scoreThing)
-          setTimeout(() => {updateNumberOverTime(returnValuesInBetween(score, filtered_list[key]), scoreEl,  isLastPlayer);}, 1200)
-          setTimeout(() => {scoreThing.remove()}, 100)
-        });
       }
       
       function updatePlayers(){
