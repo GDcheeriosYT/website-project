@@ -78,6 +78,7 @@ body{
   margin-top: 0px;
   text-align: left;
   font-size: max(3vw);
+  text-shadow: 2px 2px 4px #000000;
   white-space: nowrap;
 }
 
@@ -234,10 +235,6 @@ a{
   color: white;
   transition: all var(--transition-speed) ease-in;
   text-shadow: 4px 4px 8px #000000;
-}
-
-.player_info:hover .addedscore {
-  
 }
 
 .extra_text{
@@ -468,16 +465,19 @@ ul{
 
 @keyframes scoreAdd{
   0% {
-    top: -200px;
-    opacity: 0;
+    font-size: 0px;
+    top: -2vw;
+    opacity: 1;
   }
   50%{
-    top: -150px;
+    top: -2vw;
+    font-size: 4vw;
     transition: ease-in;
     opacity: 1;
   }
   100%{
-    top: -50px;
+    top: -2vw;
+    font-size: 10vw;
     transition: ease-out;
     opacity: 0;
   }
