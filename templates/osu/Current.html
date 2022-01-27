@@ -25,9 +25,7 @@
       window.onload = function(){
         const players = document.querySelectorAll(".player_info")
         players.forEach((el)=> {
-          const scoreEl = el.querySelector('.score')
-          const score = parseInt(scoreEl.textContent.split(" ")[0].replaceAll(",", ""))
-          player_list[el.dataset.id] = score
+          player_list[el.dataset.id] = {}
         })
         player_ids =Object.keys(player_list).join("+")
         setInterval(() =>{
