@@ -63,9 +63,6 @@
         });
       }
 
-      accuracy = []
-      combo = []
-      score = []
       function reRender(){
         Object.keys(player_list).forEach((key, i) => {
           const player = document.querySelector(".live-status[data-id='" + key + "']")
@@ -73,10 +70,7 @@
           const data = player_list[key]
           if (data.liveStatus){
             player.classList = "live-status active"
-            const {gameplay, mapInfo} = data.liveStatus
-            combo.push(gameplay.combo)
-            accuracy.push(parseInt(gameplay.accuracy))
-            score.push(gameplay.score)
+            const {gameplay, mapInfo, lists} = data.liveStatus
             //gameplay:accuracy,score,combo
             //mapInfo:background  => metadata:artist,difficulty,title
             player.style.backgroundImage = "linear-gradient(to top, #5A5A5A, #5A5A5A50)," + " url(" + mapInfo.background + ")"
@@ -86,9 +80,9 @@
             //console.log(combo)
             //console.log(accuracy)
             //console.log(score)
-            updateNumberOverTime(returnValuesInBetween(score[score.length - 2], gameplay.score), player.querySelector(".gameplay-score"), " score")
-            updateNumberOverTime(returnValuesInBetween(combo[combo.length - 2], gameplay.combo), player.querySelector(".gameplay-combo"), "x")
-            updateNumberOverTime(returnValuesInBetween(accuracy[accuracy.length - 2], parseInt(gameplay.accuracy)), player.querySelector(".gameplay-accuracy"), "%")
+            updateNumberOverTime(returnValuesInBetween(gameplay.score[lists.score.length - 2], gameplay.score), player.querySelector(".gameplay-score"), " score")
+            updateNumberOverTime(returnValuesInBetween(gameplay.combo[lists.combo.length - 2], gameplay.combo), player.querySelector(".gameplay-combo"), "x")
+            updateNumberOverTime(returnValuesInBetween(gameplay.accuracy[lists.accuracy.length - 2], parseInt(gameplay.accuracy)), player.querySelector(".gameplay-accuracy"), "%")
             playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
             playerStatus.querySelector(".status").innerHTML = "online"
             playerStatus.querySelector(".status").classList = "status active" 
@@ -102,7 +96,7 @@
       }
       
       function updatePlayers(){
-        fetch("http://gdcheerios.com/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
+        fetch("http://localhost/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
         .then(res => res.json())
         .then(data => handleResponse(data))
       }
