@@ -51,9 +51,11 @@
             var scoreThing = document.createElement("h1");
             if (scoreDiff>0){
               scoreThing.innerHTML = "+" + numberWithCommas(scoreDiff)
+              scoreThing.style.color = "green"
             }
             else{
               scoreThing.innerHTML = numberWithCommas(scoreDiff)
+              scoreThing.style.color = "red"
             }
             scoreThing.classList.add("addedscore")
             player.querySelector(".namebox").appendChild(scoreThing)

@@ -285,7 +285,6 @@ h1{
   position: relative; 
   opacity: 0; 
   animation: scoreAdd 1800ms;
-  color: green;
 }
 
 .score{
