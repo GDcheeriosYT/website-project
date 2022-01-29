@@ -47,12 +47,14 @@ body{
   display: block;
 }
 
+.player_info_wrapper{
+  transition: transform var(--transition-speed);
+}
+
 .player_info:hover{
   transition: var(--transition-speed) ease-in;
   opacity: 1.0;
   padding: 5px;
-  min-width: fit-content;
-  height: fit-content;
   border: 5px solid rgb(255, 255, 255);
   border-radius: 2vw;
   box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
@@ -126,8 +128,6 @@ body{
 
 .player_info:hover img{
   object-fit: cover;
-  width: 9vw;
-  height: 9vw;
   border: 2px solid #fff;
   border-radius: 1vw;
   box-shadow: 5px 5px 5px #000000;
@@ -146,7 +146,6 @@ body{
   padding-bottom: 2vw;
   box-shadow: 5px 5px 15px 5px #000000;
   margin: 0 auto;
-  overflow: hidden;
 }
 
 .recent_info{
@@ -200,6 +199,7 @@ body{
   margin-left: auto;
   margin-right: auto;
   flex-wrap: wrap;
+  position: relative;
 }
 
 .rectangle_menu {
