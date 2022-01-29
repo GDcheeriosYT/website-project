@@ -43,7 +43,7 @@ async def grabber(ids, match_name):
       new_dict[id] = {"score" : score,"liveStatus" : live_player_status[id]}
     else:
       new_dict[id] = {"score" : score,"liveStatus" : None}
-      
+
   return new_dict
 
 #api for refresh client
