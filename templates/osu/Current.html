@@ -30,12 +30,14 @@
           player_list[el.dataset.id] = {}
         })
         player_ids =Object.keys(player_list).join("+")
+        updatePlayers()
         setInterval(() =>{
           updatePlayers()
         }, 2000)
       }
 
       window.onresize = function(){
+        updatePlayers()
         wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
         reArrangePlayers()
       }
