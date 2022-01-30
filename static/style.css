@@ -48,7 +48,7 @@ body{
 }
 
 .player_info_wrapper{
-  transition: transform var(--transition-speed);
+  transition: transform 1600ms;
 }
 
 .player_info:hover{
