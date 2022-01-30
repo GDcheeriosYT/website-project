@@ -270,7 +270,11 @@
                     <span>
                       #<span class="player_position">{{count.value}}</span>
                       <img src="{{ value[1] }}"><a href="{{ value[3] }}">
-                      {{ key }}
+                      {% if value[19]|string in match_data["nicknames"] %}
+                        {{match_data["nicknames"][value[19]|string]}}
+                      {% else %}
+                        {{ key }}
+                      {% endif %}
                       </a>
                     </span>
                     <span class="score">
