@@ -59,6 +59,7 @@ body{
   border-radius: 2vw;
   box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
   background-size: cover;
+  z-index: 1;
 }
 
 .level {
