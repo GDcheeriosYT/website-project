@@ -197,7 +197,7 @@ async def match(match_name, graph_view):
       player = player_crap.player_match_constructor(id, match_data)
 
       players[player[0]] = player[1]
-      players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
+      #players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
       player_score_data[player[0]] = player[1][0]
     
     '''#normal graph data updater
@@ -274,7 +274,8 @@ async def match(match_name, graph_view):
     match_data = match_data,
     previous_score_segment = previous_score_segment,
     get_key_of = get_key_of,
-    players = players_sorted,
+    #players = players_sorted,
+    players = players,
     match_name = match_name,
     graph_view = graph_view,
     get_data = player_crap.user_data_grabber,
