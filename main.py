@@ -46,6 +46,14 @@ async def grabber(ids, match_name):
 
   return new_dict
 
+@app.route("/testing")
+def testing():
+  with open("matches/osu valley 2021-2022.json") as f:
+    match_data = json.load(f)
+  
+  return(match_data["nicknames"][str(11339405)])
+
+ 
 #api for refresh client
 #match grabber
 @app.route('/api/matches/<time>')
