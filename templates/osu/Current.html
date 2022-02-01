@@ -95,13 +95,13 @@
             playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
             playerStatus.querySelector(".status").innerHTML = "online"
             playerStatus.querySelector(".status").classList = "status active"
-            player.style.width = "5vw"
+            playerStatus.style.width = "65vw"
           }
           else{
             playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
             playerStatus.querySelector(".status").innerHTML = "offline"
             playerStatus.querySelector(".status").classList = "status"
-            player.style.width = "10vw"
+            playerStatus.style.width = "91vw"
           }
         })
       }
