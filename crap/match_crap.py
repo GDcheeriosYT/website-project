@@ -75,6 +75,7 @@ async def start_match(team_mode=False, team_amount=2, match_name=(f"match{match_
   match_dict["initial playcount"] = initial_playcount
   match_dict["mode"] = mode
   match_dict["team metadata"] = teams
+  match_dict["nicknames"] = {}
   
   #setting up stat gain graphs
   match_dict["match score history"] = {}
