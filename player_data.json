@@ -2,26 +2,24 @@
     "13450060": {
         "user data": {
             "name": "casedama",
-            "score": 36515044345,
-            "playcount": 57566,
+            "score": 36396930864,
+            "playcount": 57464,
             "avatar url": "https://a.ppy.sh/13450060?1639795214.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/13450060/aac0cedf56a5d02b61410eda0d8ef4e163533a1b7e1aa89d74a4929a252ea512.gif",
             "profile url": "https://osu.ppy.sh/users/13450060"
         },
         "recent map data": {
-            "map title": "\u30ad\u30e9\u30ad\u30e9Days (Cut Ver.)",
-            "map difficulty": 5.21,
-            "map url": "https://osu.ppy.sh/beatmaps/2861378",
-            "map background url": "https://assets.ppy.sh/beatmaps/1384619/covers/cover.jpg",
-            "mods": [
-                "HR"
-            ],
-            "artist": "\u653e\u8ab2\u5f8c\u30c6\u30a3\u30fc\u30bf\u30a4\u30e0",
-            "accuracy": 96.9,
-            "max combo": 372,
-            "map grade": "A",
-            "rank color": "green",
-            "recent score": "2,813,735"
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
         },
         "user tags": {
             "development tags": [],
@@ -117,26 +115,24 @@
     "10287120": {
         "user data": {
             "name": "Tonatious",
-            "score": 101244752901,
-            "playcount": 40546,
+            "score": 101143585153,
+            "playcount": 40511,
             "avatar url": "https://a.ppy.sh/10287120?1643037397.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/10287120/13678e243ec7cd56afec4dc8bef799a7cb1a8f0ba964980308f836b7de306701.png",
             "profile url": "https://osu.ppy.sh/users/10287120"
         },
         "recent map data": {
-            "map title": "Lost Desire",
-            "map difficulty": 6.13,
-            "map url": "https://osu.ppy.sh/beatmaps/2475433",
-            "map background url": "https://assets.ppy.sh/beatmaps/1183900/covers/cover.jpg",
-            "mods": [
-                "EZ"
-            ],
-            "artist": "Powerless feat. Sennzai",
-            "accuracy": 88.55,
-            "max combo": 387,
+            "map title": "Strawberry Trapper",
+            "map difficulty": 5.89,
+            "map url": "https://osu.ppy.sh/beatmaps/2368524",
+            "map background url": "https://assets.ppy.sh/beatmaps/1134163/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "Guilty Kiss",
+            "accuracy": 91.7,
+            "max combo": 258,
             "map grade": "B",
             "rank color": "blue",
-            "recent score": "2,516,825"
+            "recent score": "1,610,746"
         },
         "user tags": {
             "development tags": [],
@@ -342,17 +338,17 @@
             "profile url": "https://osu.ppy.sh/users/7545218"
         },
         "recent map data": {
-            "map title": "not found",
-            "map difficulty": "0",
-            "map url": "https://osu.ppy.sh/beatmapsets",
-            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
-            "mods": "",
-            "artist": "",
-            "accuracy": "",
-            "max combo": "",
-            "map grade": "F",
-            "rank color": "red",
-            "recent score": "0"
+            "map title": "You and beautiful world",
+            "map difficulty": 5.21,
+            "map url": "https://osu.ppy.sh/beatmaps/3315765",
+            "map background url": "https://assets.ppy.sh/beatmaps/1357538/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "\u82b1\u305f\u3093",
+            "accuracy": 86.5,
+            "max combo": 312,
+            "map grade": "B",
+            "rank color": "blue",
+            "recent score": "4,237,774"
         },
         "user tags": {
             "development tags": [],
@@ -369,17 +365,20 @@
             "profile url": "https://osu.ppy.sh/users/7562902"
         },
         "recent map data": {
-            "map title": "not found",
-            "map difficulty": "0",
-            "map url": "https://osu.ppy.sh/beatmapsets",
-            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
-            "mods": "",
-            "artist": "",
-            "accuracy": "",
-            "max combo": "",
-            "map grade": "F",
-            "rank color": "red",
-            "recent score": "0"
+            "map title": "\u30ad\u30df\u306e\u5192\u967a (TV Size)",
+            "map difficulty": 6.95,
+            "map url": "https://osu.ppy.sh/beatmaps/1816243",
+            "map background url": "https://assets.ppy.sh/beatmaps/869019/covers/cover.jpg",
+            "mods": [
+                "HD",
+                "DT"
+            ],
+            "artist": "\u5ca1\u5d0e\u4f53\u80b2",
+            "accuracy": 94.07,
+            "max combo": 330,
+            "map grade": "A",
+            "rank color": "green",
+            "recent score": "3,466,313"
         },
         "user tags": {
             "development tags": [],
@@ -389,24 +388,24 @@
     "13789505": {
         "user data": {
             "name": "st4rstrukk",
-            "score": 50299937545,
-            "playcount": 65474,
+            "score": 50248571187,
+            "playcount": 65443,
             "avatar url": "https://a.ppy.sh/13789505?1643143101.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/13789505/426a17370d3bcf1645f8de7b0e007d98bb7399cec6d80b66b599f77e3aaa4179.png",
             "profile url": "https://osu.ppy.sh/users/13789505"
         },
         "recent map data": {
-            "map title": "BLUE DRAGON",
-            "map difficulty": 6.19,
-            "map url": "https://osu.ppy.sh/beatmaps/898576",
-            "map background url": "https://assets.ppy.sh/beatmaps/326920/covers/cover.jpg",
+            "map title": "Gee",
+            "map difficulty": 6.06,
+            "map url": "https://osu.ppy.sh/beatmaps/928937",
+            "map background url": "https://assets.ppy.sh/beatmaps/430622/covers/cover.jpg",
             "mods": "no mods",
-            "artist": "\u9752\u9f8d",
-            "accuracy": 97.66,
-            "max combo": 881,
+            "artist": "\uc18c\ub140\uc2dc\ub300",
+            "accuracy": 95.43,
+            "max combo": 1074,
             "map grade": "A",
             "rank color": "green",
-            "recent score": "14,761,400"
+            "recent score": "24,320,160"
         },
         "user tags": {
             "development tags": [],
@@ -443,24 +442,26 @@
     "8861593": {
         "user data": {
             "name": "BronyUS 3",
-            "score": 211091122132,
-            "playcount": 128937,
+            "score": 210444533158,
+            "playcount": 128786,
             "avatar url": "https://a.ppy.sh/8861593?1642176937.png",
             "background url": "https://assets.ppy.sh/user-profile-covers/8861593/554b9186abc60a9af43922859857a911de19b36e04dbe5455b197d4b57d2b99d.png",
             "profile url": "https://osu.ppy.sh/users/8861593"
         },
         "recent map data": {
-            "map title": "StaRt",
-            "map difficulty": 8,
-            "map url": "https://osu.ppy.sh/beatmaps/2584689",
-            "map background url": "https://assets.ppy.sh/beatmaps/1243235/covers/cover.jpg",
-            "mods": "no mods",
-            "artist": "\u767d\u4e0a\u30d5\u30d6\u30ad",
-            "accuracy": 91.55,
-            "max combo": 131,
+            "map title": "2021\u5e74\u306e\u9b54\u6cd5\u4f7f\u3044\u305f\u3061",
+            "map difficulty": 7.15,
+            "map url": "https://osu.ppy.sh/beatmaps/3117364",
+            "map background url": "https://assets.ppy.sh/beatmaps/1516120/covers/cover.jpg",
+            "mods": [
+                "HD"
+            ],
+            "artist": "\u304b\u3081\u308a\u3042",
+            "accuracy": 94.52,
+            "max combo": 844,
             "map grade": "A",
             "rank color": "green",
-            "recent score": "1,093,550"
+            "recent score": "16,823,410"
         },
         "user tags": {
             "development tags": [],
@@ -497,24 +498,24 @@
     "17681245": {
         "user data": {
             "name": "wildernesexplor",
-            "score": 8195509858,
-            "playcount": 15874,
+            "score": 8108454098,
+            "playcount": 15792,
             "avatar url": "https://a.ppy.sh/17681245?1600049873.png",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
             "profile url": "https://osu.ppy.sh/users/17681245"
         },
         "recent map data": {
-            "map title": "Gravity Falls Theme Song- 16 Bit Mix",
-            "map difficulty": 5.02,
-            "map url": "https://osu.ppy.sh/beatmaps/1405981",
-            "map background url": "https://assets.ppy.sh/beatmaps/664315/covers/cover.jpg",
+            "map title": "\u3060\u304b\u3089\u3001\u3072\u3068\u308a\u3058\u3083\u306a\u3044 (TV Size)",
+            "map difficulty": 5.48,
+            "map url": "https://osu.ppy.sh/beatmaps/2360153",
+            "map background url": "https://assets.ppy.sh/beatmaps/1129819/covers/cover.jpg",
             "mods": "no mods",
-            "artist": "Cass2",
-            "accuracy": 93.19,
-            "max combo": 73,
-            "map grade": "A",
-            "rank color": "green",
-            "recent score": "268,300"
+            "artist": "Little Glee Monster",
+            "accuracy": 98.15,
+            "max combo": 326,
+            "map grade": "S",
+            "rank color": "yellow",
+            "recent score": "2,954,200"
         },
         "user tags": {
             "development tags": [],
@@ -983,24 +984,24 @@
     "14506085": {
         "user data": {
             "name": "Golucky",
-            "score": 10626333148,
-            "playcount": 37243,
+            "score": 10608615654,
+            "playcount": 37209,
             "avatar url": "https://a.ppy.sh/14506085?1628878011.png",
             "background url": "https://assets.ppy.sh/user-profile-covers/14506085/11e6a5722afe3b186a98a639ac744b2c21c86067431999598befb5d4559416a5.png",
             "profile url": "https://osu.ppy.sh/users/14506085"
         },
         "recent map data": {
-            "map title": "not found",
-            "map difficulty": "0",
-            "map url": "https://osu.ppy.sh/beatmapsets",
-            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
-            "mods": "",
-            "artist": "",
-            "accuracy": "",
-            "max combo": "",
-            "map grade": "F",
-            "rank color": "red",
-            "recent score": "0"
+            "map title": "No pain, No game (TV Size)",
+            "map difficulty": 5.44,
+            "map url": "https://osu.ppy.sh/beatmaps/2468862",
+            "map background url": "https://assets.ppy.sh/beatmaps/1184314/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "\u30ca\u30ce",
+            "accuracy": 95.66,
+            "max combo": 337,
+            "map grade": "A",
+            "rank color": "green",
+            "recent score": "2,762,570"
         },
         "user tags": {
             "development tags": [],
@@ -1091,11 +1092,38 @@
     "13985346": {
         "user data": {
             "name": "MossL",
-            "score": 5328529988,
-            "playcount": 11844,
+            "score": 5171373911,
+            "playcount": 11745,
             "avatar url": "https://a.ppy.sh/13985346?1606538724.jpeg",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
             "profile url": "https://osu.ppy.sh/users/13985346"
+        },
+        "recent map data": {
+            "map title": "Virginity Syndrome",
+            "map difficulty": 4.27,
+            "map url": "https://osu.ppy.sh/beatmaps/3323563",
+            "map background url": "https://assets.ppy.sh/beatmaps/1627980/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "osu! virgin gang",
+            "accuracy": 100,
+            "max combo": 46,
+            "map grade": "SS",
+            "rank color": "yellow",
+            "recent score": "43,990"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "10322186": {
+        "user data": {
+            "name": "Tom brady",
+            "score": 384385687440,
+            "playcount": 137789,
+            "avatar url": "https://a.ppy.sh/10322186?1642642366.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/10322186/c15b9d6b08b098e201bb5d4dd0bc87897685d3ca914fc4ac7fd588010175cecb.png",
+            "profile url": "https://osu.ppy.sh/users/10322186"
         },
         "recent map data": {
             "map title": "not found",
@@ -1115,59 +1143,27 @@
             "award tags": []
         }
     },
-    "10322186": {
-        "user data": {
-            "name": "Tom brady",
-            "score": 384806384330,
-            "playcount": 137884,
-            "avatar url": "https://a.ppy.sh/10322186?1642642366.jpeg",
-            "background url": "https://assets.ppy.sh/user-profile-covers/10322186/c15b9d6b08b098e201bb5d4dd0bc87897685d3ca914fc4ac7fd588010175cecb.png",
-            "profile url": "https://osu.ppy.sh/users/10322186"
-        },
-        "recent map data": {
-            "map title": "\u98a8\u304c\u5439\u304f\u8857\uff08TV size\uff09",
-            "map difficulty": 4.48,
-            "map url": "https://osu.ppy.sh/beatmaps/1514197",
-            "map background url": "https://assets.ppy.sh/beatmaps/713944/covers/cover.jpg",
-            "mods": [
-                "HD",
-                "HR"
-            ],
-            "artist": "\u30e9\u30c3\u30af\u30e9\u30a4\u30d5",
-            "accuracy": 98.84,
-            "max combo": 471,
-            "map grade": "S+",
-            "rank color": "grey",
-            "recent score": "3,599,721"
-        },
-        "user tags": {
-            "development tags": [],
-            "award tags": []
-        }
-    },
     "4580287": {
         "user data": {
             "name": "mode",
-            "score": 172892101863,
-            "playcount": 133023,
-            "avatar url": "https://a.ppy.sh/4580287?1643401840.jpeg",
+            "score": 172633333172,
+            "playcount": 132906,
+            "avatar url": "https://a.ppy.sh/4580287?1642949716.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/4580287/95f13e2db347e9e851e8e7d188e6f18e15b65ca5643b553e83729b7e6c305306.jpeg",
             "profile url": "https://osu.ppy.sh/users/4580287"
         },
         "recent map data": {
-            "map title": "tarte tatin",
-            "map difficulty": 6.92,
-            "map url": "https://osu.ppy.sh/beatmaps/1777067",
-            "map background url": "https://assets.ppy.sh/beatmaps/849903/covers/cover.jpg",
-            "mods": [
-                "HD"
-            ],
-            "artist": "kamome sano",
-            "accuracy": 95.73,
-            "max combo": 300,
-            "map grade": "A",
-            "rank color": "green",
-            "recent score": "4,710,173"
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
         },
         "user tags": {
             "development tags": [],
@@ -1177,24 +1173,26 @@
     "7636779": {
         "user data": {
             "name": "Leebs",
-            "score": 301863478385,
-            "playcount": 95727,
+            "score": 301530527234,
+            "playcount": 95657,
             "avatar url": "https://a.ppy.sh/7636779?1641835389.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/7636779/af6c609344ec41450d806f1d0e1bdc3bfe2663f5c114b51fe287208ec8b725cf.jpeg",
             "profile url": "https://osu.ppy.sh/users/7636779"
         },
         "recent map data": {
-            "map title": "\u796d\u7b26\u300c\u795e\u904a\u3073\u306e\u5504\u300d",
-            "map difficulty": 6.38,
-            "map url": "https://osu.ppy.sh/beatmaps/1551848",
-            "map background url": "https://assets.ppy.sh/beatmaps/735097/covers/cover.jpg",
-            "mods": "no mods",
-            "artist": "\u51cb\u53f6\u68d5 feat. \u3081\u3089\u307f\u307d\u3063\u3077",
-            "accuracy": 99.02,
-            "max combo": 1560,
+            "map title": "\u82b1\u964d\u3089\u3057",
+            "map difficulty": 4.18,
+            "map url": "https://osu.ppy.sh/beatmaps/2971699",
+            "map background url": "https://assets.ppy.sh/beatmaps/1444670/covers/cover.jpg",
+            "mods": [
+                "DT"
+            ],
+            "artist": "pazi",
+            "accuracy": 95.2,
+            "max combo": 420,
             "map grade": "A",
             "rank color": "green",
-            "recent score": "56,493,700"
+            "recent score": "8,443,345"
         },
         "user tags": {
             "development tags": [],
@@ -1204,26 +1202,27 @@
     "10157694": {
         "user data": {
             "name": "Checha",
-            "score": 106686567263,
-            "playcount": 133506,
+            "score": 106410394029,
+            "playcount": 133353,
             "avatar url": "https://a.ppy.sh/10157694?1640196104.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/10157694/fbfdb9f28918e40b1f9578a896ee3c919f2ccc57db2e4933061861592617ec8a.png",
             "profile url": "https://osu.ppy.sh/users/10157694"
         },
         "recent map data": {
-            "map title": "90's Girly Tekno Beat EP",
-            "map difficulty": 7.04,
-            "map url": "https://osu.ppy.sh/beatmaps/2248789",
-            "map background url": "https://assets.ppy.sh/beatmaps/1074598/covers/cover.jpg",
+            "map title": "Love to the Stars (Radio Edit) (Nightcore Mix)",
+            "map difficulty": 4.83,
+            "map url": "https://osu.ppy.sh/beatmaps/3410825",
+            "map background url": "https://assets.ppy.sh/beatmaps/1669959/covers/cover.jpg",
             "mods": [
-                "HD"
+                "HD",
+                "PF"
             ],
-            "artist": "Slax",
-            "accuracy": 99.18,
-            "max combo": 154,
-            "map grade": "S+",
+            "artist": "Breeze & UFO vs. Lost Witness",
+            "accuracy": 100,
+            "max combo": 764,
+            "map grade": "SS+",
             "rank color": "grey",
-            "recent score": "620,834"
+            "recent score": "11,211,450"
         },
         "user tags": {
             "development tags": [],
@@ -1287,24 +1286,26 @@
     "19451356": {
         "user data": {
             "name": "Senjan21",
-            "score": 19776272011,
-            "playcount": 29830,
+            "score": 19655757048,
+            "playcount": 29739,
             "avatar url": "https://a.ppy.sh/19451356?1628495166.jpeg",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c4.jpg",
             "profile url": "https://osu.ppy.sh/users/19451356"
         },
         "recent map data": {
-            "map title": "Ange du Blanc Pur",
-            "map difficulty": 5.43,
-            "map url": "https://osu.ppy.sh/beatmaps/2049734",
-            "map background url": "https://assets.ppy.sh/beatmaps/979113/covers/cover.jpg",
-            "mods": "no mods",
-            "artist": "ke-ji feat. \u306a\u306a\u3072\u3089",
-            "accuracy": 87.77,
-            "max combo": 86,
-            "map grade": "B",
-            "rank color": "blue",
-            "recent score": "189,604"
+            "map title": "cheatreal",
+            "map difficulty": 6.37,
+            "map url": "https://osu.ppy.sh/beatmaps/240488",
+            "map background url": "https://assets.ppy.sh/beatmaps/88180/covers/cover.jpg",
+            "mods": [
+                "NF"
+            ],
+            "artist": "t+pazolite",
+            "accuracy": 56.85,
+            "max combo": 56,
+            "map grade": "D",
+            "rank color": "red",
+            "recent score": "402,020"
         },
         "user tags": {
             "development tags": [],
@@ -1341,24 +1342,24 @@
     "15501089": {
         "user data": {
             "name": "MoofLol",
-            "score": 39770636137,
-            "playcount": 25213,
+            "score": 39720177428,
+            "playcount": 25200,
             "avatar url": "https://a.ppy.sh/15501089?1643144148.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/15501089/2ee22f8289a438bb567c54ca1e85838dd9235de50af16db2ad0bac0265cb4dfc.png",
             "profile url": "https://osu.ppy.sh/users/15501089"
         },
         "recent map data": {
-            "map title": "not found",
-            "map difficulty": "0",
-            "map url": "https://osu.ppy.sh/beatmapsets",
-            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
-            "mods": "",
-            "artist": "",
-            "accuracy": "",
-            "max combo": "",
-            "map grade": "F",
-            "rank color": "red",
-            "recent score": "0"
+            "map title": "Lowermost revolt (\"Jeremiad\" Long ver.)",
+            "map difficulty": 5.58,
+            "map url": "https://osu.ppy.sh/beatmaps/2979430",
+            "map background url": "https://assets.ppy.sh/beatmaps/1407641/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "\u304b\u3081\u308a\u3042 feat. \u6b4c\u5287\u6d3e\u5b66\u751f",
+            "accuracy": 95.46,
+            "max combo": 1217,
+            "map grade": "A",
+            "rank color": "green",
+            "recent score": "20,291,526"
         },
         "user tags": {
             "development tags": [],
