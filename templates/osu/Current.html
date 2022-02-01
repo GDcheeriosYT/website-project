@@ -46,9 +46,9 @@
         Object.keys(data).forEach(key => {
           player_list[key] = data[key]
         })
-        reRenderPlayerScores()
         reRenderLiveStatus()
-        setTimeout(reArrangePlayers, 1000)
+        reArrangePlayers()
+        reRenderPlayerScores()
       }
       
       function reRenderPlayerScores(){
