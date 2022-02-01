@@ -271,16 +271,15 @@
               <div class="player_info" data-id="{{ value[19] }}" style="background-image: linear-gradient(to top, #ffffff, #ffffff50), url({{ value[2] }});">
                 <div style="display: flex;">
                   <h1 class="namebox">
-                    <span>
-                      #<span class="player_position">{{count.value}}</span>
-                      <img src="{{ value[1] }}"><a href="{{ value[3] }}">
+                    <img src="{{ value[1] }}">
+                    #<span class="player_position">{{count.value}}</span>
+                    <a href="{{ value[3] }}">
                       {% if value[19]|string in match_data["nicknames"] %}
                         {{match_data["nicknames"][value[19]|string]}}
                       {% else %}
                         {{ key }}
                       {% endif %}
-                      </a>
-                    </span>
+                    </a>
                     <span class="score">
                       {{ value[17] }} score
                     </span>
