@@ -29,24 +29,24 @@
     "11339405": {
         "user data": {
             "name": "GDcheerios",
-            "score": 70915189565,
-            "playcount": 52389,
+            "score": 71055941559,
+            "playcount": 52456,
             "avatar url": "https://a.ppy.sh/11339405?1642918480.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/11339405/201b33610a718d81f4f5875751e9f1d9e9f797b6863c91f7ac99bd2155d45d41.png",
             "profile url": "https://osu.ppy.sh/users/11339405"
         },
         "recent map data": {
-            "map title": "not found",
-            "map difficulty": "0",
-            "map url": "https://osu.ppy.sh/beatmapsets",
-            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
-            "mods": "",
-            "artist": "",
-            "accuracy": "",
-            "max combo": "",
-            "map grade": "F",
-            "rank color": "red",
-            "recent score": "0"
+            "map title": "No.7 (TV Size)",
+            "map difficulty": 5.66,
+            "map url": "https://osu.ppy.sh/beatmaps/2284960",
+            "map background url": "https://assets.ppy.sh/beatmaps/1093207/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "\u5730\u7e1b\u5c11\u5e74\u30d0\u30f3\u30c9",
+            "accuracy": 97.19,
+            "max combo": 292,
+            "map grade": "A",
+            "rank color": "green",
+            "recent score": "2,409,040"
         },
         "user tags": {
             "development tags": [
