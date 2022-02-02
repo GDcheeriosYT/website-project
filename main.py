@@ -34,15 +34,29 @@ async def grabber(ids, match_name):
   id_list = ids.split("+")
   with open(f"matches/{match_name}.json") as f:
     match_data = json.load(f)
-  
+    
   new_dict = {}
-  for id in id_list:
-    user_pos = match_data["users"].index(id)
-    score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0] - match_data["initial score"][user_pos]
-    if id in live_player_status:
-      new_dict[id] = {"score" : score,"liveStatus" : live_player_status[id]}
-    else:
-      new_dict[id] = {"score" : score,"liveStatus" : None}
+  if match_data["mode"] == "ffa":
+  
+    for id in id_list:
+      user_pos = match_data["users"].index(id)
+      score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0] - match_data["initial score"][user_pos]
+      if id in live_player_status:
+        new_dict[id] = {"score" : score,"liveStatus" : live_player_status[id]}
+      else:
+        new_dict[id] = {"score" : score,"liveStatus" : None}
+  
+  else:
+    for id in id_list:
+      user_pos = match_data["users"].index(id)
+      score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0] - match_data["initial score"][user_pos]
+      for team in match_data["team metadata"]:
+        if id in team:
+          if id in live_player_status:
+            new_dict[id] = {"score" : score,"liveStatus" : live_player_status[id], "team" : f"{team}"}
+          else:
+            new_dict[id] = {"score" : score,"liveStatus" : None, "team" : f"{team}"}
+    
 
   return new_dict
 

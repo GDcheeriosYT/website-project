@@ -18,180 +18,6 @@
   {% extends 'base.html' %}
   <body>
     {% block body %}
-
-    <script>
-      let player_ids;
-      let player_list = {}
-      let wrapperHeight = 0
-      window.onload = function(){
-        wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
-        const players = document.querySelectorAll(".player_info")
-        players.forEach((el)=> {
-          player_list[el.dataset.id] = {}
-        })
-        player_ids =Object.keys(player_list).join("+")
-        updatePlayers()
-        setInterval(() =>{
-          updatePlayers()
-        }, 1000)
-      }
-
-      window.onresize = function(){
-        updatePlayers()
-        wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
-        reArrangePlayers()
-      }
-      
-      function handleResponse(data){
-        Object.keys(data).forEach(key => {
-          player_list[key] = data[key]
-        })
-        reRenderLiveStatus()
-        reArrangePlayers()
-        reRenderPlayerScores()
-      }
-      
-      function reRenderPlayerScores(){
-        Object.keys(player_list).forEach((key, i) => {
-          const player = document.querySelector(".player_info[data-id='" + key + "']")
-          const scoreEl = player.querySelector('.score')
-          let score = parseInt(scoreEl.textContent.replace(/\,/g, ''));
-          let scoreDiff = (player_list[key]["score"] - score)
-          if(scoreDiff!=0){
-            var scoreThing = document.createElement("h1");
-            if (scoreDiff>0){
-              scoreThing.innerHTML = "+" + numberWithCommas(scoreDiff)
-              scoreThing.style.color = "green"
-            }
-            else{
-              scoreThing.innerHTML = numberWithCommas(scoreDiff)
-              scoreThing.style.color = "red"
-            }
-            scoreThing.classList.add("addedscore")
-            player.querySelector(".namebox").appendChild(scoreThing)
-            updateNumberOverTime(returnValuesInBetween(score, player_list[key]["score"]), scoreEl, " score")
-            setTimeout(() => {scoreThing.remove()}, 2000)
-          }
-        });
-      }
-      
-      function reRenderLiveStatus(){
-        Object.keys(player_list).forEach((key, i) => {
-          const player = document.querySelector(".live-status[data-id='" + key + "']")
-          player.classList = "live-status"
-          const data = player_list[key]
-          if (data.liveStatus){
-            player.classList = "live-status active"
-            const {gameplay, mapInfo, lists} = data.liveStatus
-            //gameplay:accuracy,score,combo
-            //mapInfo:background  => metadata:artist,difficulty,title
-            player.style.backgroundImage = "linear-gradient(to top, #5A5A5A, #5A5A5A50)," + " url(" + mapInfo.background + ")"
-            player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
-            player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
-            player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
-            updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score), player.querySelector(".gameplay-score"), " score")
-            updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo), player.querySelector(".gameplay-combo"), "x")
-            updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy)), player.querySelector(".gameplay-accuracy"), "%")
-            playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
-            playerStatus.querySelector(".status").innerHTML = "online"
-            playerStatus.querySelector(".status").classList = "status active"
-            playerStatus.style.width = "65vw"
-          }
-          else{
-            playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
-            playerStatus.querySelector(".status").innerHTML = "offline"
-            playerStatus.querySelector(".status").classList = "status"
-            playerStatus.style.width = "91vw"
-          }
-        })
-      }
-
-      function reArrangePlayers(){
-        let list = Object.entries(player_list)
-        list = list.map((el) => {
-          return {
-            id : el[0],
-            score : el[1].score
-          }
-        })
-        list.sort((a, b) =>{
-          let comparison = 0;
-          if (a.score < b.score) {
-            comparison = 1;
-          } else if (a.score > b.score) {
-            comparison = -1;
-          }
-          return comparison;
-        })
-
-        console.log(list)
-        
-        document.querySelector(".match").style.minHeight = list.length * wrapperHeight + "px"
-
-        list.forEach((player, i) => {
-          const el = document.querySelector(`.player_info_wrapper[data-id="${player.id}"]`)
-          const posNumberEl = el.querySelector(".player_position")
-          posNumberEl.innerText = i + 1
-          el.style.position = "absolute"
-          el.style.transform = `translateY(${i * wrapperHeight}px)`
-          console.log(el)
-        })
-      }
-
-      
-      function updatePlayers(){
-        fetch("http://gdcheerios.com/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
-        .then(res => res.json())
-        .then((data) => handleResponse(data))
-      }
-      
-      function test(num){
-        Object.keys(player_list).forEach(key => {
-          player_list[key]["score"] += num
-        });
-        reRenderPlayerScores()
-      }
-      
-      
-      let config = {
-        duration: 1200,
-        fps: 5,
-      };
-      
-      function returnValuesInBetween(startValue, endValue) {
-        let resultArray = [];
-        let totalCaptureAmount = Math.floor(config.duration / config.fps);
-      
-        let incrementer = (endValue - startValue) / totalCaptureAmount;
-        //console.log(incrementer);
-      
-        for (let i = 0; i < totalCaptureAmount; i++) {
-          resultArray.push(Math.floor(startValue + incrementer * i));
-        }
-        resultArray.push(endValue);
-        return resultArray;
-      }
-      
-      function updateNumberOverTime(numberArray, element, ending) {
-        let incrementer = Math.floor(config.duration / numberArray.length);
-      
-        for (let i = 0; i < numberArray.length; i++) {
-          let currentValue = numberArray[i];
-          setTimeout(
-            () => {
-              element.textContent = numberWithCommas(currentValue) + ending;
-            },
-            (i + 1) * incrementer,
-            currentValue
-          );
-        }
-      }
-  
-      function numberWithCommas(x) {
-        return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-      }
-
-    </script>
       
       <!--
         --player key values--
@@ -229,99 +55,479 @@
         <div class="warning"><span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span><br><a href="/info">more info</a></div>
         <h1 style="font-size: 5vw; margin: 3 auto;">{{ match_data["match name"] }}</h1>
         {% if match_data["mode"] == "teams" %}
-        <div class="gameBox" id="bodymovin">
-          <h1 style="font-size: 4vw;">Teams</h1>
-          <div class="match-teams">
-            {% set count_team = namespace(value=1) %}  
-            {% for team_key, team_value in teams.items() %}
-            <div class="teambox"><h1 class="namebox"><span>#{{ count_team.value }} {{ team_key }}</span> <span class="score">{{team_value[0]}}</span></h1>
-              {% set count_player = namespace(value=1) %}
-              {% for key, value in team_value[1].items() %}
-              <div class="player_info" style="background-image: linear-gradient(to top, #ffffff95 40%, #ffffff00 90%), url({{ value[2] }});">
-                <h1 class="namebox"><span style="{{ color }}">#{{ count_player.value }} <a href="{{ value[3] }}">{{ key }}</a></span> <span class="score">{{ value[17] }} score</span></h1>
-                <img src="{{ value[1] }}">
-                <div class="playcount">{{ value[18] }} maps played</div>
-                <div class="level">level {{ value[5] }} <progress id="level" value="{{ value[6] }}" max="100"></progress> {{ value[6] }}%</div>
-                {% if value[4] != "0" %}
-                <!--<div class="map_info" style="background-image:url({{value[7]}});">
-                  <span class="extra_text"><b>Recent Map:</b></span>
-                  <span class="map_title"><b><a style="color: black;" href="{{value[10]}}">{{value[12]}}-{{value[8]}}</a></b></span>
-                  <span style="text-align: center;"><b>☆{{value[9]}}☆</b></span>
-                  <span style="color: {{value[16]}}; font-size: 260%; margin-left: 10px; position: relative; top: 10%;">{{value[15]}}</span>
-                  <span style="position: relative; left: 7%; font-size: 120%; bottom: 10%;"><b>{{value[13]}}%</b></span>
-                  <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;"><b>{{value[14]}}x</b></span>
-                  <span style="position: relative; text-align: right; bottom: 40%; right: 2%; font-size: 120%;">{{value[11]}}</span>
-                </div>-->
-                {% endif %}
+          <script>
+            let player_ids;
+            let player_list = {}
+            let wrapperHeight = 0
+            window.onload = function(){
+              wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
+              const players = document.querySelectorAll(".player_info")
+              players.forEach((el)=> {
+                player_list[el.dataset.id] = {}
+              })
+              player_ids =Object.keys(player_list).join("+")
+              updatePlayers()
+              setInterval(() =>{
+                updatePlayers()
+              }, 1000)
+            }
+      
+            window.onresize = function(){
+              updatePlayers()
+              wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
+              reArrangePlayers()
+            }
+            
+            function handleResponse(data){
+              Object.keys(data).forEach(key => {
+                player_list[key] = data[key]
+              })
+              reRenderLiveStatus()
+              reArrangePlayers()
+              reRenderPlayerScores()
+            }
+            
+            function reRenderPlayerScores(){
+              Object.keys(player_list).forEach((key, i) => {
+                const player = document.querySelector(".player_info[data-id='" + key + "']")
+                const scoreEl = player.querySelector('.score')
+                let score = parseInt(scoreEl.textContent.replace(/\,/g, ''));
+                let scoreDiff = (player_list[key]["score"] - score)
+                if(scoreDiff!=0){
+                  var scoreThing = document.createElement("h1");
+                  if (scoreDiff>0){
+                    scoreThing.innerHTML = "+" + numberWithCommas(scoreDiff)
+                    scoreThing.style.color = "green"
+                  }
+                  else{
+                    scoreThing.innerHTML = numberWithCommas(scoreDiff)
+                    scoreThing.style.color = "red"
+                  }
+                  scoreThing.classList.add("addedscore")
+                  player.querySelector(".namebox").appendChild(scoreThing)
+                  updateNumberOverTime(returnValuesInBetween(score, player_list[key]["score"]), scoreEl, " score")
+                  setTimeout(() => {scoreThing.remove()}, 2000)
+                }
+              });
+            }
+            
+            function reRenderLiveStatus(){
+              Object.keys(player_list).forEach((key, i) => {
+                const player = document.querySelector(".live-status[data-id='" + key + "']")
+                player.classList = "live-status"
+                const data = player_list[key]
+                if (data.liveStatus){
+                  player.classList = "live-status active"
+                  const {gameplay, mapInfo, lists} = data.liveStatus
+                  //gameplay:accuracy,score,combo
+                  //mapInfo:background  => metadata:artist,difficulty,title
+                  player.style.backgroundImage = "linear-gradient(to top, #5A5A5A, #5A5A5A50)," + " url(" + mapInfo.background + ")"
+                  player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
+                  player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
+                  player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score), player.querySelector(".gameplay-score"), " score")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo), player.querySelector(".gameplay-combo"), "x")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy)), player.querySelector(".gameplay-accuracy"), "%")
+                  playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
+                  playerStatus.querySelector(".status").innerHTML = "online"
+                  playerStatus.querySelector(".status").classList = "status active"
+                  playerStatus.style.width = "65vw"
+                }
+                else{
+                  playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
+                  playerStatus.querySelector(".status").innerHTML = "offline"
+                  playerStatus.querySelector(".status").classList = "status"
+                  playerStatus.style.width = "91vw"
+                }
+              })
+            }
+      
+            function reArrangePlayers(){
+              let list = Object.entries(player_list)
+              list = list.map((el) => {
+                return {
+                  id : el[0],
+                  score : el[1].score
+                }
+              })
+              list.sort((a, b) =>{
+                let comparison = 0;
+                if (a.score < b.score) {
+                  comparison = 1;
+                } else if (a.score > b.score) {
+                  comparison = -1;
+                }
+                return comparison;
+              })
+      
+              console.log(list)
+              
+              document.querySelector(".match-teams").style.minHeight = list.length * wrapperHeight + "px"
+      
+              list.forEach((player, i) => {
+                const el = document.querySelector(`.player_info_wrapper[data-id="${player.id}"]`)
+                const posNumberEl = el.querySelector(".player_position")
+                posNumberEl.innerText = i + 1
+                el.style.position = "absolute"
+                el.style.transform = `translateY(${i * wrapperHeight}px)`
+                console.log(el)
+              })
+            }
+      
+            
+            function updatePlayers(){
+              fetch("http://gdcheerios.com/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
+              .then(res => res.json())
+              .then((data) => handleResponse(data))
+            }
+            
+            function test(num){
+              Object.keys(player_list).forEach(key => {
+                player_list[key]["score"] += num
+              });
+              reRenderPlayerScores()
+            }
+            
+            
+            let config = {
+              duration: 1200,
+              fps: 5,
+            };
+            
+            function returnValuesInBetween(startValue, endValue) {
+              let resultArray = [];
+              let totalCaptureAmount = Math.floor(config.duration / config.fps);
+            
+              let incrementer = (endValue - startValue) / totalCaptureAmount;
+              //console.log(incrementer);
+            
+              for (let i = 0; i < totalCaptureAmount; i++) {
+                resultArray.push(Math.floor(startValue + incrementer * i));
+              }
+              resultArray.push(endValue);
+              return resultArray;
+            }
+            
+            function updateNumberOverTime(numberArray, element, ending) {
+              let incrementer = Math.floor(config.duration / numberArray.length);
+            
+              for (let i = 0; i < numberArray.length; i++) {
+                let currentValue = numberArray[i];
+                setTimeout(
+                  () => {
+                    element.textContent = numberWithCommas(currentValue) + ending;
+                  },
+                  (i + 1) * incrementer,
+                  currentValue
+                );
+              }
+            }
+        
+            function numberWithCommas(x) {
+              return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+            }
+      
+          </script>
+          <div class="gameBox" id="bodymovin">
+            <h1 style="font-size: 4vw;">Teams</h1>
+            <div class="match-teams">
+              {% set count_team = namespace(value=1) %}  
+              {% for team_key, team_value in teams.items() %}
+              <div class="teambox" data-team_name="{{team_key}}"><h1 class="namebox"><span>#{{ count_team.value }} {{ team_key }}</span> <span class="score">{{team_value[0]}}</span></h1>
+                {% set count_player = namespace(value=1) %}
+                {% for key, value in team_value[1].items() %}
+                  <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[19] }}">
+                    <div class="player_info" data-id="{{ value[19] }}" style="background-image: linear-gradient(to top, #ffffff, #ffffff50), url({{ value[2] }});">
+                      <div style="display: flex;">
+                        <h1 class="namebox">
+                          <img src="{{ value[1] }}">
+                          #<span class="player_position">{{count_player.value}}</span>
+                          <a href="{{ value[3] }}">
+                            {% if value[19]|string in match_data["nicknames"] %}
+                              {{match_data["nicknames"][value[19]|string]}}
+                            {% else %}
+                              {{ key }}
+                            {% endif %}
+                          </a>
+                          <span class="score">
+                            {{ value[17] }} score
+                          </span>
+                          <span class="status">
+                            offline
+                          </span>
+                        </h1>
+                      </div>
+                    </div>
+                    <div class="live-status" style="transform: translateX(-100%); background" data-id="{{value[19]}}">
+                      <div class="map-info">
+                        <div class="left">
+                          <span class="map-artist">
+                            artist - 
+                          </span>
+                          <span class="map-title">
+                            map
+                          </span>
+                        </div>
+                        <div class="right">
+                          <span class="map-difficulty">
+                            easy
+                          </span>
+                        </div>
+                      </div>
+                      <div class="gameplay">
+                        <span class="gameplay-accuracy">
+                          0%
+                        </span>
+                        <h4 class="gameplay-score">
+                          0 score
+                        </h4>
+                        <span class="gameplay-combo">
+                          0x
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                {% set count_player.value = count_player.value + 1 %}
+                {% endfor %}
               </div>
-              {% set count_player.value = count_player.value + 1 %}
+              {% set count_team.value = count_team.value + 1 %}
               {% endfor %}
             </div>
-            {% set count_team.value = count_team.value + 1 %}
-            {% endfor %}
           </div>
-        </div>
         {% else %}
-        <div class="gameBox" id="bodymovin">
-          <h1 class="single">Free For All</h1>
-          <div class="match">
-            {% set count = namespace(value=1) %}
-            {% for key, value in players.items() %}
-            <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[19] }}">
-              <div class="player_info" data-id="{{ value[19] }}" style="background-image: linear-gradient(to top, #ffffff, #ffffff50), url({{ value[2] }});">
-                <div style="display: flex;">
-                  <h1 class="namebox">
-                    <img src="{{ value[1] }}">
-                    #<span class="player_position">{{count.value}}</span>
-                    <a href="{{ value[3] }}">
-                      {% if value[19]|string in match_data["nicknames"] %}
-                        {{match_data["nicknames"][value[19]|string]}}
-                      {% else %}
-                        {{ key }}
-                      {% endif %}
-                    </a>
-                    <span class="score">
-                      {{ value[17] }} score
-                    </span>
-                    <span class="status">
-                      offline
-                    </span>
-                  </h1>
+          <script>
+            let player_ids;
+            let player_list = {}
+            let wrapperHeight = 0
+            window.onload = function(){
+              wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
+              const players = document.querySelectorAll(".player_info")
+              players.forEach((el)=> {
+                player_list[el.dataset.id] = {}
+              })
+              player_ids =Object.keys(player_list).join("+")
+              updatePlayers()
+              setInterval(() =>{
+                updatePlayers()
+              }, 1000)
+            }
+      
+            window.onresize = function(){
+              updatePlayers()
+              wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
+              reArrangePlayers()
+            }
+            
+            function handleResponse(data){
+              Object.keys(data).forEach(key => {
+                player_list[key] = data[key]
+              })
+              reRenderLiveStatus()
+              reArrangePlayers()
+              reRenderPlayerScores()
+            }
+            
+            function reRenderPlayerScores(){
+              Object.keys(player_list).forEach((key, i) => {
+                const player = document.querySelector(".player_info[data-id='" + key + "']")
+                const scoreEl = player.querySelector('.score')
+                let score = parseInt(scoreEl.textContent.replace(/\,/g, ''));
+                let scoreDiff = (player_list[key]["score"] - score)
+                if(scoreDiff!=0){
+                  var scoreThing = document.createElement("h1");
+                  if (scoreDiff>0){
+                    scoreThing.innerHTML = "+" + numberWithCommas(scoreDiff)
+                    scoreThing.style.color = "green"
+                  }
+                  else{
+                    scoreThing.innerHTML = numberWithCommas(scoreDiff)
+                    scoreThing.style.color = "red"
+                  }
+                  scoreThing.classList.add("addedscore")
+                  player.querySelector(".namebox").appendChild(scoreThing)
+                  updateNumberOverTime(returnValuesInBetween(score, player_list[key]["score"]), scoreEl, " score")
+                  setTimeout(() => {scoreThing.remove()}, 2000)
+                }
+              });
+            }
+            
+            function reRenderLiveStatus(){
+              Object.keys(player_list).forEach((key, i) => {
+                const player = document.querySelector(".live-status[data-id='" + key + "']")
+                player.classList = "live-status"
+                const data = player_list[key]
+                if (data.liveStatus){
+                  player.classList = "live-status active"
+                  const {gameplay, mapInfo, lists} = data.liveStatus
+                  //gameplay:accuracy,score,combo
+                  //mapInfo:background  => metadata:artist,difficulty,title
+                  player.style.backgroundImage = "linear-gradient(to top, #5A5A5A, #5A5A5A50)," + " url(" + mapInfo.background + ")"
+                  player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
+                  player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
+                  player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score), player.querySelector(".gameplay-score"), " score")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo), player.querySelector(".gameplay-combo"), "x")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy)), player.querySelector(".gameplay-accuracy"), "%")
+                  playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
+                  playerStatus.querySelector(".status").innerHTML = "online"
+                  playerStatus.querySelector(".status").classList = "status active"
+                  playerStatus.style.width = "65vw"
+                }
+                else{
+                  playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
+                  playerStatus.querySelector(".status").innerHTML = "offline"
+                  playerStatus.querySelector(".status").classList = "status"
+                  playerStatus.style.width = "91vw"
+                }
+              })
+            }
+      
+            function reArrangePlayers(){
+              let list = Object.entries(player_list)
+              list = list.map((el) => {
+                return {
+                  id : el[0],
+                  score : el[1].score
+                }
+              })
+              list.sort((a, b) =>{
+                let comparison = 0;
+                if (a.score < b.score) {
+                  comparison = 1;
+                } else if (a.score > b.score) {
+                  comparison = -1;
+                }
+                return comparison;
+              })
+      
+              console.log(list)
+              
+              document.querySelector(".match").style.minHeight = list.length * wrapperHeight + "px"
+      
+              list.forEach((player, i) => {
+                const el = document.querySelector(`.player_info_wrapper[data-id="${player.id}"]`)
+                const posNumberEl = el.querySelector(".player_position")
+                posNumberEl.innerText = i + 1
+                el.style.position = "absolute"
+                el.style.transform = `translateY(${i * wrapperHeight}px)`
+                console.log(el)
+              })
+            }
+      
+            
+            function updatePlayers(){
+              fetch("http://gdcheerios.com/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
+              .then(res => res.json())
+              .then((data) => handleResponse(data))
+            }
+            
+            function test(num){
+              Object.keys(player_list).forEach(key => {
+                player_list[key]["score"] += num
+              });
+              reRenderPlayerScores()
+            }
+            
+            
+            let config = {
+              duration: 1200,
+              fps: 5,
+            };
+            
+            function returnValuesInBetween(startValue, endValue) {
+              let resultArray = [];
+              let totalCaptureAmount = Math.floor(config.duration / config.fps);
+            
+              let incrementer = (endValue - startValue) / totalCaptureAmount;
+              //console.log(incrementer);
+            
+              for (let i = 0; i < totalCaptureAmount; i++) {
+                resultArray.push(Math.floor(startValue + incrementer * i));
+              }
+              resultArray.push(endValue);
+              return resultArray;
+            }
+            
+            function updateNumberOverTime(numberArray, element, ending) {
+              let incrementer = Math.floor(config.duration / numberArray.length);
+            
+              for (let i = 0; i < numberArray.length; i++) {
+                let currentValue = numberArray[i];
+                setTimeout(
+                  () => {
+                    element.textContent = numberWithCommas(currentValue) + ending;
+                  },
+                  (i + 1) * incrementer,
+                  currentValue
+                );
+              }
+            }
+        
+            function numberWithCommas(x) {
+              return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+            }
+      
+          </script>
+          <div class="gameBox" id="bodymovin">
+            <h1 class="single">Free For All</h1>
+            <div class="match">
+              {% set count = namespace(value=1) %}
+              {% for key, value in players.items() %}
+              <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[19] }}">
+                <div class="player_info" data-id="{{ value[19] }}" style="background-image: linear-gradient(to top, #ffffff, #ffffff50), url({{ value[2] }});">
+                  <div style="display: flex;">
+                    <h1 class="namebox">
+                      <img src="{{ value[1] }}">
+                      #<span class="player_position">{{count.value}}</span>
+                      <a href="{{ value[3] }}">
+                        {% if value[19]|string in match_data["nicknames"] %}
+                          {{match_data["nicknames"][value[19]|string]}}
+                        {% else %}
+                          {{ key }}
+                        {% endif %}
+                      </a>
+                      <span class="score">
+                        {{ value[17] }} score
+                      </span>
+                      <span class="status">
+                        offline
+                      </span>
+                    </h1>
+                  </div>
                 </div>
-              </div>
-              <div class="live-status" style="transform: translateX(-100%); background" data-id="{{value[19]}}">
-                <div class="map-info">
-                  <div class="left">
-                    <span class="map-artist">
-                      artist - 
+                <div class="live-status" style="transform: translateX(-100%); background" data-id="{{value[19]}}">
+                  <div class="map-info">
+                    <div class="left">
+                      <span class="map-artist">
+                        artist - 
+                      </span>
+                      <span class="map-title">
+                        map
+                      </span>
+                    </div>
+                    <div class="right">
+                      <span class="map-difficulty">
+                        easy
+                      </span>
+                    </div>
+                  </div>
+                  <div class="gameplay">
+                    <span class="gameplay-accuracy">
+                      0%
                     </span>
-                    <span class="map-title">
-                      map
+                    <h4 class="gameplay-score">
+                      0 score
+                    </h4>
+                    <span class="gameplay-combo">
+                      0x
                     </span>
                   </div>
-                  <div class="right">
-                    <span class="map-difficulty">
-                      easy
-                    </span>
-                  </div>
-                </div>
-                <div class="gameplay">
-                  <span class="gameplay-accuracy">
-                    0%
-                  </span>
-                  <h4 class="gameplay-score">
-                    0 score
-                  </h4>
-                  <span class="gameplay-combo">
-                    0x
-                  </span>
                 </div>
               </div>
+              {% set count.value = count.value + 1 %}
+              {% endfor %}
             </div>
-            {% set count.value = count.value + 1 %}
-            {% endfor %}
           </div>
-        </div>
         {% endif %}
         <h2></h2>
       </div>
