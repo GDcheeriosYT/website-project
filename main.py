@@ -130,7 +130,7 @@ def match_get(time, match):
 #get delay api
 @app.route("/api/get-delay")
 async def get_delay():
-  return(str(len(live_player_status.items()) / 2))
+  return(str(len(live_player_status.items()) / len(player_crap.player_list)))
 
 #start match api  
 class startMatchForm(FlaskForm):
