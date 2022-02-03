@@ -27,6 +27,7 @@ app = Flask(  # Create a flask app
   template_folder='templates', # Name of html file folder
   static_folder='static' # Name of directory for static files
 )
+app.config['SECRET_KEY'] = "hugandafortnite"
 
 #player score grab api crap
 @app.route("/api/grab/<ids>/<match_name>")
