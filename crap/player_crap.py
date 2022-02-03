@@ -391,7 +391,21 @@ def player_list():
     return(players[int(selection)])
   except:
     return("done")
-
+  
+  
+  
+  
+def player_list_length():
+  with open("player_data.json") as f:
+    player_data = json.load(f)
+  
+  players = []
+  
+  for id in player_data:
+    players.append(id)
+  
+  return(len(players))
+  
 
 
 
