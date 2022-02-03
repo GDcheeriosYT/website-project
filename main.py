@@ -5,6 +5,8 @@ from crap.team_crap import Teams
 
 #packages
 from flask import Flask, redirect, render_template, request
+from flask_wtf import FlaskForm, Form
+from wtforms import *
 import math
 import json
 import time
@@ -27,6 +29,7 @@ app = Flask(  # Create a flask app
   template_folder='templates', # Name of html file folder
   static_folder='static' # Name of directory for static files
 )
+app.config['SECRET_KEY'] = "hugandafortnite"
 
 #player score grab api crap
 @app.route("/api/grab/<ids>/<match_name>")
@@ -127,7 +130,18 @@ def match_get(time, match):
 #get delay api
 @app.route("/api/get-delay")
 async def get_delay():
-  return(str(len(live_player_status.items()) / 2))
+  return(str(len(live_player_status.items()) / len(player_crap.player_list)))
+
+#start match api  
+class startMatchForm(FlaskForm):
+  match_name = StringField('name')
+  mode = SelectField('mode', choices=[('teams', 'teams'), ('ffa', 'free for all')])
+  submit = SubmitField('submit')
+
+@app.route("/api/start-match", methods=["post"])
+async def api_start_match():
+  info = request.json
+  match_crap.start_match()
 
 #live status api
 @app.route("/api/live/del/<id>", methods=["post"])
@@ -464,7 +478,8 @@ async def test_create():
 #website control
 @app.route("/control")
 async def web_control():
-  return render_template("control.html")
+  form = startMatchForm()
+  return render_template("control.html", form=form)
   
 @app.route("/osu/info")
 async def warning_info():
