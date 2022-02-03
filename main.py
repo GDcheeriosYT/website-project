@@ -308,11 +308,10 @@ async def match(match_name, graph_view):
     
     for team in match_data["team metadata"]:
       new_team = Teams(team, match_name)
-      teams[team] = [new_team.score, new_team.users]
-      team_score_data[team] = new_team.score
+      teams[team] = [("{:,}".format(new_team.score)), new_team.users]
+      team_score_data[team] = ("{:,}".format(new_team.score))
 
     score_data[f"{dt.date.today()}"] = dict(sorted(team_score_data.items()))
-    teams_sorted = dict(sorted(teams.items(), key=lambda x: x[0], reverse=False))
     score_data[f"{dt.date.today()}"] = team_score_data
     match_data["match score history"] = score_data
     biggest_score_step1 = list(match_data["match score history"][f"{dt.date.today()}"].values())
@@ -348,7 +347,7 @@ async def match(match_name, graph_view):
       'osu/Current.html',  # Template file
       time = time,
       match_data = match_data,
-      teams = teams_sorted,
+      teams = teams,
       previous_score_segment = previous_score_segment,
       get_key_of = get_key_of,
       biggest_score = biggest_score,
