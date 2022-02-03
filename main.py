@@ -4,7 +4,7 @@ from numpy import broadcast
 from crap.team_crap import Teams
 
 #packages
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, flask_wtf
 import math
 import json
 import time
