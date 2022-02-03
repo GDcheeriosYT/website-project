@@ -123,6 +123,11 @@ def match_get(time, match):
     return(table)
   else:
     return None
+  
+#get delay api
+@app.route("/api/get-delay")
+async def get_delay():
+  return(str(len(live_player_status.items()) / 2))
 
 #live status api
 @app.route("/api/live/del/<id>", methods=["post"])
