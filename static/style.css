@@ -32,18 +32,18 @@ body{
 }
 
 .player_info{
+  position: relative;
   transition: ease-out var(--transition-speed);
-  width: 91vw;
-  height: 6vw;
+  width: 46vw;
+  height: 5vw;
   border: 0px solid rgb(0, 0, 0);
   border-radius: 1vw;
-  box-shadow: 5px 5px 15px -1px rgb(0, 0, 0);
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-color: #004e51;
   margin: 0 auto;
-  margin-bottom: 5px;
+  margin-bottom: 0;
   margin-left: 3vw;
   display: block;
+  z-index: 1;
 }
 
 .player_info_wrapper{
@@ -53,8 +53,7 @@ body{
 .player_info:hover{
   transition: var(--transition-speed) ease-in;
   opacity: 1.0;
-  padding: 5px;
-  border: 5px solid rgb(255, 255, 255);
+  border: 1px solid rgb(255, 255, 255);
   border-radius: 2vw;
   box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
   background-size: cover;
@@ -76,7 +75,7 @@ body{
 }
 
 .player_info .namebox{
-  margin-top: 0px;
+  margin: 0px;
   text-align: left;
   font-size: max(3vw);
   text-shadow: 2px 2px 4px #000000;
@@ -115,8 +114,8 @@ body{
 .player_info img {
   float:left;
   position: relative;
-  width: 5.7vw;
-  height: 5.7vw;
+  width: 3.78vw;
+  height: 3.78vw;
   transition: all var(--transition-speed) ease-out;
   display: block;
   border: 0.1vw solid #fff;
@@ -195,7 +194,6 @@ body{
   border-radius: 5vw;
   margin-left: auto;
   margin-right: auto;
-  flex-wrap: wrap;
   position: relative;
 }
 
@@ -226,6 +224,7 @@ a{
   text-style: bold;
   transition: all var(--transition-speed) ease-out;
   text-shadow: 1px 1px 20px rgb(201, 233, 255);
+  text-decoration: none;
 }
 
 .player_info:hover .namebox{
@@ -584,15 +583,18 @@ label{
 }
 
 .live-status{
-  color: white;
+  color: rgb(255, 255, 255);
+  background-color: #002e35;
+  left: 0vw;
   width: 24vw;
-  height: 4vw;
+  height: 3vw;
   border-radius: 1vw;
   transition: transform 0.3s linear;
-  box-shadow: 1px 1px 9px 1px #a0fcffa1;
   padding: 1vw;
+  padding-left: 5vw;
   opacity: 0;
   font-size: 1vw;
+  z-index: 0;
 }
 
 .live-status.active{
@@ -600,7 +602,7 @@ label{
   background-repeat: no-repeat;
   opacity: 1;
   transition: ease 1s;
-  transform: translateX(0) !important;
+  transform: translateX(-2vw) !important;
 }
 
 .live-status .map-info{
