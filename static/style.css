@@ -593,7 +593,6 @@ label{
   transition: transform 0.3s linear;
   padding: 1vw;
   padding-left: 5vw;
-  opacity: 0;
   font-size: 1vw;
   z-index: 0;
 }
@@ -601,7 +600,6 @@ label{
 .live-status.active{
   object-fit: cover;
   background-repeat: no-repeat;
-  opacity: 1;
   transition: ease 1s;
   transform: translateX(-2vw) !important;
 }
