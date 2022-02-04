@@ -29,26 +29,26 @@
     "11339405": {
         "user data": {
             "name": "GDcheerios",
-            "score": 71248126661,
-            "playcount": 52532,
+            "score": 71348100228,
+            "playcount": 52613,
             "avatar url": "https://a.ppy.sh/11339405?1642918480.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/11339405/201b33610a718d81f4f5875751e9f1d9e9f797b6863c91f7ac99bd2155d45d41.png",
             "profile url": "https://osu.ppy.sh/users/11339405"
         },
         "recent map data": {
-            "map title": "IMAGINARY LIKE THE JUSTICE",
-            "map difficulty": 6.43,
-            "map url": "https://osu.ppy.sh/beatmaps/495633",
-            "map background url": "https://assets.ppy.sh/beatmaps/210346/covers/cover.jpg",
+            "map title": "Last Goodbye",
+            "map difficulty": 6.21,
+            "map url": "https://osu.ppy.sh/beatmaps/1570203",
+            "map background url": "https://assets.ppy.sh/beatmaps/744772/covers/cover.jpg",
             "mods": [
                 "HD"
             ],
-            "artist": "\u30ca\u30ca\u30db\u30b7\u7ba1\u5f26\u697d\u56e3",
-            "accuracy": 96.63,
-            "max combo": 1012,
+            "artist": "toby fox",
+            "accuracy": 98.78,
+            "max combo": 450,
             "map grade": "A",
             "rank color": "green",
-            "recent score": "24,971,328"
+            "recent score": "5,049,141"
         },
         "user tags": {
             "development tags": [
@@ -1473,6 +1473,33 @@
             "map grade": "D",
             "rank color": "red",
             "recent score": "43,914"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "19107286": {
+        "user data": {
+            "name": "Riks1",
+            "score": 44748493637,
+            "playcount": 31392,
+            "avatar url": "https://a.ppy.sh/19107286?1615528722.jpeg",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
+            "profile url": "https://osu.ppy.sh/users/19107286"
+        },
+        "recent map data": {
+            "map title": "HOLIDAY",
+            "map difficulty": 2.14,
+            "map url": "https://osu.ppy.sh/beatmaps/2726878",
+            "map background url": "https://assets.ppy.sh/beatmaps/1313511/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "Lil Nas X",
+            "accuracy": 95.83,
+            "max combo": 121,
+            "map grade": "A",
+            "rank color": "green",
+            "recent score": "490,190"
         },
         "user tags": {
             "development tags": [],
