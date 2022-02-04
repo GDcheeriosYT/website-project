@@ -1422,5 +1422,32 @@
             "development tags": [],
             "award tags": []
         }
+    },
+    "19903063": {
+        "user data": {
+            "name": "nicksterman",
+            "score": 0,
+            "playcount": 0,
+            "avatar url": "https://a.ppy.sh/19903063?1608273716.png",
+            "background url": "https://osu.ppy.sh/images/headers/profile-covers/c8.jpg",
+            "profile url": "https://osu.ppy.sh/users/19903063"
+        },
+        "recent map data": {
+            "map title": "not found",
+            "map difficulty": "0",
+            "map url": "https://osu.ppy.sh/beatmapsets",
+            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
+            "mods": "",
+            "artist": "",
+            "accuracy": "",
+            "max combo": "",
+            "map grade": "F",
+            "rank color": "red",
+            "recent score": "0"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
     }
 }

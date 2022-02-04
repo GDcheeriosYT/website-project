@@ -11,14 +11,12 @@
     <div class="api-block">
       <h1>Start Match</h1>
       <div class="api-block-extra">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" value="{{ request.form['match name'] }}"><br><br>
-        <label for="mode">Mode:</label><br>
-        <label for="mode1">Free For All</label>
-        <input type="checkbox" id="mode1" name="mode1" value="FFA"><br>
-        <label for="mode2">Teams</label>
-        <input type="checkbox" id="mode2" name="mode2" value="Teams"><br><br>
-        <button type="submit">Submit</button>
+        <form action="http://gdcheerios.com/api/match-start" method="post">
+          {{form.match_name.label}}
+          {{form.match_name(size=30)}}
+          {{form.mode.label}}
+          {{form.mode(size=2)}}
+        </form>
       </div>
     </div>
   {% endblock %}

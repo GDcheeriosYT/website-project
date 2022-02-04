@@ -1,5 +1,4 @@
 import json
-from typing import final
 import pathlib
 
 from crap import player_crap
