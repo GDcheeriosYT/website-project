@@ -299,6 +299,7 @@
             let player_list = {}
             let wrapperHeight = 0
             window.onload = function(){
+              delay = fetch("http://gdcheerios.com/api/get-delay/").then(response => response.json()).then(data => data)
               wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
               const players = document.querySelectorAll(".player_info")
               players.forEach((el)=> {
@@ -308,13 +309,19 @@
               updatePlayers()
               setInterval(() =>{
                 updatePlayers()
-              }, 1000)
-            }
+              }, getDelay(delay))
       
             window.onresize = function(){
               updatePlayers()
               wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
               reArrangePlayers()
+            }
+
+            function getDelay(initialDelay){
+              setTimeout(() => {
+                delay = fetch("http://gdcheerios.com/api/get-delay/").then(response => response.json()).then(data => data)
+                return delay
+              }, initialDelay)
             }
             
             function handleResponse(data){
