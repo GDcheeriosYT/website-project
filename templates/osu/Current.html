@@ -53,7 +53,6 @@
         team_value[1] = call to player values-->
         
         <div class="warning"><span class="warning-text">!warning!</span>This website is a work in progress<span class="warning-text">!warning!</span><br><a href="/info">more info</a></div>
-        <h1 style="font-size: 5vw; margin: 3 auto;">{{ match_data["match name"] }}</h1>
         {% if match_data["mode"] == "teams" %}
           <script>
             let player_ids;
@@ -361,7 +360,7 @@
                   const {gameplay, mapInfo, lists} = data.liveStatus
                   //gameplay:accuracy,score,combo
                   //mapInfo:background  => metadata:artist,difficulty,title
-                  player.style.backgroundImage = "linear-gradient(to top, #5A5A5A, #5A5A5A50)," + " url(" + mapInfo.background + ")"
+                  player.style.backgroundColor = "dark-blue"
                   player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
                   player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
                   player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
@@ -394,15 +393,11 @@
                   updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-pp").textContent.replace(/\,/g, '')), parseInt(gameplay.pp)), player.querySelector(".gameplay-pp"), "pp")
                   player.querySelector(".gameplay-mods").innerHTML = mapInfo.mods
                   playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
-                  playerStatus.querySelector(".status").innerHTML = "online"
                   playerStatus.querySelector(".status").classList = "status active"
-                  playerStatus.style.width = "65vw"
                 }
                 else{
                   playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
-                  playerStatus.querySelector(".status").innerHTML = "offline"
                   playerStatus.querySelector(".status").classList = "status"
-                  playerStatus.style.width = "91vw"
                 }
               })
             }
@@ -433,6 +428,7 @@
                 const el = document.querySelector(`.player_info_wrapper[data-id="${player.id}"]`)
                 const posNumberEl = el.querySelector(".player_position")
                 posNumberEl.innerText = i + 1
+                el.style.zIndex = i + i
                 el.style.position = "absolute"
                 el.style.transform = `translateY(${i * wrapperHeight}px)`
                 console.log(el)
@@ -441,7 +437,7 @@
       
             
             function updatePlayers(){
-              fetch("http://gdcheerios.com/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
+              fetch("http://localhost/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
               .then(res => res.json())
               .then((data) => handleResponse(data))
             }
@@ -493,13 +489,12 @@
             }
       
           </script>
-          <div class="gameBox" id="bodymovin">
-            <h1 class="single">Free For All</h1>
+            <h1 class="single">{{match_data["match name"]}}</h1>
             <div class="match">
               {% set count = namespace(value=1) %}
               {% for key, value in players.items() %}
               <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[19] }}">
-                <div class="player_info" data-id="{{ value[19] }}" style="background-image: linear-gradient(to top, #ffffff, #ffffff50), url({{ value[2] }});">
+                <div class="player_info" data-id="{{ value[19] }}">
                   <div style="display: flex;">
                     <h1 class="namebox">
                       <img src="{{ value[1] }}">
@@ -515,7 +510,6 @@
                         {{ value[17] }} score
                       </span>
                       <span class="status">
-                        offline
                       </span>
                     </h1>
                   </div>
@@ -582,7 +576,6 @@
               {% set count.value = count.value + 1 %}
               {% endfor %}
             </div>
-          </div>
         {% endif %}
         <h2></h2>
       </div>
