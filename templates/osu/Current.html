@@ -367,6 +367,7 @@
                   player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
                   updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score), player.querySelector(".gameplay-score"), " score")
                   updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo), player.querySelector(".gameplay-combo"), "x")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".max-gameplay-combo").textContent.replace(/\,/g, '')), gameplay.maxCombo), player.querySelector(".max-gameplay-combo"), "x")
                   updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy)), player.querySelector(".gameplay-accuracy"), "%")
                   playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
                   playerStatus.querySelector(".status").innerHTML = "online"
@@ -519,6 +520,9 @@
                       0 score
                     </h4>
                     <span class="gameplay-combo">
+                      0x|
+                    </span>
+                    <span class="max-gameplay-combo">
                       0x
                     </span>
                   </div>
