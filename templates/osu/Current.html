@@ -336,11 +336,11 @@
                   var scoreThing = document.createElement("h1");
                   if (scoreDiff>0){
                     scoreThing.innerHTML = "+" + numberWithCommas(scoreDiff)
-                    scoreThing.style.color = "green"
+                    scoreThing.style.color = "white"
                   }
                   else{
                     scoreThing.innerHTML = numberWithCommas(scoreDiff)
-                    scoreThing.style.color = "red"
+                    scoreThing.style.color = "white"
                   }
                   scoreThing.classList.add("addedscore")
                   player.querySelector(".namebox").appendChild(scoreThing)
