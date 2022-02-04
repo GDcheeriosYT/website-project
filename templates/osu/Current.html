@@ -366,9 +366,33 @@
                   player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
                   player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
                   updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score), player.querySelector(".gameplay-score"), " score")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo), player.querySelector(".gameplay-combo"), "x")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo), player.querySelector(".gameplay-combo"), "x/")
                   updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".max-gameplay-combo").textContent.replace(/\,/g, '')), gameplay.maxCombo), player.querySelector(".max-gameplay-combo"), "x")
                   updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy)), player.querySelector(".gameplay-accuracy"), "%")
+                  player.querySelector(".gameplay-grade").innerHTML = gameplay.grade
+                  if (gameplay.grade == "F" || gameplay.grade == "D"){
+                    player.querySelector(".gameplay-grade").style.color = "red"
+                  }
+                  else if (gameplay.grade == "C"){
+                    player.querySelector(".gameplay-grade").style.color = "purple"
+                  }
+                  else if (gameplay.grade == "B"){
+                    player.querySelector(".gameplay-grade").style.color = "blue"
+                  }
+                  else if (gameplay.grade == "A"){
+                    player.querySelector(".gameplay-grade").style.color = "green"
+                  }
+                  else if (gameplay.grade == "S"){
+                    player.querySelector(".gameplay-grade").style.color = "yellow"
+                  }
+                  else{
+                    player.querySelector(".gameplay-grade").style.color = "yellow"
+                  }
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-100").textContent.replace(/\,/g, '')), parseInt(gameplay.hundred)), player.querySelector(".gameplay-100"), "")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-50").textContent.replace(/\,/g, '')), parseInt(gameplay.fifty)), player.querySelector(".gameplay-50"), "")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-misses").textContent.replace(/\,/g, '')), parseInt(gameplay.misses)), player.querySelector(".gameplay-misses"), "")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-pp").textContent.replace(/\,/g, '')), parseInt(gameplay.pp)), player.querySelector(".gameplay-pp"), "pp")
+                  player.querySelector(".gameplay-mods").innerHTML = mapInfo.mods
                   playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
                   playerStatus.querySelector(".status").innerHTML = "online"
                   playerStatus.querySelector(".status").classList = "status active"
@@ -512,19 +536,46 @@
                       </span>
                     </div>
                   </div>
-                  <div class="gameplay">
+                  <div class="gameplay-top">
+                    <span class="gameplay-grade">
+                      F
+                    </span>
+                    <p class="icon" style="color: green; text-shadow: 4px 4px 8px #000000;">100</p>
+                    <span class="gameplay-100">
+                      0
+                    </span>
+                    <p class="icon" style="color: gold; text-shadow: 4px 4px 8px #000000;">50</p>
+                    <span class="gameplay-50">
+                      0
+                    </span>
+                    <p class="icon" style="color: red; text-shadow: 4px 4px 8px #000000;">x</p>
+                    <span class="gameplay-misses">
+                      0
+                    </span>
+                    <p></p>
+                    <span class="gameplay-pp">
+                      0pp
+                    </span>
+                  </div>
+                  <div class="gameplay-bottom">
+                    <span class="gameplay-mods">
+                      NM
+                    </span>
+                    <p></p>
                     <span class="gameplay-accuracy">
                       0%
                     </span>
                     <h4 class="gameplay-score">
                       0 score
                     </h4>
-                    <span class="gameplay-combo">
-                      0x|
-                    </span>
-                    <span class="max-gameplay-combo">
-                      0x
-                    </span>
+                    <div style="display:flex;">
+                      <span class="gameplay-combo">
+                        0x|
+                      </span>
+                      <span class="max-gameplay-combo">
+                        0x
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
