@@ -305,6 +305,7 @@
               updatePlayers()
               setInterval(() =>{
                 updatePlayers()
+                getDelay()
               }, delay)
             }
       
@@ -321,6 +322,7 @@
                   .then((data) => {
                       resolve( data.delay );
                       delay = resolve * 1000
+                      console.log(delay)
                   })
                   .catch(reject);
               })    
