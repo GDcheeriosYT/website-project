@@ -2,24 +2,24 @@
     "13450060": {
         "user data": {
             "name": "casedama",
-            "score": 36639781592,
-            "playcount": 57671,
+            "score": 36689652840,
+            "playcount": 57703,
             "avatar url": "https://a.ppy.sh/13450060?1639795214.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/13450060/aac0cedf56a5d02b61410eda0d8ef4e163533a1b7e1aa89d74a4929a252ea512.gif",
             "profile url": "https://osu.ppy.sh/users/13450060"
         },
         "recent map data": {
-            "map title": "not found",
-            "map difficulty": "0",
-            "map url": "https://osu.ppy.sh/beatmapsets",
-            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
-            "mods": "",
-            "artist": "",
-            "accuracy": "",
-            "max combo": "",
-            "map grade": "F",
-            "rank color": "red",
-            "recent score": "0"
+            "map title": "STORY (TV Size)",
+            "map difficulty": 5.81,
+            "map url": "https://osu.ppy.sh/beatmaps/1271007",
+            "map background url": "https://assets.ppy.sh/beatmaps/598357/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "\u5c0f\u91ce\u8ce2\u7ae0",
+            "accuracy": 98.63,
+            "max combo": 302,
+            "map grade": "A",
+            "rank color": "green",
+            "recent score": "3,023,420"
         },
         "user tags": {
             "development tags": [],
@@ -29,26 +29,27 @@
     "11339405": {
         "user data": {
             "name": "GDcheerios",
-            "score": 71352416441,
-            "playcount": 52615,
+            "score": 71548642865,
+            "playcount": 52740,
             "avatar url": "https://a.ppy.sh/11339405?1642918480.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/11339405/201b33610a718d81f4f5875751e9f1d9e9f797b6863c91f7ac99bd2155d45d41.png",
             "profile url": "https://osu.ppy.sh/users/11339405"
         },
         "recent map data": {
-            "map title": "Last Goodbye",
-            "map difficulty": 6.21,
-            "map url": "https://osu.ppy.sh/beatmaps/1570203",
-            "map background url": "https://assets.ppy.sh/beatmaps/744772/covers/cover.jpg",
+            "map title": "Catch the Moment -Radio Edit ver.-",
+            "map difficulty": 4.66,
+            "map url": "https://osu.ppy.sh/beatmaps/1218409",
+            "map background url": "https://assets.ppy.sh/beatmaps/570938/covers/cover.jpg",
             "mods": [
-                "HD"
+                "HD",
+                "DT"
             ],
-            "artist": "toby fox",
-            "accuracy": 98.78,
-            "max combo": 450,
-            "map grade": "A",
-            "rank color": "green",
-            "recent score": "5,049,141"
+            "artist": "LiSA",
+            "accuracy": 85.36,
+            "max combo": 79,
+            "map grade": "C",
+            "rank color": "purple",
+            "recent score": "611,580"
         },
         "user tags": {
             "development tags": [
@@ -391,8 +392,8 @@
     "13789505": {
         "user data": {
             "name": "st4rstrukk",
-            "score": 50309415317,
-            "playcount": 65481,
+            "score": 50355757901,
+            "playcount": 65515,
             "avatar url": "https://a.ppy.sh/13789505?1643143101.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/13789505/426a17370d3bcf1645f8de7b0e007d98bb7399cec6d80b66b599f77e3aaa4179.png",
             "profile url": "https://osu.ppy.sh/users/13789505"
@@ -499,24 +500,24 @@
     "17681245": {
         "user data": {
             "name": "wildernesexplor",
-            "score": 8385285320,
-            "playcount": 16021,
+            "score": 8399003642,
+            "playcount": 16043,
             "avatar url": "https://a.ppy.sh/17681245?1600049873.png",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
             "profile url": "https://osu.ppy.sh/users/17681245"
         },
         "recent map data": {
-            "map title": "not found",
-            "map difficulty": "0",
-            "map url": "https://osu.ppy.sh/beatmapsets",
-            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
-            "mods": "",
-            "artist": "",
-            "accuracy": "",
-            "max combo": "",
-            "map grade": "F",
-            "rank color": "red",
-            "recent score": "0"
+            "map title": "\u590f\u7a7a\u30a8\u30fc\u30eb (TV Size)",
+            "map difficulty": 4.96,
+            "map url": "https://osu.ppy.sh/beatmaps/2150740",
+            "map background url": "https://assets.ppy.sh/beatmaps/1028594/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "\u6843\u539f\u5948\u6708 (CV: \u6751\u5ddd\u68a8\u8863)",
+            "accuracy": 94.1,
+            "max combo": 105,
+            "map grade": "S",
+            "rank color": "yellow",
+            "recent score": "249,294"
         },
         "user tags": {
             "development tags": [],
@@ -634,24 +635,24 @@
     "14670213": {
         "user data": {
             "name": "Smol Glum",
-            "score": 7540251251,
-            "playcount": 15490,
+            "score": 7564371277,
+            "playcount": 15534,
             "avatar url": "https://a.ppy.sh/14670213?1608960024.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/14670213/5db2fc6f3547620093e844fa327ad45452ffc717147d33f08ba6740fffdf6d09.jpeg",
             "profile url": "https://osu.ppy.sh/users/14670213"
         },
         "recent map data": {
-            "map title": "not found",
-            "map difficulty": "0",
-            "map url": "https://osu.ppy.sh/beatmapsets",
-            "map background url": "https://data.whicdn.com/images/100018401/original.gif",
-            "mods": "",
-            "artist": "",
-            "accuracy": "",
-            "max combo": "",
-            "map grade": "F",
-            "rank color": "red",
-            "recent score": "0"
+            "map title": "Today is Gonna be a Great Day (TV Size)",
+            "map difficulty": 5.8,
+            "map url": "https://osu.ppy.sh/beatmaps/2518847",
+            "map background url": "https://assets.ppy.sh/beatmaps/1209835/covers/cover.jpg",
+            "mods": "no mods",
+            "artist": "Bowling For Soup",
+            "accuracy": 91.27,
+            "max combo": 195,
+            "map grade": "B",
+            "rank color": "blue",
+            "recent score": "813,870"
         },
         "user tags": {
             "development tags": [],
@@ -985,8 +986,8 @@
     "14506085": {
         "user data": {
             "name": "Golucky",
-            "score": 10718377617,
-            "playcount": 37408,
+            "score": 10733975722,
+            "playcount": 37437,
             "avatar url": "https://a.ppy.sh/14506085?1628878011.png",
             "background url": "https://assets.ppy.sh/user-profile-covers/14506085/11e6a5722afe3b186a98a639ac744b2c21c86067431999598befb5d4559416a5.png",
             "profile url": "https://osu.ppy.sh/users/14506085"
@@ -1428,8 +1429,8 @@
     "19903063": {
         "user data": {
             "name": "nicksterman",
-            "score": 0,
-            "playcount": 0,
+            "score": 43245,
+            "playcount": 1,
             "avatar url": "https://a.ppy.sh/19903063?1608273716.png",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c8.jpg",
             "profile url": "https://osu.ppy.sh/users/19903063"
