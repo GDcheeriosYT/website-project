@@ -67,8 +67,10 @@
               player_ids =Object.keys(player_list).join("+")
               updatePlayers()
               setInterval(() =>{
-                updatePlayers()
-              }, 1000)
+                setTimeout(() =>{
+                  updatePlayers()
+                }, delay)
+              }, 10)
             }
       
             window.onresize = function(){
@@ -303,30 +305,28 @@
               })
               player_ids =Object.keys(player_list).join("+")
               updatePlayers()
-              setInterval(() =>{
+              setInterval(() => {
                 updatePlayers()
-                getDelay()
               }, delay)
             }
-      
             window.onresize = function(){
               updatePlayers()
               wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
               reArrangePlayers()
             }
 
-            function getDelay(){
+            /*function getDelay(){
               return new Promise((resolve, reject) => {
-                fetch('http://gdcheerios.com/api/get-delay/')
+                fetch('http://gdcheerios.com/api/get-delay')
                   .then(response => response.json())
                   .then((data) => {
                       resolve( data.delay );
-                      delay = resolve * 1000
+                      delay = data * 1000
                       console.log(delay)
                   })
                   .catch(reject);
               })    
-            }
+            } */
             
             function handleResponse(data){
               Object.keys(data).forEach(key => {
@@ -460,7 +460,7 @@
             
             let config = {
               duration: delay+200,
-              fps: delay/1000,
+              fps: 5,
             };
             
             function returnValuesInBetween(startValue, endValue) {
