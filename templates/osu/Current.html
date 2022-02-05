@@ -319,15 +319,15 @@
             }
 
             function getDelay(){
-              return new Promise( (resolve, reject) => {
-                fetch( 'http://gdcheerios.com/api/get-delay/' )
-                  .then( response => response.json() )
-                  .then( (data) => {
+              return new Promise((resolve, reject) => {
+                fetch('http://gdcheerios.com/api/get-delay/')
+                  .then(response => response.json())
+                  .then((data) => {
                       resolve( data.delay );
                       delay = resolve * 1000
-                  } )
-                  .catch( reject );
-              } )    
+                  })
+                  .catch(reject);
+              })    
             }
             
             function handleResponse(data){
