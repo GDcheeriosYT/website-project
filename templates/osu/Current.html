@@ -299,7 +299,6 @@
             let player_list = {}
             let wrapperHeight = 0
             window.onload = function(){
-              delay = fetch("http://gdcheerios.com/api/get-delay/").then(response => response.json()).then(data => data)
               wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
               const players = document.querySelectorAll(".player_info")
               players.forEach((el)=> {
@@ -309,7 +308,7 @@
               updatePlayers()
               setInterval(() =>{
                 updatePlayers()
-              }, getDelay(delay))
+              }, getDelay())
       
             window.onresize = function(){
               updatePlayers()
