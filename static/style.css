@@ -6,7 +6,7 @@ body{
 }
 
 :root{
-  --transition-speed: 400ms;
+  --transition-speed: 100ms;
 } 
 
 .graph-style-box{
@@ -32,11 +32,11 @@ body{
 }
 
 .player_info{
+  box-shadow: 8px 0px 0px 0px rgba(0, 0, 0, 0.425);
   position: relative;
   transition: ease-out var(--transition-speed);
   width: 46vw;
   height: 5vw;
-  border: 0px solid rgb(0, 0, 0);
   border-radius: 1vw;
   background-color: #004e51;
   margin: 0 auto;
@@ -53,9 +53,7 @@ body{
 .player_info:hover{
   transition: var(--transition-speed) ease-in;
   opacity: 1.0;
-  border: 1px solid rgb(255, 255, 255);
-  border-radius: 2vw;
-  box-shadow: 5px 5px 15px -3px rgb(255, 255, 255);
+  box-shadow: 8px 0px 0px 0px #ffffff;
   background-size: cover;
   z-index: 9999;
 }
@@ -78,7 +76,7 @@ body{
   margin: 0px;
   text-align: left;
   font-size: max(3vw);
-  text-shadow: 2px 2px 4px #000000;
+  text-shadow: 6px 6px 0px #000000;
   white-space: nowrap;
 }
 
@@ -114,8 +112,8 @@ body{
 .player_info img {
   float:left;
   position: relative;
-  width: 3.78vw;
-  height: 3.78vw;
+  width: 5vw;
+  height: 5vw;
   transition: all var(--transition-speed) ease-out;
   display: block;
   border: 0.1vw solid #fff;
@@ -223,14 +221,14 @@ a{
   color: rgb(0, 255, 255);
   text-style: bold;
   transition: all var(--transition-speed) ease-out;
-  text-shadow: 1px 1px 20px rgb(201, 233, 255);
+  text-shadow: 4px 4px 0px rgb(0, 0, 0);
   text-decoration: none;
 }
 
 .player_info:hover .namebox{
   color: white;
   transition: all var(--transition-speed) ease-in;
-  text-shadow: 4px 4px 8px #000000;
+  text-shadow: 4px 4px 0px #000000;
 }
 
 .extra_text{
@@ -284,7 +282,7 @@ h1{
 }
 
 .score{
-  text-shadow: 4px 4px 8px #000000;
+  text-shadow: 2px 5px 0px #000000;
   margin-left: auto;
   text-align: right;
   font-size: 68%;
@@ -294,12 +292,16 @@ h1{
 .player_info:hover .score{
   margin-left: auto;
   text-align: right;
-  text-shadow: 4px 4px 8px #000000;
+  text-shadow: 4px 6px 0px #000000;
 }
 
 .flexify {
   display: flex;
   flex: row;
+}
+
+.player_info:hover a{
+  text-shadow: 5px 6px 0px rgb(0, 0, 0);
 }
 
 .playcount {
@@ -499,7 +501,6 @@ ul{
 a:hover{
   transition: ease 500ms;
   color: #d3f9ff;
-  text-shadow: 1px 1px 15px rgb(255, 255, 255);
 }
 
 .dropdown-content{
@@ -593,7 +594,7 @@ label{
   transition: transform 0.3s linear;
   padding: 1vw;
   padding-left: 5vw;
-  font-size: 1vw;
+  font-size: 0.7vw;
   z-index: 0;
 }
 
@@ -601,10 +602,25 @@ label{
   object-fit: cover;
   background-repeat: no-repeat;
   transition: ease 1s;
-  transform: translateX(-2vw) !important;
+  transform: translateX(-4.2vw) !important;
+  box-shadow: 8px 0px 0px 0px rgba(0, 0, 0, 0.425);
+}
+
+.player_info:hover .live-status.active{
+  box-shadow: 8px 0px 0px 0px rgb(255, 255, 255);
 }
 
 .live-status .map-info{
+  transition: ease;
+  opacity: 0;
+  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.live-status.active .map-info{
+  transition: ease;
+  opacity: 1;
   display: flex;
   white-space: nowrap;
   overflow: hidden;
@@ -619,7 +635,7 @@ label{
 }
 
 .live-status .gameplay-score{
-  font-size: 1.5vw;
+  font-size: 0.9vw;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
@@ -627,6 +643,26 @@ label{
 }
 
 .live-status .gameplay-bottom{
+  transition: ease;
+  opacity: 0;
+  display: flex;
+}
+
+.live-status.active .gameplay-bottom{
+  transition: ease;
+  opacity: 1;
+  display: flex;
+}
+
+.live-status .gameplay-top{
+  transition: ease;
+  opacity: 0;
+  display: flex;
+}
+
+.live-status.active .gameplay-top{
+  transition: ease;
+  opacity: 1;
   display: flex;
 }
 
@@ -646,9 +682,6 @@ label{
   margin: 0;
 }
 
-.live-status .gameplay-top{
-  display: flex;
-}
 
 .live-status .gameplay-grade{
   text-shadow: 4px 4px 8px #000000;
