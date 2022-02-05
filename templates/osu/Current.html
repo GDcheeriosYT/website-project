@@ -165,9 +165,13 @@
       
               list.forEach((player, i) => {
                 const el = document.querySelector(`.player_info_wrapper[data-id="${player.id}"]`)
+                const player = document.querySelector(`.player_info[data-id="${player.id}"]`)
                 const posNumberEl = el.querySelector(".player_position")
                 posNumberEl.innerText = i + 1
                 el.style.position = "absolute"
+                if (posNumberEl == 1){
+                  player.style.backgroundColor = "#0ccdeb"
+                }
                 el.style.transform = `translateY(${i * wrapperHeight}px)`
               })
             }
@@ -440,6 +444,10 @@
                 el.style.zIndex = i + i
                 el.style.position = "absolute"
                 el.style.transform = `translateY(${i * wrapperHeight}px)`
+                const playerEl = document.querySelector(`.player_info[data-id="${player.id}"]`)
+                if (posNumberEl == 1){
+                  playerEl.style.backgroundColor = "white"
+                }
               })
             }
       
