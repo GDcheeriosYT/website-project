@@ -317,12 +317,16 @@
               reArrangePlayers()
             }
 
-            function getDelay(initialDelay){
-              setTimeout(() => {
-                delay = fetch("http://gdcheerios.com/api/get-delay/").then(response => response.json()).then(data => data)
-                return delay
-              }, initialDelay)
-            }
+            function getDelay(){
+              return new Promise( (resolve, reject) => {
+                fetch( 'http://gdcheerios.com/api/get-delay/' )
+                  .then( response => response.json() )
+                  .then( (data) => {
+                      resolve( data.delay );
+                  } )
+                  .catch( reject );
+            } )    
+          }
             
             function handleResponse(data){
               Object.keys(data).forEach(key => {
