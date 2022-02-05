@@ -158,8 +158,6 @@
                 }
                 return comparison;
               })
-      
-              console.log(list)
               
               document.querySelector(".match-teams").style.minHeight = list.length * wrapperHeight + "px"
       
@@ -169,7 +167,6 @@
                 posNumberEl.innerText = i + 1
                 el.style.position = "absolute"
                 el.style.transform = `translateY(${i * wrapperHeight}px)`
-                console.log(el)
               })
             }
       
@@ -198,7 +195,6 @@
               let totalCaptureAmount = Math.floor(config.duration / config.fps);
             
               let incrementer = (endValue - startValue) / totalCaptureAmount;
-              //console.log(incrementer);
             
               for (let i = 0; i < totalCaptureAmount; i++) {
                 resultArray.push(Math.floor(startValue + incrementer * i));
@@ -432,8 +428,6 @@
                 }
                 return comparison;
               })
-      
-              console.log(list)
               
               document.querySelector(".match").style.minHeight = list.length * wrapperHeight + "px"
       
@@ -444,7 +438,6 @@
                 el.style.zIndex = i + i
                 el.style.position = "absolute"
                 el.style.transform = `translateY(${i * wrapperHeight}px)`
-                console.log(el)
               })
             }
       
@@ -473,7 +466,6 @@
               let totalCaptureAmount = Math.floor(config.duration / config.fps);
             
               let incrementer = (endValue - startValue) / totalCaptureAmount;
-              //console.log(incrementer);
             
               for (let i = 0; i < totalCaptureAmount; i++) {
                 resultArray.push(Math.floor(startValue + incrementer * i));
