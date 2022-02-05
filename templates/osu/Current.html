@@ -299,6 +299,7 @@
             let player_list = {}
             let wrapperHeight = 0
             window.onload = function(){
+              delay = 1000
               wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
               const players = document.querySelectorAll(".player_info")
               players.forEach((el)=> {
@@ -308,7 +309,7 @@
               updatePlayers()
               setInterval(() =>{
                 updatePlayers()
-              }, getDelay())
+              }, delay)
       
             window.onresize = function(){
               updatePlayers()
@@ -322,6 +323,7 @@
                   .then( response => response.json() )
                   .then( (data) => {
                       resolve( data.delay );
+                      delay = resolve * 1000
                   } )
                   .catch( reject );
             } )    
@@ -461,8 +463,8 @@
             
             
             let config = {
-              duration: 1200,
-              fps: 5,
+              duration: delay+200,
+              fps: delay/1000,
             };
             
             function returnValuesInBetween(startValue, endValue) {
