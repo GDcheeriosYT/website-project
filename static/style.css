@@ -112,8 +112,8 @@ body{
 .player_info img {
   float:left;
   position: relative;
-  width: 5vw;
-  height: 5vw;
+  width: 4.7vw;
+  height: 4.7vw;
   transition: all var(--transition-speed) ease-out;
   display: block;
   border: 0.1vw solid #fff;
