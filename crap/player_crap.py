@@ -4,12 +4,13 @@ import time
 import requests
 from crap import authentication_crap, function_crap
 
-#open player_data and read all the data
-with open("player_data.json") as player_data:
-  player_data = json.load(player_data)
 
 #user crap class
 class UserConstructor:
+  #open player_data and read all the data
+  with open("player_data.json") as player_data:
+    player_data = json.load(player_data)
+    
   def __init__(self, id):
     '''
     constructs a player data object
@@ -167,6 +168,10 @@ class UserConstructor:
 
 
 def user_data_grabber(id=0, name=None, pull_user_data=False, pull_recent_map_data=False, pull_user_tags=False, specific_data=[]):
+  #open player_data and read all the data
+  with open("player_data.json") as player_data:
+    player_data = json.load(player_data)
+    
   '''
   grab user data
   
@@ -256,6 +261,9 @@ def user_data_grabber(id=0, name=None, pull_user_data=False, pull_recent_map_dat
 
 
 async def player_refresh(id):
+  #open player_data and read all the data
+  with open("player_data.json") as player_data:
+    player_data = json.load(player_data)
   '''
   refreshes a player's data
   
@@ -314,6 +322,9 @@ async def player_refresh(id):
 
 
 async def refresh_all_players():
+  #open player_data and read all the data
+  with open("player_data.json") as player_data:
+    player_data = json.load(player_data)
   '''
   refreshes all players data
   '''
@@ -371,6 +382,9 @@ async def refresh_all_players():
 
 #read player data
 def player_list():
+  #open player_data and read all the data
+  with open("player_data.json") as player_data:
+    player_data = json.load(player_data)
   '''
   returns a list of all the player names
   '''
@@ -410,6 +424,9 @@ def player_list_length():
 
 
 def player_match_constructor(id, match_data):
+  #open player_data and read all the data
+  with open("player_data.json") as player_data:
+    player_data = json.load(player_data)
   '''
   will return a list of the players stats
   
