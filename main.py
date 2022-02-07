@@ -59,7 +59,22 @@ async def grabber(ids, match_name):
             new_dict[id] = {"score" : score,"liveStatus" : live_player_status[id], "team" : f"{team}"}
           else:
             new_dict[id] = {"score" : score,"liveStatus" : None, "team" : f"{team}"}
+
+  return new_dict
+
+#all players api updater
+@app.route("/api/grab/<ids>/all")
+async def all_grabber(ids):
+  id_list = ids.split("+")
     
+  new_dict = {}
+  
+  for id in id_list:
+    score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0]
+    if id in live_player_status:
+      new_dict[id] = {"score" : score,"liveStatus" : live_player_status[id]}
+    else:
+      new_dict[id] = {"score" : score,"liveStatus" : None}
 
   return new_dict
 
@@ -197,8 +212,9 @@ async def players():
     playcount = player_data[id]["user data"]["playcount"]
     playcount = ("{:,}".format(playcount))
     score_formatted = ("{:,}".format(score))
+    id = id
       
-    players_dict[name] = [score, avatar, background, profile_link, tags, playcount, score_formatted]
+    players_dict[name] = [score, avatar, background, profile_link, tags, playcount, score_formatted, id]
 
     players_sorted = dict(sorted(players_dict.items(), key=lambda x: x[1], reverse=True))
 
