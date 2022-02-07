@@ -157,8 +157,8 @@ async def main_process():
         match_edit["initial score"].append(player_match_info[0])
         match_edit["initial playcount"].append(player_match_info[1])
         
-        for date in match_edit["match score history"]:
-          match_edit["match score history"][date][player_crap.user_data_grabber(player, specific_data=["name"])[0]] = 0
+        '''for date in match_edit["match score history"]:
+          match_edit["match score history"][date][player_crap.user_data_grabber(player, specific_data=["name"])[0]] = 0'''
 
         with open(f"matches/{matches[match_end]}", "w") as file:
           json.dump(match_edit, file, indent = 4, sort_keys = False)
@@ -181,8 +181,8 @@ async def main_process():
         match_edit["initial score"].pop(task3)
         match_edit["initial playcount"].pop(task3)
         
-        for date in match_edit["match score history"]:
-          match_edit["match score history"][date].pop(player_crap.user_data_grabber(match_edit["users"][task3], specific_data=["name"])[0])
+        '''for date in match_edit["match score history"]:
+          match_edit["match score history"][date].pop(player_crap.user_data_grabber(match_edit["users"][task3], specific_data=["name"])[0])'''
 
         match_edit["users"].pop(task3)
         
