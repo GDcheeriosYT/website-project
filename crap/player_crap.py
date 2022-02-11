@@ -156,12 +156,12 @@ class UserConstructor:
     
     try:
       self.development_tags = player_data[self.id]["user tags"]["development tags"]
-    except KeyError:
+    except:
       self.development_tags = []
     
     try:
       self.award_tags = player_data[self.id]["user tags"]["award tags"]
-    except KeyError:
+    except:
       self.award_tags = []
 
 
