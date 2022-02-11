@@ -246,6 +246,7 @@ async def match(match_name, graph_view):
       player = player_crap.player_match_constructor(id, match_data)
 
       players[player[0]] = player[1]
+      print(player[1][6])
       #players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
       player_score_data[player[0]] = player[1][0]
     

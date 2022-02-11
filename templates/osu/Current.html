@@ -28,22 +28,11 @@
         value[1] = avatar link
         value[2] = background link
         value[3] = user profile link
-        value[4] = recent score gained since last submitted play
-        value[5] = level 
-        value[6] = progress to next level
-        value[7] = user recent map background
-        value[8] = user recent map name 
-        value[9] = user recent map difficulty
-        value[10] = map url
-        value[11] = mods used
-        value[12] = song artist
-        value[13] = accuracy
-        value[14] = max combo
-        value[15] = grade of the map just played
-        value[16] = grade color
-        value[17] = formatted score
-        value[18] = play count
-        value[19] = user id
+        value[4] = level 
+        value[5] = progress to next level
+        value[6] = formatted score
+        value[6] = play count
+        value[8] = user id
         
         --team key values--
         
@@ -237,21 +226,21 @@
               <div class="teambox" data-team_name="{{team_key}}"><h1 class="namebox"><span>#{{ count_team.value }} {{ team_key }}</span> <span class="score">{{team_value[0]}}</span></h1>
                 {% set count_player = namespace(value=1) %}
                 {% for key, value in team_value[1].items() %}
-                  <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[19] }}">
-                    <div class="player_info" data-id="{{ value[19] }}" style="background-image: linear-gradient(to top, #ffffff, #ffffff50), url({{ value[2] }});">
+                  <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[8] }}">
+                    <div class="player_info" data-id="{{ value[8] }}" style="background-image: linear-gradient(to top, #ffffff, #ffffff50), url({{ value[2] }});">
                       <div style="display: flex;">
                         <h1 class="namebox">
                           <img src="{{ value[1] }}">
                           #<span class="player_position">{{count_player.value}}</span>
                           <a href="{{ value[3] }}">
-                            {% if value[19]|string in match_data["nicknames"] %}
-                              {{match_data["nicknames"][value[19]|string]}}
+                            {% if value[8]|string in match_data["nicknames"] %}
+                              {{match_data["nicknames"][value[8]|string]}}
                             {% else %}
                               {{ key }}
                             {% endif %}
                           </a>
                           <span class="score">
-                            {{ value[17] }} score
+                            {{ value[6] }} score
                           </span>
                           <span class="status">
                             offline
@@ -259,7 +248,7 @@
                         </h1>
                       </div>
                     </div>
-                    <div class="live-status" style="transform: translateX(-100%); background" data-id="{{value[19]}}">
+                    <div class="live-status" style="transform: translateX(-100%); background" data-id="{{value[8]}}">
                       <div class="map-info">
                         <div class="left">
                           <span class="map-artist">
@@ -508,28 +497,28 @@
             <div class="match">
               {% set count = namespace(value=1) %}
               {% for key, value in players.items() %}
-              <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[19] }}">
-                <div class="player_info" data-id="{{ value[19] }}">
+              <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[8] }}">
+                <div class="player_info" data-id="{{ value[8] }}">
                   <div style="display: flex;">
                     <h1 class="namebox">
                       <img src="{{ value[1] }}">
                       #<span class="player_position">{{count.value}}</span>
                       <a href="{{ value[3] }}">
-                        {% if value[19]|string in match_data["nicknames"] %}
-                          {{match_data["nicknames"][value[19]|string]}}
+                        {% if value[8]|string in match_data["nicknames"] %}
+                          {{match_data["nicknames"][value[8]|string]}}
                         {% else %}
                           {{ key }}
                         {% endif %}
                       </a>
                       <span class="score">
-                        {{ value[17] }} score
+                        {{ value[6] }} score
                       </span>
                       <span class="status">
                       </span>
                     </h1>
                   </div>
                 </div>
-                <div class="live-status" data-id="{{value[19]}}">
+                <div class="live-status" data-id="{{value[8]}}">
                   <div class="map-info">
                     <div class="left">
                       <span class="map-artist">

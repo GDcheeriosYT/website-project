@@ -38,117 +38,15 @@ class UserConstructor:
       self.score = 0
       self.avatar = "https://data.whicdn.com/images/100018401/original.gif"
       self.background = "https://data.whicdn.com/images/100018401/original.gif"
-      self.link = "https://data.whicdn.com/images/100018401/original.gif"
-      self.recent_score = 0
-      self.map_cover = "https://data.whicdn.com/images/100018401/original.gif"
-      self.map_url = "https://data.whicdn.com/images/100018401/original.gif"
-      self.map_difficulty = 0
-      self.mods = "unknown"
-      self.map_title = "unknown"
-      self.artist = "unknown"
-      self.accuracy = 0
-      self.max_combo = 0
-      self.rank = "F"
-      self.rank_color = "red"
       return None
     
     #user main info
     self.name = self.request_profile['username']
     self.play_count = self.request_profile['statistics']['play_count']
-    self.request_scores = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/scores/recent", params = {"include_fails": "0", "mode": "osu", "limit": "1", "offset": "0"}, headers = {"Authorization": f'Bearer {authentication_crap.access_token}'}) 
-    time.sleep(1)
     self.score = self.request_profile["statistics"]["total_score"]
     self.avatar = self.request_profile['avatar_url']    
     self.background = self.request_profile['cover_url']
     self.link = (f"https://osu.ppy.sh/users/{self.id}")
-    
-    #recent map info
-    #all except are for if recent map is not found
-    #recent score from map played
-    try:
-      self.recent_score = (json.loads(self.request_scores.text)[0]["score"])
-    except IndexError:
-      self.recent_score = 0
-
-    #recent map background
-    try:
-      self.map_cover = (json.loads(self.request_scores.text)[0]["beatmap"]["beatmapset_id"])
-      self.map_cover = f"https://assets.ppy.sh/beatmaps/{self.map_cover}/covers/cover.jpg"
-    except IndexError:
-      self.map_cover = "https://data.whicdn.com/images/100018401/original.gif"
-
-    #recent map url
-    try:
-      self.map_url = (json.loads(self.request_scores.text)[0]["beatmap"]["url"])
-    except IndexError:
-      self.map_url = "https://osu.ppy.sh/beatmapsets"
-
-    #recent map difficulty
-    try:
-      self.map_difficulty = (json.loads(self.request_scores.text)[0]["beatmap"]["difficulty_rating"])
-    except IndexError:
-      self.map_difficulty = "0"
-
-    #recent map title
-    try:
-      self.map_title = (json.loads(self.request_scores.text)[0]["beatmapset"]["title_unicode"])
-    except IndexError:
-      self.map_title = "not found"
-
-    #recent map mods used
-    try:
-      self.mods = (json.loads(self.request_scores.text)[0]["mods"])
-      if len(self.mods) == 0:
-        self.mods = "no mods"
-      else:
-        self.mods = self.mods
-    except IndexError:
-      self.mods = ""
-      
-    #recent map artist
-    try:
-      self.artist = (json.loads(self.request_scores.text)[0]["beatmapset"]["artist_unicode"])
-    except IndexError:
-      self.artist = ""
-
-    #recent map accuracy
-    try:
-      self.accuracy = (json.loads(self.request_scores.text)[0]["accuracy"])
-      self.accuracy = round(self.accuracy * 100, 2)
-    except IndexError:
-      self.accuracy = ""
-
-    #recent map highest combo achieved
-    try:
-      self.max_combo = (json.loads(self.request_scores.text)[0]["max_combo"])
-    except IndexError:
-      self.max_combo = ""
-      
-    #recent map grade
-    try:
-      self.rank = (json.loads(self.request_scores.text)[0]["rank"])
-      if self.rank == "XH":
-        self.rank = "SS+"
-        self.rank_color = "grey"
-      elif self.rank == "SH":
-        self.rank = "S+"
-        self.rank_color = "grey"
-      elif self.rank == "S":
-        self.rank_color = "yellow"
-      elif self.rank == "X":
-        self.rank = "SS"
-        self.rank_color = "yellow"
-      elif self.rank == "A":
-        self.rank_color = "green"
-      elif self.rank == "B":
-        self.rank_color = "blue"
-      elif self.rank == "C":
-        self.rank_color = "purple"
-      elif self.rank == "D":
-        self.rank_color = "red"
-    except IndexError:
-      self.rank = "F"
-      self.rank_color = "red"
       
     #user tags
     with open("player_data.json")as f:
@@ -235,17 +133,6 @@ def user_data_grabber(id=0, name=None, pull_user_data=False, pull_recent_map_dat
         else:
           return(f"No player with such name {name} was found...")
   
-  if pull_recent_map_data == True:
-    if id != 0:
-      return(player_data[id]["recent map data"])
-    
-    if name != None:
-      for userid in player_data:
-        if name == player_data[userid]["recent map data"]["name"]:
-          return(player_data[userid]["recent map data"])
-        else:
-          return(f"No player with such name {name} was found...")
-  
   if pull_user_tags == True:
     if id != 0:
       return(player_data[id]["user tags"])
@@ -281,15 +168,6 @@ async def player_refresh(id):
   avatar = player.avatar
   background = player.background
   link = player.link
-  map_background = player.map_cover
-  map_title = player.map_title
-  map_difficulty = player.map_difficulty
-  map_url = player.map_url
-  mods = player.mods
-  artist = player.artist
-  accuracy = player.accuracy
-  max_combo = player.max_combo
-  rank = player.rank
   development_tags = player.development_tags
   award_tags = player.award_tags
 
@@ -298,19 +176,12 @@ async def player_refresh(id):
     rank_color = player.rank_color
   except AttributeError:
     rank_color = "red"
-
-  if score == 0:
-    recent_score = "0"
-  else:
-    recent_score = player.recent_score
-    recent_score = ("{:,}".format(recent_score))
   
   
   #create player_data dict
   user_data = {"name" : name, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
-  recent_map_data = {"map title" : map_title, "map difficulty" : map_difficulty, "map url" : map_url, "map background url" : map_background, "mods" : mods, "artist" : artist, "accuracy" : accuracy, "max combo" : max_combo, "map grade" : rank, "rank color" : rank_color, "recent score" : recent_score}
   user_tags = {"development tags" : development_tags, "award tags" : award_tags}
-  player_data[id] = {"user data" : user_data, "recent map data" : recent_map_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+  player_data[id] = {"user data" : user_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
   print(json.dumps(player_data[id], indent=4, sort_keys=False))
   
@@ -341,15 +212,6 @@ async def refresh_all_players():
     avatar = player.avatar
     background = player.background
     link = player.link
-    map_background = player.map_cover
-    map_title = player.map_title
-    map_difficulty = player.map_difficulty
-    map_url = player.map_url
-    mods = player.mods
-    artist = player.artist
-    accuracy = player.accuracy
-    max_combo = player.max_combo
-    rank = player.rank
     development_tags = player.development_tags
     award_tags = player.award_tags
 
@@ -367,9 +229,8 @@ async def refresh_all_players():
     
     #create player_data dict
     user_data = {"name" : name, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
-    recent_map_data = {"map title" : map_title, "map difficulty" : map_difficulty, "map url" : map_url, "map background url" : map_background, "mods" : mods, "artist" : artist, "accuracy" : accuracy, "max combo" : max_combo, "map grade" : rank, "rank color" : rank_color, "recent score" : recent_score}
     user_tags = {"development tags" : development_tags, "award tags" : award_tags}
-    player_data[userid] = {"user data" : user_data, "recent map data" : recent_map_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
+    player_data[userid] = {"user data" : user_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
     print(json.dumps(player_data[userid], indent=4, sort_keys=False))
 
@@ -448,27 +309,7 @@ def player_match_constructor(id, match_data):
     avatar = player_data[id]["user data"]["avatar url"]
     background = player_data[id]["user data"]["background url"]
     link = player_data[id]["user data"]["profile url"]
-    map_background = player_data[id]["recent map data"]["map background url"]
-    map_title = player_data[id]["recent map data"]["map title"]
-    map_difficulty = player_data[id]["recent map data"]["map difficulty"]
-    map_url = player_data[id]["recent map data"]["map url"]
-    mods = player_data[id]["recent map data"]["mods"]
-    artist = player_data[id]["recent map data"]["artist"]
-    accuracy = player_data[id]["recent map data"]["accuracy"]
-    max_combo = player_data[id]["recent map data"]["max combo"]
-    rank = player_data[id]["recent map data"]["map grade"]
     player_id = id
-    
-    try:
-      rank_color = player_data[id]["recent map data"]["rank color"]
-    except AttributeError:
-      rank_color = "red"
-
-    if score == 0:
-      recent_score = "0"
-
-    else:
-      recent_score = player_data[id]["recent map data"]["recent score"]
 
   except:
     name = "Unknown User"
@@ -478,17 +319,6 @@ def player_match_constructor(id, match_data):
     avatar = "https://data.whicdn.com/images/100018401/original.gif"
     background = "https://data.whicdn.com/images/100018401/original.gif"
     link = "https://data.whicdn.com/images/100018401/original.gif"
-    map_background = "https://data.whicdn.com/images/100018401/original.gif"
-    map_title = "Unkown"
-    map_difficulty = 0
-    map_url = "https://data.whicdn.com/images/100018401/original.gif"
-    mods = []
-    artist = "Unknown"
-    accuracy = 0
-    max_combo = 0
-    rank = "F"
-    rank_color = "red"
-    recent_score = 0
     player_id = 0
 
-  return(name, [score, avatar, background, link, recent_score, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount, player_id])
+  return(name, [score, avatar, background, link, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), score_formatted, playcount, player_id])
