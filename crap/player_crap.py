@@ -38,6 +38,7 @@ class UserConstructor:
       self.score = 0
       self.avatar = "https://data.whicdn.com/images/100018401/original.gif"
       self.background = "https://data.whicdn.com/images/100018401/original.gif"
+      self.link = "http://gdcheerios.com/osu/players"
       return None
     
     #user main info
