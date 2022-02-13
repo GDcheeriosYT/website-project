@@ -6,7 +6,7 @@ body{
 }
 
 :root{
-  --transition-speed: 100ms;
+  --transition-speed: 250ms;
 } 
 
 .graph-style-box{
@@ -47,7 +47,7 @@ body{
 }
 
 .player_info_wrapper{
-  transition: transform 1600ms;
+  transition: ease-in-out 2500ms;
 }
 
 .player_info:hover{
