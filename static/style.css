@@ -9,6 +9,10 @@ img{
   border-radius: 2.2vw;
 }
 
+td{
+  padding: 0.5vw;
+}
+
 :root{
   --transition-speed: 250ms;
 } 
