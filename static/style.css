@@ -5,6 +5,10 @@ body{
   font-family: arial;
 }
 
+img{
+  border-radius: 2.2vw;
+}
+
 :root{
   --transition-speed: 250ms;
 } 
