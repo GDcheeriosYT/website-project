@@ -171,13 +171,6 @@ async def player_refresh(id):
   link = player.link
   development_tags = player.development_tags
   award_tags = player.award_tags
-
-  #make sure recent map has a grade color
-  try:
-    rank_color = player.rank_color
-  except AttributeError:
-    rank_color = "red"
-  
   
   #create player_data dict
   user_data = {"name" : name, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
@@ -215,18 +208,6 @@ async def refresh_all_players():
     link = player.link
     development_tags = player.development_tags
     award_tags = player.award_tags
-
-    #make sure recent map has a grade color
-    try:
-      rank_color = player.rank_color
-    except AttributeError:
-      rank_color = "red"
-
-    if score == 0:
-      recent_score = "0"
-    else:
-      recent_score = player.recent_score
-      recent_score = ("{:,}".format(recent_score))
     
     #create player_data dict
     user_data = {"name" : name, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
