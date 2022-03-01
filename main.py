@@ -510,6 +510,22 @@ async def client_webpage():
 async def minecraft():
   return render_template("minecraft/index.html")
 
+@app.route("/overlays/")
+async def overlays():
+  overlays = []
+  for file in os.listdir("/templates/stream-overlays/"):
+    overlays.append(file)
+  
+  return render_template(
+    "stream-overlays/overlay-index.html",
+    overlays = overlays
+  )
+
+@app.route("/overlays/<overlay>")
+async def overlay(overlay):
+  return render_template(f"stream-overlays/{overlay}/index.html")
+  
+
 if __name__ == "__main__":  # Makes sure this is the main process
   app.run(
     host='0.0.0.0',  # Establishes the host, required for repl to detect the site
