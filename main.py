@@ -513,7 +513,7 @@ async def minecraft():
 @app.route("/overlays/")
 async def overlays():
   overlays = []
-  for file in os.listdir("/templates/stream-overlays/"):
+  for file in os.listdir("templates/stream-overlays/"):
     overlays.append(file)
   
   return render_template(
