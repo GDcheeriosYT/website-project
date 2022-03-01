@@ -4,6 +4,9 @@
   </head>
   <body>
     {% for overlay in overlays %}
-      <a href="/{{overlay}}">{{overlay}}</a>
+      {% if overlay != "overlay-index.html" %}
+        <a href="/{{overlay}}">{{overlay}}</a><br>
+      {% endif %}
+    {% endfor %}
   </body>
 </html
