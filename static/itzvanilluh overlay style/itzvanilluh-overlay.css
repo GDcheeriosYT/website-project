@@ -1,0 +1,28 @@
+body{
+  background-color: black;
+}
+
+.screen-area{
+  position: absolute;
+  left: 1.5vw;
+  top: 1.5vw;
+  background-color: green;
+  border: var(--border-size) solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(0deg, rgba(200,95,210,1) 0%, rgba(255,186,230,1) 100%);
+  border-radius: var(--border-size);
+  border-width: var(--border-size);
+  width: 60vw;
+  height: 34vw;
+  box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.726);
+}
+
+@font-face {
+  font-family: "SyneMono";
+  src: url("static/itzvanilluh overlay style/fonts/SyneMono-Regular.ttf");
+}
+
+h1{
+  color: red;
+  font-family: "SyneMono";
+}
