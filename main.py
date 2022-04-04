@@ -32,6 +32,18 @@ app = Flask(  # Create a flask app
 app.config['SECRET_KEY'] = "hugandafortnite"
 
 #player score grab api crap
+@app.route("/update")
+async def update_player_queue():
+  balls = {}
+
+  for data in player_crap.queue:
+    balls[player_crap.queue.index(data)]= data
+
+  player_crap.write_player_data()
+  player_crap.reset_queue()
+  return balls
+
+
 @app.route("/api/grab/<ids>/<match_name>")
 async def grabber(ids, match_name):
   id_list = ids.split("+")
