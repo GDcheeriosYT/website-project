@@ -148,15 +148,7 @@ def user_data_grabber(id=0, name=None, pull_user_data=False, pull_recent_map_dat
 
 
 
-queue = []
-def reset_queue():
-  global queue
-  queue = []
-
-
-
 async def player_refresh(id):
-  global queue
   #open player_data and read all the data
   with open("player_data.json") as player_data:
     player_data = json.load(player_data)
@@ -169,7 +161,7 @@ async def player_refresh(id):
   authentication_crap.check_access()
   
   print(f"loading user {id}'s data")
-  #time.sleep(2) #add delay to not request too quick
+  time.sleep(2) #add delay to not request too quick
   player = UserConstructor(id)
   name = player.name
   playcount = player.play_count
@@ -186,20 +178,7 @@ async def player_refresh(id):
   player_data[id] = {"user data" : user_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
   print(json.dumps(player_data[id], indent=4, sort_keys=False))
-  queue.append([id, player_data[id]])
   
-
-
-
-
-def write_player_data():
-  global queue
-  print(queue)
-  with open("player_data.json") as player_data:
-    player_data = json.load(player_data)
-  for data in queue:
-    player_data[data[0]] = data[1]
-    
   #overwrite player_data.json with player_data dict
   with open("player_data.json", "w") as file:
     json.dump(player_data, file, indent = 4, sort_keys = False)
