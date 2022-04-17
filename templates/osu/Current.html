@@ -167,7 +167,7 @@
       
             
             function updatePlayers(){
-              fetch("http://gdcheerios.com/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
+              fetch("/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
               .then(res => res.json())
               .then((data) => handleResponse(data))
             }
@@ -310,7 +310,7 @@
 
             /*function getDelay(){
               return new Promise((resolve, reject) => {
-                fetch('http://gdcheerios.com/api/get-delay')
+                fetch('/api/get-delay')
                   .then(response => response.json())
                   .then((data) => {
                       resolve( data.delay );
@@ -442,7 +442,7 @@
       
             
             function updatePlayers(){
-              fetch("http://gdcheerios.com/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
+              fetch("/api/grab/" + player_ids + "/" + '{{ match_data["match name"] }}')
               .then(res => res.json())
               .then((data) => handleResponse(data))
             }
