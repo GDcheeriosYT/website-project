@@ -19,7 +19,7 @@ from tabulate import tabulate
 import Client_Credentials as client
 
 #my packages
-from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap
+from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap, minecraft_data_crap
 
 live_player_status = {}
 
@@ -509,6 +509,19 @@ async def client_webpage():
 @app.route("/minecraft")
 async def minecraft():
   return render_template("minecraft/index.html")
+
+@app.route("/minecraft/stats")
+async def stats():
+  player_data = minecraft_data_crap.player_data()
+  return render_template("minecraft/server-player-stats.html",
+                         player_data = player_data)
+
+@app.route("/api/mc")
+async def mc():
+  player_data = minecraft_data_crap.player_data()
+  poop = {}
+  poop["poop"] = player_data
+  return(poop)
 
 @app.route("/overlays/")
 async def overlays():
