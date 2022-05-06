@@ -179,7 +179,7 @@
 
     
     function updatePlayers(){
-      fetch("http://gdcheerios.com/api/grab/" + player_ids + "/" + 'all')
+      fetch("/api/grab/" + player_ids + "/" + 'all')
       .then(res => res.json())
       .then((data) => handleResponse(data))
     }
