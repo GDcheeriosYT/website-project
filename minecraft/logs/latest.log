@@ -1,6 +1,5 @@
-[09:47:24] [Server thread/INFO]: Starting minecraft server version 1.12.2
-[09:47:24] [Server thread/INFO]: Loading properties
-[09:47:24] [Server console handler/ERROR]: Exception handling console input
+[19:46:03] [Server thread/INFO]: Loading properties
+[19:46:03] [Server console handler/ERROR]: Exception handling console input
 java.io.IOException: The handle is invalid
 	at java.io.FileInputStream.readBytes(Native Method) ~[?:?]
 	at java.io.FileInputStream.read(FileInputStream.java:271) ~[?:?]
@@ -14,124 +13,18 @@ java.io.IOException: The handle is invalid
 	at java.io.BufferedReader.readLine(BufferedReader.java:329) ~[?:?]
 	at java.io.BufferedReader.readLine(BufferedReader.java:396) ~[?:?]
 	at nz$2.run(SourceFile:100) [server-1.12.2.jar:?]
-[09:47:24] [Server thread/INFO]: Default game type: SURVIVAL
-[09:47:24] [Server thread/INFO]: Generating keypair
-[09:47:25] [Server thread/INFO]: Starting Minecraft server on *:25565
-[09:47:25] [Server thread/INFO]: Using default channel type
-[09:47:25] [Server thread/INFO]: Preparing level "world"
-[09:47:25] [Server thread/INFO]: Loaded 488 advancements
-[09:47:25] [Server thread/INFO]: Preparing start region for level 0
-[09:47:26] [Server thread/INFO]: Done (1.307s)! For help, type "help" or "?"
-[09:47:43] [User Authenticator #1/INFO]: UUID of player GDcheerios is 1855c3b4-cfe7-4d42-8d73-55e74a89b009
-[09:47:43] [Server thread/INFO]: GDcheerios[/127.0.0.1:53710] logged in with entity id 35 at (1.4600159183283483, 63.0, 325.7965144369077)
-[09:47:43] [Server thread/INFO]: GDcheerios joined the game
-[09:47:57] [Server thread/INFO]: [@: Block placed]
-[09:50:43] [Server thread/INFO]: [@: Block placed]
-[09:50:54] [Server thread/INFO]: [@: Block placed]
-[09:51:13] [Server thread/INFO]: [GDcheerios: Set own game mode to Survival Mode]
-[09:51:28] [Server thread/INFO]: [GDcheerios: Given Regeneration (ID 10) * 0 to GDcheerios for 1000 seconds]
-[09:51:43] [Server thread/INFO]: [GDcheerios: Set own game mode to Creative Mode]
-[09:52:35] [Server thread/INFO]: [GDcheerios: Set own game mode to Survival Mode]
-[09:53:51] [Server thread/INFO]: [GDcheerios: Set own game mode to Creative Mode]
-[09:54:04] [Server thread/INFO]: [GDcheerios: Cleared the inventory of GDcheerios, removing 12 items]
-[09:55:59] [Server thread/INFO]: [@: Block placed]
-[09:56:11] [Server thread/INFO]: [@: Block placed]
-[09:57:01] [Server thread/INFO]: [@: Block placed]
-[09:57:10] [Server thread/INFO]: [@: Block placed]
-[09:57:11] [Server thread/INFO]: [@: Block placed]
-[09:57:15] [Server thread/INFO]: [@: Block placed]
-[09:57:17] [Server thread/INFO]: [@: Block placed]
-[09:57:41] [Server thread/INFO]: [@: Block placed]
-[09:57:58] [Server thread/INFO]: [@: Block placed]
-[09:58:03] [Server thread/INFO]: [@: Block placed]
-[09:58:04] [Server thread/INFO]: [@: Block placed]
-[09:58:12] [Server thread/INFO]: [@: Block placed]
-[09:58:13] [Server thread/INFO]: [@: Block placed]
-[09:58:14] [Server thread/INFO]: [@: Block placed]
-[09:58:16] [Server thread/INFO]: [@: Block placed]
-[09:58:17] [Server thread/INFO]: [@: Block placed]
-[09:58:19] [Server thread/INFO]: [@: Block placed]
-[09:58:20] [Server thread/INFO]: [@: Block placed]
-[09:58:21] [Server thread/INFO]: [@: Block placed]
-[09:58:22] [Server thread/INFO]: [@: Block placed]
-[09:58:23] [Server thread/INFO]: [@: Block placed]
-[09:58:24] [Server thread/INFO]: [@: Block placed]
-[09:58:25] [Server thread/INFO]: [@: Block placed]
-[09:58:25] [Server thread/INFO]: [@: Block placed]
-[09:58:26] [Server thread/INFO]: [@: Block placed]
-[09:58:27] [Server thread/INFO]: [@: Block placed]
-[09:58:28] [Server thread/INFO]: [@: Block placed]
-[09:58:29] [Server thread/INFO]: [@: Block placed]
-[09:58:48] [Server thread/INFO]: [@: Block placed]
-[09:58:48] [Server thread/INFO]: [@: Block placed]
-[09:58:53] [Server thread/INFO]: [@: Block placed]
-[09:58:53] [Server thread/INFO]: [@: Block placed]
-[09:58:54] [Server thread/INFO]: [@: Block placed]
-[09:58:55] [Server thread/INFO]: [@: Block placed]
-[09:58:56] [Server thread/INFO]: [@: Block placed]
-[09:58:57] [Server thread/INFO]: [@: Block placed]
-[09:58:58] [Server thread/INFO]: [@: Block placed]
-[09:58:59] [Server thread/INFO]: [@: Block placed]
-[09:59:01] [Server thread/INFO]: [@: Block placed]
-[09:59:02] [Server thread/INFO]: [@: Block placed]
-[09:59:03] [Server thread/INFO]: [@: Block placed]
-[09:59:05] [Server thread/INFO]: [@: Block placed]
-[09:59:06] [Server thread/INFO]: [@: Block placed]
-[09:59:08] [Server thread/INFO]: [@: Block placed]
-[09:59:09] [Server thread/INFO]: [GDcheerios: Game rule commandBlockOutput has been updated to false]
-[09:59:09] [Server thread/INFO]: [@: Block placed]
-[09:59:10] [Server thread/INFO]: [@: Block placed]
-[09:59:12] [Server thread/INFO]: [@: Block placed]
-[09:59:13] [Server thread/INFO]: [@: Block placed]
-[09:59:15] [Server thread/INFO]: [@: Block placed]
-[09:59:16] [Server thread/INFO]: [@: Block placed]
-[09:59:17] [Server thread/INFO]: [@: Block placed]
-[09:59:19] [Server thread/INFO]: [@: Block placed]
-[09:59:20] [Server thread/INFO]: [@: Block placed]
-[09:59:22] [Server thread/INFO]: [@: Block placed]
-[09:59:23] [Server thread/INFO]: [@: Block placed]
-[09:59:24] [Server thread/INFO]: [@: Block placed]
-[09:59:26] [Server thread/INFO]: [@: Block placed]
-[09:59:27] [Server thread/INFO]: [@: Block placed]
-[09:59:29] [Server thread/INFO]: [@: Block placed]
-[09:59:30] [Server thread/INFO]: [GDcheerios: Set own game mode to Survival Mode]
-[09:59:30] [Server thread/INFO]: [@: Block placed]
-[09:59:31] [Server thread/INFO]: [@: Block placed]
-[09:59:33] [Server thread/INFO]: [@: Block placed]
-[09:59:34] [Server thread/INFO]: [@: Block placed]
-[09:59:36] [Server thread/INFO]: [@: Block placed]
-[09:59:37] [Server thread/INFO]: [@: Block placed]
-[09:59:39] [Server thread/INFO]: [@: Block placed]
-[09:59:40] [Server thread/INFO]: [@: Block placed]
-[09:59:41] [Server thread/INFO]: [@: Block placed]
-[09:59:43] [Server thread/INFO]: [@: Block placed]
-[09:59:44] [Server thread/INFO]: [@: Block placed]
-[09:59:45] [Server thread/INFO]: [@: Block placed]
-[09:59:47] [Server thread/INFO]: [@: Block placed]
-[09:59:48] [Server thread/INFO]: [@: Block placed]
-[09:59:50] [Server thread/INFO]: [@: Block placed]
-[09:59:51] [Server thread/INFO]: [@: Block placed]
-[09:59:52] [Server thread/INFO]: [@: Block placed]
-[09:59:54] [Server thread/INFO]: [@: Block placed]
-[09:59:55] [Server thread/INFO]: GDcheerios lost connection: Disconnected
-[09:59:55] [Server thread/INFO]: GDcheerios left the game
-[09:59:55] [Server thread/INFO]: [@: Block placed]
-[09:59:57] [Server thread/INFO]: [@: Block placed]
-[09:59:58] [Server thread/INFO]: [@: Block placed]
-[09:59:59] [Server thread/INFO]: [@: Block placed]
-[10:00:01] [Server thread/INFO]: [@: Block placed]
-[10:00:02] [Server thread/INFO]: [@: Block placed]
-[10:00:04] [Server thread/INFO]: [@: Block placed]
-[10:00:05] [Server thread/INFO]: [@: Block placed]
-[10:00:06] [Server thread/INFO]: [@: Block placed]
-[10:00:08] [Server thread/INFO]: [@: Block placed]
-[10:00:09] [Server thread/INFO]: [@: Block placed]
-[10:00:11] [Server thread/INFO]: [@: Block placed]
-[10:01:25] [Server thread/INFO]: Stopping server
-[10:01:25] [Server thread/INFO]: Saving players
-[10:01:25] [Server thread/INFO]: Saving worlds
-[10:01:25] [Server thread/INFO]: Saving chunks for level 'world'/overworld
-[10:01:25] [Server thread/INFO]: Saving chunks for level 'world'/the_nether
-[10:01:25] [Server thread/INFO]: Saving chunks for level 'world'/the_end
-[10:01:25] [Server Shutdown Thread/INFO]: Stopping server
-[10:01:25] [Server Shutdown Thread/INFO]: Saving players
+[19:46:03] [Server thread/INFO]: Default game type: SURVIVAL
+[19:46:03] [Server thread/INFO]: Generating keypair
+[19:46:03] [Server thread/INFO]: Starting Minecraft server on *:25565
+[19:46:03] [Server thread/INFO]: Using default channel type
+[19:46:03] [Server thread/INFO]: Preparing level "world"
+[19:46:03] [Server thread/INFO]: Loaded 488 advancements
+[19:46:03] [Server thread/INFO]: Preparing start region for level 0
+[19:46:04] [Server thread/INFO]: Done (0.938s)! For help, type "help" or "?"
+[19:46:04] [Server thread/INFO]: Stopping server
+[19:46:04] [Server thread/INFO]: Saving players
+[19:46:04] [Server thread/INFO]: Saving worlds
+[19:46:04] [Server thread/INFO]: Saving chunks for level 'world'/overworld
+[19:46:04] [Server thread/INFO]: Saving chunks for level 'world'/the_nether
+[19:46:04] [Server thread/INFO]: Saving chunks for level 'world'/the_end
+[19:46:04] [Server Shutdown Thread/INFO]: Stopping server
