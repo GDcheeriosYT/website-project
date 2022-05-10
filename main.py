@@ -512,16 +512,20 @@ async def minecraft():
 
 @app.route("/minecraft/stats")
 async def stats():
-  player_data = minecraft_data_crap.player_data()
+  player_data = minecraft_data_crap.player_data(False)
   return render_template("minecraft/server-player-stats.html",
                          player_data = player_data)
 
-@app.route("/api/mc")
-async def mc():
-  player_data = minecraft_data_crap.player_data()
-  poop = {}
-  poop["poop"] = player_data
-  return(poop)
+@app.route("/api/mc/<update>")
+async def mc(update):
+  if update == "true":
+    minecraft_data_crap.player_data(True)
+    return("done")
+  else:
+    player_data = minecraft_data_crap.player_data(False)
+    poop = {}
+    poop["poop"] = player_data
+    return(poop)
 
 @app.route("/overlays/")
 async def overlays():
