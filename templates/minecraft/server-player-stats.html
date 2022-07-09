@@ -25,12 +25,13 @@
       }
 
       window.onresize = function(){
+        updatePlayers()
         wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
         reArrangePlayers()
       }
 
       function updateData(){
-        fetch("/api/mc/giveMeMyPlayerStats")
+        fetch("/api/mc")
         .then(res => res.json())
         .then((data) => handleResponse(data))
       }
@@ -40,13 +41,9 @@
           console.log(player_list[key]["health"])
           const player = document.querySelector(".player_info[data-id='" + key + "']")
           const healthEl = player.querySelector('.health')
+          let health = parseInt(healthEl.textContent.replace(/\,/g, ''))
+          player.querySelector(".health").appendChild(br)
           player.querySelector(".health").innerHTML = player_list[key]["health"] + " health"
-          const hungerEl = player.querySelector(".hunger")
-          player.querySelector(".hunger").innerHTML = player_list[key]["hunger"] + " hunger"
-          const levelEl = player.querySelector(".levelmc")
-          player.querySelector(".levelmc").innerHTML = "level " + player_list[key]["level"] + " : " + player_list[key]["score"]
-          const position = player.querySelector(".position")
-          player.querySelector(".position").innerHTML = player_list[key]["position"]
         });
       }
 
@@ -55,11 +52,7 @@
         list = list.map((el) => {
           return {
             id : el[1].username,
-            health : el[1].health,
-            hunger : el[1].hunger,
-            level : el[1].level,
-            score : el[1].score,
-            position : el[1].position
+            health : el[1].health
           }
         })
         list.sort((a, b) =>{
@@ -72,13 +65,14 @@
           }
           return comparison;
         })
+        console.log(list)
 
         document.querySelector("body").style.minHeight = list.length * wrapperHeight + "px"
 
         list.forEach((player, i) => {
           const el = document.querySelector(`.player_info_wrapper[data-id="${player["id"]}"]`)
           el.style.position = "absolute"
-          el.style.transform = `translateY(${(i * wrapperHeight)}px)`
+          el.style.transform = `translateY(${i * wrapperHeight}px)`
           const playerEl = document.querySelector(`.player_info[data-id="${player["id"]}"]`)
         })
       }
@@ -130,23 +124,26 @@
     </script>
       {% for player in player_data %}
         <div class="player_info_wrapper" data-id="{{ player['username'] }}">
-          <div class="player_info" data-id="{{ player['username'] }}" style="height: 15.2vw; width: 90vw;">
-            <h1 class="namebox">
-              <img src="{{ player['avatar'] }}" style="width: 15.2vw; height: 14.9vw;">
-              <span>{{ player["username"] }}</span>
-              <br>
-              <span class="health">health: {{ player["health"] }}</span>
-              <br>
-              <span class="hunger">hunger: {{ player["hunger"] }}</span>
-              <br>
-              <span class="levelmc">level: {{ player["level"] }}</span>
-              <br>
-              <span class="position">position: {{ player["position"] }}</span>
-              <br>
-            </h1>
+          <div class="player_info" data-id="{{ player['username'] }}" style="height: 10.2vw; margin: 10px;">
+            <div style="display: flex;">
+              <h1 class="namebox">
+                <img src="{{ player['avatar'] }}" style="width: 9.8vw; height: 9.8vw;">
+                <span>{{ player["username"] }}</span>
+                <span class="health">
+                  <br>
+                  health: {{ player["health"] }}
+                </span>
+                <span class="hunger">
+                  <br>
+                  hunger: {{ player["hunger"] }}
+                </span>
+                <span class="status">
+                </span>
+              </h1>
+            </div>
           </div>
         </div>
-      {% endfor %}
+        {% endfor %}
     {% endblock %}
   </body>
 </html>
