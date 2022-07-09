@@ -1,6 +1,6 @@
 body{
-  background: radial-gradient(circle, rgba(15,41,48,1) 0%, rgba(2,11,13,1) 100%);
-  background-repeat: no-repeat; 
+  background: radial-gradient(circle, rgb(5, 12, 14) 0%, rgb(5, 25, 30) 100%);
+  background-repeat: no-repeat;
   background-attachment: fixed;
   font-family: arial;
 }
@@ -47,13 +47,15 @@ td a{
 }
 
 .player_info{
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
+  background-size: 100%;
   box-shadow: 8px 0px 0px 0px rgba(0, 0, 0, 0.425);
   position: relative;
   transition: ease-out var(--transition-speed);
-  width: 46vw;
-  height: 5vw;
+  width: 46vh;
+  height: 5vh;
   border-radius: 1vw;
-  background-color: #004e51;
+  background-color: #052122;
   margin: 0 auto;
   margin-bottom: 0;
   margin-left: 3vw;
@@ -62,7 +64,7 @@ td a{
 }
 
 .player_info_wrapper{
-  transition: ease-in-out 2500ms;
+  transition: ease-in-out 1500ms;
 }
 
 .player_info:hover{
@@ -90,7 +92,7 @@ td a{
 .player_info .namebox{
   margin: 0px;
   text-align: left;
-  font-size: max(3vw);
+  font-size: 60%;
   text-shadow: 6px 6px 0px #000000;
   white-space: nowrap;
 }
@@ -127,8 +129,8 @@ td a{
 .player_info img {
   float:left;
   position: relative;
-  width: 4.7vw;
-  height: 4.7vw;
+  width: 4.7vh;
+  height: 4.7vh;
   transition: all var(--transition-speed) ease-out;
   display: block;
   border: 0.1vw solid #fff;
@@ -240,6 +242,10 @@ a{
   text-decoration: none;
 }
 
+.name{
+  color:rgb(255, 255, 255)
+}
+
 .player_info:hover .namebox{
   color: white;
   transition: all var(--transition-speed) ease-in;
@@ -335,15 +341,23 @@ h1{
   flex: column;
   position: relative;
   transition: ease-out 0.3s;
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
+  background-repeat: repeat;
+  background-size: 100%;
+  background-color: rgb(32, 32, 32);
   width: 95vw;
   font-size: 1.7vw;
-  border: 5px #1C6EA4;
   border-radius: 1vw;
-  box-shadow: 5px 5px 15px 5px #000000;
-  background: rgb(20,61,12);
-  background: radial-gradient(circle, rgb(12, 61, 56) 0%, rgb(0, 161, 164) 100%);
+  box-shadow: 5px 5px 15px 5px #0000005e;
   margin-bottom: 10px;
-  padding: 5px;
+}
+
+.teambox-content{
+  position: relative;
+  transition: ease-out 0.3s;
+  color: rgb(150, 150, 150);
+  border-radius: 1vw;
+  box-shadow: 5px 5px 15px 5px #0000005e;
 }
 
 .weekly_map {
@@ -602,8 +616,8 @@ label{
   color: rgb(255, 255, 255);
   background-color: #002e35;
   left: 0vw;
-  width: 24vw;
-  height: 3vw;
+  width: 24vh;
+  height: 3vh;
   border-radius: 1vw;
   transform: translateX(-100%);
   transition: transform 0.3s linear;

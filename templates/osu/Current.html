@@ -218,78 +218,135 @@
             }
       
           </script>
-          <div class="gameBox" id="bodymovin">
-            <h1 style="font-size: 4vw;">Teams</h1>
-            <div class="match-teams">
-              {% set count_team = namespace(value=1) %}  
-              {% for team_key, team_value in teams.items() %}
-              <div class="teambox" data-team_name="{{team_key}}"><h1 class="namebox"><span>#{{ count_team.value }} {{ team_key }}</span> <span class="score">{{team_value[0]}}</span></h1>
-                {% set count_player = namespace(value=1) %}
-                {% for key, value in team_value[1].items() %}
-                  <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[8] }}">
-                    <div class="player_info" data-id="{{ value[8] }}" style="background-image: linear-gradient(to top, #ffffff, #ffffff50), url({{ value[2] }});">
-                      <div style="display: flex;">
-                        <h1 class="namebox">
-                          <img src="{{ value[1] }}">
-                          #<span class="player_position">{{count_player.value}}</span>
-                          <a href="{{ value[3] }}">
-                            {% if value[8]|string in match_data["nicknames"] %}
-                              {{match_data["nicknames"][value[8]|string]}}
-                            {% else %}
-                              {{ key }}
-                            {% endif %}
-                          </a>
-                          <span class="score">
-                            {{ value[6] }} score
-                          </span>
-                          <span class="status">
-                            offline
-                          </span>
-                        </h1>
-                      </div>
+          <h1 class="teams">{{match_data["match name"]}}</h1>
+          <div class="match-teams">
+            {% set count_team = namespace(value=1) %}  
+            {% for team_key, team_value in teams.items() %}
+            <div class="teambox-content">
+              <div class="teambox" data-teamname="{{team_key}}"><h1 class="namebox"><span>#{{ count_team.value }} {{ team_key }}</span> <span class="score">{{team_value[0]}}</span></h1></div>
+              {% set count_player = namespace(value=1) %}
+              {% for key, value in team_value[1].items() %}
+              <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[8] }}">
+                <div class="player_info" data-id="{{ value[8] }}">
+                  <div style="display: flex;">
+                    <h1 class="namebox">
+                      <img src="{{ value[1] }}">
+                      #<span class="player_position">{{count_player.value}}</span>
+                      <a href="{{ value[3] }}">
+                        {% if value[8]|string in match_data["nicknames"] %}
+                          {{match_data["nicknames"][value[8]|string]}}
+                        {% else %}
+                          {{ key }}
+                        {% endif %}
+                      </a>
+                      <span class="score">
+                        {{ value[6] }} score
+                      </span>
+                      <span class="status">
+                      </span>
+                    </h1>
+                  </div>
+                </div>
+                <div class="live-status" data-id="{{value[8]}}">
+                  <div class="map-info">
+                    <div class="left">
+                      <span class="map-artist">
+                        artist - 
+                      </span>
+                      <span class="map-title">
+                        map
+                      </span>
                     </div>
-                    <div class="live-status" style="transform: translateX(-100%); background" data-id="{{value[8]}}">
-                      <div class="map-info">
-                        <div class="left">
-                          <span class="map-artist">
-                            artist - 
-                          </span>
-                          <span class="map-title">
-                            map
-                          </span>
-                        </div>
-                        <div class="right">
-                          <span class="map-difficulty">
-                            easy
-                          </span>
-                        </div>
-                      </div>
-                      <div class="gameplay">
-                        <span class="gameplay-accuracy">
-                          0%
-                        </span>
-                        <h4 class="gameplay-score">
-                          0 score
-                        </h4>
-                        <span class="gameplay-combo">
-                          0x
-                        </span>
-                      </div>
+                    <div class="right">
+                      <span class="map-difficulty">
+                        easy
+                      </span>
                     </div>
                   </div>
-                {% set count_player.value = count_player.value + 1 %}
-                {% endfor %}
+                  <div class="gameplay-top">
+                    <span class="gameplay-grade">
+                      F
+                    </span>
+                    <p class="icon" style="color: green; text-shadow: 4px 4px 8px #000000;">100</p>
+                    <span class="gameplay-100">
+                      0
+                    </span>
+                    <p class="icon" style="color: gold; text-shadow: 4px 4px 8px #000000;">50</p>
+                    <span class="gameplay-50">
+                      0
+                    </span>
+                    <p class="icon" style="color: red; text-shadow: 4px 4px 8px #000000;">x</p>
+                    <span class="gameplay-misses">
+                      0
+                    </span>
+                    <p></p>
+                    <span class="gameplay-pp">
+                      0pp
+                    </span>
+                  </div>
+                  <div class="gameplay-bottom">
+                    <span class="gameplay-mods">
+                      NM
+                    </span>
+                    <p></p>
+                    <span class="gameplay-accuracy">
+                      0%
+                    </span>
+                    <h4 class="gameplay-score">
+                      0 score
+                    </h4>
+                    <div style="display:flex;">
+                      <span class="gameplay-combo">
+                        0x|
+                      </span>
+                      <span class="max-gameplay-combo">
+                        0x
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              {% set count_team.value = count_team.value + 1 %}
+              {% set count_player.value = count_player.value + 1 %}
               {% endfor %}
             </div>
+            {% set count_team.value = count_team.value + 1 %}
+            {% endfor %}
           </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         {% else %}
           <script>
+            let sortType = "scoreHistory"
             let player_ids;
             let player_list = {}
             let wrapperHeight = 0
-            var delay = 1000
+            var delay = 60000
             window.onload = function(){
               wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
               const players = document.querySelectorAll(".player_info")
@@ -333,25 +390,56 @@
             function reRenderPlayerScores(){
               Object.keys(player_list).forEach((key, i) => {
                 const player = document.querySelector(".player_info[data-id='" + key + "']")
-                const scoreEl = player.querySelector('.score')
-                let score = parseInt(scoreEl.textContent.replace(/\,/g, ''));
-                let scoreDiff = (player_list[key]["score"] - score)
-                if(scoreDiff!=0){
-                  var scoreThing = document.createElement("h1");
-                  if (scoreDiff>0){
-                    scoreThing.innerHTML = "+" + numberWithCommas(scoreDiff)
-                    scoreThing.style.color = "white"
+                if(sortType == "scoreHistory"){
+                  const scoreEl = player.querySelector('.score')
+                  let score = parseInt(scoreEl.textContent.replace(/\,/g, ''));
+                  let scoreDiff = (player_list[key]["score"] - score)
+                  if(scoreDiff!=0){
+                    var scoreThing = document.createElement("h1");
+                    if (scoreDiff>0){
+                      scoreThing.innerHTML = "+" + numberWithCommas(scoreDiff)
+                      scoreThing.style.color = "white"
+                    }
+                    else{
+                      scoreThing.innerHTML = numberWithCommas(scoreDiff)
+                      scoreThing.style.color = "white"
+                    }
+                    scoreThing.classList.add("addedscore")
+                    player.querySelector(".namebox").appendChild(scoreThing)
+                    updateNumberOverTime(returnValuesInBetween(score, player_list[key]["score"]), scoreEl, " score")
+                    setTimeout(() => {scoreThing.remove()}, 2000)
                   }
-                  else{
-                    scoreThing.innerHTML = numberWithCommas(scoreDiff)
-                    scoreThing.style.color = "white"
+                }
+                else{
+                  const scoreEl = player.querySelector('.score')
+                  let score = parseInt(scoreEl.textContent.replace(/\,/g, ''));
+                  let scoreDiff = (player_list[key]["rank"] - score)
+                  if(scoreDiff!=0){
+                    var scoreThing = document.createElement("h1");
+                    if (scoreDiff>0){
+                      scoreThing.innerHTML = "+" + numberWithCommas(scoreDiff)
+                      scoreThing.style.color = "white"
+                    }
+                    else{
+                      scoreThing.innerHTML = numberWithCommas(scoreDiff)
+                      scoreThing.style.color = "white"
+                    }
+                    scoreThing.classList.add("addedscore")
+                    player.querySelector(".namebox").appendChild(scoreThing)
+                    if(player_list[key]["rank"] == 999999999){
+                      scoreEl.textContent = "unranked"
+                    }
+                    else{
+                      updateNumberOverTime(returnValuesInBetween(score, player_list[key]["rank"]), scoreEl, "")
+                    }
+                    setTimeout(() => {scoreThing.remove()}, 2000)
                   }
-                  scoreThing.classList.add("addedscore")
-                  player.querySelector(".namebox").appendChild(scoreThing)
-                  updateNumberOverTime(returnValuesInBetween(score, player_list[key]["score"]), scoreEl, " score")
-                  setTimeout(() => {scoreThing.remove()}, 2000)
                 }
               });
+            }
+
+            function setSortType(type){
+              sortType = "" + type
             }
             
             function reRenderLiveStatus(){
@@ -409,11 +497,10 @@
             function reArrangePlayers(){
               let list = Object.entries(player_list)
               list = list.map((el) => {
-                return {
-                  id : el[0],
-                  score : el[1].score
-                }
+                return { id: el[0], score: sortType === 'scoreHistory' ? el[1].score : el[1].rank - el[1].rank * 2}
               })
+
+
               list.sort((a, b) =>{
                 let comparison = 0;
                 if (a.score < b.score) {
@@ -447,16 +534,8 @@
               .then((data) => handleResponse(data))
             }
             
-            function test(num){
-              Object.keys(player_list).forEach(key => {
-                player_list[key]["score"] += num
-              });
-              reRenderPlayerScores()
-            }
-            
-            
             let config = {
-              duration: delay+200,
+              duration: 2000,
               fps: 5,
             };
             
@@ -503,7 +582,7 @@
                     <h1 class="namebox">
                       <img src="{{ value[1] }}">
                       #<span class="player_position">{{count.value}}</span>
-                      <a href="{{ value[3] }}">
+                      <a href="{{ value[3] }}" class="name">
                         {% if value[8]|string in match_data["nicknames"] %}
                           {{match_data["nicknames"][value[8]|string]}}
                         {% else %}
@@ -585,6 +664,10 @@
       </div>
     </div>
     <div>
+      <div style="position: fixed; zIndex: 99999; top: 60vh; left: 80vw;">
+        <button onclick="setSortType('scoreHistory');updatePlayers()" style="width: 6vw; height: 4vh;">Score Gain</button>
+        <button onclick="setSortType('');updatePlayers()" style="width: 6vw; height: 4vh;">Rank</button>
+      </div>
       <h1>graph view</h1>
       <div class="graph-style-box">
         <a href="/matches/{{match_name}}/normal">overall score gain</a>

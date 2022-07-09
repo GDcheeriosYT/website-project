@@ -2,8 +2,9 @@
     "13450060": {
         "user data": {
             "name": "casedama",
-            "score": 37698097321,
-            "playcount": 58916,
+            "rank": 60432,
+            "score": 37743784403,
+            "playcount": 59015,
             "avatar url": "https://a.ppy.sh/13450060?1639795214.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/13450060/aac0cedf56a5d02b61410eda0d8ef4e163533a1b7e1aa89d74a4929a252ea512.gif",
             "profile url": "https://osu.ppy.sh/users/13450060"
@@ -16,10 +17,11 @@
     "11339405": {
         "user data": {
             "name": "GDcheerios",
-            "score": 78024460400,
-            "playcount": 56349,
-            "avatar url": "https://a.ppy.sh/11339405?1652297093.jpeg",
-            "background url": "https://assets.ppy.sh/user-profile-covers/11339405/062f89be3c43e55df96a31201e5f9d2c89dca21a88c52b2f959105f75f5100f9.jpeg",
+            "rank": 12049,
+            "score": 82000258686,
+            "playcount": 58116,
+            "avatar url": "https://a.ppy.sh/11339405?1654599809.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/11339405/4ed33e96e1d17469fa47f02e6b75166843f7645dc184ade5740a3cb5809ca4d1.jpeg",
             "profile url": "https://osu.ppy.sh/users/11339405"
         },
         "user tags": {
@@ -35,8 +37,9 @@
     "17879839": {
         "user data": {
             "name": "BirdPigeon",
-            "score": 10708475449,
-            "playcount": 33507,
+            "rank": 209827,
+            "score": 10709514150,
+            "playcount": 33524,
             "avatar url": "https://a.ppy.sh/17879839?1604628393.png",
             "background url": "https://assets.ppy.sh/user-profile-covers/17879839/8606da22a398253d8e4bdbfd1c6031ae114aa38ed0a9e28ce180f68baa14f740.png",
             "profile url": "https://osu.ppy.sh/users/17879839"
@@ -49,6 +52,7 @@
     "19160758": {
         "user data": {
             "name": "Trufflebuttt",
+            "rank": 999999999,
             "score": 3489701,
             "playcount": 36,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -63,9 +67,10 @@
     "10287120": {
         "user data": {
             "name": "Tonatious",
-            "score": 112701001137,
-            "playcount": 42569,
-            "avatar url": "https://a.ppy.sh/10287120?1650237306.png",
+            "rank": 33846,
+            "score": 115160817968,
+            "playcount": 43021,
+            "avatar url": "https://a.ppy.sh/10287120?1654906408.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/10287120/e13b0eb1fb307e0747d7905b96e07f07ef1f7bfaa1e0da882750a3b31fe3097b.jpeg",
             "profile url": "https://osu.ppy.sh/users/10287120"
         },
@@ -77,6 +82,7 @@
     "17822521": {
         "user data": {
             "name": "peterparkermj",
+            "rank": 999999999,
             "score": 148356865,
             "playcount": 717,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -91,6 +97,7 @@
     "17965819": {
         "user data": {
             "name": "MargaritaMix08",
+            "rank": 1022791,
             "score": 492700929,
             "playcount": 1482,
             "avatar url": "https://a.ppy.sh/17965819?1626822178.jpeg",
@@ -105,8 +112,9 @@
     "18346314": {
         "user data": {
             "name": "Kokuren",
-            "score": 834218349,
-            "playcount": 1782,
+            "rank": 774702,
+            "score": 837464561,
+            "playcount": 1795,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
             "profile url": "https://osu.ppy.sh/users/18346314"
@@ -119,8 +127,9 @@
     "18993227": {
         "user data": {
             "name": "Monvee",
-            "score": 69436085,
-            "playcount": 322,
+            "rank": 1807302,
+            "score": 70295183,
+            "playcount": 328,
             "avatar url": "https://a.ppy.sh/18993227?1604699789.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/18993227/c2771bbb58fada8a74f37cd79854c4a9ec129a935c8c51390adabe2d4921f552.jpeg",
             "profile url": "https://osu.ppy.sh/users/18993227"
@@ -133,6 +142,7 @@
     "16369108": {
         "user data": {
             "name": "GoodNightTokyo",
+            "rank": 1850755,
             "score": 125540288,
             "playcount": 1012,
             "avatar url": "https://a.ppy.sh/16369108?1590363727.jpeg",
@@ -147,8 +157,9 @@
     "18037392": {
         "user data": {
             "name": "Mcg_Tokyo",
-            "score": 35886575,
-            "playcount": 443,
+            "rank": 3435966,
+            "score": 35906859,
+            "playcount": 444,
             "avatar url": "https://a.ppy.sh/18037392?1602885654.jpeg",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c1.jpg",
             "profile url": "https://osu.ppy.sh/users/18037392"
@@ -161,6 +172,7 @@
     "17352685": {
         "user data": {
             "name": "Minty_Fresch",
+            "rank": 999999999,
             "score": 13383152,
             "playcount": 98,
             "avatar url": "https://a.ppy.sh/17352685?1591816876.jpeg",
@@ -175,9 +187,10 @@
     "7545218": {
         "user data": {
             "name": "Kyrie irving",
-            "score": 233267424127,
-            "playcount": 80245,
-            "avatar url": "https://a.ppy.sh/7545218?1650434482.jpeg",
+            "rank": 5911,
+            "score": 235502822595,
+            "playcount": 80870,
+            "avatar url": "https://a.ppy.sh/7545218?1653494063.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/7545218/b8b9c59130c5adc136695ca8dfe98fb4def3154ee2952146cc5fc518dc8f28a7.gif",
             "profile url": "https://osu.ppy.sh/users/7545218"
         },
@@ -189,8 +202,9 @@
     "7562902": {
         "user data": {
             "name": "sakamata1",
-            "score": 304521086328,
-            "playcount": 130565,
+            "rank": 1,
+            "score": 318440934537,
+            "playcount": 132368,
             "avatar url": "https://a.ppy.sh/7562902?1640991221.jpeg",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
             "profile url": "https://osu.ppy.sh/users/7562902"
@@ -203,8 +217,9 @@
     "13789505": {
         "user data": {
             "name": "st4rstrukk",
-            "score": 52976471691,
-            "playcount": 66953,
+            "rank": 17372,
+            "score": 54818179018,
+            "playcount": 67616,
             "avatar url": "https://a.ppy.sh/13789505?1647480064.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/13789505/c65680e04637dad1d9cf88d8e02a4b39ff7f8f4fbb09e75c1b7621386853119d.jpeg",
             "profile url": "https://osu.ppy.sh/users/13789505"
@@ -217,8 +232,9 @@
     "24036177": {
         "user data": {
             "name": "vinster19",
-            "score": 801899,
-            "playcount": 21,
+            "rank": 999999999,
+            "score": 912708,
+            "playcount": 23,
             "avatar url": "https://a.ppy.sh/24036177?1623546145.jpeg",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
             "profile url": "https://osu.ppy.sh/users/24036177"
@@ -231,8 +247,9 @@
     "8861593": {
         "user data": {
             "name": "Venpris",
-            "score": 242858394036,
-            "playcount": 138199,
+            "rank": 1079,
+            "score": 249079081262,
+            "playcount": 139982,
             "avatar url": "https://a.ppy.sh/8861593?1646707531.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/8861593/554b9186abc60a9af43922859857a911de19b36e04dbe5455b197d4b57d2b99d.png",
             "profile url": "https://osu.ppy.sh/users/8861593"
@@ -245,6 +262,7 @@
     "20322801": {
         "user data": {
             "name": "bm38573",
+            "rank": 2200500,
             "score": 3564839,
             "playcount": 29,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -259,8 +277,9 @@
     "17681245": {
         "user data": {
             "name": "wildernesexplor",
-            "score": 8771766108,
-            "playcount": 16482,
+            "rank": 142295,
+            "score": 8826752974,
+            "playcount": 16561,
             "avatar url": "https://a.ppy.sh/17681245?1600049873.png",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c6.jpg",
             "profile url": "https://osu.ppy.sh/users/17681245"
@@ -273,6 +292,7 @@
     "24499503": {
         "user data": {
             "name": "Trale_Lewous",
+            "rank": 999999999,
             "score": 25103948,
             "playcount": 157,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -287,6 +307,7 @@
     "24576716": {
         "user data": {
             "name": "Joe_Nuts69",
+            "rank": 999999999,
             "score": 5044202,
             "playcount": 29,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -301,6 +322,7 @@
     "24650709": {
         "user data": {
             "name": "Gman709",
+            "rank": 999999999,
             "score": 26259111,
             "playcount": 55,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -315,6 +337,7 @@
     "24650798": {
         "user data": {
             "name": "KekumeSai",
+            "rank": 999999999,
             "score": 212529,
             "playcount": 3,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -329,8 +352,9 @@
     "14670213": {
         "user data": {
             "name": "Smol Glum",
-            "score": 7662426511,
-            "playcount": 15661,
+            "rank": 182885,
+            "score": 7665587653,
+            "playcount": 15670,
             "avatar url": "https://a.ppy.sh/14670213?1608960024.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/14670213/5db2fc6f3547620093e844fa327ad45452ffc717147d33f08ba6740fffdf6d09.jpeg",
             "profile url": "https://osu.ppy.sh/users/14670213"
@@ -343,6 +367,7 @@
     "20861610": {
         "user data": {
             "name": "BBenji",
+            "rank": 1206714,
             "score": 438849209,
             "playcount": 1124,
             "avatar url": "https://a.ppy.sh/20861610?1618163143.jpeg",
@@ -357,6 +382,7 @@
     "18355390": {
         "user data": {
             "name": "Nyx Duke",
+            "rank": 3374843,
             "score": 8365956,
             "playcount": 83,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -371,6 +397,7 @@
     "20762152": {
         "user data": {
             "name": "brianthe8east",
+            "rank": 4158429,
             "score": 2742561,
             "playcount": 29,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -385,6 +412,7 @@
     "17090247": {
         "user data": {
             "name": "CheeseDude",
+            "rank": 280144,
             "score": 2832145657,
             "playcount": 4811,
             "avatar url": "https://a.ppy.sh/17090247?1589822240.jpeg",
@@ -399,8 +427,9 @@
     "17681359": {
         "user data": {
             "name": "Walterdoggg",
-            "score": 5270714815,
-            "playcount": 9240,
+            "rank": 203848,
+            "score": 5275301001,
+            "playcount": 9251,
             "avatar url": "https://a.ppy.sh/17681359?1617901114.jpeg",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
             "profile url": "https://osu.ppy.sh/users/17681359"
@@ -413,6 +442,7 @@
     "15027674": {
         "user data": {
             "name": "Mcg_mm8",
+            "rank": 999999999,
             "score": 686192,
             "playcount": 9,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -427,6 +457,7 @@
     "21837210": {
         "user data": {
             "name": "Forkk_old_2",
+            "rank": 999999999,
             "score": 12381314,
             "playcount": 97,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -441,6 +472,7 @@
     "21475233": {
         "user data": {
             "name": "pogo5512",
+            "rank": 999999999,
             "score": 0,
             "playcount": 0,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -455,6 +487,7 @@
     "19252662": {
         "user data": {
             "name": "Mexicutioner",
+            "rank": 999999999,
             "score": 286236,
             "playcount": 8,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -469,6 +502,7 @@
     "17906393": {
         "user data": {
             "name": "DiamondPVPr",
+            "rank": 999999999,
             "score": 0,
             "playcount": 0,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -483,6 +517,7 @@
     "21475272": {
         "user data": {
             "name": "StarBoltZ",
+            "rank": 999999999,
             "score": 0,
             "playcount": 0,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -497,6 +532,7 @@
     "17967231": {
         "user data": {
             "name": "inferno_volt",
+            "rank": 999999999,
             "score": 111988610,
             "playcount": 642,
             "avatar url": "https://a.ppy.sh/17967231?1596513618.jpeg",
@@ -511,8 +547,9 @@
     "14506085": {
         "user data": {
             "name": "Golucky",
-            "score": 10932882418,
-            "playcount": 37975,
+            "rank": 238160,
+            "score": 11029874012,
+            "playcount": 38186,
             "avatar url": "https://a.ppy.sh/14506085?1628878011.png",
             "background url": "https://assets.ppy.sh/user-profile-covers/14506085/11e6a5722afe3b186a98a639ac744b2c21c86067431999598befb5d4559416a5.png",
             "profile url": "https://osu.ppy.sh/users/14506085"
@@ -525,6 +562,7 @@
     "19999589": {
         "user data": {
             "name": "UwU Aimi",
+            "rank": 999999999,
             "score": 1719860,
             "playcount": 40,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -539,6 +577,7 @@
     "25897425": {
         "user data": {
             "name": "Randomtangle",
+            "rank": 4819553,
             "score": 128458,
             "playcount": 3,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -553,8 +592,9 @@
     "13460125": {
         "user data": {
             "name": "AluV2",
-            "score": 37066342378,
-            "playcount": 31694,
+            "rank": 32348,
+            "score": 37282816405,
+            "playcount": 32105,
             "avatar url": "https://a.ppy.sh/13460125?1646198361.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/13460125/baa38f1a13329501e76f1f57d081541a0ed1df269fad38a51e1ec653e06408cf.png",
             "profile url": "https://osu.ppy.sh/users/13460125"
@@ -567,8 +607,9 @@
     "13985346": {
         "user data": {
             "name": "MossL",
-            "score": 14573187816,
-            "playcount": 18538,
+            "rank": 11260,
+            "score": 16967474344,
+            "playcount": 22008,
             "avatar url": "https://a.ppy.sh/13985346?1606538724.jpeg",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c3.jpg",
             "profile url": "https://osu.ppy.sh/users/13985346"
@@ -581,9 +622,10 @@
     "10322186": {
         "user data": {
             "name": "headstack",
-            "score": 390762139693,
-            "playcount": 139905,
-            "avatar url": "https://a.ppy.sh/10322186?1651516300.jpeg",
+            "rank": 610,
+            "score": 393142833093,
+            "playcount": 140912,
+            "avatar url": "https://a.ppy.sh/10322186?1654742919.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/10322186/c15b9d6b08b098e201bb5d4dd0bc87897685d3ca914fc4ac7fd588010175cecb.png",
             "profile url": "https://osu.ppy.sh/users/10322186"
         },
@@ -595,9 +637,10 @@
     "4580287": {
         "user data": {
             "name": "mode",
-            "score": 186440056663,
-            "playcount": 137562,
-            "avatar url": "https://a.ppy.sh/4580287?1648626348.jpeg",
+            "rank": 971,
+            "score": 193364377865,
+            "playcount": 139394,
+            "avatar url": "https://a.ppy.sh/4580287?1654838903.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/4580287/95f13e2db347e9e851e8e7d188e6f18e15b65ca5643b553e83729b7e6c305306.jpeg",
             "profile url": "https://osu.ppy.sh/users/4580287"
         },
@@ -609,9 +652,10 @@
     "7636779": {
         "user data": {
             "name": "Leebs",
-            "score": 319436864966,
-            "playcount": 98028,
-            "avatar url": "https://a.ppy.sh/7636779?1648442312.jpeg",
+            "rank": 1974,
+            "score": 325570295971,
+            "playcount": 99021,
+            "avatar url": "https://a.ppy.sh/7636779?1654839085.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/7636779/af6c609344ec41450d806f1d0e1bdc3bfe2663f5c114b51fe287208ec8b725cf.jpeg",
             "profile url": "https://osu.ppy.sh/users/7636779"
         },
@@ -623,9 +667,10 @@
     "10157694": {
         "user data": {
             "name": "Checha",
-            "score": 121145031995,
-            "playcount": 139412,
-            "avatar url": "https://a.ppy.sh/10157694?1640196104.jpeg",
+            "rank": 2805,
+            "score": 122879197919,
+            "playcount": 140205,
+            "avatar url": "https://a.ppy.sh/10157694?1653114780.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/10157694/fbfdb9f28918e40b1f9578a896ee3c919f2ccc57db2e4933061861592617ec8a.png",
             "profile url": "https://osu.ppy.sh/users/10157694"
         },
@@ -637,6 +682,7 @@
     "27260180": {
         "user data": {
             "name": "aferchen",
+            "rank": 3400193,
             "score": 2855569,
             "playcount": 36,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -651,6 +697,7 @@
     "19266174": {
         "user data": {
             "name": "Dukecj1",
+            "rank": 999999999,
             "score": 96800,
             "playcount": 4,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -665,8 +712,9 @@
     "19451356": {
         "user data": {
             "name": "Senjan21",
-            "score": 24629820265,
-            "playcount": 33967,
+            "rank": 115173,
+            "score": 25250945232,
+            "playcount": 34596,
             "avatar url": "https://a.ppy.sh/19451356?1628495166.jpeg",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
             "profile url": "https://osu.ppy.sh/users/19451356"
@@ -679,6 +727,7 @@
     "28065296": {
         "user data": {
             "name": "TheImmortalKing",
+            "rank": 999999999,
             "score": 22646,
             "playcount": 2,
             "avatar url": "https://a.ppy.sh/28065296?1645264803.jpeg",
@@ -693,8 +742,9 @@
     "15501089": {
         "user data": {
             "name": "MoofLol",
-            "score": 40418931980,
-            "playcount": 25471,
+            "rank": 71296,
+            "score": 40476377680,
+            "playcount": 25499,
             "avatar url": "https://a.ppy.sh/15501089?1643144148.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/15501089/2ee22f8289a438bb567c54ca1e85838dd9235de50af16db2ad0bac0265cb4dfc.png",
             "profile url": "https://osu.ppy.sh/users/15501089"
@@ -707,6 +757,7 @@
     "16078655": {
         "user data": {
             "name": "WJGaming",
+            "rank": 999999999,
             "score": 23858,
             "playcount": 1,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
@@ -721,6 +772,7 @@
     "11022549": {
         "user data": {
             "name": "Electo09",
+            "rank": 283723,
             "score": 3825875462,
             "playcount": 11915,
             "avatar url": "https://a.ppy.sh/11022549?1616781943.png",
@@ -735,8 +787,9 @@
     "19903063": {
         "user data": {
             "name": "nicksterman",
-            "score": 43245,
-            "playcount": 1,
+            "rank": 999999999,
+            "score": 453916,
+            "playcount": 2,
             "avatar url": "https://a.ppy.sh/19903063?1608273716.png",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c8.jpg",
             "profile url": "https://osu.ppy.sh/users/19903063"
@@ -749,6 +802,7 @@
     "14616066": {
         "user data": {
             "name": "rainbowgirl10",
+            "rank": 4458890,
             "score": 1616382,
             "playcount": 12,
             "avatar url": "https://a.ppy.sh/14616066?1559859966.jpg",
@@ -763,8 +817,9 @@
     "19107286": {
         "user data": {
             "name": "Riks1",
-            "score": 53102665133,
-            "playcount": 35322,
+            "rank": 81570,
+            "score": 56396418220,
+            "playcount": 36661,
             "avatar url": "https://a.ppy.sh/19107286?1615528722.jpeg",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c7.jpg",
             "profile url": "https://osu.ppy.sh/users/19107286"
@@ -777,9 +832,10 @@
     "7512553": {
         "user data": {
             "name": "Utami",
-            "score": 372123944844,
-            "playcount": 125363,
-            "avatar url": "https://a.ppy.sh/7512553?1651768987.jpeg",
+            "rank": 5,
+            "score": 390155455123,
+            "playcount": 127691,
+            "avatar url": "https://a.ppy.sh/7512553?1652994239.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/7512553/a2627ed1ace6c9c56f55f595f75797ca1cb731a141c2d0d247bd00938122aef5.jpeg",
             "profile url": "https://osu.ppy.sh/users/7512553"
         },
@@ -791,8 +847,9 @@
     "16593478": {
         "user data": {
             "name": "Toastyowo",
-            "score": 6946445805,
-            "playcount": 29347,
+            "rank": 127344,
+            "score": 6963020149,
+            "playcount": 29374,
             "avatar url": "https://a.ppy.sh/16593478?1645031602.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/16593478/87e7f685ac6571ceb3fde441c446ccc176e5ba937e58d50ceca3b83be98bf79d.jpeg",
             "profile url": "https://osu.ppy.sh/users/16593478"
@@ -805,8 +862,9 @@
     "11562243": {
         "user data": {
             "name": "Ramon 2",
-            "score": 261787743897,
-            "playcount": 145794,
+            "rank": 528,
+            "score": 267727277478,
+            "playcount": 147493,
             "avatar url": "https://a.ppy.sh/11562243?1649003692.jpeg",
             "background url": "https://assets.ppy.sh/user-profile-covers/11562243/b91bc575d2a75fee045525024175f81e7c6a3db73533d6e18f0b570d745db200.png",
             "profile url": "https://osu.ppy.sh/users/11562243"
@@ -819,6 +877,7 @@
     "11391440": {
         "user data": {
             "name": "Yami-Senpai",
+            "rank": 65365,
             "score": 42128683516,
             "playcount": 49656,
             "avatar url": "https://a.ppy.sh/11391440?1650680305.jpeg",
@@ -833,11 +892,42 @@
     "23024105": {
         "user data": {
             "name": "AHIPPYCHICKEN",
-            "score": 28470998,
-            "playcount": 253,
+            "rank": 3619374,
+            "score": 31281472,
+            "playcount": 273,
             "avatar url": "https://osu.ppy.sh/images/layout/avatar-guest.png",
             "background url": "https://osu.ppy.sh/images/headers/profile-covers/c2.jpg",
             "profile url": "https://osu.ppy.sh/users/23024105"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "2": {
+        "user data": {
+            "name": "peppy",
+            "rank": 703062,
+            "score": 1936546606,
+            "playcount": 7517,
+            "avatar url": "https://a.ppy.sh/2?1537409912.jpeg",
+            "background url": "https://assets.ppy.sh/user-profile-covers/2/baba245ef60834b769694178f8f6d4f6166c5188c740de084656ad2b80f1eea7.jpeg",
+            "profile url": "https://osu.ppy.sh/users/2"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
+    },
+    "11022601": {
+        "user data": {
+            "name": "yxriA",
+            "rank": 102931,
+            "score": 7428382768,
+            "playcount": 31421,
+            "avatar url": "https://a.ppy.sh/11022601?1608787159.png",
+            "background url": "https://assets.ppy.sh/user-profile-covers/11022601/b4a645c31a5d253a7c8372d4b605c69f53b242b2cadc702047c01fd1c36d0d16.jpeg",
+            "profile url": "https://osu.ppy.sh/users/11022601"
         },
         "user tags": {
             "development tags": [],

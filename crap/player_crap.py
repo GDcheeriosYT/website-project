@@ -34,6 +34,7 @@ class UserConstructor:
     except KeyError:
       self.id = "unknown"
       self.name = (f"Unknown")
+      self.rank = max()
       self.play_count = 0
       self.score = 0
       self.avatar = "https://data.whicdn.com/images/100018401/original.gif"
@@ -43,6 +44,10 @@ class UserConstructor:
     
     #user main info
     self.name = self.request_profile['username']
+    if self.request_profile['statistics']['global_rank'] != None:
+      self.rank = self.request_profile['statistics']['global_rank']
+    else:
+      self.rank = 999999999
     self.play_count = self.request_profile['statistics']['play_count']
     self.score = self.request_profile["statistics"]["total_score"]
     self.avatar = self.request_profile['avatar_url']    
@@ -164,6 +169,7 @@ async def player_refresh(id):
   time.sleep(2) #add delay to not request too quick
   player = UserConstructor(id)
   name = player.name
+  rank = player.rank
   playcount = player.play_count
   score = player.score
   avatar = player.avatar
@@ -173,7 +179,7 @@ async def player_refresh(id):
   award_tags = player.award_tags
   
   #create player_data dict
-  user_data = {"name" : name, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
+  user_data = {"name" : name, "rank" : rank, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
   user_tags = {"development tags" : development_tags, "award tags" : award_tags}
   player_data[id] = {"user data" : user_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
@@ -201,6 +207,7 @@ async def refresh_all_players():
     time.sleep(2) #add delay to not request too quick
     player = UserConstructor(userid)
     name = player.name
+    rank = player.rank
     playcount = player.play_count
     score = player.score
     avatar = player.avatar
@@ -210,7 +217,7 @@ async def refresh_all_players():
     award_tags = player.award_tags
     
     #create player_data dict
-    user_data = {"name" : name, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
+    user_data = {"name" : name, "rank" : rank, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
     user_tags = {"development tags" : development_tags, "award tags" : award_tags}
     player_data[userid] = {"user data" : user_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
@@ -292,6 +299,7 @@ def player_match_constructor(id, match_data):
     background = player_data[id]["user data"]["background url"]
     link = player_data[id]["user data"]["profile url"]
     player_id = id
+    rank = player_data[id]["user data"]["rank"]
 
   except:
     name = "Unknown User"
@@ -303,4 +311,4 @@ def player_match_constructor(id, match_data):
     link = "https://data.whicdn.com/images/100018401/original.gif"
     player_id = 0
 
-  return(name, [score, avatar, background, link, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), score_formatted, playcount, player_id])
+  return(name, [score, avatar, background, link, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), score_formatted, playcount, player_id, rank])

@@ -1,10 +1,12 @@
 import os
+from textwrap import indent
+from matplotlib.font_manager import json_dump
 
 from numpy import broadcast
 from crap.team_crap import Teams
 
 #packages
-from flask import Flask, redirect, render_template, request
+from flask import Flask, jsonify, redirect, render_template, request
 from flask_wtf import FlaskForm, Form
 from wtforms import *
 import math
@@ -44,21 +46,28 @@ async def grabber(ids, match_name):
     for id in id_list:
       user_pos = match_data["users"].index(id)
       score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0] - match_data["initial score"][user_pos]
+      rank = player_crap.user_data_grabber(id=f"{id}", specific_data=["rank"])[0]
       if id in live_player_status:
-        new_dict[id] = {"score" : score,"liveStatus" : live_player_status[id]}
+        new_dict[id] = {"score" : score, "rank" : rank, "liveStatus" : live_player_status[id]}
       else:
-        new_dict[id] = {"score" : score,"liveStatus" : None}
+        new_dict[id] = {"score" : score, "rank" : rank, "liveStatus" : None}
+      
+      print(f"{player_crap.user_data_grabber(id, specific_data=['name'])[0]}: ", new_dict[id])
+        
   
   else:
     for id in id_list:
       user_pos = match_data["users"].index(id)
       score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0] - match_data["initial score"][user_pos]
+      rank = player_crap.user_data_grabber(id=f"{id}", specific_data=["rank"])[0]
       for team in match_data["team metadata"]:
         if id in team:
           if id in live_player_status:
-            new_dict[id] = {"score" : score,"liveStatus" : live_player_status[id], "team" : f"{team}"}
+            new_dict[id] = {"score" : score, "liveStatus" : live_player_status[id], "team" : f"{team}"}
           else:
-            new_dict[id] = {"score" : score,"liveStatus" : None, "team" : f"{team}"}
+            new_dict[id] = {"score" : score, "liveStatus" : None, "team" : f"{team}"}
+        
+          print(f"{player_crap.user_data_grabber(id, specific_data=['name'])[0]}: ", new_dict[id])
 
   return new_dict
 
@@ -70,21 +79,15 @@ async def all_grabber(ids):
   new_dict = {}
   
   for id in id_list:
-    score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0]
+    data = player_crap.user_data_grabber(id=f"{id}", specific_data=["score", "rank"])
     if id in live_player_status:
-      new_dict[id] = {"score" : score,"liveStatus" : live_player_status[id]}
+      new_dict[id] = {"score" : data[0], "rank" : data[1], "liveStatus" : live_player_status[id]}
     else:
-      new_dict[id] = {"score" : score,"liveStatus" : None}
+      new_dict[id] = {"score" : data[0], "rank" : data[1], "liveStatus" : None}
+  
+    print(f"{player_crap.user_data_grabber(id, specific_data=['name'])[0]}: ", new_dict[id])
 
   return new_dict
-
-@app.route("/testing")
-def testing():
-  with open("matches/osu valley 2021-2022.json") as f:
-    match_data = json.load(f)
-  
-  return(match_data["nicknames"][str(11339405)])
-
  
 #api for refresh client
 #match grabber
@@ -115,13 +118,14 @@ def match_get(time, match):
     table["players"] = []
     table["score"] = []
     table["playcount"] = []
+    table["player_rank"] = []
     
     players = {}
     
     for user in match_data["users"]:
       player = player_crap.player_match_constructor(user, match_data)
 
-      players[player[1][19]] = player[1]
+      players[player[1][8]] = player[1]
       
     players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
     
@@ -129,15 +133,20 @@ def match_get(time, match):
     
     for key in players_sorted.keys():
       user_pos = match_data["users"].index(str(key))
-      player_thing = player_crap.user_data_grabber(id=key, specific_data=["name", "score", "playcount"])
+      player_thing = player_crap.user_data_grabber(id=key, specific_data=["name", "score", "playcount", "rank"])
       table["rank"].append(f"#{x}")
       table["players"].append(player_thing[0])
       table["score"].append("{:,}".format(player_thing[1] - match_data["initial score"][user_pos]))
       table["playcount"].append("{:,}".format(player_thing[2] - match_data["initial playcount"][user_pos]))
+      if player_thing[3] == 999999999:
+        player_thing[3] = "unranked"
+        table["player_rank"].append(player_thing[3])
+      else:
+        table["player_rank"].append("{:,}".format(player_thing[3]))
       x += 1
     
     print("\n", match_data["match name"])
-    print(tabulate(table, headers="keys", tablefmt="fancy_grid"))
+    print(tabulate(table, headers="keys"))
     return(table)
   else:
     return None
@@ -228,7 +237,7 @@ async def match(match_name, graph_view):
 
   players = {}
 
-  print(match_name) 
+  print(match_name)
 
   #match_name = urllib.parse.unquote(match_name)
 
@@ -246,7 +255,6 @@ async def match(match_name, graph_view):
       player = player_crap.player_match_constructor(id, match_data)
 
       players[player[0]] = player[1]
-      print(player[1][6])
       #players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
       player_score_data[player[0]] = player[1][0]
     
@@ -334,7 +342,7 @@ async def match(match_name, graph_view):
     
   else:
     teams = {}
-    score_data = match_data["match score history"]
+    #score_data = match_data["match score history"]
     team_score_data = {}
     
     for team in match_data["team metadata"]:
@@ -342,27 +350,27 @@ async def match(match_name, graph_view):
       teams[team] = [("{:,}".format(new_team.score)), new_team.users]
       team_score_data[team] = ("{:,}".format(new_team.score))
 
-    score_data[f"{dt.date.today()}"] = dict(sorted(team_score_data.items()))
+    '''score_data[f"{dt.date.today()}"] = dict(sorted(team_score_data.items()))
     score_data[f"{dt.date.today()}"] = team_score_data
     match_data["match score history"] = score_data
     biggest_score_step1 = list(match_data["match score history"][f"{dt.date.today()}"].values())
     biggest_score = sorted(biggest_score_step1, reverse=False)[0]
     
     if biggest_score == 0:
-      biggest_score = 1
-
+      biggest_score = 1'''
+ 
     with open(f"matches/{match_name}", "w") as file:
         json.dump(match_data, file, indent = 4, sort_keys = False)
 
     with open(f"matches/{match_name}", "r") as file:
       match_data = json.load(file)  
       
-    def get_key_of(score, dict):
+    '''def get_key_of(score, dict):
         for key, value in dict.items():
             if score == value:
-                return key
+                return key'''
       
-    def previous_score_segment(playername, iteration):
+    '''def previous_score_segment(playername, iteration):
       dates = []
       
       for date in match_data["match score history"]:
@@ -372,16 +380,16 @@ async def match(match_name, graph_view):
         return 0
       
       elif iteration > 1:
-        return match_data["match score history"][dates[iteration - 2]][playername]
+        return match_data["match score history"][dates[iteration - 2]][playername]'''
 
     return render_template(
       'osu/Current.html',  # Template file
-      time = time,
+      #time = time,
       match_data = match_data,
       teams = teams,
-      previous_score_segment = previous_score_segment,
-      get_key_of = get_key_of,
-      biggest_score = biggest_score,
+      #previous_score_segment = previous_score_segment,
+      #get_key_of = get_key_of,
+      #biggest_score = biggest_score,
       get_data = player_crap.user_data_grabber
     )
 
@@ -406,11 +414,19 @@ def old_match(match_name):
   
     return render_template(
     'osu/old_match.html',  # Template file
-    #recent = player_recent
-    time = time,
-    match_data = match_data,
-    players = players_sorted,
-    get_data = player_crap.user_data_grabber
+      #recent = player_recent
+      math = math,
+      #biggest_score = biggest_score,
+      time = time,
+      match_data = match_data,
+      previous_score_segment = previous_score_segment,
+      get_key_of = get_key_of,
+      #players = players_sorted,
+      players = players,
+      match_name = match_name,
+      graph_view = graph_view,
+      get_data = player_crap.user_data_grabber,
+      live_status = live_player_status
     )
     
   else:
@@ -472,7 +488,7 @@ async def web_player_refresh(player_name):
     
     await player_crap.player_refresh(player_name)
 
-  return redirect(f"{client.public_url}/osu/matches")
+  return redirect(f"{client.osu_public_url}/osu/matches")
 
 #tests
 @app.route("/tests/<test_num>")
@@ -542,6 +558,9 @@ async def overlays():
 async def overlay(overlay):
   return render_template(f"stream-overlays/{overlay}/index.html")
   
+'''@app.route("spotify/")
+async def spotify():
+  return render_template("")'''
 
 if __name__ == "__main__":  # Makes sure this is the main process
   app.run(
