@@ -1,6 +1,5 @@
 import os
 from textwrap import indent
-from matplotlib.font_manager import json_dump
 
 from numpy import broadcast
 from crap.team_crap import Teams
@@ -16,6 +15,7 @@ import shutil
 import asyncio
 import datetime as dt
 from tabulate import tabulate
+from cryptography.fernet import Fernet
 
 #osu packages
 import Client_Credentials as client
@@ -32,6 +32,21 @@ app = Flask(  # Create a flask app
   static_folder='static' # Name of directory for static files
 )
 app.config['SECRET_KEY'] = "hugandafortnite"
+
+#account api
+fernet = Fernet(client.password_encryption_key)
+
+@app.route("/api/account/create/<username>+<password>")
+async def account_create(username, password):
+  account_count = len(os.listdir("accounts"))
+  account_data = {
+    "username":username,
+    "password":str(fernet.encrypt(password.encode()))
+  }
+  with open(f"accounts/{account_count}.json", "w+") as file:
+    json.dump(account_data, file, indent=4, sort_keys=False)
+  
+  return account_data
 
 #player score grab api crap
 @app.route("/api/grab/<ids>/<match_name>")
