@@ -27,6 +27,18 @@ from crap import authentication_crap, match_crap, player_crap, function_crap, co
 
 live_player_status = {}
 
+print("verifying directory")
+print("0%")
+if os.path.isdir("matches") == False:
+  os.mkdir("matches")
+print("33%")
+if os.path.isdir("match_history") == False:
+  os.mkdir("match_history")
+print("67%")
+if os.path.isdir("accounts") == False:
+  os.mkdir("accounts")
+print("100%")
+
 #flask set up
 app = Flask(  # Create a flask app
   __name__,
