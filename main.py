@@ -1,3 +1,5 @@
+import base64
+from multiprocessing.connection import Client
 import os
 from textwrap import indent
 
@@ -38,16 +40,47 @@ fernet = Fernet(client.password_encryption_key)
 
 @app.route("/api/account/create/<username>+<password>")
 async def account_create(username, password):
-  account_count = len(os.listdir("accounts"))
+  account_count = len(os.listdir("accounts")) + 1
+  password = fernet.encrypt(password.encode())
+  password = str(password)
+  gcdata = {}
+  backrooms_data = {}
+  metadata = {
+    "osu id":0,
+    "Gentry's Quest data":gcdata,
+    "backrooms_data":backrooms_data
+  }
   account_data = {
     "username":username,
-    "password":str(fernet.encrypt(password.encode()))
+    "password":password[2:-1],
+    "metadata":metadata
   }
   with open(f"accounts/{account_count}.json", "w+") as file:
     json.dump(account_data, file, indent=4, sort_keys=False)
-  
+
   return account_data
 
+@app.route("/api/account/receive-account/<id>") #receive account with id
+async def get_account_with_id(id):
+  for file in os.listdir("accounts"):
+    if file[:-5] == id:
+      return json.load(open(f"accounts/{file}", "r"))
+
+@app.route("/api/account/login/<username>+<password>")
+async def login(username, password):
+  for file in os.listdir("accounts"):
+    account_info = json.load(open(f"accounts/{file}"))
+    print(f'''
+          comparing info:
+          ID {file[:-5]}
+          input: {username} | file: {account_info["username"]}
+          input: {password} | file: {str(fernet.decrypt(account_info["password"].encode()))[2:-1]}         
+          ''')
+    if account_info["username"] == username:
+      if fernet.decrypt(account_info["password"].encode()) == password.encode():
+        return account_info
+  return "incorrect info"
+  
 #player score grab api crap
 @app.route("/api/grab/<ids>/<match_name>")
 async def grabber(ids, match_name):
@@ -172,10 +205,10 @@ async def get_delay():
   return(str(len(live_player_status.items()) / 4))
 
 #start match api  
-class startMatchForm(FlaskForm):
+'''class startMatchForm(FlaskForm):
   match_name = StringField('name')
   mode = SelectField('mode', choices=[('teams', 'teams'), ('ffa', 'free for all')])
-  submit = SubmitField('submit')
+  submit = SubmitField('submit')'''
 
 @app.route("/api/start-match", methods=["post"])
 async def api_start_match():
@@ -572,6 +605,15 @@ async def overlays():
 @app.route("/overlays/<overlay>")
 async def overlay(overlay):
   return render_template(f"stream-overlays/{overlay}/index.html")
+
+@app.route("/user/<id>")
+async def load_profile(id):
+  account_info = json.load(open(f"accounts/{id}.json"))
+  return render_template(
+    "user-profile",
+    username = account_info["username"],
+    metadata = account_info["metadata"]
+  )
   
 '''@app.route("spotify/")
 async def spotify():
