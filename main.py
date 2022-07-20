@@ -55,8 +55,8 @@ async def account_create(username, password):
   account_count = len(os.listdir("accounts")) + 1
   password = fernet.encrypt(password.encode())
   password = str(password)
-  gcdata = {}
-  backrooms_data = {}
+  gcdata = none
+  backrooms_data = none
   metadata = {
     "osu id":0,
     "Gentry's Quest data":gcdata,
