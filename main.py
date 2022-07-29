@@ -17,7 +17,7 @@ import shutil
 import asyncio
 import datetime as dt
 from tabulate import tabulate
-from cryptography.fernet import Fernet
+from flask_bcrypt import Bcrypt
 
 #osu packages
 import Client_Credentials as client
@@ -46,20 +46,20 @@ app = Flask(  # Create a flask app
   static_folder='static' # Name of directory for static files
 )
 app.config['SECRET_KEY'] = "hugandafortnite"
+bcrypt = Bcrypt(app)
 
 #account api
-fernet = Fernet(client.password_encryption_key)
-
 @app.route("/api/account/create/<username>+<password>")
-async def account_create(username, password):
+async def account_create(username, password, gqdata=None, backrooms_data=None):
   account_count = len(os.listdir("accounts")) + 1
   password = fernet.encrypt(password.encode())
   password = str(password)
   gcdata = none
   backrooms_data = none
+  password = str(bcrypt.generate_password_hash(password))
   metadata = {
     "osu id":0,
-    "Gentry's Quest data":gcdata,
+    "Gentry's Quest data":gqdata,
     "backrooms_data":backrooms_data
   }
   account_data = {
@@ -82,14 +82,8 @@ async def get_account_with_id(id):
 async def login(username, password):
   for file in os.listdir("accounts"):
     account_info = json.load(open(f"accounts/{file}"))
-    print(f'''
-          comparing info:
-          ID {file[:-5]}
-          input: {username} | file: {account_info["username"]}
-          input: {password} | file: {str(fernet.decrypt(account_info["password"].encode()))[2:-1]}         
-          ''')
     if account_info["username"] == username:
-      if fernet.decrypt(account_info["password"].encode()) == password.encode():
+      if bcrypt.check_password_hash(account_info["password"], password):
         return account_info
   return "incorrect info"
   
