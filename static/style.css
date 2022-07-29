@@ -238,7 +238,6 @@ a{
   color: rgb(0, 255, 255);
   text-style: bold;
   transition: all var(--transition-speed) ease-out;
-  text-shadow: 4px 4px 0px rgb(0, 0, 0);
   text-decoration: none;
 }
 
@@ -786,7 +785,7 @@ label{
   flex: row;
   text-decoration: underline;
   justify-content: center;
-  margin-left: 40px;
+  text-shadow:rgb(0, 0, 0, 0);
 }
 
 .username{
