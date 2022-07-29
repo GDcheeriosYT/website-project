@@ -310,5 +310,6 @@ def player_match_constructor(id, match_data):
     background = "https://data.whicdn.com/images/100018401/original.gif"
     link = "https://data.whicdn.com/images/100018401/original.gif"
     player_id = 0
+    rank = 999999999
 
   return(name, [score, avatar, background, link, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), score_formatted, playcount, player_id, rank])
