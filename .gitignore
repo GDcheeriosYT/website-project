@@ -4,3 +4,4 @@ Client_Credentials.py
 *.json
 __pycache__
 .vscode
+player_data.json
