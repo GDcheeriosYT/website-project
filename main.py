@@ -52,10 +52,9 @@ bcrypt = Bcrypt(app)
 @app.route("/api/account/create/<username>+<password>")
 async def account_create(username, password, gqdata=None, backrooms_data=None):
   account_count = len(os.listdir("accounts")) + 1
-  password = fernet.encrypt(password.encode())
   password = str(password)
-  gcdata = none
-  backrooms_data = none
+  gcdata = gqdata
+  backrooms_data = backrooms_data
   password = str(bcrypt.generate_password_hash(password))
   metadata = {
     "osu id":0,
@@ -473,12 +472,12 @@ def old_match(match_name):
       #biggest_score = biggest_score,
       time = time,
       match_data = match_data,
-      previous_score_segment = previous_score_segment,
-      get_key_of = get_key_of,
+      #previous_score_segment = previous_score_segment,
+      #get_key_of = get_key_of,
       #players = players_sorted,
       players = players,
       match_name = match_name,
-      graph_view = graph_view,
+      #graph_view = graph_view,
       get_data = player_crap.user_data_grabber,
       live_status = live_player_status
     )
@@ -542,7 +541,7 @@ async def web_player_refresh(player_name):
     
     await player_crap.player_refresh(player_name)
 
-  return redirect(f"{client.osu_public_url}/osu/matches")
+  return redirect(f"{client.osu_public_url}/matches")
 
 #tests
 @app.route("/tests/<test_num>")
