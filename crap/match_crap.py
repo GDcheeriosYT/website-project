@@ -40,8 +40,11 @@ async def start_match(team_mode=False, team_amount=2, match_name=(f"match{match_
     initial_score = []
     initial_playcount = []
     for i in range(team_amount):
+      team_data = {}
       players = []
       team_name = input("give this team a name\n")
+      team_color = input("give a hexcode color for this team?\n")
+      team_data["team color"] = team_color
       while True:
         player_input = player_crap.player_list()
         if player_input == "done":
@@ -51,7 +54,8 @@ async def start_match(team_mode=False, team_amount=2, match_name=(f"match{match_
           players_selected.append(player_input)
           initial_score.append(player_crap.user_data_grabber(id=player_input, specific_data=["score"])[0])
           initial_playcount.append(player_crap.user_data_grabber(id=player_input, specific_data=["playcount"])[0])
-      teams[f"{team_name}"] = players
+      team_data["players"] = players
+      teams[f"{team_name}"] = team_data
   
   else:
     mode = "ffa"
