@@ -1,2 +1,38 @@
 {
+    "1855c3b4-cfe7-4d42-8d73-55e74a89b009": {
+        "username": "GDcheerios",
+        "avatar": "https://crafthead.net/avatar/1855c3b4cfe74d428d7355e74a89b009",
+        "health": 20,
+        "hunger": 20,
+        "level": 0,
+        "score": 0,
+        "position": "X:10, Y:109, Z:6"
+    },
+    "f55ccef8-2651-4c5c-b4ee-bb46f0a5c1e2": {
+        "username": "yxir",
+        "avatar": "https://crafthead.net/avatar/f55ccef826514c5cb4eebb46f0a5c1e2",
+        "health": 20,
+        "hunger": 20,
+        "level": 0,
+        "score": 0,
+        "position": "X:21, Y:109, Z:0"
+    },
+    "0f21700b-731d-46c4-bfff-a89031ee1703": {
+        "username": "elxcto",
+        "avatar": "https://crafthead.net/avatar/0f21700b731d46c4bfffa89031ee1703",
+        "health": 20,
+        "hunger": 20,
+        "level": 0,
+        "score": 0,
+        "position": "X:126, Y:63, Z:97"
+    },
+    "23102250-4040-4533-9704-3ba128da39c3": {
+        "username": "Skyxzz",
+        "avatar": "https://crafthead.net/avatar/231022504040453397043ba128da39c3",
+        "health": 20,
+        "hunger": 20,
+        "level": 0,
+        "score": 0,
+        "position": "X:141, Y:70, Z:87"
+    }
 }

@@ -5,3 +5,15 @@ Client_Credentials.py
 __pycache__
 .vscode
 player_data.json
+*.jar
+*.mca
+*.dat_old
+*.dat
+*.mcfunction
+*.json
+*.log
+*.yml
+*.gz
+minecraft/world/session.lock
+minecraft/world_nether/session.lock
+minecraft/world_the_end/session.lock

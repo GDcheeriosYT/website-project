@@ -1,4 +1,4 @@
 :A
-java -Xmx4G -Xms4G -jar spigot-1.18.1.jar --nogui
+java -Xmx6G -Xms2G -jar spigot-1.19.jar --nogui
 pause
 goto A
