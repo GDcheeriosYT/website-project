@@ -12,8 +12,9 @@
       <h1 class="username">{{username}}</h1>
     </div>
     <div class="profile-info mx-auto">
+      <a style="margin: 10px;">Details</a>
       {% if metadata["osu id"] != 0 %}
-        <a style="margin: 10px;" target=”_blank” href="https://osu.ppy.sh/users/{{metadata["osu id"]}}">osu</a>
+        <a style="margin: 10px;" target=”_blank” href="https://osu.ppy.sh/users/{{metadata["osu id"]}}">OSU</a>
       {% endif %}
       <a style="margin: 10px;">Gentry's Quest</a>
       <a style="margin: 10px;">The Backrooms</a>
