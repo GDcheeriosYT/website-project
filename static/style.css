@@ -1,5 +1,5 @@
 body{
-  background: radial-gradient(circle, rgb(5, 12, 14) 0%, rgb(5, 25, 30) 100%);
+  background: radial-gradient(circle, rgb(3, 9, 11) 0%, rgb(4, 12, 17) 100%);
   background-repeat: no-repeat;
   background-attachment: fixed;
   font-family: arial;
@@ -52,15 +52,46 @@ td a{
   box-shadow: 8px 0px 0px 0px rgba(0, 0, 0, 0.425);
   position: relative;
   transition: ease-out var(--transition-speed);
-  width: 46vh;
-  height: 5vh;
+  width: 35vw;
+  min-width: fit-content;
+  height: 6vh;
   border-radius: 1vw;
-  background-color: #052122;
-  margin: 0 auto;
-  margin-bottom: 0;
   margin-left: 3vw;
   display: block;
   z-index: 1;
+}
+
+.team_info_wrapper{
+  transition: ease-in-out 1500ms;
+}
+
+.team_info{
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
+  background-size: 100%;
+  box-shadow: 8px 0px 0px 0px rgba(0, 0, 0, 0.425);
+  position: relative;
+  transition: ease-out var(--transition-speed);
+  min-width: 15vw;
+  width: 30vw;
+  height: 6vh;
+  border-radius: 1vw;
+}
+
+.team_info h1{
+  font-size: 3vh;
+  margin-left: 0.1vw;
+  margin-right: 0.1vw;
+}
+
+.team_info h2{
+  font-size: 2vh;
+  color: white;
+}
+
+.teams{
+  position: absolute;
+  right: 2vw;
+  left: 60vw;
 }
 
 .player_info_wrapper{
@@ -92,8 +123,8 @@ td a{
 .player_info .namebox{
   margin: 0px;
   text-align: left;
-  font-size: 80%;
-  text-shadow: 6px 6px 0px #000000;
+  font-size: 3vh;
+  text-shadow: 3px 3px 0px #000000;
   white-space: nowrap;
 }
 
@@ -129,8 +160,8 @@ td a{
 .player_info img {
   float:left;
   position: relative;
-  width: 4.7vh;
-  height: 4.7vh;
+  width: 5.7vh;
+  height: 5.7vh;
   transition: all var(--transition-speed) ease-out;
   display: block;
   border: 0.1vw solid #fff;
@@ -197,6 +228,7 @@ td a{
   }
 }
 
+
 .match-teams{
   text-align: center;
   border-radius: 5vw;
@@ -249,7 +281,7 @@ a{
 .player_info:hover .namebox{
   color: white;
   transition: all var(--transition-speed) ease-in;
-  text-shadow: 4px 4px 0px #000000;
+  text-shadow: 3.5px 3.5px 0px #000000;
 }
 
 .extra_text{
@@ -632,15 +664,13 @@ label{
 .live-status{
   color: rgb(255, 255, 255);
   background-color: #002e35;
-  left: 0vw;
-  width: 24vh;
-  height: 3vh;
+  width: 24vw;
+  height: 6vh;
   border-radius: 1vw;
   transform: translateX(-100%);
   transition: transform 0.3s linear;
-  padding: 1vw;
   padding-left: 5vw;
-  font-size: 0.7vw;
+  font-size: 1.2vh;
   z-index: 0;
 }
 
@@ -681,7 +711,6 @@ label{
 }
 
 .live-status .gameplay-score{
-  font-size: 0.9vw;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
@@ -731,7 +760,7 @@ label{
 
 .live-status .gameplay-grade{
   text-shadow: 4px 4px 8px #000000;
-  font-size: 2vw;
+  font-size: 2vh;
 }
 
 .live-status .gameplay-100{
@@ -779,14 +808,13 @@ label{
 }
 
 .icon{
-  font-size: 1vw;
+  font-size: 1vh;
 }
 
 .health{
   text-shadow: 2px 5px 0px #000000;
   margin-left: auto;
   text-align: right;
-  font-size: 68%;
   transition: all var(--transition-speed) ease;
 }
 
@@ -794,7 +822,6 @@ label{
   text-shadow: 2px 5px 0px #000000;
   margin-left: auto;
   text-align: right;
-  font-size: 68%;
   transition: all var(--transition-speed) ease;
 }
 

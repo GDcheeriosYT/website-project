@@ -26,7 +26,7 @@
     let player_ids;
     let player_list = {}
     let wrapperHeight = 0
-    var delay = 3000
+    var delay = 10000
     window.onload = function(){
       wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
       const players = document.querySelectorAll(".player_info")
@@ -194,7 +194,7 @@
     
     let config = {
       duration: delay+(delay/10),
-      fps: 5,
+      fps: 10,
     };
     
     function returnValuesInBetween(startValue, endValue) {
@@ -235,7 +235,7 @@
       {% set count = namespace(value=1) %}
       {% for key, value in players.items() %}
       <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[7] }}">
-        <div class="player_info" data-id="{{ value[7] }}">
+        <div class="player_info" style="background-color: #052122;" data-id="{{ value[7] }}">
           <div style="display: flex;">
             <h1 class="namebox">
               <img src="{{ value[1] }}">

@@ -18,6 +18,7 @@ import asyncio
 import datetime as dt
 from tabulate import tabulate
 from flask_bcrypt import Bcrypt
+import socketio
 
 #osu packages
 import Client_Credentials as client
@@ -26,6 +27,7 @@ import Client_Credentials as client
 from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap, minecraft_data_crap
 
 live_player_status = {}
+console_outputs = []
 
 print("verifying directory")
 print("0%")
@@ -39,6 +41,19 @@ if os.path.isdir("accounts") == False:
   os.mkdir("accounts")
 print("100%")
 
+#console methods
+def update_server_conosle():
+  os.system("clear")
+  print("live users: " + len(live_player_status))
+  if len(console_outputs) >= 4:
+    last_message = console_outputs[3]
+    console_outputs.clear()
+    console_outputs.append(last_message)
+  print("[")
+  for output in console_outputs:
+    print(output + "\n")
+  print("]")
+
 #flask set up
 app = Flask(  # Create a flask app
   __name__,
@@ -47,6 +62,9 @@ app = Flask(  # Create a flask app
 )
 app.config['SECRET_KEY'] = "hugandafortnite"
 bcrypt = Bcrypt(app)
+
+#socket setup
+sio = socketio.AsyncClient()
 
 #account api
 @app.route("/api/account/create/<username>+<password>")
@@ -107,9 +125,6 @@ async def grabber(ids, match_name):
         new_dict[id] = {"score" : score, "rank" : rank, "liveStatus" : live_player_status[id]}
       else:
         new_dict[id] = {"score" : score, "rank" : rank, "liveStatus" : None}
-      
-      print(f"{player_crap.user_data_grabber(id, specific_data=['name'])[0]}: ", new_dict[id])
-        
   
   else:
     for id in id_list:
@@ -117,13 +132,11 @@ async def grabber(ids, match_name):
       score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0] - match_data["initial score"][user_pos]
       rank = player_crap.user_data_grabber(id=f"{id}", specific_data=["rank"])[0]
       for team in match_data["team metadata"]:
-        if id in team:
+        if id in match_data['team metadata'][team]['players']:
           if id in live_player_status:
-            new_dict[id] = {"score" : score, "liveStatus" : live_player_status[id], "team" : f"{team}"}
+            new_dict[id] = {"score" : score, "rank" : rank, "liveStatus" : live_player_status[id], "team" : f"{team}"}
           else:
-            new_dict[id] = {"score" : score, "liveStatus" : None, "team" : f"{team}"}
-        
-          print(f"{player_crap.user_data_grabber(id, specific_data=['name'])[0]}: ", new_dict[id])
+            new_dict[id] = {"score" : score, "rank" : rank, "liveStatus" : None, "team" : f"{team}"}
 
   return new_dict
 
@@ -307,14 +320,11 @@ async def match(match_name, graph_view):
     player_score_data = {}
     
     for id in match_data["users"]:
-
       player = player_crap.player_match_constructor(id, match_data)
-
       players[player[0]] = player[1]
-      #players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
       player_score_data[player[0]] = player[1][0]
     
-    '''#normal graph data updater
+    #normal graph data updater
     score_data = match_data["match score history"]["overall score"]
     score_data[f"{dt.date.today()}"] = dict(sorted(player_score_data.items()))
     match_data["match score history"]["overall score"] = score_data
@@ -338,7 +348,7 @@ async def match(match_name, graph_view):
       biggest_score = sorted(biggest_score_step1, reverse=True)[0]
     else:
       biggest_score_step1 = list(match_data["match score history"]["daily playcount"][f"{dt.date.today()}"].values())
-      biggest_score = sorted(biggest_score_step1, reverse=True)[0]'''
+      biggest_score = sorted(biggest_score_step1, reverse=True)[0]
 
     with open(f"matches/{match_name}", "w") as file:
         json.dump(match_data, file, indent = 4, sort_keys = False)
@@ -397,15 +407,22 @@ async def match(match_name, graph_view):
   )
     
   else:
+    players = {}
     teams = {}
     #score_data = match_data["match score history"]
     team_score_data = {}
     
+    for id in match_data["users"]:
+      player = player_crap.player_match_constructor(id, match_data)
+      players[player[0]] = player[1]
+    
     for team in match_data["team metadata"]:
       new_team = Teams(team, match_name)
-      teams[team] = [("{:,}".format(new_team.score)), new_team.users]
-      team_score_data[team] = ("{:,}".format(new_team.score))
+      teams[team] = {'score': new_team.score, 'players': new_team.users}
+      #team_score_data[team] = ("{:,}".format(new_team.score))
 
+    print(teams)
+    
     '''score_data[f"{dt.date.today()}"] = dict(sorted(team_score_data.items()))
     score_data[f"{dt.date.today()}"] = team_score_data
     match_data["match score history"] = score_data
@@ -442,6 +459,7 @@ async def match(match_name, graph_view):
       'osu/Current.html',  # Template file
       #time = time,
       match_data = match_data,
+      players = players,
       teams = teams,
       #previous_score_segment = previous_score_segment,
       #get_key_of = get_key_of,

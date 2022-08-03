@@ -43,7 +43,7 @@ async def start_match(team_mode=False, team_amount=2, match_name=(f"match{match_
       team_data = {}
       players = []
       team_name = input("give this team a name\n")
-      team_color = input("give a hexcode color for this team?\n")
+      team_color = input("give a hexcode or string color for this team?\n")
       team_data["team color"] = team_color
       while True:
         player_input = player_crap.player_list()

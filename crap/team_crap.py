@@ -27,8 +27,7 @@ def team_score(match_name, team_name):
     player_data = json.load(fh)
     
   score = 0
-  
-  for user in match_data["team metadata"][team_name]:
+  for user in match_data["team metadata"][team_name]["players"]:
     user_pos = match_data["users"].index(user)
     score += player_data[user]["user data"]["score"] - match_data["initial score"][user_pos]
   
@@ -56,14 +55,10 @@ def team_users(match_name, team_name):
   print(file_path)
   with file_path.open() as fh:
     match_data = json.load(fh)
+    
   
-  for user in match_data["team metadata"][team_name]:
-    player = player_crap.player_match_constructor(user, match_data)
-    players[player[0]] = player[1]
     
-  players_sorted = dict(sorted(players.items(), key=lambda x: x[1], reverse=True))
-    
-  return players_sorted
+  return match_data["team metadata"][team_name]["players"]
 
 
 

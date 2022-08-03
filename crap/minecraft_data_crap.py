@@ -47,7 +47,6 @@ def player_data(get_players):
       updated_players.append({'username' : e.name, 'avatar' : e.avatar_url, 'health' : int(e.health), 'hunger' : give_num(e.hunger), 'level' : e.level, 'score' : give_num(e.xp), 'position' : f"X:{give_num(e.pos[0])}, Y:{give_num(e.pos[1])}, Z:{give_num(e.pos[2])}"})
       if uuids[players.index(player)] not in player_data.keys():
         player_data[uuids[players.index(player)]] = updated_players[players.index(player)]
-    print(json.dumps(player_data, indent=4))
     
     json.dump(player_data, open("minecraft/player_data.json", "w"), indent=4)
     
@@ -59,7 +58,5 @@ def player_data(get_players):
       player_game_data = nbtlib.load(f"minecraft/world/playerdata/{player[0]}.dat")
       e = Player(player[1]["username"], player[1]["avatar"], player_game_data['Health'] + player_game_data['AbsorptionAmount'], player_game_data['foodLevel'], player_game_data['XpLevel'], player_game_data['Score'], player_game_data['Pos'])
       players.append({'username' : e.name, 'avatar' : e.avatar_url, 'health' : int(e.health), 'hunger' : give_num(e.hunger), 'level' : e.level, 'score' : give_num(e.xp), 'position' : f"X:{give_num(e.pos[0])}, Y:{give_num(e.pos[1])}, Z:{give_num(e.pos[2])}"})
-
-    print(json.dumps(players, indent=4))
 
     return(players)
