@@ -3,12 +3,13 @@
 {% endblock %}
 <div class="rectangle_menu">
   <nav>
-    <p>GDcheerios.com</p>
-    <ul style="margin-top: 0px;">
-      <li class="dropdown"><a href="http://gdcheerios.com">Main</a>
+    <ul style="">
+      <li class="dropdown-special"><p style="margin: 1%;">GDcheerios.com</p></li>
+      <li class="dropdown"><a href="/">Main</a>
         <ul class="dropdown-content">
-          <li><a href="http://gdcheerios.com">Home</a></li>
+          <li><a href="/">Home</a></li>
           <li><a href="https://github.com/GDcheeriosYT/website-project">Github</a></li>
+          <li><a href="/client">Client</a></li>
         </ul>
       </li>
       <li class="dropdown"><a href="/minecraft">Minecraft</a>
@@ -22,7 +23,17 @@
           <li><a href="/osu">Home</a></li>
           <li><a href="/osu/matches">Matches</a></li>
           <li><a href="/osu/players">Players</a></li>
-          <li><a href="/osu/client">Client</a></li>
+        </ul>
+      </li>
+      <li class="dropdown"><a href="/account">Account</a>
+        <ul class="dropdown-content">
+          {% if request.cookies.get('userID') != None %}
+            <li><a href="/user/{{ request.cookies.get('userID') }}">Profile</a></li>
+            <li><a href="/account/signout">Sign Out</a></li>
+          {% else %}
+            <li><a href="/account/login">Log In</a></li>
+            <li><a href="/account/create">Create Account</a></li>
+          {% endif %}
         </ul>
       </li>
     </ul>

@@ -7,7 +7,7 @@ from numpy import broadcast
 from crap.team_crap import Teams
 
 #packages
-from flask import Flask, jsonify, redirect, render_template, request
+from flask import Flask, jsonify, redirect, render_template, request, make_response
 from flask_wtf import FlaskForm, Form
 from wtforms import *
 import math
@@ -50,16 +50,18 @@ bcrypt = Bcrypt(app)
 
 #account api
 @app.route("/api/account/create/<username>+<password>")
-async def account_create(username, password, gqdata=None, backrooms_data=None):
+async def account_create(username, password, osu_id=0, gqdata=None, backrooms_data=None, about_me=""):
   account_count = len(os.listdir("accounts")) + 1
   password = str(password)
-  gcdata = gqdata
+  about_me = about_me
+  gqdata = gqdata
   backrooms_data = backrooms_data
   password = str(bcrypt.generate_password_hash(password))
   metadata = {
-    "osu id":0,
+    "osu id":osu_id,
     "Gentry's Quest data":gqdata,
-    "backrooms_data":backrooms_data
+    "backrooms_data":backrooms_data,
+    "about me":about_me
   }
   account_data = {
     "username":username,
@@ -80,7 +82,8 @@ async def get_account_with_id(id):
 @app.route("/api/account/login/<username>+<password>")
 async def login(username, password):
   for file in os.listdir("accounts"):
-    account_info = json.load(open(f"accounts/{file}"))
+    account_info = json.load(open(f"accounts/{file}", encoding="utf-8"))
+    account_info["id"] = int(file[:-5])
     if account_info["username"] == username:
       if bcrypt.check_password_hash(account_info["password"], password):
         return account_info
@@ -571,9 +574,9 @@ async def web_control():
 async def warning_info():
   return render_template("info.html")
 
-@app.route("/osu/client")
+@app.route("/client")
 async def client_webpage():
-  return render_template("osu/client.html")
+  return render_template("client.html")
 
 @app.route("/minecraft")
 async def minecraft():
@@ -613,12 +616,82 @@ async def overlay(overlay):
 
 @app.route("/user/<id>")
 async def load_profile(id):
-  account_info = json.load(open(f"accounts/{id}.json"))
+  account_info = json.load(open(f"accounts/{id}.json", encoding="utf-8"))
   return render_template(
-    "user-profile",
+    "account/user-profile.html",
     username = account_info["username"],
     metadata = account_info["metadata"]
   )
+
+@app.route("/account/login")
+async def login_page():
+  return render_template(
+    "account/login.html"
+  )
+
+@app.route('/login', methods = ['POST'])
+def login_cookie():
+  username = request.form.get('nm')
+  password = request.form.get('pw')
+  login_result = asyncio.run(login(username, password))
+  if login_result != "incorrect info":
+    account_info = json.load(open(f"accounts/{login_result['id']}.json", encoding="utf-8"))
+    resp = make_response(render_template(
+      'account/user-profile.html',
+      username = account_info["username"],
+      metadata = account_info["metadata"]
+    ))
+    resp.set_cookie('userID', str(login_result["id"]).encode())
+    return resp
+  else:
+    resp = make_response(render_template(
+      'account/login.html',
+      warning = "incorrect info"
+    ))
+    return resp
+  
+@app.route("/account/signout")
+async def signout():
+  resp = make_response(render_template(
+    'account/login.html'
+  ))
+  resp.delete_cookie('userID')
+  return resp
+
+@app.route("/account")
+async def account_home():
+  return render_template("account/create-one.html")
+
+@app.route("/account/create")
+async def account_create_page():
+  return render_template("account/create.html")
+
+@app.route("/create-account", methods=['POST'])
+def create_account():
+  username = request.form.get("nm")
+  password = request.form.get("pw")
+  try:
+    osuid = int(request.form.get("osuid"))
+  except:
+    osuid = 0
+  about_me = request.form.get("am")
+  asyncio.run(account_create(username, password, osuid, None, None, about_me))
+  login_result = asyncio.run(login(username, password))
+  if login_result != "incorrect info":
+    account_info = json.load(open(f"accounts/{login_result['id']}.json", encoding="utf-8"))
+    resp = make_response(render_template(
+      'account/user-profile.html',
+      username = account_info["username"],
+      metadata = account_info["metadata"]
+    ))
+    resp.set_cookie('userID', str(login_result["id"]).encode())
+    return resp
+  else:
+    resp = make_response(render_template(
+      'account/login.html',
+      warning = "incorrect info"
+    ))
+    return resp
   
 '''@app.route("spotify/")
 async def spotify():

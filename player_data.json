@@ -148,5 +148,20 @@
             "development tags": [],
             "award tags": []
         }
+    },
+    "2": {
+        "user data": {
+            "name": "peppy",
+            "rank": 724665,
+            "score": 1942534575,
+            "playcount": 7533,
+            "avatar url": "https://a.ppy.sh/2?1657169614.png",
+            "background url": "https://assets.ppy.sh/user-profile-covers/2/baba245ef60834b769694178f8f6d4f6166c5188c740de084656ad2b80f1eea7.jpeg",
+            "profile url": "https://osu.ppy.sh/users/2"
+        },
+        "user tags": {
+            "development tags": [],
+            "award tags": []
+        }
     }
 }
