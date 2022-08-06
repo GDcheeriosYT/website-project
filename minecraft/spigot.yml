@@ -64,7 +64,7 @@ world-settings:
     below-zero-generation-in-existing-chunks: true
     verbose: true
     dragon-death-sound-radius: 0
-    thunder-chance: 100000
+    thunder-chance: 1000
     merge-radius:
       item: 2.5
       exp: 3.0

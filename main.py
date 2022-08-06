@@ -104,6 +104,7 @@ async def login(username, password):
     account_info["id"] = int(file[:-5])
     if account_info["username"] == username:
       if bcrypt.check_password_hash(account_info["password"], password):
+        print(account_info)
         return account_info
   return "incorrect info"
   
@@ -121,22 +122,24 @@ async def grabber(ids, match_name):
       user_pos = match_data["users"].index(id)
       score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0] - match_data["initial score"][user_pos]
       rank = player_crap.user_data_grabber(id=f"{id}", specific_data=["rank"])[0]
+      background_url = player_crap.user_data_grabber(id=f"{id}", specific_data=["background url"])[0]
       if id in live_player_status:
-        new_dict[id] = {"score" : score, "rank" : rank, "liveStatus" : live_player_status[id]}
+        new_dict[id] = {"background url" : background_url, "score" : score, "rank" : rank, "liveStatus" : live_player_status[id]}
       else:
-        new_dict[id] = {"score" : score, "rank" : rank, "liveStatus" : None}
+        new_dict[id] = {"background url" : background_url, "score" : score, "rank" : rank, "liveStatus" : None}
   
   else:
     for id in id_list:
       user_pos = match_data["users"].index(id)
       score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0] - match_data["initial score"][user_pos]
       rank = player_crap.user_data_grabber(id=f"{id}", specific_data=["rank"])[0]
+      background_url = player_crap.user_data_grabber(id=f"{id}", specific_data=["background url"])[0]
       for team in match_data["team metadata"]:
         if id in match_data['team metadata'][team]['players']:
           if id in live_player_status:
-            new_dict[id] = {"score" : score, "rank" : rank, "liveStatus" : live_player_status[id], "team" : f"{team}"}
+            new_dict[id] = {"background url" : background_url, "score" : score, "rank" : rank, "liveStatus" : live_player_status[id], "team" : f"{team}"}
           else:
-            new_dict[id] = {"score" : score, "rank" : rank, "liveStatus" : None, "team" : f"{team}"}
+            new_dict[id] = {"background url" : background_url, "score" : score, "rank" : rank, "liveStatus" : None, "team" : f"{team}"}
 
   return new_dict
 
@@ -148,11 +151,11 @@ async def all_grabber(ids):
   new_dict = {}
   
   for id in id_list:
-    data = player_crap.user_data_grabber(id=f"{id}", specific_data=["score", "rank"])
+    data = player_crap.user_data_grabber(id=f"{id}", specific_data=["score", "rank", "background url"])
     if id in live_player_status:
-      new_dict[id] = {"score" : data[0], "rank" : data[1], "liveStatus" : live_player_status[id]}
+      new_dict[id] = {"background url" : data[2], "score" : data[0], "rank" : data[1], "liveStatus" : live_player_status[id]}
     else:
-      new_dict[id] = {"score" : data[0], "rank" : data[1], "liveStatus" : None}
+      new_dict[id] = {"background url" : data[2], "score" : data[0], "rank" : data[1], "liveStatus" : None}
   
     print(f"{player_crap.user_data_grabber(id, specific_data=['name'])[0]}: ", new_dict[id])
 
@@ -325,7 +328,7 @@ async def match(match_name, graph_view):
       player_score_data[player[0]] = player[1][0]
     
     #normal graph data updater
-    score_data = match_data["match score history"]["overall score"]
+    '''score_data = match_data["match score history"]["overall score"]
     score_data[f"{dt.date.today()}"] = dict(sorted(player_score_data.items()))
     match_data["match score history"]["overall score"] = score_data
     
@@ -348,7 +351,7 @@ async def match(match_name, graph_view):
       biggest_score = sorted(biggest_score_step1, reverse=True)[0]
     else:
       biggest_score_step1 = list(match_data["match score history"]["daily playcount"][f"{dt.date.today()}"].values())
-      biggest_score = sorted(biggest_score_step1, reverse=True)[0]
+      biggest_score = sorted(biggest_score_step1, reverse=True)[0]'''
 
     with open(f"matches/{match_name}", "w") as file:
         json.dump(match_data, file, indent = 4, sort_keys = False)
@@ -399,6 +402,7 @@ async def match(match_name, graph_view):
     previous_score_segment = previous_score_segment,
     get_key_of = get_key_of,
     #players = players_sorted,
+    teams = {},
     players = players,
     match_name = match_name,
     graph_view = graph_view,
@@ -418,7 +422,7 @@ async def match(match_name, graph_view):
     
     for team in match_data["team metadata"]:
       new_team = Teams(team, match_name)
-      teams[team] = {'score': new_team.score, 'players': new_team.users}
+      teams[team] = {'score': new_team.score, 'players': new_team.users, "color" : match_data["team metadata"][team]["team color"]}
       #team_score_data[team] = ("{:,}".format(new_team.score))
 
     print(teams)
