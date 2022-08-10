@@ -1,4 +1,5 @@
 import base64
+from hashlib import new
 from multiprocessing.connection import Client
 import os
 from textwrap import indent
@@ -8,6 +9,7 @@ from crap.team_crap import Teams
 
 #packages
 from flask import Flask, jsonify, redirect, render_template, request, make_response
+from flask_socketio import SocketIO, send, emit
 from flask_wtf import FlaskForm, Form
 from wtforms import *
 import math
@@ -19,6 +21,7 @@ import datetime as dt
 from tabulate import tabulate
 from flask_bcrypt import Bcrypt
 import socketio
+import random
 
 #osu packages
 import Client_Credentials as client
@@ -61,16 +64,27 @@ app = Flask(  # Create a flask app
   static_folder='static' # Name of directory for static files
 )
 app.config['SECRET_KEY'] = "hugandafortnite"
+socketio = SocketIO(app)
 bcrypt = Bcrypt(app)
-
-#socket setup
-sio = socketio.AsyncClient()
 
 #account api
 @app.route("/api/account/create/<username>+<password>")
 async def account_create(username, password, osu_id=0, gqdata=None, backrooms_data=None, about_me=""):
   account_count = len(os.listdir("accounts")) + 1
   password = str(password)
+  pfp_options = [
+    "https://i.pinimg.com/originals/cc/e9/2b/cce92b94514424978c1884f2211252c4.jpg",
+    "https://i.ytimg.com/vi/Zr-qM5Vrd0g/maxresdefault.jpg",
+    "https://i.scdn.co/image/ab67616d00001e02d45ec66aa3cf3864205fd068",
+    "https://www.memesmonkey.com/images/memesmonkey/60/60af97651f29dd12fb75e7e86824dbca.jpeg",
+    "https://c.tenor.com/GnoI-2HabJAAAAAM/john-dance.gif",
+    "https://static01.nyt.com/images/2021/04/03/multimedia/03xp-april/merlin_185893383_8e41433f-4a32-4b1e-bf02-457290d0d534-superJumbo.jpg",
+    "https://www.savacations.com/wp-content/uploads/2021/02/Blog-Capybara-Pantanal-Brazil3.jpg",
+    "https://media.npr.org/assets/news/2009/11/24/herbivore_custom-1972e6887b4d01652e38a2f92ddf41e59463ad6a-s1100-c50.jpg",
+    "https://c.tenor.com/6Rbpa8xH9f8AAAAC/yes-yes-yes-yes-osu-player-player-player.gif",
+    "https://media.discordapp.net/attachments/828998201066651690/997964078666485900/5185344a7bd3b76fd9d1802a1be019d3.gif"
+  ]
+  profile_picture = random.choice(pfp_options)
   about_me = about_me
   gqdata = gqdata
   backrooms_data = backrooms_data
@@ -82,6 +96,7 @@ async def account_create(username, password, osu_id=0, gqdata=None, backrooms_da
     "about me":about_me
   }
   account_data = {
+    "pfp url":profile_picture,
     "username":username,
     "password":password[2:-1],
     "metadata":metadata
@@ -109,22 +124,21 @@ async def login(username, password):
   return "incorrect info"
   
 #player score grab api crap
-@app.route("/api/grab/<ids>/<match_name>")
-async def grabber(ids, match_name):
-  id_list = ids.split("+")
+@app.route("/api/grab/<match_name>")
+async def grabber(match_name):
   with open(f"matches/{match_name}.json") as f:
     match_data = json.load(f)
     
+  id_list = match_data["users"]
   new_dict = {}
   if match_data["mode"] == "ffa":
-  
     for id in id_list:
       user_pos = match_data["users"].index(id)
       score = player_crap.user_data_grabber(id=f"{id}", specific_data=["score"])[0] - match_data["initial score"][user_pos]
       rank = player_crap.user_data_grabber(id=f"{id}", specific_data=["rank"])[0]
       background_url = player_crap.user_data_grabber(id=f"{id}", specific_data=["background url"])[0]
-      if id in live_player_status:
-        new_dict[id] = {"background url" : background_url, "score" : score, "rank" : rank, "liveStatus" : live_player_status[id]}
+      if int(id) in live_player_status:
+        new_dict[id] = {"background url" : background_url, "score" : score, "rank" : rank, "liveStatus" : live_player_status[int(id)]}
       else:
         new_dict[id] = {"background url" : background_url, "score" : score, "rank" : rank, "liveStatus" : None}
   
@@ -136,12 +150,28 @@ async def grabber(ids, match_name):
       background_url = player_crap.user_data_grabber(id=f"{id}", specific_data=["background url"])[0]
       for team in match_data["team metadata"]:
         if id in match_data['team metadata'][team]['players']:
-          if id in live_player_status:
-            new_dict[id] = {"background url" : background_url, "score" : score, "rank" : rank, "liveStatus" : live_player_status[id], "team" : f"{team}"}
+          if int(id) in live_player_status:
+            new_dict[id] = {"background url" : background_url, "score" : score, "rank" : rank, "liveStatus" : live_player_status[int(id)], "team" : f"{team}"}
           else:
             new_dict[id] = {"background url" : background_url, "score" : score, "rank" : rank, "liveStatus" : None, "team" : f"{team}"}
 
   return new_dict
+
+@socketio.on('event')
+def test_socket(data):
+  print(data)
+
+@app.route("/test-live")
+async def test_live():
+  return live_player_status
+
+@socketio.on('update client status')
+def update_client_status(data):
+  live_player_status[data["user"]] = data
+
+@socketio.on('match data get')
+def get_livestatus(data):
+  emit('match data receive', asyncio.run(grabber(data)))
 
 #all players api updater
 @app.route("/api/grab/<ids>/all")
@@ -152,10 +182,7 @@ async def all_grabber(ids):
   
   for id in id_list:
     data = player_crap.user_data_grabber(id=f"{id}", specific_data=["score", "rank", "background url"])
-    if id in live_player_status:
-      new_dict[id] = {"background url" : data[2], "score" : data[0], "rank" : data[1], "liveStatus" : live_player_status[id]}
-    else:
-      new_dict[id] = {"background url" : data[2], "score" : data[0], "rank" : data[1], "liveStatus" : None}
+    new_dict[id] = {"background url" : data[2], "score" : data[0], "rank" : data[1], "liveStatus" : None}
   
     print(f"{player_crap.user_data_grabber(id, specific_data=['name'])[0]}: ", new_dict[id])
 
@@ -641,7 +668,9 @@ async def load_profile(id):
   account_info = json.load(open(f"accounts/{id}.json", encoding="utf-8"))
   return render_template(
     "account/user-profile.html",
+    id = id,
     username = account_info["username"],
+    profile_picture = account_info["pfp url"],
     metadata = account_info["metadata"]
   )
 
@@ -660,7 +689,9 @@ def login_cookie():
     account_info = json.load(open(f"accounts/{login_result['id']}.json", encoding="utf-8"))
     resp = make_response(render_template(
       'account/user-profile.html',
+      id = id,
       username = account_info["username"],
+      profile_picture = account_info["pfp url"],
       metadata = account_info["metadata"]
     ))
     resp.set_cookie('userID', str(login_result["id"]).encode())
@@ -703,7 +734,9 @@ def create_account():
     account_info = json.load(open(f"accounts/{login_result['id']}.json", encoding="utf-8"))
     resp = make_response(render_template(
       'account/user-profile.html',
+      id = id,
       username = account_info["username"],
+      profile_picture = account_info["pfp url"],
       metadata = account_info["metadata"]
     ))
     resp.set_cookie('userID', str(login_result["id"]).encode())
@@ -714,13 +747,27 @@ def create_account():
       warning = "incorrect info"
     ))
     return resp
+
+@app.route("/api/account/change-pfp", methods=["POST"])
+def change_profile_picture():
+  id = request.cookies.get('userID')
+  account_data = json.load(open(f"accounts/{id}.json"))
+  account_data["pfp url"] = request.form.get("url")
+  json.dump(account_data, open(f"accounts/{id}.json", "w"), indent=4, sort_keys=False)
+  return render_template(
+    'account/user-profile.html',
+    id = id,
+    username = account_data["username"],
+    profile_picture = account_data["pfp url"],
+    metadata = account_data["metadata"]
+  )
   
 '''@app.route("spotify/")
 async def spotify():
   return render_template("")'''
 
 if __name__ == "__main__":  # Makes sure this is the main process
-  app.run(
+  socketio.run(app,
     host='0.0.0.0',  # Establishes the host, required for repl to detect the site
     port=80,# Randomly select the port the machine hosts on.
     debug=True)

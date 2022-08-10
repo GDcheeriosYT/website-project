@@ -56,6 +56,10 @@
       }
     </script>
     <div style="margin-top: 25%;">
+      <img style="margin-left: auto; margin-right: auto; display: block;" src="{{profile_picture}}">
+      {% if request.cookies.get('userID') == id %}
+        <form action="/api/account/change-pfp" method="POST"><input type="text" name="url" value="url"></input><input type="submit" value="set"></form> 
+      {% endif %}
       <h1 class="username">{{username}}</h1>
     </div>
     <div class="profile-info mx-auto">
