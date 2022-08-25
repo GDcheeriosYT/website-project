@@ -41,6 +41,7 @@
         team_value[1] = call to player values-->
           <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
           <script>
+            let onTimeout = false
             let cover = false
             let sortType = "scoreHistory"
             let player_ids;
@@ -81,20 +82,10 @@
               reRenderPlayerScores()
               updateTeams()
             }, 2000)
-
-            /*function getDelay(){
-              return new Promise((resolve, reject) => {
-                fetch('/api/get-delay')
-                  .then(response => response.json())
-                  .then((data) => {
-                      resolve( data.delay );
-                      delay = data * 1000
-                      console.log(delay)
-                  })
-                  .catch(reject);
-              })    
-            } */
-
+            setInterval(() => {
+              onTimeout = false
+              //document.getElementByID('refresh-button').style.color = "grey"
+            }, 2000)
 
             function toggleCovers(){
               cover = !cover
@@ -102,6 +93,19 @@
               reArrangePlayers()
               reRenderPlayerScores()
               updateTeams()
+            }
+
+            function refresh(id){
+              if(onTimeout){
+                document.querySelector('refresh-button').style.color = "black"
+              }
+              else{
+                let xhr = new XMLHttpRequest();
+                xhr.open('POST', "/refresh/" + id);
+                  xhr.send()
+                onTimeout = true
+                document.querySelector('refresh-button').style.color = "black"
+              }
             }
             
             function reRenderPlayerScores(){
@@ -179,7 +183,6 @@
             function reRenderLiveStatus(){
               Object.keys(player_list).forEach((key, i) => {
                 const player = document.querySelector(".live-status[data-id='" + key + "']")
-                player.classList = "live-status"
                 const data = player_list[key]
                 if (data.liveStatus){
                   player.classList = "live-status active"
@@ -373,8 +376,8 @@
               {% for key, value in players.items() %}
               <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[8] }}">
                 {% if match_data["mode"] == "teams" %}
-                  {% for team in match_data["team metadata"] %}
-                    {% for player in match_data["team metadata"][team]["players"] %}
+                {% for team in match_data["team metadata"] %}
+                {% for player in match_data["team metadata"][team]["players"] %}
                       {% if value[8]|int == player|int %}
                         <div class="player_info" data-id="{{ value[8] }}">
                       {% endif %}
@@ -460,6 +463,11 @@
                     </div>
                   </div>
                 </div>
+                  {% if request.cookies.get('userID') != None %}
+                    {% if get_osu_id(request.cookies.get('userID')) == value[8]|int %}
+                      <a data-id="refresh-button" onclick="refresh('{{ value[8] }}')" style="font-size: 5vh; margin-left: 20vw;">refresh</a>
+                    {% endif %}
+                  {% endif %}
               </div>
               {% set count.value = count.value + 1 %}
               {% endfor %}

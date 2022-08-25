@@ -166,7 +166,6 @@ async def player_refresh(id):
   authentication_crap.check_access()
   
   print(f"loading user {id}'s data")
-  time.sleep(2) #add delay to not request too quick
   player = UserConstructor(id)
   name = player.name
   rank = player.rank

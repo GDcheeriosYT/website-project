@@ -157,6 +157,9 @@ async def grabber(match_name):
 
   return new_dict
 
+def get_osu_id(userID):
+  return json.load(open(f"accounts/{userID}.json", "r"))["metadata"]["osu id"]
+
 @socketio.on('event')
 def test_socket(data):
   print(data)
@@ -256,11 +259,6 @@ async def get_delay():
   return(str(len(live_player_status.items()) / 4))
 
 #start match api  
-'''class startMatchForm(FlaskForm):
-  match_name = StringField('name')
-  mode = SelectField('mode', choices=[('teams', 'teams'), ('ffa', 'free for all')])
-  submit = SubmitField('submit')'''
-
 @app.route("/api/start-match", methods=["post"])
 async def api_start_match():
   info = request.json
@@ -338,8 +336,6 @@ async def match(match_name, graph_view):
 
   print(match_name)
 
-  #match_name = urllib.parse.unquote(match_name)
-
   with open(f"matches/{match_name}") as joe:
     match_data = json.load(joe)
 
@@ -353,32 +349,6 @@ async def match(match_name, graph_view):
       player = player_crap.player_match_constructor(id, match_data)
       players[player[0]] = player[1]
       player_score_data[player[0]] = player[1][0]
-    
-    #normal graph data updater
-    '''score_data = match_data["match score history"]["overall score"]
-    score_data[f"{dt.date.today()}"] = dict(sorted(player_score_data.items()))
-    match_data["match score history"]["overall score"] = score_data
-    
-    #daily score graph data updater
-    score_data = match_data["match score history"]["daily score"]
-    player_score_data = {}
-    
-    dates = list(match_data["match score history"]["overall score"].keys())
-    for user in match_data["match score history"]["overall score"][dates[-1]]:
-      player_score_data[user] = match_data["match score history"]["overall score"][dates[len(dates) - 1]][user] - match_data["match score history"]["overall score"][dates[len(dates) - 2]][user]
-      score_data[f"{dt.date.today()}"] = player_score_data
-      match_data["match score history"]["daily score"] = score_data
-      
-    
-    if graph_view == "normal":
-      biggest_score_step1 = list(match_data["match score history"]["overall score"][f"{dt.date.today()}"].values())
-      biggest_score = sorted(biggest_score_step1, reverse=True)[0]
-    elif graph_view == "daily-score-gain":
-      biggest_score_step1 = list(match_data["match score history"]["daily score"][f"{dt.date.today()}"].values())
-      biggest_score = sorted(biggest_score_step1, reverse=True)[0]
-    else:
-      biggest_score_step1 = list(match_data["match score history"]["daily playcount"][f"{dt.date.today()}"].values())
-      biggest_score = sorted(biggest_score_step1, reverse=True)[0]'''
 
     with open(f"matches/{match_name}", "w") as file:
         json.dump(match_data, file, indent = 4, sort_keys = False)
@@ -386,61 +356,23 @@ async def match(match_name, graph_view):
     with open(f"matches/{match_name}", "r") as file:
       match_data = json.load(file)
       
-    def get_key_of(score, dict):
-        for key, value in dict.items():
-            if score == value:
-                return key
-      
-    def previous_score_segment(playername, iteration):
-      dates = []
-      
-      if graph_view == "normal":
-        for date in match_data["match score history"]["overall score"]:
-          dates.append(date)
-      elif graph_view == "daily-score-gain":
-        for date in match_data["match score history"]["daily score"]:
-          dates.append(date)
-      else:
-        for date in match_data["match score history"]["daily playcount"]:
-          dates.append(date)
-        
-      if iteration <= 1:
-        return 0
-      
-      elif iteration > 1:
-        if graph_view == "normal":
-          return match_data["match score history"]["overall score"][dates[iteration - 2]][playername]
-        elif graph_view == "daily-score-gain":
-          try:
-            return match_data["match score history"]["daily score"][dates[iteration - 2]][playername]
-          except:
-            return 0
-        else:
-          return match_data["match score history"]["daily playcount"][dates[iteration - 2]][playername]
-          
-
     return render_template(
-    'osu/Current.html',  # Template file
-    #recent = player_recent,
+    'osu/Current.html',
     math = math,
-    #biggest_score = biggest_score,
     time = time,
     match_data = match_data,
-    previous_score_segment = previous_score_segment,
-    get_key_of = get_key_of,
-    #players = players_sorted,
     teams = {},
     players = players,
     match_name = match_name,
     graph_view = graph_view,
     get_data = player_crap.user_data_grabber,
-    live_status = live_player_status
+    live_status = live_player_status,
+    get_osu_id = get_osu_id
   )
     
   else:
     players = {}
     teams = {}
-    #score_data = match_data["match score history"]
     team_score_data = {}
     
     for id in match_data["users"]:
@@ -452,50 +384,19 @@ async def match(match_name, graph_view):
       teams[team] = {'score': new_team.score, 'players': new_team.users, "color" : match_data["team metadata"][team]["team color"]}
       #team_score_data[team] = ("{:,}".format(new_team.score))
 
-    print(teams)
-    
-    '''score_data[f"{dt.date.today()}"] = dict(sorted(team_score_data.items()))
-    score_data[f"{dt.date.today()}"] = team_score_data
-    match_data["match score history"] = score_data
-    biggest_score_step1 = list(match_data["match score history"][f"{dt.date.today()}"].values())
-    biggest_score = sorted(biggest_score_step1, reverse=False)[0]
-    
-    if biggest_score == 0:
-      biggest_score = 1'''
- 
     with open(f"matches/{match_name}", "w") as file:
         json.dump(match_data, file, indent = 4, sort_keys = False)
 
     with open(f"matches/{match_name}", "r") as file:
       match_data = json.load(file)  
       
-    '''def get_key_of(score, dict):
-        for key, value in dict.items():
-            if score == value:
-                return key'''
-      
-    '''def previous_score_segment(playername, iteration):
-      dates = []
-      
-      for date in match_data["match score history"]:
-        dates.append(date)
-        
-      if iteration <= 1:
-        return 0
-      
-      elif iteration > 1:
-        return match_data["match score history"][dates[iteration - 2]][playername]'''
-
     return render_template(
-      'osu/Current.html',  # Template file
-      #time = time,
+      'osu/Current.html',
       match_data = match_data,
       players = players,
       teams = teams,
-      #previous_score_segment = previous_score_segment,
-      #get_key_of = get_key_of,
-      #biggest_score = biggest_score,
-      get_data = player_crap.user_data_grabber
+      get_data = player_crap.user_data_grabber,
+      get_osu_id = get_osu_id
     )
 
 #work on future old matches
@@ -526,8 +427,7 @@ def old_match(match_name):
       match_data = match_data,
       #previous_score_segment = previous_score_segment,
       #get_key_of = get_key_of,
-      #players = players_sorted,
-      players = players,
+      players = players_sorted,
       match_name = match_name,
       #graph_view = graph_view,
       get_data = player_crap.user_data_grabber,
@@ -594,6 +494,20 @@ async def web_player_refresh(player_name):
     await player_crap.player_refresh(player_name)
 
   return redirect(f"{client.osu_public_url}/matches")
+
+@app.route("/refresh/<player_name>", methods=["POST"])
+async def post_player_refresh(player_name):
+  if player_name == "all":
+    await player_crap.refresh_all_players()
+  else:
+    try:
+      int(player_name) + 0
+    except:
+      player_name = player_crap.user_data_grabber(name=f"{player_name}", specific_data=["id"])[0]
+    
+    await player_crap.player_refresh(player_name)
+  
+  return("refreshed")
 
 #tests
 @app.route("/tests/<test_num>")
@@ -761,6 +675,8 @@ def change_profile_picture():
     profile_picture = account_data["pfp url"],
     metadata = account_data["metadata"]
   )
+  
+#@app.route("/api/account/updateGCdata")
   
 '''@app.route("spotify/")
 async def spotify():

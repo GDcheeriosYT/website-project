@@ -62,7 +62,7 @@ td a{
 }
 
 .team_info_wrapper{
-  transition: ease-in-out 1500ms;
+  transition: ease-in-out 2000ms;
 }
 
 .team_info{
@@ -95,7 +95,7 @@ td a{
 }
 
 .player_info_wrapper{
-  transition: ease-in-out 1500ms;
+  transition: ease-in-out 2000ms;
 }
 
 .player_info:hover{
