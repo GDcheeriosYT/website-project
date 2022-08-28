@@ -197,10 +197,10 @@
                   player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
                   player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
                   player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score, 100), player.querySelector(".gameplay-score"), 100, " score")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo, 100), player.querySelector(".gameplay-combo"), 100, "x/")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".max-gameplay-combo").textContent.replace(/\,/g, '')), gameplay.maxCombo, 100), player.querySelector(".max-gameplay-combo"), 100, "x")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy), 100), player.querySelector(".gameplay-accuracy"), 100, "%")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score, 50), player.querySelector(".gameplay-score"), 50, " score")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo, 50), player.querySelector(".gameplay-combo"), 50, "x/")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".max-gameplay-combo").textContent.replace(/\,/g, '')), gameplay.maxCombo, 50), player.querySelector(".max-gameplay-combo"), 50, "x")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy), 50), player.querySelector(".gameplay-accuracy"), 50, "%")
                   player.querySelector(".gameplay-grade").innerHTML = gameplay.grade
                   if (gameplay.grade == "F" || gameplay.grade == "D"){
                     player.querySelector(".gameplay-grade").style.color = "red"
@@ -220,10 +220,10 @@
                   else{
                     player.querySelector(".gameplay-grade").style.color = "yellow"
                   }
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-100").textContent.replace(/\,/g, '')), parseInt(gameplay.hundred), 100), player.querySelector(".gameplay-100"), 100, "")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-50").textContent.replace(/\,/g, '')), parseInt(gameplay.fifty), 100), player.querySelector(".gameplay-50"), 100, "")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-misses").textContent.replace(/\,/g, '')), parseInt(gameplay.misses), 100), player.querySelector(".gameplay-misses"), 100, "")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-pp").textContent.replace(/\,/g, '')), parseInt(gameplay.pp), 100), player.querySelector(".gameplay-pp"), 100, "pp")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-100").textContent.replace(/\,/g, '')), parseInt(gameplay.hundred), 50), player.querySelector(".gameplay-100"), 50, "")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-50").textContent.replace(/\,/g, '')), parseInt(gameplay.fifty), 50), player.querySelector(".gameplay-50"), 50, "")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-misses").textContent.replace(/\,/g, '')), parseInt(gameplay.misses), 50), player.querySelector(".gameplay-misses"), 50, "")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-pp").textContent.replace(/\,/g, '')), parseInt(gameplay.pp), 50), player.querySelector(".gameplay-pp"), 50, "pp")
                   player.querySelector(".gameplay-mods").innerHTML = mapInfo.mods
                   playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
                   playerStatus.querySelector(".status").classList = "status active"

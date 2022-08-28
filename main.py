@@ -30,6 +30,7 @@ import Client_Credentials as client
 from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap, minecraft_data_crap
 
 live_player_status = {}
+daily_osu_gains = {}
 console_outputs = []
 
 print("verifying directory")
@@ -190,6 +191,27 @@ async def all_grabber(ids):
     print(f"{player_crap.user_data_grabber(id, specific_data=['name'])[0]}: ", new_dict[id])
 
   return new_dict
+
+@app.route('/get-graph/<matchname>/<time>/<type>', methods=["GET"])
+def get_graph_data(matchname, time, type):
+  if time == "current":
+    for match in os.listdir("/matches"):
+      if match[:-5] == matchname:
+        match_data = json.load(open(f"matches/{match}", "r"))
+        return match_data["graph_data"]
+
+@app.route("/api/daily-reset")
+def daily_reset():
+  daily_osu_gains = {}
+  for player in json.load("player_data.json", "r"):
+    player_info = player_crap.user_data_grabber(id=player, specific_data=["score", "playcount"])
+    start = [player_info[0], player_info[1]]
+    current = [player_info[0], player_info[1]]
+    daily_osu_gains[player] = {
+      "start" : start,
+      "current" : current
+    }
+      
  
 #api for refresh client
 #match grabber
@@ -268,7 +290,7 @@ async def api_start_match():
 @app.route("/api/live/del/<id>", methods=["post"])
 async def del_live_status(id):
   global live_player_status
-  live_player_status.pop(id)
+  live_player_status.pop(int(id))
   return({})
 
 @app.route("/api/live/get/<id>", methods=["get"])
@@ -483,6 +505,10 @@ async def matches():
 
 @app.route("/refresh/<player_name>")
 async def web_player_refresh(player_name):
+  players = json.load("player_data.json", "r")
+  for player in players:
+    player_info = player_crap.user_data_grabber(id=player, specific_data=["score", "playcount"])
+    daily_osu_gains[player]["current"] = [player_info[0] - daily_osu_gains[player]["start"][0], player_info[1] - daily_osu_gains[player]["start"][1]]
   if player_name == "all":
     await player_crap.refresh_all_players()
   else:
@@ -686,4 +712,4 @@ if __name__ == "__main__":  # Makes sure this is the main process
   socketio.run(app,
     host='0.0.0.0',  # Establishes the host, required for repl to detect the site
     port=80,# Randomly select the port the machine hosts on.
-    debug=True)
+    debug=False)
