@@ -158,6 +158,10 @@ async def grabber(match_name):
 
   return new_dict
 
+@app.route("/api/daily/get")
+def get_daily():
+  return daily_osu_gains
+
 def get_osu_id(userID):
   return json.load(open(f"accounts/{userID}.json", "r"))["metadata"]["osu id"]
 
@@ -515,7 +519,8 @@ async def web_player_refresh(player_name):
     try:
       int(player_name) + 0
     except:
-      player_name = player_crap.user_data_grabber(name=f"{player_name}", specific_data=["id"])[0]
+      player_info = player_crap.user_data_grabber(id=player, specific_data=["score", "playcount"])
+      daily_osu_gains[player]["current"] = [player_info[0] - daily_osu_gains[player]["start"][0], player_info[1] - daily_osu_gains[player]["start"][1]]
     
     await player_crap.player_refresh(player_name)
 
