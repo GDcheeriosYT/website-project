@@ -10,8 +10,6 @@ from crap.team_crap import Teams
 #packages
 from flask import Flask, jsonify, redirect, render_template, request, make_response
 from flask_socketio import SocketIO, send, emit
-from flask_wtf import FlaskForm, Form
-from wtforms import *
 import math
 import json
 import time
@@ -206,8 +204,10 @@ def get_graph_data(matchname, time, type):
 
 @app.route("/api/daily-reset")
 def daily_reset():
+  global daily_osu_gains
   daily_osu_gains = {}
-  for player in json.load("player_data.json", "r"):
+  asyncio.run(player_crap.refresh_all_players())
+  for player in json.load(open("player_data.json", "r")):
     player_info = player_crap.user_data_grabber(id=player, specific_data=["score", "playcount"])
     start = [player_info[0], player_info[1]]
     current = [player_info[0], player_info[1]]
@@ -215,6 +215,8 @@ def daily_reset():
       "start" : start,
       "current" : current
     }
+    
+  return daily_osu_gains
       
  
 #api for refresh client
@@ -509,20 +511,16 @@ async def matches():
 
 @app.route("/refresh/<player_name>")
 async def web_player_refresh(player_name):
-  players = json.load("player_data.json", "r")
+  if player_name == "all":
+    await player_crap.refresh_all_players()
+    
+  else:
+    await player_crap.player_refresh(player_name)
+
+  players = json.load(open("player_data.json", "r"))
   for player in players:
     player_info = player_crap.user_data_grabber(id=player, specific_data=["score", "playcount"])
     daily_osu_gains[player]["current"] = [player_info[0] - daily_osu_gains[player]["start"][0], player_info[1] - daily_osu_gains[player]["start"][1]]
-  if player_name == "all":
-    await player_crap.refresh_all_players()
-  else:
-    try:
-      int(player_name) + 0
-    except:
-      player_info = player_crap.user_data_grabber(id=player, specific_data=["score", "playcount"])
-      daily_osu_gains[player]["current"] = [player_info[0] - daily_osu_gains[player]["start"][0], player_info[1] - daily_osu_gains[player]["start"][1]]
-    
-    await player_crap.player_refresh(player_name)
 
   return redirect(f"{client.osu_public_url}/matches")
 
