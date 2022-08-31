@@ -82,10 +82,9 @@ async def start_match(team_mode=False, team_amount=2, match_name=(f"match{match_
   match_dict["nicknames"] = {}
   
   #setting up stat gain graphs
-  match_dict["match score history"] = {}
-  match_dict["match score history"]["overall score"] = {}
-  match_dict["match score history"]["daily score"] = {}
-  match_dict["match score history"]["daily playcount"] = {}
+  match_dict["graph data"] = {}
+  match_dict["graph data"]["overall score"] = {}
+  match_dict["graph data"]["daily stats"] = {}
   
   #put the values in the json file
   with open(f"matches/{match_name}.json", "w+") as joe:
