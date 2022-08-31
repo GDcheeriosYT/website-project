@@ -202,7 +202,30 @@ def get_graph_data(matchname, time, type):
         match_data = json.load(open(f"matches/{match}", "r"))
         return match_data["graph_data"]
 
-@app.route("/api/daily-reset")
+def update_graph_data():
+  today = dt.date.today()
+  for match in os.listdir("matches"):
+    match_data = json.load(open(f"matches/{match}", "r"))
+    overall_score_data = match_data["graph data"]["overall score"]
+    overall_score_data_score_list = []
+    daily_stats = match_data["graph data"]["daily stats"]
+    daily_stats_list = []
+    for user in match_data["users"]:
+      score = player_crap.user_data_grabber(id=user, specific_data=["score"])[0]
+      overall_score_data_score_list.append(score)
+      daily_stats_list.append([int(daily_osu_gains[user]["current"][0]) - int(daily_osu_gains[user]["start"][0]), int(daily_osu_gains[user]["current"][1]) - int(daily_osu_gains[user]["start"][1])])
+    
+    overall_score_data[today] = overall_score_data_score_list
+    daily_stats[today] = daily_stats_list
+
+    match_data["graph data"]["overall score"] = overall_score_data
+    match_data["graph data"]["daily stats"] = daily_stats
+    
+    print(match_data)
+    
+    json.dump(match_data, open(f"matches/{match}", "w"))
+    
+@app.route("/api/daily-reset", methods=["POST"])
 def daily_reset():
   global daily_osu_gains
   daily_osu_gains = {}
@@ -215,9 +238,15 @@ def daily_reset():
       "start" : start,
       "current" : current
     }
-    
+  
+  update_graph_data()
+  
   return daily_osu_gains
-      
+
+@app.route("/api/update-graphs")
+def update_graph_endpoint():
+  update_graph_data()
+  return redirect(f"{client.osu_public_url}/matches")
  
 #api for refresh client
 #match grabber

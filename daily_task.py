@@ -1,3 +1,3 @@
 import requests
 
-requests.post("localhost/api/daily-reset")
+requests.post("http://127.0.0.1/api/daily-reset")
