@@ -203,7 +203,7 @@ def get_graph_data(matchname, time, type):
         return match_data["graph_data"]
 
 def update_graph_data():
-  today = dt.date.today()
+  today = dt.datetime.now().strftime("%m-%d-%Y")
   for match in os.listdir("matches"):
     match_data = json.load(open(f"matches/{match}", "r"))
     overall_score_data = match_data["graph data"]["overall score"]
@@ -212,7 +212,7 @@ def update_graph_data():
     daily_stats_list = []
     for user in match_data["users"]:
       score = player_crap.user_data_grabber(id=user, specific_data=["score"])[0]
-      overall_score_data_score_list.append(score)
+      overall_score_data_score_list.append(score - match_data["initial score"][match_data["users"].index(user)])
       daily_stats_list.append([int(daily_osu_gains[user]["current"][0]) - int(daily_osu_gains[user]["start"][0]), int(daily_osu_gains[user]["current"][1]) - int(daily_osu_gains[user]["start"][1])])
     
     overall_score_data[today] = overall_score_data_score_list
@@ -223,7 +223,7 @@ def update_graph_data():
     
     print(match_data)
     
-    json.dump(match_data, open(f"matches/{match}", "w"))
+    json.dump(match_data, open(f"matches/{match}", "w"), indent=4, sort_keys=False)
     
 @app.route("/api/daily-reset", methods=["POST"])
 def daily_reset():
