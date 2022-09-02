@@ -607,8 +607,7 @@ async def test_create():
 #website control
 @app.route("/control")
 async def web_control():
-  form = startMatchForm()
-  return render_template("control.html", form=form)
+  return render_template("control.html")
   
 @app.route("/osu/info")
 async def warning_info():

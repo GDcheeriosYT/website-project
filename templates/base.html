@@ -36,6 +36,9 @@
           {% endif %}
         </ul>
       </li>
+      {% if request.cookies.get('userID') == "1" %}
+        <li class="dropdown"><a href="/control">API</a></li>
+      {% endif %}
     </ul>
   </nav>
 </div>
