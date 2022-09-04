@@ -492,7 +492,21 @@
       </div>
     </div>
     <!--graph-box-->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.0/dist/chart.min.js"></script>
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.0/dist/chart.min.js">
+      let graphData = JSON.parse('{{match_data["graph data"]|tojson}}')
+      const ctx = document.getElementById('myChart').getContext('2d');
+      const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          datasets: [{
+            data:{
+              
+            }
+          }]
+        }
+      })
+    </script>
     
     <h1>graphs temporarily removed because of an issue...</h1>
     
