@@ -163,6 +163,12 @@ def get_daily():
 def get_osu_id(userID):
   return json.load(open(f"accounts/{userID}.json", "r"))["metadata"]["osu id"]
 
+@app.route("/api/set-daily-info/<json_string>")
+def set_daily_osu_info(json_string):
+  daily_osu_gains = json.loads(json_string)
+  
+  return daily_osu_gains
+
 @socketio.on('event')
 def test_socket(data):
   print(data)
@@ -213,7 +219,7 @@ def update_graph_data():
     for user in match_data["users"]:
       score = player_crap.user_data_grabber(id=user, specific_data=["score"])[0]
       overall_score_data_score_list.append(score - match_data["initial score"][match_data["users"].index(user)])
-      daily_stats_list.append([int(daily_osu_gains[user]["current"][0]) - int(daily_osu_gains[user]["start"][0]), int(daily_osu_gains[user]["current"][1]) - int(daily_osu_gains[user]["start"][1])])
+      daily_stats_list.append([int(daily_osu_gains[user]["current"][0]), int(daily_osu_gains[user]["current"][1])])
     
     overall_score_data[today] = overall_score_data_score_list
     daily_stats[today] = daily_stats_list
@@ -391,8 +397,6 @@ async def match(match_name, graph_view):
 
   players = {}
 
-  print(match_name)
-
   with open(f"matches/{match_name}") as joe:
     match_data = json.load(joe)
 
@@ -421,7 +425,6 @@ async def match(match_name, graph_view):
     teams = {},
     players = players,
     match_name = match_name,
-    graph_view = graph_view,
     get_data = player_crap.user_data_grabber,
     live_status = live_player_status,
     get_osu_id = get_osu_id
@@ -540,6 +543,7 @@ async def matches():
 
 @app.route("/refresh/<player_name>")
 async def web_player_refresh(player_name):
+  global daily_osu_gains
   if player_name == "all":
     await player_crap.refresh_all_players()
     
@@ -549,12 +553,19 @@ async def web_player_refresh(player_name):
   players = json.load(open("player_data.json", "r"))
   for player in players:
     player_info = player_crap.user_data_grabber(id=player, specific_data=["score", "playcount"])
-    daily_osu_gains[player]["current"] = [player_info[0] - daily_osu_gains[player]["start"][0], player_info[1] - daily_osu_gains[player]["start"][1]]
+    try:
+      daily_osu_gains[player]["current"] = [player_info[0] - daily_osu_gains[player]["start"][0], player_info[1] - daily_osu_gains[player]["start"][1]]
+    except:
+      daily_osu_gains[player] = {
+        "current": [player_info[0] - player_info[0], player_info[1] - player_info[1]],
+        "start" : [player_info[0], player_info[1]]
+      }
 
   return redirect(f"{client.osu_public_url}/matches")
 
 @app.route("/refresh/<player_name>", methods=["POST"])
 async def post_player_refresh(player_name):
+  global daily_osu_gains
   if player_name == "all":
     await player_crap.refresh_all_players()
   else:
@@ -564,6 +575,14 @@ async def post_player_refresh(player_name):
       player_name = player_crap.user_data_grabber(name=f"{player_name}", specific_data=["id"])[0]
     
     await player_crap.player_refresh(player_name)
+    player_info =player_crap.user_data_grabber(id=player_name, specific_data=["score", "play count"])
+    try:
+      daily_osu_gains[player_name]["current"] = [player_info[0] - daily_osu_gains[player_name]["start"][0], player_info[1] - daily_osu_gains[player_name]["start"][1]]
+    except:
+      daily_osu_gains[player_name] = {
+        "current": [player_info[0] - player_info[0], player_info[1] - player_info[1]],
+        "start" : [player_info[0], player_info[1]]
+      }
   
   return("refreshed")
 
@@ -588,8 +607,7 @@ async def test_create():
 #website control
 @app.route("/control")
 async def web_control():
-  form = startMatchForm()
-  return render_template("control.html", form=form)
+  return render_template("control.html")
   
 @app.route("/osu/info")
 async def warning_info():
