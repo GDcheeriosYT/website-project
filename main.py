@@ -165,6 +165,7 @@ def get_osu_id(userID):
 
 @app.route("/api/set-daily-info/<json_string>")
 def set_daily_osu_info(json_string):
+  global daily_osu_gains
   daily_osu_gains = json.loads(json_string)
   
   return daily_osu_gains
