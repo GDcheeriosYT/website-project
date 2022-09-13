@@ -52,5 +52,14 @@
         "level": 0,
         "score": 0,
         "position": "X:91, Y:88, Z:53"
+    },
+    "56e1694b-6859-4a8d-9b68-392b0d5af1ce": {
+        "username": "Octagle12",
+        "avatar": "https://crafthead.net/avatar/56e1694b68594a8d9b68392b0d5af1ce",
+        "health": 20,
+        "hunger": 14,
+        "level": 3,
+        "score": 33,
+        "position": "X:26407, Y:66, Z:99705"
     }
 }
