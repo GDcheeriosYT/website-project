@@ -1,4 +1,15 @@
 [[package]]
+name = "asgiref"
+version = "3.5.2"
+description = "ASGI specs, helper code, and adapters"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+tests = ["pytest", "pytest-asyncio", "mypy (>=0.800)"]
+
+[[package]]
 name = "asyncio"
 version = "3.4.3"
 description = "reference implementation of PEP 3156"
@@ -73,6 +84,7 @@ optional = false
 python-versions = ">=3.7"
 
 [package.dependencies]
+asgiref = {version = ">=3.2", optional = true, markers = "extra == \"async\""}
 click = ">=8.0"
 importlib-metadata = {version = ">=3.6.0", markers = "python_version < \"3.10\""}
 itsdangerous = ">=2.0"
@@ -279,9 +291,10 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "bb7eb7f4fca5fff59151b1613188197ea76b9de1e0737244729698ba776ba02a"
+content-hash = "99311cb8f60468b7bd067a16ad60bd8881aebcb59cd325507c4e786c271cc00d"
 
 [metadata.files]
+asgiref = []
 asyncio = []
 bcrypt = []
 bidict = []
