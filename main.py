@@ -1,11 +1,4 @@
-import base64
-from hashlib import new
-from multiprocessing.connection import Client
-import os
-from textwrap import indent
 
-from numpy import broadcast
-from crap.team_crap import Teams
 
 #packages
 from flask import Flask, jsonify, redirect, render_template, request, make_response
@@ -20,12 +13,11 @@ from tabulate import tabulate
 from flask_bcrypt import Bcrypt
 import socketio
 import random
+import os
 
-#osu packages
+#credential variables
 import Client_Credentials as client
 
-#my packages
-from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap, minecraft_data_crap
 
 live_player_status = {}
 daily_osu_gains = {}
@@ -42,6 +34,11 @@ print("67%")
 if os.path.isdir("accounts") == False:
   os.mkdir("accounts")
 print("100%")
+
+#my packages
+#adding this after initialization of files because some of them require these directories to exist
+from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap, minecraft_data_crap
+from crap.team_crap import Teams
 
 #console methods
 def update_server_conosle():
