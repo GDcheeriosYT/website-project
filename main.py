@@ -869,10 +869,18 @@ def change_profile_picture():
 
 
 @app.route("/down")
-def down():
+async def down():
     return render_template("down.html")
 
-#@app.route("/api/account/updateGCdata")
+@app.route("/api/account/updateGCdata/<id>", methods=["POST"])
+async def update_gc_data(id):
+    data = request.json
+    user_data = json.load(open(f"accounts/{id}.json", "r"))
+    if data["key"] == client.gckey:
+        user_data["metadata"]["Gentry's Quest data"] = data["data"]
+
+    json.dump(user_data, open(f"accounts/{id}.json", "w"), indent=4)
+    return "done"
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=False)
+    socketio.run(app, host='0.0.0.0', port=80, debug=True)
