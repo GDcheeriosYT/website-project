@@ -53,7 +53,7 @@
             console.log(socket)
             setInterval(() => {
               socket.emit('match data get', "{{match_data['match name']}}")
-            }, 100)
+            }, 400)
             socket.on('match data receive', (data) =>{
               player_list = data
               reRenderLiveStatus()

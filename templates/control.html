@@ -8,13 +8,18 @@
 </head>
 <body>
   {% block body %}
-    <div class="api-block">
-      <h1>Start Match</h1>
-      <div class="api-block-extra">
-        <form action="http://gdcheerios.com/api/match-start" method="post">
-        </form>
-      </div>
-    </div>
+		{% if request.cookies.get('userID') == "1" %}
+	    <div class="api-block">
+	      <h1>Start Match</h1>
+	      <div class="api-block-extra">
+	        <form action="http://gdcheerios.com/api/match-start" method="post">
+	        </form>
+	      </div>
+	    </div>
+	    {{ server_instance_info|tojson }}
+		{% else %}
+			<h1>access denied...</h1>
+		{% endif %}
   {% endblock %}
 </body>
 </html>

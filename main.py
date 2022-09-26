@@ -13,6 +13,7 @@ import socketio
 import random
 import os
 import requests
+import string
 
 #credential variables
 import Client_Credentials as client
@@ -25,16 +26,43 @@ print("verifying directory")
 print("0%")
 if os.path.isdir("matches") == False:
     os.mkdir("matches")
-print("25%")
+print("20%")
 if os.path.isdir("match_history") == False:
     os.mkdir("match_history")
-print("50%")
+print("40%")
 if os.path.isdir("accounts") == False:
     os.mkdir("accounts")
-print("75%")
+print("60%")
 if os.path.exists("player_data.json") == False:
     open("player_data.json", "w+").close()
+print("80%")
+if os.path.exists("info.json") == False:
+    server_instance_info = open("info.json", "w+").close()
+    server_instance_info = {}
+    server_instance_info["tokens"] = []
+    server_instance_info["daily data"] = daily_osu_gains
+    json.dump(server_instance_info, open("info.json", "w"), indent=4)
+    server_instance_info = json.load(open("info.json", "r"))
+else:
+    server_instance_info = json.load(open("info.json", "r"))
 print("100%")
+
+def update_server_instance_info(tokens=None, daily_data=None):
+    global server_instance_info
+    if tokens == None:
+        tokens = server_instance_info["tokens"]
+    if daily_data == None:
+        daily_data = server_instance_info["daily data"]
+    server_instance_info["daily data"] = daily_data
+    server_instance_info["tokens"] = tokens
+    json.dump(server_instance_info, open("info.json", "w"), indent=4)
+    server_instance_info = json.load(open("info.json", "r"))
+
+def contains_token(token):
+    if token in server_instance_info["tokens"]:
+        return True
+    else:
+        return False
 
 #my packages
 #adding this after initialization of files because some of them require these directories to exist
@@ -65,6 +93,47 @@ app = Flask(  # Create a flask app
 app.config['SECRET_KEY'] = "hugandafortnite"
 socketio = SocketIO(app, logger=False)
 bcrypt = Bcrypt(app)
+
+#token api stuff
+@app.route("/api/generate-token")
+async def generate_token():
+    token = ""
+    for i in range(32):
+        token += random.choice(string.ascii_letters)
+
+    tokens = server_instance_info["tokens"]
+    tokens.append(token)
+    
+    update_server_instance_info(tokens)
+    
+    return token
+
+@app.route("/api/clear-tokens")
+async def clear_tokens():
+	update_server_instance_info([])
+	return "tokens cleared"
+
+@app.route("/api/clear-daily-data")
+async def clear_daily_data():
+	update_server_instance_info(daily_data={})
+	return "tokens cleared"
+
+@app.route("/api/delete-token/<token>", methods=["POST"])
+async def delete_token(token):
+    if token in server_instance_info["tokens"]:
+        new_list = []
+        for token2 in server_instance_info["tokens"]:
+            if token2 != token:
+                new_list.append(token)
+    
+        update_server_instance_info(new_list)
+
+        return "deleted"
+    return "could not find token"
+
+@app.route("/api/verify-token/<token>")
+async def verify_token(token):
+    return str(contains_token(token))
 
 
 #account api
@@ -212,6 +281,7 @@ def get_osu_id(userID):
 def set_daily_osu_info(json_string):
     global daily_osu_gains
     daily_osu_gains = json.loads(json_string)
+    update_server_instance_info(daily_data=daily_osu_gains)
 
     return daily_osu_gains
 
@@ -304,7 +374,6 @@ def update_graph_data():
 
 @app.route("/api/daily-reset")
 def daily_reset():
-  while True:
     global daily_osu_gains
     daily_osu_gains = {}
     asyncio.run(player_crap.refresh_all_players())
@@ -314,9 +383,10 @@ def daily_reset():
         start = [player_info[0], player_info[1]]
         current = [player_info[0], player_info[1]]
         daily_osu_gains[player] = {"start": start, "current": current}
-
+    
     update_graph_data()
-    time.sleep(86400)
+    update_server_instance_info(daily_data=daily_osu_gains)
+    
     return daily_osu_gains
 
 
@@ -661,6 +731,8 @@ async def web_player_refresh(player_name):
                 "start": [player_info[0], player_info[1]]
             }
 
+    update_server_instance_info(daily_data=daily_osu_gains)
+    
     return redirect(f"{client.osu_public_url}/matches")
 
 
@@ -717,7 +789,10 @@ async def test_create():
 #website control
 @app.route("/control")
 async def web_control():
-    return render_template("control.html")
+    return render_template(
+        "control.html",
+        server_instance_info = server_instance_info
+    )
 
 
 @app.route("/osu/info")
@@ -876,11 +951,12 @@ async def down():
 async def update_gc_data(id):
     data = request.json
     user_data = json.load(open(f"accounts/{id}.json", "r"))
-    if data["key"] == client.gckey:
+    if verify_token(data["token"]):
         user_data["metadata"]["Gentry's Quest data"] = data["data"]
 
     json.dump(user_data, open(f"accounts/{id}.json", "w"), indent=4)
     return "done"
+
 
 if __name__ == "__main__":
     socketio.run(app, host='0.0.0.0', port=80, debug=True)
