@@ -66,7 +66,7 @@
     <div class="profile-info mx-auto">
       <a style="margin: 10px;" onclick='show_details()'>Details</a>
       {% if metadata["osu id"] != 0 %}
-        <a style="margin: 10px;" target=”_blank” href="https://osu.ppy.sh/users/{{metadata["osu id"]}}">OSU</a>
+        <a style="margin: 10px;" target=”_blank” href="https://osu.ppy.sh/users/{{metadata['osu id']}}">OSU</a>
       {% endif %}
       {% if metadata["Gentry's Quest data"] != none %}
         <a style="margin: 10px;" onclick='show_gqdata()'>Gentry's Quest</a>

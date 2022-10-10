@@ -1,6 +1,7 @@
-#packages
+# packages
 from flask import Flask, jsonify, redirect, render_template, request, make_response
 from flask_socketio import SocketIO, send, emit
+from engineio import payload
 import math
 import json
 import time
@@ -15,27 +16,29 @@ import os
 import requests
 import string
 
-#credential variables
+# credential variables
 import Client_Credentials as client
 
 live_player_status = {}
 daily_osu_gains = {}
 console_outputs = []
 
-print("verifying directory")
-print("0%")
+websockets_since_last_restart = 0
+
+print("\n")
+print("verifying directory 0%", end="\r")
 if os.path.isdir("matches") == False:
     os.mkdir("matches")
-print("20%")
+print("verifying directory 20%", end="\r")
 if os.path.isdir("match_history") == False:
     os.mkdir("match_history")
-print("40%")
+print("verifying directory 40%", end="\r")
 if os.path.isdir("accounts") == False:
     os.mkdir("accounts")
-print("60%")
+print("verifying directory 60%", end="\r")
 if os.path.exists("player_data.json") == False:
     open("player_data.json", "w+").close()
-print("80%")
+print("verifying directory 80%", end="\r")
 if os.path.exists("info.json") == False:
     server_instance_info = open("info.json", "w+").close()
     server_instance_info = {}
@@ -45,7 +48,8 @@ if os.path.exists("info.json") == False:
     server_instance_info = json.load(open("info.json", "r"))
 else:
     server_instance_info = json.load(open("info.json", "r"))
-print("100%")
+print("verifying directory 100%", end="\r")
+
 
 def update_server_instance_info(tokens=None, daily_data=None):
     global server_instance_info
@@ -58,19 +62,33 @@ def update_server_instance_info(tokens=None, daily_data=None):
     json.dump(server_instance_info, open("info.json", "w"), indent=4)
     server_instance_info = json.load(open("info.json", "r"))
 
+
 def contains_token(token):
     if token in server_instance_info["tokens"]:
         return True
     else:
         return False
 
-#my packages
-#adding this after initialization of files because some of them require these directories to exist
-from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap, minecraft_data_crap
+
+payload.Payload.max_decode_packets = 50000
+
+
+# my packages
+# adding this after initialization of files because some of them require these directories to exist
+from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap, minecraft_data_crap, gentrys_quest_crap
 from crap.team_crap import Teams
 
+gq_players = []
+gq_ids = []
+print("\n")
+for account in os.listdir("accounts"):
+	user = json.load(open(f"accounts/{account}", "r"))
+	if (user["metadata"]["Gentry's Quest data"] != None) and isinstance(user["metadata"]["Gentry's Quest data"], dict):
+		gq_players.append(gentrys_quest_crap.Player(user["username"], None, gentrys_quest_crap.generate_power_level(user["metadata"]["Gentry's Quest data"])))
+		gq_ids.append(account[:-5])
+	print(f"initializing gentrys quest ratings {int(os.listdir('accounts').index(account)-1/len(os.listdir('accounts'))*100)}%", end="\r")
 
-#console methods
+# console methods
 def update_server_conosle():
     os.system("clear")
     print("live users: " + len(live_player_status))
@@ -84,7 +102,7 @@ def update_server_conosle():
     print("]")
 
 
-#flask set up
+# flask set up
 app = Flask(  # Create a flask app
     __name__,
     template_folder='templates',  # Name of html file folder
@@ -94,7 +112,8 @@ app.config['SECRET_KEY'] = "hugandafortnite"
 socketio = SocketIO(app, logger=False)
 bcrypt = Bcrypt(app)
 
-#token api stuff
+
+# token api stuff
 @app.route("/api/generate-token")
 async def generate_token():
     token = ""
@@ -103,44 +122,68 @@ async def generate_token():
 
     tokens = server_instance_info["tokens"]
     tokens.append(token)
-    
+
     update_server_instance_info(tokens)
-    
+
     return token
+
 
 @app.route("/api/clear-tokens")
 async def clear_tokens():
-	update_server_instance_info([])
-	return "tokens cleared"
+    update_server_instance_info([])
+    return "tokens cleared"
+
 
 @app.route("/api/clear-daily-data")
 async def clear_daily_data():
-	update_server_instance_info(daily_data={})
-	return "tokens cleared"
+    update_server_instance_info(daily_data={})
+    return "tokens cleared"
+
 
 @app.route("/api/delete-token/<token>", methods=["POST"])
 async def delete_token(token):
-    if token in server_instance_info["tokens"]:
+    print(token)
+    if contains_token(token):
         new_list = []
         for token2 in server_instance_info["tokens"]:
+            print(token, token2)
             if token2 != token:
                 new_list.append(token)
-    
+            else:
+                print("OHPHOPOPHPFPD")
+
         update_server_instance_info(new_list)
 
         return "deleted"
     return "could not find token"
+
 
 @app.route("/api/verify-token/<token>")
 async def verify_token(token):
     return str(contains_token(token))
 
 
-#account api
+#osu auth stuff
+@app.route('/code_grab')
+def code_grab():
+    code = request.query_string
+
+    response = requests.post("https://osu.ppy.sh/oauth/token",
+                             json={'client_id': client.osu_client_id, 'client_secret': client.osu_secret, 'grant_type': 'client_credentials',
+                                   'scope': 'public'},
+                             headers={'Accept': 'application/json', 'Content-Type': 'application/json'})
+
+    token_thing = response.json()
+
+    access_token = token_thing["access_token"]
+
+    return redirect(f"{client.osu_public_url}")
+
+# account api
 @app.route("/api/account/create/<username>+<password>")
 async def account_create(username,
                          password,
-                         osu_id=0,
+                         osu_info={"osu id": 0},
                          gqdata=None,
                          backrooms_data=None,
                          about_me=""):
@@ -164,7 +207,7 @@ async def account_create(username,
     backrooms_data = backrooms_data
     password = str(bcrypt.generate_password_hash(password))
     metadata = {
-        "osu id": osu_id,
+        "osu id": osu_info,
         "Gentry's Quest data": gqdata,
         "backrooms_data": backrooms_data,
         "about me": about_me
@@ -181,12 +224,30 @@ async def account_create(username,
     return account_data
 
 
-@app.route("/api/account/receive-account/<id>")  #receive account with id
-async def get_account_with_id(id):
-    for file in os.listdir("accounts"):
-        if file[:-5] == id:
-            return json.load(open(f"accounts/{file}", "r"))
+@app.route("/api/account/migrate_osu_data")
+async def migrate_osu_data():
+    for account_file in os.listdir("accounts"):
+        account_data = json.load(open(f"accounts/{account_file}", "r"))
+        account_data["metadata"]["osu info"] = {"osu id": account_data["metadata"]["osu id"]}
+        del account_data["metadata"]["osu id"]
+        json.dump(account_data, open(f"accounts/{account_file}", "w"), indent=4)
+    return "finished!"
 
+
+@app.route("/api/account/receive-account/<id_or_name>")  # receive account with id
+def get_account_with_id_or_name(id_or_name):
+	try:
+		int(id_or_name)
+	except ValueError:
+		for file in os.listdir("accounts"):
+			account_data = json.load(open(f"accounts/{file}", "r"))
+			if account_data["username"] == id_or_name:
+				return file[:-5], account_data
+				
+	for file in os.listdir("accounts"):
+		if file[:-5] == id:
+			return file[:-5], json.load(open(f"accounts/{file}", "r"))
+	
 
 @app.route("/api/account/login/<username>+<password>")
 async def login(username, password):
@@ -195,12 +256,11 @@ async def login(username, password):
         account_info["id"] = int(file[:-5])
         if account_info["username"] == username:
             if bcrypt.check_password_hash(account_info["password"], password):
-                print(account_info)
                 return account_info
     return "incorrect info"
 
 
-#player score grab api crap
+# player score grab api crap
 @app.route("/api/grab/<match_name>")
 async def grabber(match_name):
     with open(f"matches/{match_name}.json") as f:
@@ -303,10 +363,12 @@ def update_client_status(data):
 
 @socketio.on('match data get')
 def get_livestatus(data):
-    emit('match data receive', asyncio.run(grabber(data)))
+    global websockets_since_last_restart
+    websockets_since_last_restart += 1
+    emit('match data receive', asyncio.run(grabber(data)), ignore_queue=True)
 
 
-#all players api updater
+# all players api updater
 @app.route("/api/grab/<ids>/all")
 async def all_grabber(ids):
     id_list = ids.split("+")
@@ -383,10 +445,10 @@ def daily_reset():
         start = [player_info[0], player_info[1]]
         current = [player_info[0], player_info[1]]
         daily_osu_gains[player] = {"start": start, "current": current}
-    
+
     update_graph_data()
     update_server_instance_info(daily_data=daily_osu_gains)
-    
+
     return daily_osu_gains
 
 
@@ -396,8 +458,8 @@ def update_graph_endpoint():
     return redirect(f"{client.osu_public_url}/matches")
 
 
-#api for refresh client
-#match grabber
+# api for refresh client
+# match grabber
 @app.route('/api/matches/<time>')
 def api_match_request(time):
     returns = {}
@@ -412,7 +474,7 @@ def api_match_request(time):
         return returns
 
 
-#match data grabber
+# match data grabber
 @app.route('/api/match-get/<time>/<match>')
 def match_get(time, match):
     with open("player_data.json") as f:
@@ -466,20 +528,20 @@ def match_get(time, match):
         return None
 
 
-#get delay api
+# get delay api
 @app.route("/api/get-delay")
 async def get_delay():
     return (str(len(live_player_status.items()) / 4))
 
 
-#start match api
+# start match api
 @app.route("/api/start-match", methods=["post"])
 async def api_start_match():
     info = request.json
     match_crap.start_match()
 
 
-#live status api
+# live status api
 @app.route("/api/live/del/<id>", methods=["post"])
 async def del_live_status(id):
     global live_player_status
@@ -501,19 +563,19 @@ async def update_live_status(id):
     return ({})
 
 
-#home website
+# home website
 @app.route('/')
 async def home():
     return render_template("index.html")
 
 
-#home osu website
+# home osu website
 @app.route('/osu')
 async def osu_home():
     return render_template("osu/index.html")
 
 
-#start console interface
+# start console interface
 @app.route("/start")
 async def start():
     await console_interface_crap.main_process()
@@ -522,14 +584,12 @@ async def start():
 
 @app.route("/osu/players")
 async def players():
-
     players_dict = {}
 
     with open("player_data.json") as f:
         player_data = json.load(f)
 
     for id in player_data.keys():
-
         name = player_data[id]["user data"]["name"]
         score = player_data[id]["user data"]["score"]
         avatar = player_data[id]["user data"]["avatar url"]
@@ -556,7 +616,6 @@ async def players():
 
 @app.route("/osu/matches/<match_name>/<graph_view>")
 async def match(match_name, graph_view):
-
     players = {}
 
     with open(f"matches/{match_name}") as joe:
@@ -606,7 +665,7 @@ async def match(match_name, graph_view):
                 'players': new_team.users,
                 "color": match_data["team metadata"][team]["team color"]
             }
-            #team_score_data[team] = ("{:,}".format(new_team.score))
+            # team_score_data[team] = ("{:,}".format(new_team.score))
 
         with open(f"matches/{match_name}", "w") as file:
             json.dump(match_data, file, indent=4, sort_keys=False)
@@ -622,7 +681,7 @@ async def match(match_name, graph_view):
                                get_osu_id=get_osu_id)
 
 
-#work on future old matches
+# work on future old matches
 @app.route("/osu/matches/old/<match_name>")
 def old_match(match_name):
     players = {}
@@ -644,16 +703,16 @@ def old_match(match_name):
 
         return render_template(
             'osu/old_match.html',  # Template file
-            #recent = player_recent
+            # recent = player_recent
             math=math,
-            #biggest_score = biggest_score,
+            # biggest_score = biggest_score,
             time=time,
             match_data=match_data,
-            #previous_score_segment = previous_score_segment,
-            #get_key_of = get_key_of,
+            # previous_score_segment = previous_score_segment,
+            # get_key_of = get_key_of,
             players=players_sorted,
             match_name=match_name,
-            #graph_view = graph_view,
+            # graph_view = graph_view,
             get_data=player_crap.user_data_grabber,
             live_status=live_player_status)
 
@@ -676,7 +735,7 @@ def old_match(match_name):
 
         return render_template(
             'Current.html',  # Template file
-            #recent = player_recent
+            # recent = player_recent
             time=time,
             match_data=match_data,
             teams=teams_sorted,
@@ -685,7 +744,6 @@ def old_match(match_name):
 
 @app.route("/osu/matches")
 async def matches():
-
     current_matches = []
 
     previous_matches = []
@@ -732,7 +790,7 @@ async def web_player_refresh(player_name):
             }
 
     update_server_instance_info(daily_data=daily_osu_gains)
-    
+
     return redirect(f"{client.osu_public_url}/matches")
 
 
@@ -769,7 +827,7 @@ async def post_player_refresh(player_name):
     return ("refreshed")
 
 
-#tests
+# tests
 @app.route("/tests/<test_num>")
 async def tests(test_num):
     return render_template(f"tests/{test_num}.html", test_num=test_num)
@@ -786,12 +844,12 @@ async def test_create():
     return render_template(f"tests/test{test_new_id}.html")
 
 
-#website control
+# website control
 @app.route("/control")
 async def web_control():
     return render_template(
         "control.html",
-        server_instance_info = server_instance_info
+        total_websockets = websockets_since_last_restart
     )
 
 
@@ -895,7 +953,10 @@ async def account_home():
 
 @app.route("/account/create")
 async def account_create_page():
-    return render_template("account/create.html")
+    return render_template("account/create.html",
+                           client_id=client.osu_client_id,
+                           host_name=client.osu_public_url
+                          )
 
 
 @app.route("/create-account", methods=['POST'])
@@ -942,10 +1003,34 @@ def change_profile_picture():
                            profile_picture=account_data["pfp url"],
                            metadata=account_data["metadata"])
 
+@app.route("/gentrys-quest")
+async def gentrys_quest_home():
+	return render_template("gentrys quest/home.html")
+
+@app.route("/gentrys-quest/leaderboard")
+async def gentrys_quest_leaderboard():
+	def sort_thing(class_thing):
+		return class_thing.power_level
+	
+	players = gq_players
+	
+	players.sort(reverse=True, key=sort_thing)
+	
+	ids = []
+	
+	for player in players:
+		ids.append(get_account_with_id_or_name(player.account_name)[0])
+		
+	return render_template(
+		"gentrys quest/leaderboard.html",
+		players = players,
+		ids = ids
+						  )
 
 @app.route("/down")
 async def down():
     return render_template("down.html")
+
 
 @app.route("/api/account/updateGCdata/<id>", methods=["POST"])
 async def update_gc_data(id):
