@@ -634,15 +634,13 @@ label{
 }
 
 .api-block h1{
-  padding: 30%;
+    padding-top: 40%;
 }
 
 .api-block-extra{
   position: relative;
   left: -100px;
-  top: -100%;
-  width: 0px;
-  height: 0px;
+  top: -70%;
   opacity: 0;
   border-radius: 2vw;
   box-shadow: 2px 2px 9px 1px #004e51;
@@ -653,7 +651,7 @@ label{
 }
 
 .api-block:hover .api-block-extra{
-  position: relative;
+   position: relative;
   left: 220px;
   width: 124px;
   height: 200px;

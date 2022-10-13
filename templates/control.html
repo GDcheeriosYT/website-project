@@ -9,14 +9,53 @@
 <body>
   {% block body %}
 		{% if request.cookies.get('userID') == "1" %}
-	    <div class="api-block">
-	      <h1>Start Match</h1>
-	      <div class="api-block-extra">
-	        <form action="http://gdcheerios.com/api/match-start" method="post">
-	        </form>
-	      </div>
-	    </div>
-	    {{ total_websockets }}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+            <h1 class="single">osu section api</h1>
+            <div class="api-block">
+    	      <h1>live users</h1>
+    	      <div class="api-block-extra">
+    	        <h1 class="live-users">{{live_status_users}}</h1>
+    	      </div>
+    	    </div>
+            <div class="api-block">
+    	      <h1>Start Match</h1>
+    	      <div class="api-block-extra">
+    	        <form action="http://gdcheerios.com/api/match-start" method="post">
+    	        </form>
+    	      </div>
+    	    </div>
+            <h1 class="single">websocket & api</h1>
+            <div class="api-block">
+                <h1>websockets</h1>
+                <div class="api-block-extra">
+    	            <h1 class="total-websockets">{{ total_websockets }}</h1>
+                </div>
+            </div>
+            <div class="api-block">
+                <h1>api</h1>
+                <div class="api-block-extra">
+    	            <h1 class="total-apis">{{ total_apis }}</h1>
+                </div>
+            </div>
+            <h1 class="single"></h1>
+            <script>
+                var socket = io()
+                console.log(socket)
+                setInterval(() => {
+                  socket.emit('get control data')
+                  console.log("emitted")
+                }, 2000)
+                
+                socket.on('control data recieve', (data) =>{
+                  updateVars(data["live users"], data["api uses"], data["websocket uses"])
+                })
+                
+                function updateVars(liveUserCount, apiUseCount, websocketUseCount){
+                  document.getElementsByClassName("live-users")[0].innerHTML = liveUserCount
+                  document.getElementsByClassName("total-apis")[0].innerHTML = apiUseCount
+                  document.getElementsByClassName("total-websockets")[0].innerHTML = websocketUseCount
+                }
+            </script>
 		{% else %}
 			<h1>access denied...</h1>
 		{% endif %}

@@ -23,22 +23,23 @@ live_player_status = {}
 daily_osu_gains = {}
 console_outputs = []
 
-websockets_since_last_restart = 0
+websocket_uses = 0
+api_uses = 0
 
 print("\n")
-print("verifying directory 0%", end="\r")
+print("verifying directory 0%")
 if os.path.isdir("matches") == False:
     os.mkdir("matches")
-print("verifying directory 20%", end="\r")
+print("verifying directory 20%")
 if os.path.isdir("match_history") == False:
     os.mkdir("match_history")
-print("verifying directory 40%", end="\r")
+print("verifying directory 40%")
 if os.path.isdir("accounts") == False:
     os.mkdir("accounts")
-print("verifying directory 60%", end="\r")
+print("verifying directory 60%")
 if os.path.exists("player_data.json") == False:
     open("player_data.json", "w+").close()
-print("verifying directory 80%", end="\r")
+print("verifying directory 80%")
 if os.path.exists("info.json") == False:
     server_instance_info = open("info.json", "w+").close()
     server_instance_info = {}
@@ -48,7 +49,7 @@ if os.path.exists("info.json") == False:
     server_instance_info = json.load(open("info.json", "r"))
 else:
     server_instance_info = json.load(open("info.json", "r"))
-print("verifying directory 100%", end="\r")
+print("verifying directory 100%")
 
 
 def update_server_instance_info(tokens=None, daily_data=None):
@@ -82,11 +83,12 @@ gq_players = []
 gq_ids = []
 print("\n")
 for account in os.listdir("accounts"):
-	user = json.load(open(f"accounts/{account}", "r"))
-	if (user["metadata"]["Gentry's Quest data"] != None) and isinstance(user["metadata"]["Gentry's Quest data"], dict):
-		gq_players.append(gentrys_quest_crap.Player(user["username"], None, gentrys_quest_crap.generate_power_level(user["metadata"]["Gentry's Quest data"])))
-		gq_ids.append(account[:-5])
-	print(f"initializing gentrys quest ratings {int(os.listdir('accounts').index(account)-1/len(os.listdir('accounts'))*100)}%", end="\r")
+    user = json.load(open(f"accounts/{account}", "r"))
+    if (user["metadata"]["Gentry's Quest data"] != None) and isinstance(user["metadata"]["Gentry's Quest data"], dict):
+        gq_players.append(gentrys_quest_crap.Player(user["username"], None, gentrys_quest_crap.generate_power_level(user["metadata"]["Gentry's Quest data"])))
+        gq_ids.append(account[:-5])
+    print(f"initializing gentrys quest ratings {int(os.listdir('accounts').index(account)/len(os.listdir('accounts'))*100)}%")
+    time.sleep(0.03)
 
 # console methods
 def update_server_conosle():
@@ -116,6 +118,8 @@ bcrypt = Bcrypt(app)
 # token api stuff
 @app.route("/api/generate-token")
 async def generate_token():
+    global api_uses
+    api_uses += 1
     token = ""
     for i in range(32):
         token += random.choice(string.ascii_letters)
@@ -130,18 +134,24 @@ async def generate_token():
 
 @app.route("/api/clear-tokens")
 async def clear_tokens():
+    global api_uses
+    api_uses += 1
     update_server_instance_info([])
     return "tokens cleared"
 
 
 @app.route("/api/clear-daily-data")
 async def clear_daily_data():
+    global api_uses
+    api_uses += 1
     update_server_instance_info(daily_data={})
     return "tokens cleared"
 
 
 @app.route("/api/delete-token/<token>", methods=["POST"])
 async def delete_token(token):
+    global api_uses
+    api_uses += 1
     print(token)
     if contains_token(token):
         new_list = []
@@ -160,6 +170,8 @@ async def delete_token(token):
 
 @app.route("/api/verify-token/<token>")
 async def verify_token(token):
+    global api_uses
+    api_uses += 1
     return str(contains_token(token))
 
 
@@ -187,6 +199,8 @@ async def account_create(username,
                          gqdata=None,
                          backrooms_data=None,
                          about_me=""):
+    global api_uses
+    api_uses += 1
     account_count = len(os.listdir("accounts")) + 1
     password = str(password)
     pfp_options = [
@@ -226,6 +240,8 @@ async def account_create(username,
 
 @app.route("/api/account/migrate_osu_data")
 async def migrate_osu_data():
+    global api_uses
+    api_uses += 1
     for account_file in os.listdir("accounts"):
         account_data = json.load(open(f"accounts/{account_file}", "r"))
         account_data["metadata"]["osu info"] = {"osu id": account_data["metadata"]["osu id"]}
@@ -236,21 +252,25 @@ async def migrate_osu_data():
 
 @app.route("/api/account/receive-account/<id_or_name>")  # receive account with id
 def get_account_with_id_or_name(id_or_name):
-	try:
-		int(id_or_name)
-	except ValueError:
-		for file in os.listdir("accounts"):
-			account_data = json.load(open(f"accounts/{file}", "r"))
-			if account_data["username"] == id_or_name:
-				return file[:-5], account_data
-				
-	for file in os.listdir("accounts"):
-		if file[:-5] == id:
-			return file[:-5], json.load(open(f"accounts/{file}", "r"))
+    global api_uses
+    api_uses += 1
+    try:
+        int(id_or_name)
+    except ValueError:
+        for file in os.listdir("accounts"):
+            account_data = json.load(open(f"accounts/{file}", "r"))
+            if account_data["username"] == id_or_name:
+                return file[:-5], account_data
+                
+    for file in os.listdir("accounts"):
+        if file[:-5] == id:
+            return file[:-5], json.load(open(f"accounts/{file}", "r"))
 	
 
 @app.route("/api/account/login/<username>+<password>")
 async def login(username, password):
+    global api_uses
+    api_uses += 1
     for file in os.listdir("accounts"):
         account_info = json.load(open(f"accounts/{file}", encoding="utf-8"))
         account_info["id"] = int(file[:-5])
@@ -263,6 +283,8 @@ async def login(username, password):
 # player score grab api crap
 @app.route("/api/grab/<match_name>")
 async def grabber(match_name):
+    global api_uses
+    api_uses += 1
     with open(f"matches/{match_name}.json") as f:
         match_data = json.load(f)
 
@@ -329,6 +351,8 @@ async def grabber(match_name):
 
 @app.route("/api/daily/get")
 def get_daily():
+    global api_uses
+    api_uses += 1
     return daily_osu_gains
 
 
@@ -340,6 +364,8 @@ def get_osu_id(userID):
 @app.route("/api/set-daily-info/<json_string>")
 def set_daily_osu_info(json_string):
     global daily_osu_gains
+    global api_uses
+    api_uses += 1
     daily_osu_gains = json.loads(json_string)
     update_server_instance_info(daily_data=daily_osu_gains)
 
@@ -353,6 +379,8 @@ def test_socket(data):
 
 @app.route("/test-live")
 async def test_live():
+    global api_uses
+    api_uses += 1
     return live_player_status
 
 
@@ -363,14 +391,18 @@ def update_client_status(data):
 
 @socketio.on('match data get')
 def get_livestatus(data):
-    global websockets_since_last_restart
-    websockets_since_last_restart += 1
+    global websocket_uses
+    websocket_uses += 1
+    global api_uses
+    api_uses -= 1
     emit('match data receive', asyncio.run(grabber(data)), ignore_queue=True)
 
 
 # all players api updater
 @app.route("/api/grab/<ids>/all")
 async def all_grabber(ids):
+    global api_uses
+    api_uses += 1
     id_list = ids.split("+")
 
     new_dict = {}
@@ -437,6 +469,8 @@ def update_graph_data():
 @app.route("/api/daily-reset")
 def daily_reset():
     global daily_osu_gains
+    global api_uses
+    api_uses += 1
     daily_osu_gains = {}
     asyncio.run(player_crap.refresh_all_players())
     for player in json.load(open("player_data.json", "r")):
@@ -454,6 +488,8 @@ def daily_reset():
 
 @app.route("/api/update-graphs")
 def update_graph_endpoint():
+    global api_uses
+    api_uses += 1
     update_graph_data()
     return redirect(f"{client.osu_public_url}/matches")
 
@@ -462,6 +498,8 @@ def update_graph_endpoint():
 # match grabber
 @app.route('/api/matches/<time>')
 def api_match_request(time):
+    global api_uses
+    api_uses += 1
     returns = {}
     returns["matches"] = []
     if time == "current":
@@ -477,6 +515,8 @@ def api_match_request(time):
 # match data grabber
 @app.route('/api/match-get/<time>/<match>')
 def match_get(time, match):
+    global api_uses
+    api_uses += 1
     with open("player_data.json") as f:
         player_data = json.load(f)
     if time == "current":
@@ -531,33 +571,42 @@ def match_get(time, match):
 # get delay api
 @app.route("/api/get-delay")
 async def get_delay():
+    global api_uses
+    api_uses += 1
     return (str(len(live_player_status.items()) / 4))
 
 
 # start match api
-@app.route("/api/start-match", methods=["post"])
+@app.route("/api/start-match", methods=["POST"])
 async def api_start_match():
+    global api_uses
+    api_uses += 1
     info = request.json
     match_crap.start_match()
 
 
 # live status api
-@app.route("/api/live/del/<id>", methods=["post"])
+@app.route("/api/live/del/<id>", methods=["POST"])
 async def del_live_status(id):
     global live_player_status
+    global api_uses
+    api_uses += 1
     live_player_status.pop(int(id))
-    return ({})
 
 
 @app.route("/api/live/get/<id>", methods=["get"])
 async def get_live_status(id):
+    global api_uses
+    api_uses += 1
     player_info = live_player_status[id]
     return (player_info)
 
 
-@app.route("/api/live/update/<id>", methods=["post"])
+@app.route("/api/live/update/<id>", methods=["POST"])
 async def update_live_status(id):
     global live_player_status
+    global api_uses
+    api_uses += 1
     info = request.json
     live_player_status[id] = info
     return ({})
@@ -765,6 +814,8 @@ async def matches():
 @app.route("/refresh/<player_name>")
 async def web_player_refresh(player_name):
     global daily_osu_gains
+    global api_uses
+    api_uses += 1
     if player_name == "all":
         await player_crap.refresh_all_players()
 
@@ -849,7 +900,9 @@ async def test_create():
 async def web_control():
     return render_template(
         "control.html",
-        total_websockets = websockets_since_last_restart
+        total_websockets = websocket_uses,
+        total_apis = api_uses,
+        live_status_users = len(live_player_status)
     )
 
 
@@ -877,6 +930,8 @@ async def stats():
 
 @app.route("/api/mc/<update>")
 async def mc(update):
+    global api_uses
+    api_uses += 1
     if update == "true":
         minecraft_data_crap.player_data(True)
         return ("done")
@@ -990,6 +1045,8 @@ def create_account():
 
 @app.route("/api/account/change-pfp", methods=["POST"])
 def change_profile_picture():
+    global api_uses
+    api_uses += 1
     id = request.cookies.get('userID')
     account_data = json.load(open(f"accounts/{id}.json"))
     account_data["pfp url"] = request.form.get("url")
@@ -1034,6 +1091,8 @@ async def down():
 
 @app.route("/api/account/updateGCdata/<id>", methods=["POST"])
 async def update_gc_data(id):
+    global api_uses
+    api_uses += 1
     data = request.json
     user_data = json.load(open(f"accounts/{id}.json", "r"))
     if verify_token(data["token"]):
@@ -1041,6 +1100,17 @@ async def update_gc_data(id):
 
     json.dump(user_data, open(f"accounts/{id}.json", "w"), indent=4)
     return "done"
+
+
+@socketio.on('get control data')
+def get_control_data():
+    global websocket_uses
+    websocket_uses += 1
+    emit('control data recieve', {
+        "live users": len(live_player_status),
+        "api uses": api_uses,
+        "websocket uses": websocket_uses
+    })
 
 
 if __name__ == "__main__":
