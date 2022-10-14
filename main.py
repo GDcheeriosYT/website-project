@@ -38,7 +38,9 @@ if os.path.isdir("accounts") == False:
     os.mkdir("accounts")
 print("verifying directory 60%")
 if os.path.exists("player_data.json") == False:
-    open("player_data.json", "w+").close()
+    poop = open("player_data.json", "w+")
+    poop.write("{}")
+    poop.close()
 print("verifying directory 80%")
 if os.path.exists("info.json") == False:
     server_instance_info = open("info.json", "w+").close()
