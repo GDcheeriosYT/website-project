@@ -1,8 +1,8 @@
 import json
 
 character_factor = 0.95
-weapon_factor = 0.95
-artifact_factor = 0.85
+weapon_factor = 0.85
+artifact_factor = 0.75
 
 
 class Player:
