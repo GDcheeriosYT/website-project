@@ -23,7 +23,7 @@ class Player:
 def generate_power_level(account_data):
     power_level = 0
     #characters
-    print(account_data["inventory"]["characters"][0]["name"])
+    #print(account_data["inventory"]["characters"][0]["name"])
     character_ratings = []
     for character in account_data["inventory"]["characters"]:
         character_rating = 0
@@ -73,24 +73,24 @@ def generate_power_level(account_data):
     for character_rating in character_ratings:
         power_level += character_rating * (character_factor**(character_ratings.index(character_rating)))
 
-        factored_character_rating = '{:,}'.format(character_rating * character_factor**(character_ratings.index(character_rating)))
-        new_character_rating = '{:,}'.format(character_rating)
-        print(f"character #{character_ratings.index(character_rating) + 1} {factored_character_rating} | {new_character_rating}")
+        #factored_character_rating = '{:,}'.format(character_rating * character_factor**(character_ratings.index(character_rating)))
+        #new_character_rating = '{:,}'.format(character_rating)
+        #print(f"character #{character_ratings.index(character_rating) + 1} {factored_character_rating} | {new_character_rating}")
     
     for artifact_rating in artifact_ratings:
         power_level += artifact_rating * (artifact_factor**(artifact_ratings.index(artifact_rating)))
 
-        factored_artifact_rating = '{:,}'.format(artifact_rating * artifact_factor**(artifact_ratings.index(artifact_rating)))
-        new_artifact_rating = '{:,}'.format(artifact_rating)
-        print(f"artifact #{artifact_ratings.index(artifact_rating) + 1} {factored_artifact_rating} | {new_artifact_rating}")
+        #factored_artifact_rating = '{:,}'.format(artifact_rating * artifact_factor**(artifact_ratings.index(artifact_rating)))
+        #new_artifact_rating = '{:,}'.format(artifact_rating)
+        #print(f"artifact #{artifact_ratings.index(artifact_rating) + 1} {factored_artifact_rating} | {new_artifact_rating}")
         
     for weapon_rating in weapon_ratings:
         power_level += weapon_rating * (weapon_factor**(weapon_ratings.index(weapon_rating)))
 
-        factored_weapon_rating = '{:,}'.format(weapon_rating * weapon_factor**(weapon_ratings.index(weapon_rating)))
-        new_weapon_rating = '{:,}'.format(weapon_rating)
-        print(f"weapon #{weapon_ratings.index(weapon_rating) + 1} {factored_weapon_rating} | {new_weapon_rating}")
+        #factored_weapon_rating = '{:,}'.format(weapon_rating * weapon_factor**(weapon_ratings.index(weapon_rating)))
+        #new_weapon_rating = '{:,}'.format(weapon_rating)
+        #print(f"weapon #{weapon_ratings.index(weapon_rating) + 1} {factored_weapon_rating} | {new_weapon_rating}")
     
-    print(power_level)
+    #print(power_level)
     
     return int(power_level)
