@@ -88,7 +88,7 @@ for account in os.listdir("accounts"):
         gq_players.append(gentrys_quest_crap.Player(user["username"], None, gentrys_quest_crap.generate_power_level(user["metadata"]["Gentry's Quest data"])))
         gq_ids.append(account[:-5])
     print(f"initializing gentrys quest ratings {int(os.listdir('accounts').index(account)/len(os.listdir('accounts'))*100)}%")
-    time.sleep(0.03)
+    #time.sleep(0.03)
 
 # console methods
 def update_server_conosle():
