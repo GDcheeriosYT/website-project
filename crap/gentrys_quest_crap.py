@@ -2,23 +2,28 @@ import json
 
 character_factor = 0.95
 weapon_factor = 0.85
-artifact_factor = 0.75
+artifact_factor = 0
 
 
 class Player:
 
-    account_name = None
-    aura = None
-    power_level = None
-    
-    def __init__(self, account_name, aura=None, power_level=0):
-        self.account_name = account_name
-        self.aura = aura
-        self.power_level = power_level
+	account_name = None
+	aura = None
+	power_level = None
+	
+	def __init__(self, account_name, aura=None, power_level=0):
+		self.account_name = account_name
+		self.aura = aura
+		self.power_level = power_level
 
-    def __repr__(self):
-        return f"{self.account_name} {self.power_level}p"
+	def __repr__(self):
+		json_thing = {
+			"username": self.account_name,
+			"aura": self.aura,
+			"power level": self.power_level
+		}
 
+		return str(json_thing)
 
 def generate_power_level(account_data):
     power_level = 0

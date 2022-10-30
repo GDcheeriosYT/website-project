@@ -81,16 +81,6 @@ payload.Payload.max_decode_packets = 50000
 from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap, minecraft_data_crap, gentrys_quest_crap
 from crap.team_crap import Teams
 
-gq_players = []
-gq_ids = []
-print("\n")
-for account in os.listdir("accounts"):
-    user = json.load(open(f"accounts/{account}", "r"))
-    if (user["metadata"]["Gentry's Quest data"] != None) and isinstance(user["metadata"]["Gentry's Quest data"], dict):
-        gq_players.append(gentrys_quest_crap.Player(user["username"], None, gentrys_quest_crap.generate_power_level(user["metadata"]["Gentry's Quest data"])))
-        gq_ids.append(account[:-5])
-    print(f"initializing gentrys quest ratings {int(os.listdir('accounts').index(account)/len(os.listdir('accounts'))*100)}%")
-    #time.sleep(0.03)
 
 # console methods
 def update_server_conosle():
@@ -1070,21 +1060,35 @@ async def gentrys_quest_home():
 async def gentrys_quest_leaderboard():
 	def sort_thing(class_thing):
 		return class_thing.power_level
+
+	gq_players = []
+	gq_ids = []
+	print("\n")
+	for account in os.listdir("accounts"):
+	    user = json.load(open(f"accounts/{account}", "r"))
+	    if (user["metadata"]["Gentry's Quest data"] != None) and isinstance(user["metadata"]["Gentry's Quest data"], dict):
+	        gq_players.append(gentrys_quest_crap.Player(user["username"], None, gentrys_quest_crap.generate_power_level(user["metadata"]["Gentry's Quest data"])))
+	        gq_ids.append(account[:-5])
+	    print(f"grabbbing gentrys quest ratings {int(os.listdir('accounts').index(account)/len(os.listdir('accounts'))*100)}%")
+	    #time.sleep(0.03)
 	
 	players = gq_players
 	
 	players.sort(reverse=True, key=sort_thing)
 	
 	ids = []
+	jsonified_player_list = {}
 	
 	for player in players:
 		ids.append(get_account_with_id_or_name(player.account_name)[0])
-		
+
+	print(jsonified_player_list)
+	
 	return render_template(
 		"gentrys quest/leaderboard.html",
 		players = players,
 		ids = ids
-						  )
+  	)
 
 @app.route("/down")
 async def down():
@@ -1116,4 +1120,4 @@ def get_control_data():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=True)
+    socketio.run(app, host='0.0.0.0', port=80, debug=False)

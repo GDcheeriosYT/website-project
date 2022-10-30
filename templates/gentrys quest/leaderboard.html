@@ -2,16 +2,16 @@
 <html>
   <head>
     {% block head %}
-    <title>Home</title>
+    <title>Leaderboard</title>
     <link rel="stylesheet" href="/static/style.css">
     {% endblock %}
   </head>
-  <body>
+  <body style="background-color: black;">
     {% block body %}
 		<h1>Gentry's Quest Leaderboard</h1>
-        {% set count = namespace(value=1) %}
+	  	{% set count = namespace(value=1) %}
 	  	{% for player in players %}
-            <p style="font-size: 20px; text-align: center;">#{{count.value}} <a href="/user/{{ids[count.value - 1]}}">{{player}}</a></p>
+            <h1 style="font-size: 20px; text-align: center; font: courier new;">#{{count.value}} <a style="font-size: 20px;" href="/user/{{ids[count.value - 1]}}">{{player.account_name}}</a> <span style="font-size: 10px;">{{player.power_level}}p</span></h1>
             <hr>
             {% set count.value = count.value + 1 %}
 	  	{% endfor %}
