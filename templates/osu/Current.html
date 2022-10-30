@@ -53,7 +53,8 @@
             console.log(socket)
             setInterval(() => {
               socket.emit('match data get', "{{match_data['match name']}}")
-            }, 100)
+              console.log("emitted")
+            }, 400)
             socket.on('match data receive', (data) =>{
               player_list = data
               reRenderLiveStatus()
@@ -85,7 +86,7 @@
             setInterval(() => {
               onTimeout = false
               //document.getElementByID('refresh-button').style.color = "grey"
-            }, 2000)
+            }, 400)
 
             function toggleCovers(){
               cover = !cover
@@ -197,10 +198,10 @@
                   player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
                   player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
                   player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score, 50), player.querySelector(".gameplay-score"), 50, " score")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo, 50), player.querySelector(".gameplay-combo"), 50, "x/")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".max-gameplay-combo").textContent.replace(/\,/g, '')), gameplay.maxCombo, 50), player.querySelector(".max-gameplay-combo"), 50, "x")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy), 50), player.querySelector(".gameplay-accuracy"), 50, "%")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score, 350), player.querySelector(".gameplay-score"), 350, " score")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo, 350), player.querySelector(".gameplay-combo"), 350, "x/")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".max-gameplay-combo").textContent.replace(/\,/g, '')), gameplay.maxCombo, 350), player.querySelector(".max-gameplay-combo"), 350, "x")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy), 350), player.querySelector(".gameplay-accuracy"), 350, "%")
                   player.querySelector(".gameplay-grade").innerHTML = gameplay.grade
                   if (gameplay.grade == "F" || gameplay.grade == "D"){
                     player.querySelector(".gameplay-grade").style.color = "red"
@@ -220,10 +221,10 @@
                   else{
                     player.querySelector(".gameplay-grade").style.color = "yellow"
                   }
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-100").textContent.replace(/\,/g, '')), parseInt(gameplay.hundred), 50), player.querySelector(".gameplay-100"), 50, "")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-50").textContent.replace(/\,/g, '')), parseInt(gameplay.fifty), 50), player.querySelector(".gameplay-50"), 50, "")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-misses").textContent.replace(/\,/g, '')), parseInt(gameplay.misses), 50), player.querySelector(".gameplay-misses"), 50, "")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-pp").textContent.replace(/\,/g, '')), parseInt(gameplay.pp), 50), player.querySelector(".gameplay-pp"), 50, "pp")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-100").textContent.replace(/\,/g, '')), parseInt(gameplay.hundred), 350), player.querySelector(".gameplay-100"), 350, "")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-50").textContent.replace(/\,/g, '')), parseInt(gameplay.fifty), 350), player.querySelector(".gameplay-50"), 350, "")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-misses").textContent.replace(/\,/g, '')), parseInt(gameplay.misses), 350), player.querySelector(".gameplay-misses"), 350, "")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-pp").textContent.replace(/\,/g, '')), parseInt(gameplay.pp), 350), player.querySelector(".gameplay-pp"), 350, "pp")
                   player.querySelector(".gameplay-mods").innerHTML = mapInfo.mods
                   playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
                   playerStatus.querySelector(".status").classList = "status active"
@@ -231,6 +232,7 @@
                 else{
                   playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
                   playerStatus.querySelector(".status").classList = "status"
+                  player.classList ="live-status"
                 }
               })
             }
@@ -502,13 +504,6 @@
         }
       })
     </script>
-    
-    <h1>I am in the process of implementing graphs! There's a plethora of things I have to straighten up first.</h1>
-    
-    <br>
-    
-    <!--<iframe src="https://web.libera.chat/?nick=Guest?#osuapicrap" style="border:0; width:100%; height:450px;"></iframe>-->
-    
     {% endblock %}
   </body>
   </html>

@@ -4,6 +4,7 @@
     {% block head %}
     <title>{{ username }} profile</title>
     <link rel="stylesheet" href="/static/style.css">
+    <meta name="description" content="{{username}}'s profile">
     {% endblock %}
   </head>
   <body>
@@ -55,7 +56,7 @@
         backrooms.classList.add('fade-away')
       }
     </script>
-    <div style="margin-top: 25%;">
+    <div style="margin-top: 3%;">
       <img style="margin-left: auto; margin-right: auto; display: block;" src="{{profile_picture}}">
       {% if request.cookies.get('userID') == id %}
         <form action="/api/account/change-pfp" method="POST"><input type="text" name="url" value="url"></input><input type="submit" value="set"></form> 
@@ -65,7 +66,7 @@
     <div class="profile-info mx-auto">
       <a style="margin: 10px;" onclick='show_details()'>Details</a>
       {% if metadata["osu id"] != 0 %}
-        <a style="margin: 10px;" target=”_blank” href="https://osu.ppy.sh/users/{{metadata["osu id"]}}">OSU</a>
+        <a style="margin: 10px;" target=”_blank” href="https://osu.ppy.sh/users/{{metadata['osu id']}}">OSU</a>
       {% endif %}
       {% if metadata["Gentry's Quest data"] != none %}
         <a style="margin: 10px;" onclick='show_gqdata()'>Gentry's Quest</a>
