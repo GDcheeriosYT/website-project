@@ -1107,6 +1107,38 @@ async def update_gc_data(id):
     json.dump(user_data, open(f"accounts/{id}.json", "w"), indent=4)
     return "done"
 
+@app.route("/dev/gc/artifact")
+async def artifact_creator():
+    return render_template(
+        "gentrys quest/dev/artifact.html",
+        artifact_output = None
+    )
+
+@app.route("/dev/gc/artifact/create", methods=["POST"])
+async def artifact_created():
+    name = request.form.get("name")
+    name_segments = name.split()
+    class_name = ""
+    name = ""
+    family = request.form.get("family")
+    family_segments = family.split()
+    family = ""
+    for word in name_segments:
+        class_name += (word[0].upper() + word[1:])
+        name += (word[0].upper() + word[1:] + " ")
+    for word in family_segments:
+        family += (word[0].upper() + word[1:] + " ")
+    buff = request.form.get("buff")
+    if buff == "":
+        buff = ""
+    else:
+        buff = f"StatTypes.{buff}"
+    string = f"class {class_name}(Artifact):\n\tdef __init__(self, star_rating):\n\t\tsuper().__init__(\n\t\t\t\"{name}\",\n\t\t\tstar_rating,\n\t\t\t\"{family}\",\n\t\t\tBuff({buff})\n\t\t)"
+    print(string)
+    return render_template(
+        "gentrys quest/dev/artifact.html",
+        artifact_output = string
+    )
 
 @socketio.on('get control data')
 def get_control_data():
