@@ -22,6 +22,8 @@ import Client_Credentials as client
 live_player_status = {}
 daily_osu_gains = {}
 console_outputs = []
+gq_player_leaderboard = []
+gq_lobbies = []
 
 websocket_uses = 0
 api_uses = 0
@@ -253,11 +255,11 @@ def get_account_with_id_or_name(id_or_name):
             account_data = json.load(open(f"accounts/{file}", "r"))
             if account_data["username"] == id_or_name:
                 return file[:-5], account_data
-                
+
     for file in os.listdir("accounts"):
         if file[:-5] == id:
             return file[:-5], json.load(open(f"accounts/{file}", "r"))
-	
+
 
 @app.route("/api/account/login/<username>+<password>")
 async def login(username, password):
@@ -1054,41 +1056,44 @@ def change_profile_picture():
 
 @app.route("/gentrys-quest")
 async def gentrys_quest_home():
-	return render_template("gentrys quest/home.html")
+    return render_template("gentrys quest/home.html")
 
 @app.route("/gentrys-quest/leaderboard")
 async def gentrys_quest_leaderboard():
-	def sort_thing(class_thing):
-		return class_thing.power_level
+    global gq_player_leaderboard
+    def sort_thing(class_thing):
+       return class_thing.power_level
 
-	gq_players = []
-	gq_ids = []
-	print("\n")
-	for account in os.listdir("accounts"):
-	    user = json.load(open(f"accounts/{account}", "r"))
-	    if (user["metadata"]["Gentry's Quest data"] != None) and isinstance(user["metadata"]["Gentry's Quest data"], dict):
-	        gq_players.append(gentrys_quest_crap.Player(user["username"], None, gentrys_quest_crap.generate_power_level(user["metadata"]["Gentry's Quest data"])))
-	        gq_ids.append(account[:-5])
-	    print(f"grabbbing gentrys quest ratings {int(os.listdir('accounts').index(account)/len(os.listdir('accounts'))*100)}%")
-	    #time.sleep(0.03)
-	
-	players = gq_players
-	
-	players.sort(reverse=True, key=sort_thing)
-	
-	ids = []
-	jsonified_player_list = {}
-	
-	for player in players:
-		ids.append(get_account_with_id_or_name(player.account_name)[0])
+    gq_players = []
+    gq_ids = []
+    print("\n")
+    for account in os.listdir("accounts"):
+       user = json.load(open(f"accounts/{account}", "r"))
+       if (user["metadata"]["Gentry's Quest data"] != None) and isinstance(user["metadata"]["Gentry's Quest data"], dict):
+           gq_players.append(gentrys_quest_crap.Player(user["username"], None, gentrys_quest_crap.generate_power_level(user["metadata"]["Gentry's Quest data"])))
+           gq_ids.append(account[:-5])
+       print(f"grabbbing gentrys quest ratings {int(os.listdir('accounts').index(account)/len(os.listdir('accounts'))*100)}%")
+       #time.sleep(0.03)
 
-	print(jsonified_player_list)
-	
-	return render_template(
-		"gentrys quest/leaderboard.html",
-		players = players,
-		ids = ids
-  	)
+    players = gq_players
+
+    players.sort(reverse=True, key=sort_thing)
+
+    gq_player_leaderboard = players
+
+    ids = []
+    jsonified_player_list = {}
+
+    for player in players:
+       ids.append(get_account_with_id_or_name(player.account_name)[0])
+
+    print(jsonified_player_list)
+
+    return render_template(
+        "gentrys quest/leaderboard.html",
+        players = players,
+        ids = ids
+    )
 
 @app.route("/down")
 async def down():
@@ -1107,6 +1112,16 @@ async def update_gc_data(id):
     json.dump(user_data, open(f"accounts/{id}.json", "w"), indent=4)
     return "done"
 
+@app.route("/api/gq/get-leaderboard/<start>+<display_number>", methods=["GET"])
+async def get_gq_leaderboard(start, display_number):
+    players = []
+    for index in display_number:
+        try:
+            players.append(gq_player_leaderboard[start + index])
+        except IndexError:
+            pass
+
+    return {"players": players}
 
 @socketio.on('get control data')
 def get_control_data():
