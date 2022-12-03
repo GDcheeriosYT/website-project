@@ -26,6 +26,27 @@ class Player:
 		return str(json_thing)
 
 def generate_power_level(account_data):
+    def attribute_rater(attribute):
+        if isinstance(attribute, dict):
+            attribute = attribute["buff"]
+        rating = 0
+        if attribute[0] == 1:
+            rating += attribute[2] * 1.5
+        
+        elif attribute[0] == 2:
+            rating += attribute[2] * 2.5
+
+        elif attribute[0] == 3:
+            rating += attribute[2] * 1
+
+        elif attribute[0] == 4:
+            rating += attribute[2] * 3
+
+        elif attribute[0] == 5:
+            rating += attribute[2] * 2
+
+        return rating
+        
     power_level = 0
     #characters
     #print(account_data["inventory"]["characters"][0]["name"])
@@ -40,12 +61,19 @@ def generate_power_level(account_data):
             character_rating += artifact["star rating"] * 1.20
             character_rating += artifact["experience"]["level"]
             character_rating += ((artifact["experience"]["level"] / 4) * 2) + 1
+            character_rating += attribute_rater(artifact["stats"]["main attribute"])
+            for attribute in artifact["stats"]["attributes"]:
+                character_rating += attribute_rater(attribute)
 
         try:
             character_rating += equips["weapon"]["star rating"] * 1.5
             character_rating += equips["weapon"]["experience"]["level"]
             character_rating += equips["weapon"]["stats"]["attack"] * 0.75
+            character_rating += attribute_rater(equips["weapon"]["stats"]["buff"])
         except KeyError:
+            pass
+
+        except TypeError:
             pass
 
         character_ratings.append(character_rating)

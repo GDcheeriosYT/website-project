@@ -3,49 +3,53 @@
 {% endblock %}
 <div class="rectangle_menu">
   <nav>
-    <ul style="">
-      <li class="dropdown-special"><p style="margin: 1%;">GDcheerios.com</p></li>
-      <li class="dropdown"><a href="/">Main</a>
-        <ul class="dropdown-content">
-          <li><a href="/">Home</a></li>
-          <li><a href="https://github.com/GDcheeriosYT/website-project">Github</a></li>
-          <li><a href="/client">Client</a></li>
-        </ul>
-      </li>
-	  <li class="dropdown"><a href="/">Gentry's Quest</a>
-        <ul class="dropdown-content">
-          <li><a href="/gentrys-quest">Home</a></li>
-          <li><a href="/gentrys-quest/leaderboard">Leaderboard</a></li>
-        </ul>
-      </li>
-      <li class="dropdown"><a href="/minecraft">Minecraft</a>
-        <ul class="dropdown-content">
-          <li><a href="/minecraft">Server</a></li>
-          <li><a href="/down">Player Stats</a></li>
-        </ul>
-      </li>
-      <li class="dropdown"><a href="/osu">osu</a>
-        <ul class="dropdown-content">
-          <li><a href="/osu">Home</a></li>
-          <li><a href="/osu/matches">Matches</a></li>
-          <li><a href="/osu/players">Players</a></li>
-        </ul>
-      </li>
-      <li class="dropdown"><a href="/account">Account</a>
-        <ul class="dropdown-content">
-          {% if request.cookies.get('userID') != None %}
-            <li><a href="/user/{{ request.cookies.get('userID') }}">Profile</a></li>
-            <li><a href="/account/signout">Sign Out</a></li>
-          {% else %}
-            <li><a href="/account/login">Log In</a></li>
-            <li><a href="/account/create">Create Account</a></li>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <ul>
+          <li class="dropdown-special"><p style="margin: 1%; text-align: left;">GDcheerios.com</p></li>
+      </ul>
+      <ul>
+          <li class="dropdown"><a href="/">Main</a>
+            <ul class="dropdown-content">
+              <li><a href="/">Home</a></li>
+              <li><a href="https://github.com/GDcheeriosYT/website-project">Github</a></li>
+              <li><a href="/client">Client</a></li>
+            </ul>
+          </li>
+    	  <li class="dropdown"><a href="/">Gentry's Quest</a>
+            <ul class="dropdown-content">
+              <li><a href="/gentrys-quest">Home</a></li>
+              <li><a href="/gentrys-quest/leaderboard">Leaderboard</a></li>
+            </ul>
+          </li>
+          <!--<li class="dropdown"><a href="/minecraft">Minecraft</a>
+            <ul class="dropdown-content">
+              <li><a href="/minecraft">Server</a></li>
+              <li><a href="/down">Player Stats</a></li>
+            </ul>
+          </li>-->
+          <li class="dropdown"><a href="/osu">osu</a>
+            <ul class="dropdown-content">
+              <li><a href="/osu">Home</a></li>
+              <li><a href="/osu/matches">Matches</a></li>
+              <li><a href="/osu/players">Players</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="/account">Account</a>
+            <ul class="dropdown-content">
+              {% if request.cookies.get('userID') != None %}
+                <li><a href="/user/{{ request.cookies.get('userID') }}">Profile</a></li>
+                <li><a href="/account/signout">Sign Out</a></li>
+              {% else %}
+                <li><a href="/account/login">Log In</a></li>
+                <li><a href="/account/create">Create Account</a></li>
+              {% endif %}
+            </ul>
+          </li>
+          {% if request.cookies.get('userID') == "1" %}
+            <li class="dropdown"><a href="/control">API</a></li>
           {% endif %}
-        </ul>
-      </li>
-      {% if request.cookies.get('userID') == "1" %}
-        <li class="dropdown"><a href="/control">API</a></li>
-      {% endif %}
-    </ul>
+      </ul>
+    </div>
   </nav>
   <p>This website is a work in progress...</p>
 </div>

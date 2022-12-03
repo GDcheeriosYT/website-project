@@ -232,6 +232,17 @@ async def account_create(username,
     return account_data
 
 
+@app.route("/api/password-cache-gen")
+async def password_cache_gen():
+    return render_template("password_gen.html",
+                          password = "poop")
+
+
+@app.route("/api/password-cache-gen", methods=["POST"])
+async def password_cache_gen_post():
+    password = request.form.get("password")
+    return render_template("password_gen.html", password=str(bcrypt.generate_password_hash(password)))
+    
 @app.route("/api/account/migrate_osu_data")
 async def migrate_osu_data():
     global api_uses
@@ -259,7 +270,7 @@ def get_account_with_id_or_name(id_or_name):
     for file in os.listdir("accounts"):
         if file[:-5] == id:
             return file[:-5], json.load(open(f"accounts/{file}", "r"))
-	
+    
 
 @app.route("/api/account/login/<username>+<password>")
 async def login(username, password):
@@ -1087,13 +1098,13 @@ async def gentrys_quest_leaderboard():
     for player in players:
        ids.append(get_account_with_id_or_name(player.account_name)[0])
 
-	print(jsonified_player_list)
-	
-	return render_template(
-		"gentrys quest/leaderboard.html",
-		players = players,
-		ids = ids
-  	)
+    print(jsonified_player_list)
+    
+    return render_template(
+        "gentrys quest/leaderboard.html",
+        players = players,
+        ids = ids
+    )
 
 @app.route("/down")
 async def down():
@@ -1167,4 +1178,4 @@ def get_control_data():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=False)
+    socketio.run(app, host='0.0.0.0', port=80, debug=True)
