@@ -1,7 +1,7 @@
 import json
 
 character_factor = 0.95
-weapon_factor = 0.85
+weapon_factor = 0.90
 artifact_factor = 0
 
 
