@@ -1,8 +1,8 @@
 import json
 
 character_factor = 0.95
-weapon_factor = 0.90
-artifact_factor = 0
+weapon_factor = 0.50
+artifact_factor = 0.25
 
 
 class Player:
@@ -48,8 +48,8 @@ def generate_power_level(account_data):
         return rating
         
     power_level = 0
+    
     #characters
-    #print(account_data["inventory"]["characters"][0]["name"])
     character_ratings = []
     for character in account_data["inventory"]["characters"]:
         character_rating = 0
