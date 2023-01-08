@@ -153,11 +153,12 @@ async def delete_token(token):
     if contains_token(token):
         new_list = []
         for token2 in server_instance_info["tokens"]:
-            print(token, token2)
+            #print(token, token2)
             if token2 != token:
                 new_list.append(token)
             else:
-                print("OHPHOPOPHPFPD")
+                #print("OHPHOPOPHPFPD")
+                pass
 
         update_server_instance_info(new_list)
 
@@ -1156,4 +1157,4 @@ def get_control_data():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=True)
+    socketio.run(app, host='0.0.0.0', port=80, debug=False)

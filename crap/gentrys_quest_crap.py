@@ -2,8 +2,8 @@ import json
 import os
 
 character_factor = 0.95
-weapon_factor = 0.50
-artifact_factor = 0.25
+weapon_factor = 1
+artifact_factor = 1
 
 
 def generate_power_level(account_data):
@@ -57,7 +57,8 @@ def generate_power_level(account_data):
         except TypeError:
             pass
 
-        character_ratings.append(character_rating)
+        if character["experience"]["xp"] > 0 or character["experience"]["level"] > 1:
+            character_ratings.append(character_rating)
 
     character_ratings.sort(reverse=True)
 
@@ -68,7 +69,8 @@ def generate_power_level(account_data):
         artifact_rating += artifact["star rating"] * 1.20
         artifact_rating += ((artifact["experience"]["level"] / 4) * 2) + 1
 
-        artifact_ratings.append(artifact_rating)
+        if artifact["experience"]["xp"] > 0 or artifact["experience"]["level"] > 1:
+            artifact_ratings.append(artifact_rating)
 
     artifact_ratings.sort(reverse=True)
 
@@ -80,7 +82,8 @@ def generate_power_level(account_data):
         weapon_rating += weapon["experience"]["level"] * 1.26
         weapon_rating += weapon["stats"]["attack"] / 2
 
-        weapon_ratings.append(weapon_rating)
+        if weapon["experience"]["xp"] > 0 or weapon["experience"]["level"] > 1:
+            weapon_ratings.append(weapon_rating)
 
     weapon_ratings.sort(reverse=True)
 
@@ -127,8 +130,8 @@ class Player:
 
     def update_power_level(self):
         old_pl = self.power_level
-        self.power_level = generate_power_level(data_extractor(json.loads(f"accounts/{self.id}.json")))
-        print(f"{self.name} power level just updated!\n{old_pl} -> {self.power_level}")
+        self.power_level = generate_power_level(data_extractor(json.load(open(f"accounts/{self.id}.json", "r")))[1])
+        print(f"{self.account_name} power level just updated!\n{old_pl} -> {self.power_level}")
 
     def __repr__(self):
         json_thing = {
@@ -150,7 +153,7 @@ class GentrysQuestDataHolder:
         account_list_length = len(account_list)
         counter = 1
         for data in account_list:
-            print(f"{int(round(counter/account_list_length) * 100)}%")
+            print(f"{int((counter/account_list_length * 100))}%")
             id = data[:-5]
             data = data_extractor(json.load(open(f"accounts/{data}", "r")))
             if data is not None:
@@ -165,7 +168,7 @@ class GentrysQuestDataHolder:
             return player.power_level
 
         print("sorting gq players!")
-        self.players.sort(key=sort_thing)
+        self.players.sort(key=sort_thing, reverse=True)
         print("done!")
 
     def get_leaderboard(self, min_index: int = 0, max_index: int = 50):
@@ -173,11 +176,13 @@ class GentrysQuestDataHolder:
 
         counter = min_index
 
-        while min_index < max_index:
+        while counter < max_index:
             try:
                 new_list.append(self.players[counter])
             except IndexError:
                 break
+
+            counter += 1
 
         return new_list
 
