@@ -22,8 +22,6 @@ import Client_Credentials as client
 live_player_status = {}
 daily_osu_gains = {}
 console_outputs = []
-gq_player_leaderboard = []
-gq_lobbies = []
 
 websocket_uses = 0
 api_uses = 0
@@ -55,6 +53,11 @@ else:
     server_instance_info = json.load(open("info.json", "r"))
 print("verifying directory 100%")
 
+print("setting up gentry's quest data handler")
+from crap.gentrys_quest_crap import GentrysQuestDataHolder
+
+gq_data = GentrysQuestDataHolder()
+print("done")
 
 def update_server_instance_info(tokens=None, daily_data=None):
     global server_instance_info
@@ -1071,39 +1074,12 @@ async def gentrys_quest_home():
 
 @app.route("/gentrys-quest/leaderboard")
 async def gentrys_quest_leaderboard():
-    global gq_player_leaderboard
-    def sort_thing(class_thing):
-       return class_thing.power_level
 
-    gq_players = []
-    gq_ids = []
-    print("\n")
-    for account in os.listdir("accounts"):
-       user = json.load(open(f"accounts/{account}", "r"))
-       if (user["metadata"]["Gentry's Quest data"] != None) and isinstance(user["metadata"]["Gentry's Quest data"], dict):
-           gq_players.append(gentrys_quest_crap.Player(user["username"], None, gentrys_quest_crap.generate_power_level(user["metadata"]["Gentry's Quest data"])))
-           gq_ids.append(account[:-5])
-       print(f"grabbbing gentrys quest ratings {int(os.listdir('accounts').index(account)/len(os.listdir('accounts'))*100)}%")
-       #time.sleep(0.03)
+    players = gq_data.get_leaderboard()
 
-    players = gq_players
-
-    players.sort(reverse=True, key=sort_thing)
-
-    gq_player_leaderboard = players
-
-    ids = []
-    jsonified_player_list = {}
-
-    for player in players:
-       ids.append(get_account_with_id_or_name(player.account_name)[0])
-
-    print(jsonified_player_list)
-    
     return render_template(
         "gentrys quest/leaderboard.html",
-        players = players,
-        ids = ids
+        players = players
     )
 
 @app.route("/down")
@@ -1120,7 +1096,9 @@ async def update_gc_data(id):
     if verify_token(data["token"]):
         user_data["metadata"]["Gentry's Quest data"] = data["data"]
 
+
     json.dump(user_data, open(f"accounts/{id}.json", "w"), indent=4)
+    gq_data.update_player_power_level(id)
     return "done"
 
 @app.route("/dev/gc/artifact")
@@ -1178,4 +1156,4 @@ def get_control_data():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=False)
+    socketio.run(app, host='0.0.0.0', port=80, debug=True)

@@ -1,29 +1,10 @@
 import json
+import os
 
 character_factor = 0.95
 weapon_factor = 0.50
 artifact_factor = 0.25
 
-
-class Player:
-
-	account_name = None
-	aura = None
-	power_level = None
-	
-	def __init__(self, account_name, aura=None, power_level=0):
-		self.account_name = account_name
-		self.aura = aura
-		self.power_level = power_level
-
-	def __repr__(self):
-		json_thing = {
-			"username": self.account_name,
-			"aura": self.aura,
-			"power level": self.power_level
-		}
-
-		return str(json_thing)
 
 def generate_power_level(account_data):
     def attribute_rater(attribute):
@@ -32,7 +13,7 @@ def generate_power_level(account_data):
         rating = 0
         if attribute[0] == 1:
             rating += attribute[2] * 1.5
-        
+
         elif attribute[0] == 2:
             rating += attribute[2] * 2.5
 
@@ -46,9 +27,9 @@ def generate_power_level(account_data):
             rating += attribute[2] * 2
 
         return rating
-        
+
     power_level = 0
-    
+
     #characters
     character_ratings = []
     for character in account_data["inventory"]["characters"]:
@@ -80,7 +61,7 @@ def generate_power_level(account_data):
 
     character_ratings.sort(reverse=True)
 
-    #artifacts
+    # artifacts
     artifact_ratings = []
     for artifact in account_data["inventory"]["artifacts"]:
         artifact_rating = 0
@@ -91,7 +72,7 @@ def generate_power_level(account_data):
 
     artifact_ratings.sort(reverse=True)
 
-    #weapons
+    # weapons
     weapon_ratings = []
     for weapon in account_data["inventory"]["weapons"]:
         weapon_rating = 0
@@ -100,30 +81,108 @@ def generate_power_level(account_data):
         weapon_rating += weapon["stats"]["attack"] / 2
 
         weapon_ratings.append(weapon_rating)
-    
+
     weapon_ratings.sort(reverse=True)
 
     for character_rating in character_ratings:
-        power_level += character_rating * (character_factor**(character_ratings.index(character_rating)))
+        power_level += character_rating * (character_factor ** (character_ratings.index(character_rating)))
 
-        #factored_character_rating = '{:,}'.format(character_rating * character_factor**(character_ratings.index(character_rating)))
-        #new_character_rating = '{:,}'.format(character_rating)
-        #print(f"character #{character_ratings.index(character_rating) + 1} {factored_character_rating} | {new_character_rating}")
-    
+        # factored_character_rating = '{:,}'.format(character_rating * character_factor**(character_ratings.index(character_rating)))
+        # new_character_rating = '{:,}'.format(character_rating)
+        # print(f"character #{character_ratings.index(character_rating) + 1} {factored_character_rating} | {new_character_rating}")
+
     for artifact_rating in artifact_ratings:
-        power_level += artifact_rating * (artifact_factor**(artifact_ratings.index(artifact_rating)))
+        power_level += artifact_rating * (artifact_factor ** (artifact_ratings.index(artifact_rating)))
 
-        #factored_artifact_rating = '{:,}'.format(artifact_rating * artifact_factor**(artifact_ratings.index(artifact_rating)))
-        #new_artifact_rating = '{:,}'.format(artifact_rating)
-        #print(f"artifact #{artifact_ratings.index(artifact_rating) + 1} {factored_artifact_rating} | {new_artifact_rating}")
-        
+        # factored_artifact_rating = '{:,}'.format(artifact_rating * artifact_factor**(artifact_ratings.index(artifact_rating)))
+        # new_artifact_rating = '{:,}'.format(artifact_rating)
+        # print(f"artifact #{artifact_ratings.index(artifact_rating) + 1} {factored_artifact_rating} | {new_artifact_rating}")
+
     for weapon_rating in weapon_ratings:
-        power_level += weapon_rating * (weapon_factor**(weapon_ratings.index(weapon_rating)))
+        power_level += weapon_rating * (weapon_factor ** (weapon_ratings.index(weapon_rating)))
 
-        #factored_weapon_rating = '{:,}'.format(weapon_rating * weapon_factor**(weapon_ratings.index(weapon_rating)))
-        #new_weapon_rating = '{:,}'.format(weapon_rating)
-        #print(f"weapon #{weapon_ratings.index(weapon_rating) + 1} {factored_weapon_rating} | {new_weapon_rating}")
-    
-    #print(power_level)
-    
+        # factored_weapon_rating = '{:,}'.format(weapon_rating * weapon_factor**(weapon_ratings.index(weapon_rating)))
+        # new_weapon_rating = '{:,}'.format(weapon_rating)
+        # print(f"weapon #{weapon_ratings.index(weapon_rating) + 1} {factored_weapon_rating} | {new_weapon_rating}")
+
+    # print(power_level)
+
     return int(power_level)
+
+
+def data_extractor(json_data):
+    if json_data["metadata"]["Gentry's Quest data"] is not None:
+        return json_data["username"], json_data["metadata"]["Gentry's Quest data"]
+
+
+class Player:
+    account_name = None
+    id = None
+    power_level = None
+
+    def __init__(self, account_name, id, data):
+        self.account_name = account_name
+        self.id = id
+        self.power_level = generate_power_level(data)
+
+    def update_power_level(self):
+        old_pl = self.power_level
+        self.power_level = generate_power_level(data_extractor(json.loads(f"accounts/{self.id}.json")))
+        print(f"{self.name} power level just updated!\n{old_pl} -> {self.power_level}")
+
+    def __repr__(self):
+        json_thing = {
+            "username": self.account_name,
+            "id": self.id,
+            "power level": self.power_level
+        }
+
+
+class GentrysQuestDataHolder:
+    players = None
+    multiplayer_rooms = None
+
+    def __init__(self):
+        self.players = []
+        multiplayer_rooms = []
+        print("initializing player data")
+        account_list = os.listdir("accounts")
+        account_list_length = len(account_list)
+        counter = 1
+        for data in account_list:
+            print(f"{int(round(counter/account_list_length) * 100)}%")
+            id = data[:-5]
+            data = data_extractor(json.load(open(f"accounts/{data}", "r")))
+            if data is not None:
+                self.players.append(Player(data[0], id, data[1]))
+
+            counter += 1
+
+        self.sort_players()
+
+    def sort_players(self):
+        def sort_thing(player: Player):
+            return player.power_level
+
+        print("sorting gq players!")
+        self.players.sort(key=sort_thing)
+        print("done!")
+
+    def get_leaderboard(self, min_index: int = 0, max_index: int = 50):
+        new_list = []
+
+        counter = min_index
+
+        while min_index < max_index:
+            try:
+                new_list.append(self.players[counter])
+            except IndexError:
+                break
+
+        return new_list
+
+    def update_player_power_level(self, id):
+        for player in self.players:
+            if id == player.id:
+                player.update_power_level()
+                break
