@@ -143,11 +143,13 @@ class Player:
 
 class GentrysQuestDataHolder:
     players = None
+    online_players = None
     multiplayer_rooms = None
 
     def __init__(self):
         self.players = []
-        multiplayer_rooms = []
+        self.multiplayer_rooms = []
+        self.online_players = []
         print("initializing player data")
         account_list = os.listdir("accounts")
         account_list_length = len(account_list)
@@ -190,4 +192,21 @@ class GentrysQuestDataHolder:
         for player in self.players:
             if id == player.id:
                 player.update_power_level()
+                break
+
+    def get_player_power_level(self, id):
+        for player in self.players:
+            if id == player.id:
+                return player.power_level
+
+    def check_in_player(self, id):
+        for player in self.players:
+            if id == player.id:
+                self.online_players.append(player)
+                break
+
+    def check_out_player(self, id):
+        for player in self.players:
+            if id == player.id:
+                self.online_players.remove(player)
                 break

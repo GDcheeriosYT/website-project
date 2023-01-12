@@ -59,6 +59,9 @@ from crap.gentrys_quest_crap import GentrysQuestDataHolder
 gq_data = GentrysQuestDataHolder()
 print("done")
 
+print("looking for Gentry's Quest latest release")
+requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest")
+
 def update_server_instance_info(tokens=None, daily_data=None):
     global server_instance_info
     if tokens == None:
@@ -1083,6 +1086,21 @@ async def gentrys_quest_leaderboard():
         players = players
     )
 
+@app.route("/gentrys-quest/online-players")
+async def gentrys_quest_online_players():
+
+    players = gq_data.online_players
+
+    def sort_thing(player):
+        return player.power_level
+
+    players.sort(key=sort_thing, reverse=True)
+
+    return render_template(
+        "gentrys quest/online-players.html",
+        players = players
+    )
+
 @app.route("/down")
 async def down():
     return render_template("down.html")
@@ -1100,6 +1118,7 @@ async def update_gc_data(id):
 
     json.dump(user_data, open(f"accounts/{id}.json", "w"), indent=4)
     gq_data.update_player_power_level(id)
+    gq_data.sort_players()
     return "done"
 
 @app.route("/dev/gc/artifact")
@@ -1134,16 +1153,44 @@ async def artifact_created():
         "gentrys quest/dev/artifact.html",
         artifact_output = string
     )
+    
 @app.route("/api/gq/get-leaderboard/<start>+<display_number>", methods=["GET"])
 async def get_gq_leaderboard(start, display_number):
-    players = []
-    for index in display_number:
-        try:
-            players.append(gq_player_leaderboard[start + index])
-        except IndexError:
-            pass
+    players = {}
+    counter = 1
+    for player in gq_data.get_leaderboard(int(start), int(display_number)):
+        players[player.id] = {"username": player.account_name, "power level": player.power_level, "ranking": counter}
+        counter += 1
 
-    return {"players": players}
+    return players
+
+@app.route("/api/gq/get-power-level/<id>", methods=["GET"])
+async def get_power_level(id):
+    return str(gq_data.get_player_power_level(id))
+
+@app.route("/api/gq/check-in/<id>", methods=["POST"])
+async def check_in(id):
+    gq_data.check_in_player(id)
+
+    return ""
+
+@app.route("/api/gq/check-out/<id>", methods=["POST"])
+async def check_out(id):
+    gq_data.check_out_player(id)
+
+    return ""
+
+@app.route("/api/gq/get-online-players", methods=["GET"])
+async def get_online_players():
+    list_of_players = {}
+    for player in gq_data.online_players:
+        player_json = {}
+        player_json["username"] = player.account_name
+        player_json["power level"] = player.power_level
+        player_json["ranking"] = gq_data.players.index(player) + 1
+        list_of_players[player.id] = player_json
+        
+    return list_of_players
 
 @socketio.on('get control data')
 def get_control_data():
