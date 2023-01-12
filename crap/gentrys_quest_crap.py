@@ -126,7 +126,10 @@ class Player:
     def __init__(self, account_name, id, data):
         self.account_name = account_name
         self.id = id
-        self.power_level = generate_power_level(data)
+        if isinstance(data, int):
+            self.power_level = data
+        else:
+            self.power_level = generate_power_level(data)
 
     def update_power_level(self):
         old_pl = self.power_level
@@ -157,9 +160,12 @@ class GentrysQuestDataHolder:
         for data in account_list:
             print(f"{int((counter/account_list_length * 100))}%")
             id = data[:-5]
-            data = data_extractor(json.load(open(f"accounts/{data}", "r")))
-            if data is not None:
-                self.players.append(Player(data[0], id, data[1]))
+            data = json.load(open(f"accounts/{data}", "r"))
+            username = data["username"]
+            gq_data = data["metadata"]["Gentry's Quest data"]
+            if gq_data is None:
+                gq_data = 0
+            self.players.append(Player(username, id, gq_data))
 
             counter += 1
 
@@ -180,7 +186,8 @@ class GentrysQuestDataHolder:
 
         while counter < max_index:
             try:
-                new_list.append(self.players[counter])
+                if self.players[counter].power_level > 0:
+                    new_list.append(self.players[counter])
             except IndexError:
                 break
 
@@ -198,15 +205,17 @@ class GentrysQuestDataHolder:
         for player in self.players:
             if id == player.id:
                 return player.power_level
-
+    
     def check_in_player(self, id):
         for player in self.players:
             if id == player.id:
                 self.online_players.append(player)
                 break
+        
 
     def check_out_player(self, id):
         for player in self.players:
             if id == player.id:
                 self.online_players.remove(player)
                 break
+        
