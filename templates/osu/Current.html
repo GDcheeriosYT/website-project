@@ -54,7 +54,7 @@
             setInterval(() => {
               socket.emit('match data get', "{{match_data['match name']}}")
               console.log("emitted")
-            }, 400)
+            }, 200)
             socket.on('match data receive', (data) =>{
               player_list = data
               reRenderLiveStatus()
@@ -70,7 +70,6 @@
               })
               console.log(player_list)
               console.log(team_list)
-              reArrangePlayers()
             }
             window.onresize = function(){
               wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
@@ -79,21 +78,19 @@
               }
             }
             setInterval(() => {
-              reArrangePlayers()
-              reRenderPlayerScores()
-              updateTeams()
+                reArrangePlayers()
+                reRenderPlayerScores()
+                updateTeams()
             }, 2000)
             setInterval(() => {
               onTimeout = false
               //document.getElementByID('refresh-button').style.color = "grey"
-            }, 400)
+            }, 60000)
 
             function toggleCovers(){
               cover = !cover
               reRenderLiveStatus()
-              reArrangePlayers()
               reRenderPlayerScores()
-              updateTeams()
             }
 
             function refresh(id){

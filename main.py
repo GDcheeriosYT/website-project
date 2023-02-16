@@ -60,7 +60,8 @@ gq_data = GentrysQuestDataHolder()
 print("done")
 
 print("looking for Gentry's Quest latest release")
-requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest")
+gq_version = requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()["name"]
+print(f"Gentry's Quest version is {gq_version}")
 
 def update_server_instance_info(tokens=None, daily_data=None):
     global server_instance_info
@@ -291,12 +292,14 @@ async def login(username, password):
                 return account_info
     return "incorrect info"
 
-
 # player score grab api crap
 @app.route("/api/grab/<match_name>")
 async def grabber(match_name):
     global api_uses
     api_uses += 1
+
+    global_osu_data = json.load(open("player_data.json", "r"))
+    
     with open(f"matches/{match_name}.json") as f:
         match_data = json.load(f)
 
@@ -304,59 +307,32 @@ async def grabber(match_name):
     new_dict = {}
     if match_data["mode"] == "ffa":
         for id in id_list:
-            user_pos = match_data["users"].index(id)
-            score = player_crap.user_data_grabber(
-                id=f"{id}", specific_data=[
-                    "score"
-                ])[0] - match_data["initial score"][user_pos]
-            rank = player_crap.user_data_grabber(id=f"{id}",
-                                                 specific_data=["rank"])[0]
-            background_url = player_crap.user_data_grabber(
-                id=f"{id}", specific_data=["background url"])[0]
-            if int(id) in live_player_status:
-                new_dict[id] = {
-                    "background url": background_url,
-                    "score": score,
-                    "rank": rank,
-                    "liveStatus": live_player_status[int(id)]
-                }
-            else:
-                new_dict[id] = {
-                    "background url": background_url,
-                    "score": score,
-                    "rank": rank,
-                    "liveStatus": None
-                }
+            pos = match_data["users"].index(id)
+            score = global_osu_data[id]["user data"]["score"] - match_data["initial score"][pos]
+            rank = global_osu_data[id]["user data"]["rank"]
+            background_url = global_osu_data[id]["user data"]["background url"]
+            new_dict[id] = {
+                "background url": background_url,
+                "score": score,
+                "rank": rank,
+                "liveStatus": None if int(id) not in live_player_status else live_player_status[int(id)]
+            }
 
     else:
         for id in id_list:
-            user_pos = match_data["users"].index(id)
-            score = player_crap.user_data_grabber(
-                id=f"{id}", specific_data=[
-                    "score"
-                ])[0] - match_data["initial score"][user_pos]
-            rank = player_crap.user_data_grabber(id=f"{id}",
-                                                 specific_data=["rank"])[0]
-            background_url = player_crap.user_data_grabber(
-                id=f"{id}", specific_data=["background url"])[0]
+            pos = match_data["users"].index(id)
+            score = global_osu_data[id]["user data"]["score"] - match_data["initial score"][pos]
+            rank = global_osu_data[id]["user data"]["rank"]
+            background_url = global_osu_data[id]["user data"]["background url"]
             for team in match_data["team metadata"]:
                 if id in match_data['team metadata'][team]['players']:
-                    if int(id) in live_player_status:
-                        new_dict[id] = {
-                            "background url": background_url,
-                            "score": score,
-                            "rank": rank,
-                            "liveStatus": live_player_status[int(id)],
-                            "team": f"{team}"
-                        }
-                    else:
-                        new_dict[id] = {
-                            "background url": background_url,
-                            "score": score,
-                            "rank": rank,
-                            "liveStatus": None,
-                            "team": f"{team}"
-                        }
+                    new_dict[id] = {
+                        "background url": background_url,
+                        "score": score,
+                        "rank": rank,
+                        "liveStatus": None if int(id) not in live_player_status else live_player_status[int(id)],
+                        "team": f"{team}"
+                    }
 
     return new_dict
 
@@ -1192,6 +1168,10 @@ async def get_online_players():
         
     return list_of_players
 
+@app.route("/api/gq/get-version")
+async def get_version():
+    return gq_version
+
 @socketio.on('get control data')
 def get_control_data():
     global websocket_uses
@@ -1205,3 +1185,5 @@ def get_control_data():
 
 if __name__ == "__main__":
     socketio.run(app, host='0.0.0.0', port=80, debug=False)
+
+

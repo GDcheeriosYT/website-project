@@ -34,11 +34,14 @@ def generate_power_level(account_data):
     character_ratings = []
     for character in account_data["inventory"]["characters"]:
         character_rating = 0
+        difficulty = character["experience"]["level"] / 20
         character_rating += character["star rating"]
-        character_rating += character["experience"]["level"]
-        character_rating += ((character["experience"]["level"] / 20) * 2) + 1
+        character_rating += character["experience"]["level"] * 2
+        character_rating += (difficulty + 1) * 10
         equips = character["equips"]
+        family_names = []
         for artifact in equips["artifacts"]:
+            family_names.append(artifact["family"])
             character_rating += artifact["star rating"] * 1.20
             character_rating += artifact["experience"]["level"]
             character_rating += ((artifact["experience"]["level"] / 4) * 2) + 1
@@ -46,10 +49,32 @@ def generate_power_level(account_data):
             for attribute in artifact["stats"]["attributes"]:
                 character_rating += attribute_rater(attribute)
 
+        unique_family_names = []
+        for name in family_names:
+            if name not in unique_family_names:
+                unique_family_names.append(name)
+
+        name_occurences = {}
+
+        for unique_name in unique_family_names:
+            count = 0
+            for name in family_names:
+                if unique_name == name:
+                    count += 1
+
+            name_occurences[unique_name] = count
+
+        for name in name_occurences:
+            if name_occurences[name] >= 3:
+                character_rating += 10
+
+            if name_occurences[name] == 5:
+                character_rating += 5
+        
         try:
             character_rating += equips["weapon"]["star rating"] * 1.5
             character_rating += equips["weapon"]["experience"]["level"]
-            character_rating += equips["weapon"]["stats"]["attack"] * 0.75
+            character_rating += equips["weapon"]["stats"]["attack"] / 10
             character_rating += attribute_rater(equips["weapon"]["stats"]["buff"])
         except KeyError:
             pass
