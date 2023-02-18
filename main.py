@@ -15,6 +15,7 @@ import random
 import os
 import requests
 import string
+import urllib
 
 # credential variables
 import Client_Credentials as client
@@ -180,24 +181,43 @@ async def verify_token(token):
 #osu auth stuff
 @app.route('/code_grab')
 def code_grab():
-    code = request.query_string
+    code = urllib.parse.parse_qs(request.query_string.decode('utf-8'))["code"][0]
 
     response = requests.post("https://osu.ppy.sh/oauth/token",
-                             json={'client_id': client.osu_client_id, 'client_secret': client.osu_secret, 'grant_type': 'client_credentials',
+                             json={'client_id': client.osu_client_id,
+                                   'code': code,
+                                   'client_secret': client.osu_secret,
+                                   'grant_type': 'authorization_code',
+                                   'redirect_uri': client.osu_public_url,
                                    'scope': 'public'},
-                             headers={'Accept': 'application/json', 'Content-Type': 'application/json'})
+                             headers={'Accept': 'application/json',
+                                      'Content-Type': 'application/json'})
 
-    token_thing = response.json()
+    response = response.json()
 
-    access_token = token_thing["access_token"]
+    user_info = requests.get("https://osu.ppy.sh/api/v2/me/osu", headers={
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': f"Bearer {response['access_token']}"
+    }).json()
 
-    return redirect(f"{client.osu_public_url}")
+    info = {
+        'response': response,
+        'user info': {
+            "username": user_info["username"],
+            "id": user_info["id"],
+            "avatar": f"https://a.ppy.sh/{user_info['id']}",
+            "background url": user_info["cover_url"]
+        }
+    }
+
+    return redirect(f"/account/create?osu_info={json.dumps(info)}")
 
 # account api
 @app.route("/api/account/create/<username>+<password>")
 async def account_create(username,
                          password,
-                         osu_info={"osu id": 0},
+                         osu_info={"response": None, "osu id": 0},
                          gqdata=None,
                          backrooms_data=None,
                          about_me=""):
@@ -223,7 +243,7 @@ async def account_create(username,
     backrooms_data = backrooms_data
     password = str(bcrypt.generate_password_hash(password))
     metadata = {
-        "osu id": osu_info,
+        "osu info": osu_info,
         "Gentry's Quest data": gqdata,
         "backrooms_data": backrooms_data,
         "about me": about_me
@@ -996,9 +1016,13 @@ async def account_home():
 
 @app.route("/account/create")
 async def account_create_page():
+    osu_info = request.args.get("osu_info")
+    if osu_info is not None:
+        osu_info = json.loads(osu_info)
     return render_template("account/create.html",
                            client_id=client.osu_client_id,
-                           host_name=client.osu_public_url
+                           redirect_uri=client.osu_public_url,
+                           osu_info=osu_info
                           )
 
 

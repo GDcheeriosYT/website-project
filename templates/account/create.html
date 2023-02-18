@@ -15,8 +15,17 @@
         <p><h1>Enter password</h1></p>
         <p><h1>Please do not use symbols like #, ?</h1></p>
         <p><input type = 'password' name = 'pw'/></p>
-        <p><h1>Enter osu id if you have an account</h1></p>
-        <p><input type = 'number' name = 'osuid'/></p>
+        {% if osu_info == None %}
+          <p><h1><a href=https://osu.ppy.sh/oauth/authorize?client_id={{client_id}}&redirect_uri={{redirect_uri}}&response_type=code&scope=public+identify&state=randomval" target="_blank">Link osu account here</a></h1></p>
+        {% else %}
+          <h1>Linked osu account:</h1>
+          <div class="linked-osu-account" style="background-image: url({{osu_info['user info']['background url']}}); display: flex; width: 75%; height: 25%; margin: auto; margin-top: 5px; border-radius: 6%;">
+            <div class="linked-osu-account-content">
+              <img style="margin-right: 90%; margin: 5%;" src="{{osu_info['user info']['avatar']}}">
+              <h1>{{osu_info['user info']['username']}}</h1>
+            </div>
+          </div>
+        {% endif %}
         <p><h1>Tell people about your self</h1></p>
         <p><input type = 'text' name = 'am'/></p>
         <p><input type = 'submit' value = 'Create'/></p>
