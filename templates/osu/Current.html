@@ -50,6 +50,7 @@
             let team_list = JSON.parse('{{ teams|tojson }}')
             let wrapperHeight = 0
             var socket = io()
+            const time = 150
             console.log(socket)
             setInterval(() => {
               socket.emit('match data get', "{{match_data['match name']}}")
@@ -195,10 +196,10 @@
                   player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
                   player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
                   player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score, 350), player.querySelector(".gameplay-score"), 350, " score")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo, 350), player.querySelector(".gameplay-combo"), 350, "x/")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".max-gameplay-combo").textContent.replace(/\,/g, '')), gameplay.maxCombo, 350), player.querySelector(".max-gameplay-combo"), 350, "x")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy), 350), player.querySelector(".gameplay-accuracy"), 350, "%")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score, time), player.querySelector(".gameplay-score"), time, " score")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo, time), player.querySelector(".gameplay-combo"), time, "x/")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".max-gameplay-combo").textContent.replace(/\,/g, '')), gameplay.maxCombo, time), player.querySelector(".max-gameplay-combo"), time, "x")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy), time), player.querySelector(".gameplay-accuracy"), time, "%")
                   player.querySelector(".gameplay-grade").innerHTML = gameplay.grade
                   if (gameplay.grade == "F" || gameplay.grade == "D"){
                     player.querySelector(".gameplay-grade").style.color = "red"
@@ -218,10 +219,10 @@
                   else{
                     player.querySelector(".gameplay-grade").style.color = "yellow"
                   }
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-100").textContent.replace(/\,/g, '')), parseInt(gameplay.hundred), 350), player.querySelector(".gameplay-100"), 350, "")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-50").textContent.replace(/\,/g, '')), parseInt(gameplay.fifty), 350), player.querySelector(".gameplay-50"), 350, "")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-misses").textContent.replace(/\,/g, '')), parseInt(gameplay.misses), 350), player.querySelector(".gameplay-misses"), 350, "")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-pp").textContent.replace(/\,/g, '')), parseInt(gameplay.pp), 350), player.querySelector(".gameplay-pp"), 350, "pp")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-100").textContent.replace(/\,/g, '')), parseInt(gameplay.hundred), time), player.querySelector(".gameplay-100"), time, "")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-50").textContent.replace(/\,/g, '')), parseInt(gameplay.fifty), time), player.querySelector(".gameplay-50"), time, "")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-misses").textContent.replace(/\,/g, '')), parseInt(gameplay.misses), time), player.querySelector(".gameplay-misses"), time, "")
+                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-pp").textContent.replace(/\,/g, '')), parseInt(gameplay.pp), time), player.querySelector(".gameplay-pp"), time, "pp")
                   player.querySelector(".gameplay-mods").innerHTML = mapInfo.mods
                   playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
                   playerStatus.querySelector(".status").classList = "status active"
