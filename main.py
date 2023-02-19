@@ -202,13 +202,10 @@ def code_grab():
     }).json()
 
     info = {
-        'response': response,
-        'user info': {
-            "username": user_info["username"],
-            "id": user_info["id"],
-            "avatar": f"https://a.ppy.sh/{user_info['id']}",
-            "background url": user_info["cover_url"]
-        }
+        "username": user_info["username"],
+        "id": user_info["id"],
+        "avatar": f"https://a.ppy.sh/{user_info['id']}",
+        "background url": user_info["cover_url"]
     }
 
     return redirect(f"/account/create?osu_info={json.dumps(info)}")
@@ -217,7 +214,7 @@ def code_grab():
 @app.route("/api/account/create/<username>+<password>")
 async def account_create(username,
                          password,
-                         osu_info={"response": None, "osu id": 0},
+                         osu_id=0,
                          gqdata=None,
                          backrooms_data=None,
                          about_me=""):
@@ -1208,6 +1205,6 @@ def get_control_data():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=True)
+    socketio.run(app, host='0.0.0.0', port=80, debug=False)
 
 
