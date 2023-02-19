@@ -240,7 +240,7 @@ async def account_create(username,
     backrooms_data = backrooms_data
     password = str(bcrypt.generate_password_hash(password))
     metadata = {
-        "osu info": osu_info,
+        "osu id": osu_id,
         "Gentry's Quest data": gqdata,
         "backrooms_data": backrooms_data,
         "about me": about_me
@@ -1028,7 +1028,7 @@ def create_account():
     username = request.form.get("nm")
     password = request.form.get("pw")
     try:
-        osuid = int(request.form.get("osuid"))
+        osuid = int(request.form.get("id"))
     except:
         osuid = 0
     about_me = request.form.get("am")
