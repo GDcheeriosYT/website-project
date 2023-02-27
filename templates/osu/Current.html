@@ -217,11 +217,11 @@
                     let mapBackground = mapInfo.background
                     player.style.background = "url('"+mapBackground+"')"
                   }
-                  if(state == "Playing"){
-                    player.style.background = getColor(gameplay.health)
+                  else{
+                    if(state == "Playing") player.style.background = getColor(gameplay.health)
+                    else if(state == "ResultsScreen") player.style.background = "#63b869"
+                    else player.style.background = "#002f37"
                   }
-                  else player.style.background = "#002f37"
-                  //if data.liveStatus.
                   player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
                   player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
                   player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
