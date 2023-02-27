@@ -662,7 +662,7 @@ label{
 .live-status{
   color: rgb(255, 255, 255);
   background-color: #002e35;
-  min-width: fit-content;
+  min-width: 1vw;
   box-shadow: inset 1px 1px 1px 1px #000000;
   width: 24vw;
   height: 5vh;
@@ -688,19 +688,15 @@ label{
 }
 
 .live-status .map-info{
-  transition: ease;
+  transition: ease 1s;
   opacity: 0;
   display: flex;
-  white-space: nowrap;
   overflow: hidden;
+  justify-content: space-between;
 }
 
 .live-status.active .map-info{
-  transition: ease;
   opacity: 1;
-  display: flex;
-  white-space: nowrap;
-  overflow: hidden;
   padding-right: 1vw;
 }
 
@@ -720,27 +716,24 @@ label{
 }
 
 .live-status .gameplay-bottom{
-  transition: ease;
+  transition: ease 1s;
   opacity: 0;
   display: flex;
+  margin: 2px;
 }
 
 .live-status.active .gameplay-bottom{
-  transition: ease;
   opacity: 1;
-  display: flex;
 }
 
 .live-status .gameplay-top{
-  transition: ease;
+  transition: ease 1s;
   opacity: 0;
   display: flex;
 }
 
 .live-status.active .gameplay-top{
-  transition: ease;
   opacity: 1;
-  display: flex;
 }
 
 .live-status .gameplay-bottom .gameplay-accuracy{
@@ -763,7 +756,7 @@ label{
 
 .live-status .gameplay-grade{
   text-shadow: 4px 4px 8px #000000;
-  font-size: 1.9vh;
+  font-size: 1.4vh;
 }
 
 .live-status .gameplay-100{

@@ -20,21 +20,21 @@
     {% block body %}
       <!--
         --player key values--
-        
+
         key = name
         count.value = the ranking of the player on the leaderboard
         value[0] = score
         value[1] = avatar link
         value[2] = background link
         value[3] = user profile link
-        value[4] = level 
+        value[4] = level
         value[5] = progress to next level
         value[6] = formatted score
         value[6] = play count
         value[8] = user id
-        
+
         --team key values--
-        
+
         team_key = team name
         count.value = the ranking of the team and player depending on location in jinja2 loop
         team_value[0] = team score
@@ -222,44 +222,62 @@
                     else if(state == "ResultsScreen") player.style.background = "#63b869"
                     else player.style.background = "#002f37"
                   }
-                  player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
-                  player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
-                  player.querySelector(".map-difficulty").innerHTML = mapInfo.metadata.difficulty
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score, time), player.querySelector(".gameplay-score"), time, " score")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo, time), player.querySelector(".gameplay-combo"), time, "x/")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".max-gameplay-combo").textContent.replace(/\,/g, '')), gameplay.maxCombo, time), player.querySelector(".max-gameplay-combo"), time, "x")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy), time), player.querySelector(".gameplay-accuracy"), time, "%")
-                  player.querySelector(".gameplay-grade").innerHTML = gameplay.grade
-                  if (gameplay.grade == "F" || gameplay.grade == "D"){
-                    player.querySelector(".gameplay-grade").style.color = "red"
+                  if(state == "MainMenu" || state == "SongSelect"){
+                    player.querySelector(".map-info").style.fontSize = "1.5vh"
+                    player.querySelector(".map-info").style.margin = "1vh"
+                    player.querySelector(".map-info").style.whiteSpace = "normal"
+                    player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
+                    player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
+                    player.querySelector(".map-difficulty").innerHTML = "[" + mapInfo.metadata.difficulty + "]"
+                    player.querySelector(".gameplay-top").style.display = "none"
+                    player.querySelector(".gameplay-bottom").style.display = "none"
                   }
-                  else if (gameplay.grade == "C"){
-                    player.querySelector(".gameplay-grade").style.color = "purple"
+                  else if(state == "Playing" || state == "ResultsScreen"){
+                    player.querySelector(".map-info").style.whiteSpace = "nowrap"
+                    player.querySelector(".map-info").style.margin = "4px"
+                    player.querySelector(".gameplay-top").style.display = "flex"
+                    player.querySelector(".gameplay-bottom").style.display = "flex"
+                    player.querySelector(".map-info").style.fontSize = "1vh"
+                    player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
+                    player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
+                    player.querySelector(".map-difficulty").innerHTML = "[" + mapInfo.metadata.difficulty + "]"
+                    updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score, time), player.querySelector(".gameplay-score"), time, " score")
+                    updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo, time), player.querySelector(".gameplay-combo"), time, "x/")
+                    updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".max-gameplay-combo").textContent.replace(/\,/g, '')), gameplay.maxCombo, time), player.querySelector(".max-gameplay-combo"), time, "x")
+                    updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy), time), player.querySelector(".gameplay-accuracy"), time, "%")
+                    player.querySelector(".gameplay-grade").innerHTML = gameplay.grade
+                    if (gameplay.grade == "F" || gameplay.grade == "D"){
+                      player.querySelector(".gameplay-grade").style.color = "red"
+                    }
+                    else if (gameplay.grade == "C"){
+                      player.querySelector(".gameplay-grade").style.color = "purple"
+                    }
+                    else if (gameplay.grade == "B"){
+                      player.querySelector(".gameplay-grade").style.color = "blue"
+                    }
+                    else if (gameplay.grade == "A"){
+                      player.querySelector(".gameplay-grade").style.color = "green"
+                    }
+                    else if (gameplay.grade == "S"){
+                      player.querySelector(".gameplay-grade").style.color = "yellow"
+                    }
+                    else{
+                      player.querySelector(".gameplay-grade").style.color = "yellow"
+                    }
+                    updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-100").textContent.replace(/\,/g, '')), parseInt(gameplay.hundred), time), player.querySelector(".gameplay-100"), time, "")
+                    updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-50").textContent.replace(/\,/g, '')), parseInt(gameplay.fifty), time), player.querySelector(".gameplay-50"), time, "")
+                    updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-misses").textContent.replace(/\,/g, '')), parseInt(gameplay.misses), time), player.querySelector(".gameplay-misses"), time, "")
+                    updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-pp").textContent.replace(/\,/g, '')), parseInt(gameplay.pp), time), player.querySelector(".gameplay-pp"), time, "pp")
+                    player.querySelector(".gameplay-mods").innerHTML = mapInfo.mods
                   }
-                  else if (gameplay.grade == "B"){
-                    player.querySelector(".gameplay-grade").style.color = "blue"
-                  }
-                  else if (gameplay.grade == "A"){
-                    player.querySelector(".gameplay-grade").style.color = "green"
-                  }
-                  else if (gameplay.grade == "S"){
-                    player.querySelector(".gameplay-grade").style.color = "yellow"
-                  }
-                  else{
-                    player.querySelector(".gameplay-grade").style.color = "yellow"
-                  }
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-100").textContent.replace(/\,/g, '')), parseInt(gameplay.hundred), time), player.querySelector(".gameplay-100"), time, "")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-50").textContent.replace(/\,/g, '')), parseInt(gameplay.fifty), time), player.querySelector(".gameplay-50"), time, "")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-misses").textContent.replace(/\,/g, '')), parseInt(gameplay.misses), time), player.querySelector(".gameplay-misses"), time, "")
-                  updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-pp").textContent.replace(/\,/g, '')), parseInt(gameplay.pp), time), player.querySelector(".gameplay-pp"), time, "pp")
-                  player.querySelector(".gameplay-mods").innerHTML = mapInfo.mods
+
                   playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
                   playerStatus.querySelector(".status").classList = "status active"
                 }
                 else{
                   playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
                   playerStatus.querySelector(".status").classList = "status"
-                  player.classList ="live-status"
+                  player.classList = "live-status"
                 }
               })
             }
