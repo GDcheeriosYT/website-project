@@ -606,6 +606,11 @@ async def get_live_status(id):
     player_info = live_player_status[id]
     return (player_info)
 
+@app.route("/api/live/get", methods=["get"])
+async def get_all_live_status():
+    global api_uses
+    api_uses += 1
+    return (live_player_status)
 
 @app.route("/api/live/update/<id>", methods=["POST"])
 async def update_live_status(id):
@@ -1205,6 +1210,6 @@ def get_control_data():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=False)
+    socketio.run(app, host='0.0.0.0', port=80, debug=True)
 
 
