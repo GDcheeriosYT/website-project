@@ -403,6 +403,11 @@
                       <span class="status">
                       </span>
                     </h1>
+                    {% if request.cookies.get('userID') != None %}
+                    {% if get_osu_id(request.cookies.get('userID')) == value[8]|int %}
+                      <button data-id="refresh-button" onclick="refresh('{{ value[8] }}')" style="background-color: #0cb7d5; color: #04131c; font-size: 2.5vh; border-radius: 12px; border: none; padding: 0px; margin-left: auto; margin-right: 1vw;">refresh</button>
+                    {% endif %}
+                  {% endif %}
                   </div>
                 </div>
                 <div class="live-status" data-id="{{value[8]}}">
@@ -463,11 +468,6 @@
                     </div>
                   </div>
                 </div>
-                  {% if request.cookies.get('userID') != None %}
-                    {% if get_osu_id(request.cookies.get('userID')) == value[8]|int %}
-                      <a data-id="refresh-button" onclick="refresh('{{ value[8] }}')" style="font-size: 5vh; margin-left: 20vw;">refresh</a>
-                    {% endif %}
-                  {% endif %}
               </div>
               {% set count.value = count.value + 1 %}
               {% endfor %}
