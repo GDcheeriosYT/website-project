@@ -228,7 +228,7 @@
                     player.querySelector(".map-info").style.whiteSpace = "normal"
                     player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
                     player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
-                    player.querySelector(".map-difficulty").innerHTML = "[" + mapInfo.metadata.difficulty + "]"
+                    player.querySelector(".map-difficulty").innerHTML = "[" + mapInfo.metadata.difficulty + "] ★" + mapInfo.stats.SR
                     player.querySelector(".gameplay-top").style.display = "none"
                     player.querySelector(".gameplay-bottom").style.display = "none"
                   }
@@ -240,7 +240,7 @@
                     player.querySelector(".map-info").style.fontSize = "1vh"
                     player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
                     player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
-                    player.querySelector(".map-difficulty").innerHTML = "[" + mapInfo.metadata.difficulty + "]"
+                    player.querySelector(".map-difficulty").innerHTML = "[" + mapInfo.metadata.difficulty + "] ★" + mapInfo.stats.SR
                     updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score, time), player.querySelector(".gameplay-score"), time, " score")
                     updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo, time), player.querySelector(".gameplay-combo"), time, "x/")
                     updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".max-gameplay-combo").textContent.replace(/\,/g, '')), gameplay.maxCombo, time), player.querySelector(".max-gameplay-combo"), time, "x")
