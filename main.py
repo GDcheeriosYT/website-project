@@ -391,6 +391,7 @@ async def test_live():
 
 @socketio.on('update client status')
 def update_client_status(data):
+    print("updating", data["user"])
     live_player_status[data["user"]] = data
 
 
@@ -597,6 +598,7 @@ async def del_live_status(id):
     global api_uses
     api_uses += 1
     live_player_status.pop(int(id))
+    return "done!"
 
 
 @app.route("/api/live/get/<id>", methods=["get"])
@@ -1210,6 +1212,6 @@ def get_control_data():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=False)
+    socketio.run(app, host='0.0.0.0', port=80, debug=True)
 
 

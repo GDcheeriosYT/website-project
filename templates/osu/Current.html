@@ -219,10 +219,11 @@
                   }
                   else{
                     if(state == "Playing") player.style.background = getColor(gameplay.health)
-                    else if(state == "ResultsScreen") player.style.background = "#63b869"
+                    else if (state == "ResultsScreen") player.style.background = "#63b869"
+                    else if (state == "MultiplayerResultsScreen") player.style.background = "#63b869"
                     else player.style.background = "#002f37"
                   }
-                  if(state == "MainMenu" || state == "SongSelect"){
+                  if(state == "MainMenu" || state == "SongSelect" || state == "MultiplayerRooms" || state == "MultiplayerRoom"){
                     player.querySelector(".map-info").style.fontSize = "1.5vh"
                     player.querySelector(".map-info").style.margin = "1vh"
                     player.querySelector(".map-info").style.whiteSpace = "normal"
@@ -242,9 +243,9 @@
                     player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
                     player.querySelector(".map-difficulty").innerHTML = "[" + mapInfo.metadata.difficulty + "] ★" + mapInfo.stats.SR
                     updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score, time), player.querySelector(".gameplay-score"), time, " score")
-                    updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-combo").textContent.replace(/\,/g, '')), gameplay.combo, time), player.querySelector(".gameplay-combo"), time, "x/")
-                    updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".max-gameplay-combo").textContent.replace(/\,/g, '')), gameplay.maxCombo, time), player.querySelector(".max-gameplay-combo"), time, "x")
-                    updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-accuracy").textContent.replace(/\,/g, '')), parseInt(gameplay.accuracy), time), player.querySelector(".gameplay-accuracy"), time, "%")
+                    player.querySelector(".gameplay-combo").innerHTML = gameplay.combo + "x"
+                    player.querySelector(".max-gameplay-combo").innerHTML = gameplay.maxCombo + "x"
+                    player.querySelector(".gameplay-accuracy").innerHTML = gameplay.accuracy + "%"
                     player.querySelector(".gameplay-grade").innerHTML = gameplay.grade
                     if (gameplay.grade == "F" || gameplay.grade == "D"){
                       player.querySelector(".gameplay-grade").style.color = "red"
