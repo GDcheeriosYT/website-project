@@ -45,17 +45,19 @@
             let team_list = JSON.parse('{{ teams|tojson }}')
             let wrapperHeight = 0
             var socket = io()
-            const time = 150
+            const socketTime = 200
+            const time = socketTime - 50
             console.log(socket)
             setInterval(() => {
               socket.emit('match data get', "{{match_data['match name']}}")
               console.log("emitted")
-            }, 200)
+            }, socketTime)
             socket.on('match data receive', (data) =>{
               player_list = data
               reRenderLiveStatus()
             })
             window.onload = function(){
+              document.querySelector('.match').style.opacity = '0'
               wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
               if ("{{ match_data['mode']|safe }}" == "teams"){
                 teamWrapperHeight = document.querySelector('.team_info_wrapper').offsetHeight
@@ -74,6 +76,7 @@
               }
             }
             setInterval(() => {
+                document.querySelector('.match').style.opacity = '1'
                 reArrangePlayers()
                 reRenderPlayerScores()
                 updateTeams()
@@ -98,8 +101,13 @@
                 xhr.open('POST', "/refresh/" + id);
                   xhr.send()
                 onTimeout = true
-                document.querySelector('refresh-button').style.color = "black"
+                //document.querySelector('refresh-button').style.color = "black"
               }
+              setTimeout(() => {
+                  reRenderPlayerScores()
+                  reArrangePlayers()
+                  updateTeams()
+              }, 3000)
             }
 
             function reRenderPlayerScores(){

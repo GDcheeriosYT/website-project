@@ -524,21 +524,28 @@ input{
 @keyframes scoreAdd{
   0% {
     font-size: 0px;
-    right: -10vw;
-    top: -2vw;
+    right: 0vw;
+    top: 0vw;
+    opacity: 0.6;
+  }
+  25%{
+    top: -10vw;
+    right: 0vw;
+    font-size: 4vw;
+    transition: ease-in;
     opacity: 1;
   }
-  50%{
-    top: -7vw;
-    right: -17vw;
+  75%{
+    top: -10vw;
+    right: 0vw;
     font-size: 4vw;
     transition: ease-in;
     opacity: 1;
   }
   100%{
-    top: -12vw;
-    right: -30vw;
-    font-size: 10vw;
+    top: 0vw;
+    right: 0vw;
+    font-size: 0vw;
     transition: ease-out;
     opacity: 0;
   }
