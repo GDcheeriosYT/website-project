@@ -75,12 +75,17 @@
                 teamWrapperHeight = document.querySelector('.team_info_wrapper').offsetHeight
               }
             }
-            setInterval(() => {
+            setTimeout(() => {
                 document.querySelector('.match').style.opacity = '1'
                 reArrangePlayers()
                 reRenderPlayerScores()
                 updateTeams()
-            }, 2000)
+            }, 1000)
+            setInterval(() => {
+                reArrangePlayers()
+                reRenderPlayerScores()
+                updateTeams()
+            }, 60000)
             setInterval(() => {
               onTimeout = false
               //document.getElementByID('refresh-button').style.color = "grey"
@@ -180,6 +185,11 @@
 
             function setSortType(type){
               sortType = "" + type
+              reRenderPlayerScores()
+              setTimeout(() => {
+                  reArrangePlayers()
+                  updateTeams()
+              }, 1500)
             }
 
             function getColor(value) {
@@ -524,8 +534,8 @@
     </div>
     <div>
       <div style="position: fixed; zIndex: 99999; top: 60vh; left: 80vw;">
-        <button onclick="setSortType('scoreHistory');reRenderPlayerScores()" style="width: 6vw; height: 4vh;">Score Gain</button>
-        <button onclick="setSortType('');reRenderPlayerScores()" style="width: 6vw; height: 4vh;">Rank</button>
+        <button onclick="setSortType('scoreHistory')" style="width: 6vw; height: 4vh;">Score Gain</button>
+        <button onclick="setSortType('')" style="width: 6vw; height: 4vh;">Rank</button>
         <h3 style="color: white;">enable image covers</h3>
         <label class="switch">
           <input type="checkbox" onclick="toggleCovers()">
