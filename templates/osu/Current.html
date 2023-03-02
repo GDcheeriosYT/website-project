@@ -23,15 +23,10 @@
 
         key = name
         count.value = the ranking of the player on the leaderboard
-        value[0] = score
-        value[1] = avatar link
-        value[2] = background link
-        value[3] = user profile link
-        value[4] = level
-        value[5] = progress to next level
-        value[6] = formatted score
-        value[6] = play count
-        value[8] = user id
+        value[0] = avatar link
+        value[1] = background link
+        value[2] = user profile link
+        value[3] = id
 
         --team key values--
 
@@ -403,62 +398,59 @@
             <div class="match">
               {% if match_data["mode"] == "teams" %}
                 <div class="teams">
-                {% set count = namespace(value=1) %}
                   {% for team in match_data["team metadata"] %}
                     <div class="team_info_wrapper" data-id="{{team}}">
                       <div class="team_info" data-id="{{team}}" style="background-color: {{match_data["team metadata"][team]["team color"]}};">
                         <h1 style="margin: 0;">
-                          #<span class="team_position">{{count.value}}</span>
+                          #<span class="team_position">0</span>
                           {{ team }}
                         </h1>
                         <h2 style="margin: 0;" class="team_score">
-                          {{ teams[team]["score"] }}
+                          0
                         </h2>
                       </div>
                     </div>
-                    {% set count.value = count.value + 1 %}
                   {% endfor %}
                 </div>
               {% endif %}
-              {% set count = namespace(value=1) %}
               {% for key, value in players.items() %}
-              <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[8] }}">
+              <div style="display: flex;" class="player_info_wrapper" data-id="{{ value[3] }}">
                 {% if match_data["mode"] == "teams" %}
                 {% for team in match_data["team metadata"] %}
                 {% for player in match_data["team metadata"][team]["players"] %}
-                      {% if value[8]|int == player|int %}
-                        <div class="player_info" data-id="{{ value[8] }}">
+                      {% if value[3]|int == player|int %}
+                        <div class="player_info" data-id="{{ value[3] }}">
                       {% endif %}
                     {% endfor %}
                   {% endfor %}
                 {% else %}
-                  <div class="player_info" data-id="{{ value[8] }}">
+                  <div class="player_info" data-id="{{ value[3] }}">
                 {% endif %}
                   <div style="display: flex;">
                     <h1 class="namebox">
-                      <img src="{{ value[1] }}">
-                      #<span class="player_position">{{count.value}}</span>
-                      <a target="_blank" href="{{ value[3] }}" class="name">
-                        {% if value[8]|string in match_data["nicknames"] %}
-                          {{match_data["nicknames"][value[8]|string]}}
+                      <img src="{{ value[0] }}">
+                      #<span class="player_position">0</span>
+                      <a target="_blank" href="{{ value[2] }}" class="name">
+                        {% if value[3]|string in match_data["nicknames"] %}
+                          {{match_data["nicknames"][value[3]|string]}}
                         {% else %}
                           {{ key }}
                         {% endif %}
                       </a>
                       <span class="score">
-                        {{ value[6] }} score
+                        0 score
                       </span>
                       <span class="status">
                       </span>
                     </h1>
                     {% if request.cookies.get('userID') != None %}
-                    {% if get_osu_id(request.cookies.get('userID')) == value[8]|int %}
-                      <button data-id="refresh-button" onclick="refresh('{{ value[8] }}')" style="background-color: #0cb7d5; color: #04131c; font-size: 2.5vh; border-radius: 12px; border: none; padding: 0px; margin-left: auto; margin-right: 1vw;">refresh</button>
+                    {% if get_osu_id(request.cookies.get('userID')) == value[3]|int %}
+                      <button data-id="refresh-button" onclick="refresh('{{ value[3] }}')" style="background-color: #0cb7d5; color: #04131c; font-size: 2.5vh; border-radius: 12px; border: none; padding: 0px; margin-left: auto; margin-right: 1vw;">refresh</button>
                     {% endif %}
                   {% endif %}
                   </div>
                 </div>
-                <div class="live-status" data-id="{{value[8]}}">
+                <div class="live-status" data-id="{{ value[3] }}">
                   <div class="map-info">
                     <div class="left">
                       <span class="map-artist">
@@ -517,7 +509,6 @@
                   </div>
                 </div>
               </div>
-              {% set count.value = count.value + 1 %}
               {% endfor %}
             </div>
         <h2></h2>

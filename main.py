@@ -61,8 +61,8 @@ gq_data = GentrysQuestDataHolder()
 print("done")
 
 print("looking for Gentry's Quest latest release")
-gq_version = requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()["name"]
-print(f"Gentry's Quest version is {gq_version}")
+#gq_version = requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()["name"]
+#print(f"Gentry's Quest version is {gq_version}")
 
 def update_server_instance_info(tokens=None, daily_data=None):
     global server_instance_info
@@ -539,7 +539,7 @@ def match_get(time, match):
         players = {}
 
         for user in match_data["users"]:
-            player = player_crap.player_match_constructor(user, match_data)
+            player = player_crap.player_match_constructor(user)
 
             players[player[1][8]] = player[1]
 
@@ -676,28 +676,19 @@ async def players():
 
 
 @app.route("/osu/matches/<match_name>/<graph_view>")
-async def match(match_name, graph_view):
+def match(match_name, graph_view):
     players = {}
 
     with open(f"matches/{match_name}") as joe:
         match_data = json.load(joe)
 
-    with open("player_data.json", "r") as kfc:
-        player_data = json.load(kfc)
-
+    player_crap.update_player_data()
+    
     if match_data["mode"] == "ffa":
-        player_score_data = {}
 
         for id in match_data["users"]:
-            player = player_crap.player_match_constructor(id, match_data)
+            player = player_crap.player_match_constructor(id)
             players[player[0]] = player[1]
-            player_score_data[player[0]] = player[1][0]
-
-        with open(f"matches/{match_name}", "w") as file:
-            json.dump(match_data, file, indent=4, sort_keys=False)
-
-        with open(f"matches/{match_name}", "r") as file:
-            match_data = json.load(file)
 
         return render_template('osu/Current.html',
                                math=math,
@@ -713,10 +704,9 @@ async def match(match_name, graph_view):
     else:
         players = {}
         teams = {}
-        team_score_data = {}
 
         for id in match_data["users"]:
-            player = player_crap.player_match_constructor(id, match_data)
+            player = player_crap.player_match_constructor(id)
             players[player[0]] = player[1]
 
         for team in match_data["team metadata"]:
@@ -726,13 +716,6 @@ async def match(match_name, graph_view):
                 'players': new_team.users,
                 "color": match_data["team metadata"][team]["team color"]
             }
-            # team_score_data[team] = ("{:,}".format(new_team.score))
-
-        with open(f"matches/{match_name}", "w") as file:
-            json.dump(match_data, file, indent=4, sort_keys=False)
-
-        with open(f"matches/{match_name}", "r") as file:
-            match_data = json.load(file)
 
         return render_template('osu/Current.html',
                                match_data=match_data,
@@ -757,7 +740,7 @@ def old_match(match_name):
 
     if match_data["mode"] == "ffa":
         for id in match_data["users"]:
-            player = player_crap.player_match_constructor(id, match_data)
+            player = player_crap.player_match_constructor(id)
             players[player[0]] = player[1]
             players_sorted = dict(
                 sorted(players.items(), key=lambda x: x[1], reverse=True))

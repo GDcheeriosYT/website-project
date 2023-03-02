@@ -4,6 +4,14 @@ import time
 import requests
 from crap import authentication_crap, function_crap
 
+player_data = None
+
+def update_player_data():
+    global player_data
+    #open player_data and read all the data
+    with open("player_data.json") as player_data:
+        player_data = json.load(player_data)
+
 
 #user crap class
 class UserConstructor:
@@ -192,9 +200,6 @@ async def player_refresh(id):
 
 
 async def refresh_all_players():
-  #open player_data and read all the data
-  with open("player_data.json") as player_data:
-    player_data = json.load(player_data)
   '''
   refreshes all players data
   '''
@@ -272,10 +277,7 @@ def player_list_length():
 
 
 
-def player_match_constructor(id, match_data):
-  #open player_data and read all the data
-  with open("player_data.json") as player_data:
-    player_data = json.load(player_data)
+def player_match_constructor(id):
   '''
   will return a list of the players stats
   
@@ -286,29 +288,18 @@ def player_match_constructor(id, match_data):
     specifying the match_data
   '''
   
-  user_pos = match_data["users"].index(id)
-  
   try:
     name = player_data[id]["user data"]["name"]
-    playcount = player_data[id]["user data"]["playcount"] - match_data["initial playcount"][user_pos]
-    playcount = ("{:,}".format(playcount))
-    score = (player_data[id]["user data"]["score"] - match_data["initial score"][user_pos])
-    score_formatted = ("{:,}".format(score))
     avatar = player_data[id]["user data"]["avatar url"]
     background = player_data[id]["user data"]["background url"]
     link = player_data[id]["user data"]["profile url"]
     player_id = id
-    rank = player_data[id]["user data"]["rank"]
-
+      
   except:
     name = "Unknown User"
-    playcount = 0
-    score = 0
-    score_formatted = 0
     avatar = "https://data.whicdn.com/images/100018401/original.gif"
     background = "https://data.whicdn.com/images/100018401/original.gif"
     link = "https://data.whicdn.com/images/100018401/original.gif"
     player_id = 0
-    rank = 999999999
-
-  return(name, [score, avatar, background, link, function_crap.level(score, "level"), function_crap.level(score, "leveluppercent"), score_formatted, playcount, player_id, rank])
+    
+  return(name, [avatar, background, link,  player_id])
