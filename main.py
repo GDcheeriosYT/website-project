@@ -327,11 +327,13 @@ async def grabber(match_name):
             pos = match_data["users"].index(id)
             score = global_osu_data[id]["user data"]["score"] - match_data["initial score"][pos]
             rank = global_osu_data[id]["user data"]["rank"]
+            playcount = global_osu_data[id]["user data"]["playcount"] - match_data["initial playcount"][pos]
             background_url = global_osu_data[id]["user data"]["background url"]
             new_dict[id] = {
                 "background url": background_url,
                 "score": score,
                 "rank": rank,
+                "playcount": playcount,
                 "liveStatus": None if int(id) not in live_player_status else live_player_status[int(id)]
             }
 
@@ -340,6 +342,7 @@ async def grabber(match_name):
             pos = match_data["users"].index(id)
             score = global_osu_data[id]["user data"]["score"] - match_data["initial score"][pos]
             rank = global_osu_data[id]["user data"]["rank"]
+            playcount = global_osu_data[id]["user data"]["playcount"] - match_data["initial playcount"][pos]
             background_url = global_osu_data[id]["user data"]["background url"]
             for team in match_data["team metadata"]:
                 if id in match_data['team metadata'][team]['players']:
@@ -347,6 +350,7 @@ async def grabber(match_name):
                         "background url": background_url,
                         "score": score,
                         "rank": rank,
+                        "playcount": playcount,
                         "liveStatus": None if int(id) not in live_player_status else live_player_status[int(id)],
                         "team": f"{team}"
                     }
