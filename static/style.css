@@ -47,14 +47,10 @@ td a{
 }
 
 .player_info{
-  background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
-  background-size: 100%;
-  box-shadow: 3px 3px 100px 20px rgba(7, 65, 95, 0.425);
   position: relative;
   transition: ease-out var(--transition-speed);
   width: 35vw;
-  min-width: fit-content;
-  height: 5vh;
+  height: 10vw;
   border-radius: 1vw;
   margin-left: 3vw;
   display: block;
@@ -66,15 +62,16 @@ td a{
 }
 
 .team_info{
-  background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
-  background-size: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
   box-shadow: 8px 0px 0px 0px rgba(0, 0, 0, 0.425);
   position: relative;
   transition: ease-out var(--transition-speed);
-  min-width: 15vw;
   width: 30vw;
   height: 6vh;
   border-radius: 1vw;
+  background-color: #052122;
 }
 
 .team_info h1{
@@ -100,10 +97,7 @@ td a{
 
 .player_info:hover{
   transition: var(--transition-speed) ease-in;
-  opacity: 1.0;
   box-shadow: 2px 2px 10px 1px rgba(41, 149, 202, 0.907);
-  background-size: cover;
-  z-index: 9999;
 }
 
 .level {
@@ -121,10 +115,10 @@ td a{
 }
 
 .player_info .namebox{
+  display: flex;
   margin: 0px;
   text-align: left;
-  font-size: 3vh;
-  text-shadow: 3px 3px 0px #000000;
+  font-size: 3vw;
   white-space: nowrap;
 }
 
@@ -160,18 +154,18 @@ td a{
 .player_info img {
   float:left;
   position: relative;
-  width: 5vh;
-  height: 5vh;
+  width: 10vw;
+  height: 10vw;
   transition: all var(--transition-speed) ease-out;
   display: block;
   border-radius: 1.0vw;
-  box-shadow: 3px 0px 0px #00000043;
   margin-right: 6px;
   object-fit: cover;
 }
 
 .namebox{
   transition: all var(--transition-speed) ease-out;
+  display: flex;
 }
 
 .gameBox{
@@ -238,7 +232,6 @@ td a{
 
 .rectangle_menu {
   min-height: 7vw;
-  background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
   background-color: #002e35;
   background-size: cover;
   background-repeat: no-repeat;
@@ -267,18 +260,9 @@ a{
 }
 
 .name{
-  color:rgb(255, 255, 255)
-}
-
-.player_info:hover .namebox{
-  color: rgb(140, 231, 247);
-  transition: all var(--transition-speed) ease-in;
-  text-shadow: 1.5px 1.5px 1px #ffffff;
-}
-
-.player_info:hover .namebox a{
-  transition: all var(--transition-speed) ease-in;
-  text-shadow: 1.5px 1.5px 5px #9bceed;
+  color:rgb(255, 255, 255);
+  font-size: 3vw;
+  margin-left: 2vw;
 }
 
 .extra_text{
@@ -294,8 +278,6 @@ a{
 h1{
   text-align: center;
   color: white;
-  text-shadow: 4px 4px 8px #f4f4f4;
-  font-weight: bold;
 }
 
 .teammode{
@@ -326,23 +308,22 @@ h1{
 }
 
 .addedscore{
-  position: relative;
+  position: absolute;
   opacity: 0;
   animation: scoreAdd 2000ms;
 }
 
 .score{
-  text-shadow: 2px 5px 0px #000000;
   margin-left: auto;
-  text-align: right;
-  font-size: 68%;
+  margin: 0px;
+  text-align: left;
+  font-size: 2vw;
   transition: all var(--transition-speed) ease;
 }
 
 .player_info:hover .score{
   margin-left: auto;
-  text-align: right;
-  text-shadow: 1.5px 1.5px 2px #ffffff;
+  text-align: left;
 }
 
 .flexify {
@@ -350,29 +331,17 @@ h1{
   flex: row;
 }
 
-.player_info:hover a{
-  text-shadow: 5px 6px 0px rgb(0, 0, 0);
-}
-
 .playcount {
-  font-weight: bold;
-  font-family: arial;
-  opacity: 0;
-  transition: all 300ms ease-out;
-}
-
-.player_info:hover .playcount{
-  transition: all 300ms ease-in;
-  opacity: 1;
+  font-size: 2vw;
+  margin: 0px;
+  transition: all var(--transition-speed) ease-out;
+  text-align: left;
 }
 
 .teambox {
   flex: column;
   position: relative;
   transition: ease-out 0.3s;
-  background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Osu-triangles.svg/1200px-Osu-triangles.svg.png");
-  background-repeat: repeat;
-  background-size: 100%;
   background-color: rgb(32, 32, 32);
   width: 95vw;
   font-size: 1.7vw;
@@ -524,27 +493,23 @@ input{
 @keyframes scoreAdd{
   0% {
     font-size: 0px;
-    right: 0vw;
     top: 0vw;
     opacity: 0.6;
   }
   25%{
     top: -10vw;
-    right: 0vw;
     font-size: 4vw;
     transition: ease-in;
     opacity: 1;
   }
   75%{
     top: -10vw;
-    right: 0vw;
     font-size: 4vw;
     transition: ease-in;
     opacity: 1;
   }
   100%{
     top: 0vw;
-    right: 0vw;
     font-size: 0vw;
     transition: ease-out;
     opacity: 0;
@@ -669,29 +634,23 @@ label{
 .live-status{
   color: rgb(255, 255, 255);
   background-color: #002e35;
-  min-width: 1vw;
   box-shadow: inset 1px 1px 1px 1px #000000;
   width: 24vw;
-  height: 5vh;
+  height: 10vw;
   overflow: hidden;
   border-radius: 1vw;
   transform: translateX(-100%);
-  transition: transform 0.3s linear;
+  transition: all var(--transition-speed) ease-out;;
   padding-left: 5vw;
-  font-size: 1vh;
+  font-size: 1vw;
   object-fit: cover;
   z-index: 0;
 }
 
 .live-status.active{
   background-repeat: no-repeat;
-  transition: ease 1s;
   transform: translateX(-4.2vw) !important;
   box-shadow: 8px 0px 0px 0px rgba(0, 0, 0, 0.425);
-}
-
-.player_info:hover .live-status.active{
-  box-shadow: 8px 0px 0px 0px rgb(255, 255, 255);
 }
 
 .live-status .map-info{
@@ -987,4 +946,17 @@ input:checked + .slider:before {
     margin-right: 90%;
     position: relative;
     z-index: 1; /* Make sure the content is on top of the overlay */
+}
+
+.color-indicator {
+    border-radius: 2px;
+    width: 3vw;
+    height: 1vw;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.team-metadata {
+    display: flex;
+    flex-direction: column;
 }
