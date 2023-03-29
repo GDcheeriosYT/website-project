@@ -131,52 +131,21 @@
                 const playsEl = player.querySelector('.playcount')
                 let plays = parseInt(playsEl.textContent.replace(/\,/g, ''));
 
-                if(sortType == "scoreHistory"){
-                  const scoreEl = player.querySelector('.score')
-                  let score = parseInt(scoreEl.textContent.replace(/\,/g, ''));
-                  let scoreDiff = (player_list[key]["score"] - score)
-                  if(scoreDiff!=0){
-                    var scoreThing = document.createElement("h1");
-                    if (scoreDiff>0){
-                      scoreThing.innerHTML = "+" + numberWithCommas(scoreDiff)
-                      scoreThing.style.color = "white"
-                    }
-                    else{
-                      scoreThing.innerHTML = numberWithCommas(scoreDiff)
-                      scoreThing.style.color = "white"
-                    }
-                    scoreThing.classList.add("addedscore")
-                    player.querySelector(".namebox").appendChild(scoreThing)
-                    updateNumberOverTime(returnValuesInBetween(score, player_list[key]["score"], 1500), scoreEl, 1500, " score")
-                    setTimeout(() => {scoreThing.remove()}, 2000)
-                  }
-                }
-                else{
-                  const scoreEl = player.querySelector('.score')
-                  let score = parseInt(scoreEl.textContent.replace(/\,/g, ''));
-                  let scoreDiff = (player_list[key]["rank"] - score)
-                  if(scoreDiff!=0){
-                    var scoreThing = document.createElement("h1");
-                    if (scoreDiff>0){
-                      scoreThing.innerHTML = "+" + numberWithCommas(scoreDiff)
-                      scoreThing.style.color = "white"
-                    }
-                    else{
-                      scoreThing.innerHTML = numberWithCommas(scoreDiff)
-                      scoreThing.style.color = "white"
-                    }
-                    scoreThing.classList.add("addedscore")
-                    player.querySelector(".namebox").appendChild(scoreThing)
-                    if(player_list[key]["rank"] == 999999999){
-                      scoreEl.textContent = "unranked"
-                    }
-                    else{
-                      updateNumberOverTime(returnValuesInBetween(score, player_list[key]["rank"], 1500), scoreEl, 1500, "")
-                    }
-                    setTimeout(() => {scoreThing.remove()}, 1500)
-                  }
-                }
-                updateNumberOverTime(returnValuesInBetween(plays, player_list[key]["playcount"], 1500), playsEl, 1500, " plays")
+                const scoreEl = player.querySelector('.score')
+                let score = parseInt(scoreEl.textContent.replace(/\,/g, ''));
+
+                const rankEl = player.querySelector('.rank')
+                let rank = parseInt(rankEl.textContent.replace(/\,/g, ''));
+
+                const avgScoreEl = player.querySelector('.avgscore')
+                let prevAvgScore = parseInt(avgScoreEl.textContent.replace(/\,/g, ''));
+
+                updateNumberOverTime(returnValuesInBetween(score, player_list[key]["score"], 1500), scoreEl, 1500, "")
+                updateNumberOverTime(returnValuesInBetween(plays, player_list[key]["playcount"], 1500), playsEl, 1500, "")
+                if(rank == 999999999) rankEl.innerHTML = "unranked"
+                else updateNumberOverTime(returnValuesInBetween(rank, player_list[key]["rank"], 1500), rankEl, 1500, "")
+                let avgScore = Math.floor((player_list[key]["score"] / player_list[key]["playcount"]))
+                updateNumberOverTime(returnValuesInBetween(prevAvgScore, avgScore, 1500), avgScoreEl, 1500, "")
               });
             }
 
@@ -443,35 +412,46 @@
                     {% endfor %}
                   {% endfor %}
                 {% else %}
-                  <div class="player_info" data-id="{{ value[3] }}">
+                    <div class="player_info" data-id="{{ value[3] }}">
                 {% endif %}
-                  <img src="{{ value[0] }}">
-                  <div style="display: flex; flex-direction: column;">
-                    <h1 class="namebox">
-                      <span class="player_position">0</span>
-                      <a target="_blank" href="{{ value[2] }}" class="name">
-                        {% if value[3]|string in match_data["nicknames"] %}
-                          {{match_data["nicknames"][value[3]|string]}}
-                        {% else %}
-                          {{ key }}
-                        {% endif %}
-                      </a>
-                    </h1>
+                  <div class="namebox" style="background-image: url({{value[1]}})">
+                    <img src="{{ value[0] }}">
+                    <span class="player_position" style="color: white;">0</span>
+                    <a target="_blank" href="{{ value[2] }}" class="name">
+                      {% if value[3]|string in match_data["nicknames"] %}
+                        {{match_data["nicknames"][value[3]|string]}}
+                      {% else %}
+                        {{ key }}
+                      {% endif %}
+                    </a>
                     {% if request.cookies.get('userID') != None %}
                       {% if get_osu_id(request.cookies.get('userID')) == value[3]|int %}
                         <button data-id="refresh-button" onclick="refresh('{{ value[3] }}')" style="background-color: #0cb7d5; color: #04131c; font-size: 2.5vh; border-radius: 12px; border: none; padding: 0px; margin-left: auto; margin-right: 1vw;">refresh</button>
                       {% endif %}
                     {% endif %}
-                    <div class="player-metadata">
-                      <h1 class="score">
-                        0 score
-                      </h1>
-                      <h1 class="playcount">
-                        0 plays
-                      </h1>
-                      <span class="status"></span>
-                    </div>
                   </div>
+                      <div class="top" style="display: flex;">
+                        <div style="display: flex; flex-direction: column; margin: 1vw;">
+                          <h1 style="font-size: 2vw; text-align: left; margin: 1px;">score</h1>
+                          <h1 class="score">0</h1>
+                        </div>
+                        <div style="display: flex; flex-direction: column; margin: 1vw;">
+                          <h1 style="font-size: 2vw; text-align: right; margin: 1px;">playcount</h1>
+                          <h1 class="playcount">0</h1>
+                        </div>
+                        <div style="display: flex; flex-direction: column; margin: 1vw;">
+                          <h1 style="font-size: 2vw; text-align: right; margin: 1px;">rank</h1>
+                          <h1 class="rank">0</h1>
+                        </div>
+                      </div>
+                      <div class="middle" style="display: flex;">
+                        <div style="display: flex; flex-direction: column; margin: 1vw;">
+                          <h1 style="font-size: 2vw; text-align: center; margin: 1px;">average score</h1>
+                          <h1 class="avgscore">0</h1>
+                        </div>
+                      </div>
+                      <h1 style="font-size: 2vw; margin: 1px;">live status currently unavailable</h1>
+                      <span class="status"></span>
                 </div>
                 <div class="live-status" data-id="{{ value[3] }}">
                   <div class="map-info">
@@ -538,15 +518,13 @@
       </div>
     </div>
     <div>
-      <div style="position: fixed; zIndex: 99999; top: 60vh; left: 80vw;">
-        <button onclick="setSortType('scoreHistory')" style="width: 6vw; height: 4vh;">Score Gain</button>
-        <button onclick="setSortType('')" style="width: 6vw; height: 4vh;">Rank</button>
+      <!--<div style="position: fixed; zIndex: 99999; top: 60vh; left: 80vw;">
         <h3 style="color: white;">enable image covers</h3>
         <label class="switch">
           <input type="checkbox" onclick="toggleCovers()">
           <span class="slider round"></span>
         </label>
-      </div>
+      </div>-->
     </div>
     <!--graph-box-->
     <canvas id="myChart" width="400" height="400"></canvas>

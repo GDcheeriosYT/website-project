@@ -49,8 +49,9 @@ td a{
 .player_info{
   position: relative;
   transition: ease-out var(--transition-speed);
+  box-shadow: inset 0px 0px 20px #106b6e;
   width: 35vw;
-  height: 10vw;
+  height: 25vw;
   border-radius: 1vw;
   margin-left: 3vw;
   display: block;
@@ -93,11 +94,6 @@ td a{
 
 .player_info_wrapper{
   transition: ease-in-out 2000ms;
-}
-
-.player_info:hover{
-  transition: var(--transition-speed) ease-in;
-  box-shadow: 2px 2px 10px 1px rgba(41, 149, 202, 0.907);
 }
 
 .level {
@@ -154,16 +150,18 @@ td a{
 .player_info img {
   float:left;
   position: relative;
-  width: 10vw;
-  height: 10vw;
+  width: 5vw;
+  height: 5vw;
   transition: all var(--transition-speed) ease-out;
   display: block;
   border-radius: 1.0vw;
-  margin-right: 6px;
+  margin: 1vw;
   object-fit: cover;
 }
 
 .namebox{
+  box-shadow: 0px 5px 0px #000000aa;
+  border-radius: 1vw;
   transition: all var(--transition-speed) ease-out;
   display: flex;
 }
@@ -314,16 +312,10 @@ h1{
 }
 
 .score{
-  margin-left: auto;
-  margin: 0px;
   text-align: left;
-  font-size: 2vw;
+  font-size: 1.2vw;
+  margin: 1px;
   transition: all var(--transition-speed) ease;
-}
-
-.player_info:hover .score{
-  margin-left: auto;
-  text-align: left;
 }
 
 .flexify {
@@ -332,10 +324,24 @@ h1{
 }
 
 .playcount {
-  font-size: 2vw;
-  margin: 0px;
+  font-size: 1.2vw;
+  margin: 1px;
   transition: all var(--transition-speed) ease-out;
-  text-align: left;
+  text-align: center;
+}
+
+.rank {
+  font-size: 1.2vw;
+  margin: 1px;
+  transition: all var(--transition-speed) ease-out;
+  text-align: right;
+}
+
+.avgscore{
+  font-size: 1.2vw;
+  margin: 1px;
+  transition: all var(--transition-speed) ease-out;
+  text-align: center;
 }
 
 .teambox {
