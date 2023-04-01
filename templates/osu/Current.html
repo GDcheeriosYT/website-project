@@ -350,6 +350,9 @@
               updateNumberOverTime(returnValuesInBetween(previousPlaycount, plays, 1500), el.querySelector('.plays'), 1500, "")
               updateNumberOverTime(returnValuesInBetween(previousAvgScore, Math.floor(score / plays), 1500), el.querySelector('.avgscore'), 1500, "")
             }
+            setTimeout(() => {
+              reArrangePlayers()
+            }, 1000)
           }
         }
 
@@ -374,7 +377,6 @@
             let currentValue = numberArray[i];
             setTimeout(
               () => {
-                console.log(element)
                 element.textContent = numberWithCommas(currentValue) + ending;
               },
               (i + 1) * incrementer,
@@ -465,7 +467,7 @@
               </div>
               <h1 style="font-size: 2vw; margin: 1px;">live status currently unavailable</h1>
               <span class="status"></span>
-              <div class="live-status" data-id="{{ value[3] }}">
+              <!--<div class="live-status" data-id="{{ value[3] }}">
                 <div class="map-info">
                   <div class="left">
                     <span class="map-artist">
@@ -522,7 +524,7 @@
                     </span>
                   </div>
                 </div>
-              </div>
+              </div>-->
             </div>
           </div>
         {% endfor %}
