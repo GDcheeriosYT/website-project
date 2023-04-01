@@ -70,7 +70,8 @@ td a{
   position: relative;
   transition: ease-out var(--transition-speed);
   width: 35vw;
-  height: 12vh;
+  height: 8vw;
+  min-height: fit-content;
   border-radius: 1vw;
   background-color: #052122;
 }
