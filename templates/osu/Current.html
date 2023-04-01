@@ -298,7 +298,7 @@
               if ("{{ match_data['mode']|safe }}" == "teams"){
                 list = Object.entries(team_list)
                 list = list.map((el) => {
-                  return { id: el[0], score: parseInt(document.querySelector(`.team_info[data-id="${el[0]}"]`).querySelector(".team_score").textContent.replace(/\,/g, ''))}
+                  return { id: el[0], score: parseInt(document.querySelector(`.team_info[data-id="${el[0]}"]`).querySelector(".score").textContent.replace(/\,/g, ''))}
                 })
 
 
@@ -330,14 +330,24 @@
                 for(var i = 0; i < Object.entries(team_list).length; i++){
                   const el = document.querySelector(`.team_info[data-id="${Object.keys(team_list)[i]}"]`)
                   let team_player_list = Object.entries(team_list)[i][1]["players"]
+                  const previousScore = parseInt(el.querySelector('.score').textContent.replace(/\,/g, ''));
+                  const previousPlaycount = parseInt(el.querySelector('.playcount').textContent.replace(/\,/g, ''));
+                  const previousAvgScore = parseInt(el.querySelector('.avgscore').textContent.replace(/\,/g, ''));
                   let score = 0
+                  let plays = 0
+                  let avgScore = 0
                   for(var g = 0; g < team_player_list.length; g++){
                     const player = document.querySelector(".player_info[data-id='" + team_player_list[g] + "']")
                     const scoreEl = player.querySelector('.score')
+                    const playsEl = player.querySelector('.playcount')
                     let playerScore = parseInt(scoreEl.textContent.replace(/\,/g, ''));
                     score += playerScore
+                    let playerPlaycount = parseInt(playsEl.textContent.replace(/\,/g, ''));
+                    plays += playerPlaycount
                   }
-                  el.querySelector('.team_score').innerHTML = numberWithCommas(score)
+                  updateNumberOverTime(returnValuesInBetween(previousScore, score, 1500), el.querySelector('.score'), 1500, "")
+                  updateNumberOverTime(returnValuesInBetween(previousPlaycount, plays, 1500), el.querySelector('.plays'), 1500, "")
+                  updateNumberOverTime(returnValuesInBetween(previousAvgScore, Math.floor(score / plays), 1500), el.querySelector('.avgscore'), 1500, "")
                 }
               }
             }
@@ -392,9 +402,20 @@
                             #<span class="team_position">0</span>
                             {{ team }}
                           </h1>
-                          <h2 style="margin: 0;" class="team_score">
-                            0
-                          </h2>
+                          <div class="top" style="display: flex;">
+                            <div style="display: flex; flex-direction: column; margin: 1vw;">
+                              <h1 style="font-size: 2vw; text-align: left; margin: 1px;">score</h1>
+                              <h1 class="score">0</h1>
+                            </div>
+                            <div style="display: flex; flex-direction: column; margin: 1vw;">
+                              <h1 style="font-size: 2vw; text-align: center; margin: 1px;">plays</h1>
+                              <h1 class="playcount">0</h1>
+                            </div>
+                            <div style="display: flex; flex-direction: column; margin: 1vw;">
+                              <h1 style="font-size: 2vw; text-align: right; margin: 1px;">average score</h1>
+                              <h1 class="avgscore" style="text-align: right;">0</h1>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

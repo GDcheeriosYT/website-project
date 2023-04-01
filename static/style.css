@@ -66,30 +66,24 @@ td a{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  box-shadow: 8px 0px 0px 0px rgba(0, 0, 0, 0.425);
+  box-shadow: inset 0px 0px 20px #106b6e;
   position: relative;
   transition: ease-out var(--transition-speed);
-  width: 30vw;
-  height: 6vh;
+  width: 35vw;
+  height: 12vh;
   border-radius: 1vw;
   background-color: #052122;
 }
 
 .team_info h1{
-  font-size: 3vh;
   margin-left: 0.1vw;
   margin-right: 0.1vw;
-}
-
-.team_info h2{
-  font-size: 2vh;
-  color: white;
 }
 
 .teams{
   position: absolute;
   right: 2vw;
-  left: 64vw;
+  left: 60vw;
 }
 
 .player_info_wrapper{
