@@ -347,7 +347,7 @@
                 plays += playerPlaycount
               }
               updateNumberOverTime(returnValuesInBetween(previousScore, score, 1500), el.querySelector('.score'), 1500, "")
-              updateNumberOverTime(returnValuesInBetween(previousPlaycount, plays, 1500), el.querySelector('.plays'), 1500, "")
+              updateNumberOverTime(returnValuesInBetween(previousPlaycount, plays, 1500), el.querySelector('.playcount'), 1500, "")
               updateNumberOverTime(returnValuesInBetween(previousAvgScore, Math.floor(score / plays), 1500), el.querySelector('.avgscore'), 1500, "")
             }
             setTimeout(() => {
