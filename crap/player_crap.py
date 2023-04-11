@@ -34,6 +34,7 @@ class UserConstructor:
     '''
     self.id = id
     self.request_profile = requests.get(f"https://osu.ppy.sh/api/v2/users/{self.id}/osu", headers = {"Authorization": f'Bearer {authentication_crap.access_token}'}).json()
+    #print(self.request_profile)
     time.sleep(1)
     
     #if user isn't found construct a "ghost" user
@@ -48,6 +49,7 @@ class UserConstructor:
       self.avatar = "https://data.whicdn.com/images/100018401/original.gif"
       self.background = "https://data.whicdn.com/images/100018401/original.gif"
       self.link = "http://gdcheerios.com/osu/players"
+      self.accuracy = 0
       return None
     
     #user main info
@@ -58,6 +60,7 @@ class UserConstructor:
       self.rank = 999999999
     self.play_count = self.request_profile['statistics']['play_count']
     self.score = self.request_profile["statistics"]["total_score"]
+    self.accuracy = self.request_profile["statistics"]["hit_accuracy"]
     self.avatar = self.request_profile['avatar_url']    
     self.background = self.request_profile['cover_url']
     self.link = (f"https://osu.ppy.sh/users/{self.id}")
@@ -180,13 +183,14 @@ async def player_refresh(id):
   playcount = player.play_count
   score = player.score
   avatar = player.avatar
+  accuracy = player.accuracy
   background = player.background
   link = player.link
   development_tags = player.development_tags
   award_tags = player.award_tags
   
   #create player_data dict
-  user_data = {"name" : name, "rank" : rank, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
+  user_data = {"name" : name, "rank" : rank, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link, "accuracy" : accuracy}
   user_tags = {"development tags" : development_tags, "award tags" : award_tags}
   player_data[id] = {"user data" : user_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
@@ -215,13 +219,14 @@ async def refresh_all_players():
     playcount = player.play_count
     score = player.score
     avatar = player.avatar
+    accuracy = player.accuracy
     background = player.background
     link = player.link
     development_tags = player.development_tags
     award_tags = player.award_tags
     
     #create player_data dict
-    user_data = {"name" : name, "rank" : rank, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link}
+    user_data = {"name" : name, "rank" : rank, "score" : score, "playcount" : playcount, "avatar url" : avatar, "background url" : background, "profile url" : link, "accuracy" : accuracy}
     user_tags = {"development tags" : development_tags, "award tags" : award_tags}
     player_data[userid] = {"user data" : user_data, "user tags" : user_tags} #[score, avatar, background, link, recent_score, 0, 0, map_background, map_title, map_difficulty, map_url, mods, artist, accuracy, max_combo, rank, rank_color, score_formatted, playcount]
 
@@ -294,12 +299,15 @@ def player_match_constructor(id):
     background = player_data[id]["user data"]["background url"]
     link = player_data[id]["user data"]["profile url"]
     player_id = id
+    accuracy = player_data[id]["user data"]["accuracy"]
       
-  except:
+  except Exception as e:
+    print(e)
     name = "Unknown User"
     avatar = "https://data.whicdn.com/images/100018401/original.gif"
     background = "https://data.whicdn.com/images/100018401/original.gif"
     link = "https://data.whicdn.com/images/100018401/original.gif"
     player_id = 0
+    accuracy = 0
     
-  return(name, [avatar, background, link,  player_id])
+  return(name, [avatar, background, link,  player_id, round(accuracy, 2)])

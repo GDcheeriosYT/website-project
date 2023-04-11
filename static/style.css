@@ -332,11 +332,18 @@ h1{
   text-align: right;
 }
 
+.accuracy {
+  font-size: 1.2vw;
+  margin: 1px;
+  transition: all var(--transition-speed) ease-out;
+  text-align: right;
+}
+
 .avgscore{
   font-size: 1.2vw;
   margin: 1px;
   transition: all var(--transition-speed) ease-out;
-  text-align: center;
+  text-align: left;
 }
 
 .teambox {

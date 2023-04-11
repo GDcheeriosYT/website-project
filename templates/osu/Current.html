@@ -27,6 +27,7 @@
       value[1] = background link
       value[2] = user profile link
       value[3] = id
+      value[4] = acc
 
       --team key values--
 
@@ -461,8 +462,12 @@
               </div>
               <div class="middle" style="display: flex;">
                 <div style="display: flex; flex-direction: column; margin: 1vw;">
-                  <h1 style="font-size: 2vw; text-align: center; margin: 1px;">average score</h1>
+                  <h1 style="font-size: 1.5vw; text-align: left; margin: 1px;">average score</h1>
                   <h1 class="avgscore">0</h1>
+                </div>
+                <div style="display: flex; flex-direction: column; margin: 1vw;">
+                  <h1 style="font-size: 1.5vw; text-align: right; margin: 1px;">accuracy</h1>
+                  <h1 class="accuracy">{{value[4]}}%</h1>
                 </div>
               </div>
               <h1 style="font-size: 2vw; margin: 1px;">live status currently unavailable</h1>
@@ -554,6 +559,11 @@
           }]
         }
       })
+    </script>
+    <script>
+        setInterval(() =>{
+            location.reload();
+        }, 3600000)
     </script>
   {% endblock %}
 </body>
