@@ -90,7 +90,7 @@
             reArrangePlayers()
             reRenderPlayerScores()
             updateTeams()
-        }, 60000)
+        }, 5000)
         setInterval(() => {
           onTimeout = false
           //document.getElementByID('refresh-button').style.color = "grey"
@@ -113,11 +113,6 @@
             onTimeout = true
             //document.querySelector('refresh-button').style.color = "black"
           }
-          setTimeout(() => {
-              reRenderPlayerScores()
-              reArrangePlayers()
-              updateTeams()
-          }, 3000)
         }
 
         function reRenderPlayerScores(){

@@ -295,19 +295,27 @@ def player_match_constructor(id):
   
   try:
     name = player_data[id]["user data"]["name"]
-    avatar = player_data[id]["user data"]["avatar url"]
-    background = player_data[id]["user data"]["background url"]
-    link = player_data[id]["user data"]["profile url"]
-    player_id = id
-    accuracy = player_data[id]["user data"]["accuracy"]
-      
-  except Exception as e:
-    print(e)
+  except:
     name = "Unknown User"
+  try:
+    avatar = player_data[id]["user data"]["avatar url"]
+  except:
     avatar = "https://data.whicdn.com/images/100018401/original.gif"
+  try:
+    background = player_data[id]["user data"]["background url"]
+  except:
     background = "https://data.whicdn.com/images/100018401/original.gif"
+  try:
+      link = player_data[id]["user data"]["profile url"]
+  except:
     link = "https://data.whicdn.com/images/100018401/original.gif"
+  try:
+    player_id = id
+  except:
     player_id = 0
-    accuracy = 0
+  try:  
+    accuracy = player_data[id]["user data"]["accuracy"]
+  except:
+      accuracy = 0
     
   return(name, [avatar, background, link,  player_id, round(accuracy, 2)])
