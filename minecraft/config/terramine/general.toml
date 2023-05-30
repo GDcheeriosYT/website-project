@@ -1,8 +1,0 @@
-configVersion = 2
-showFirstPersonGloves = true
-showTooltips = true
-stopwatchMPH = false
-disableCorruptionSpread = false
-corruptionSpreadRarity = 4
-disableFallingStars = false
-fallingStarRarity = 20
