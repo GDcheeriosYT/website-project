@@ -51,7 +51,7 @@ td a{
   transition: ease-out var(--transition-speed);
   box-shadow: inset 0px 0px 20px #106b6e;
   width: 35vw;
-  height: 25vw;
+  height: 35vw;
   border-radius: 1vw;
   margin-left: 3vw;
   display: block;
@@ -639,147 +639,61 @@ label{
   transition: 300ms all;
 }
 
-.live-status{
-  color: rgb(255, 255, 255);
-  background-color: #002e35;
-  box-shadow: inset 1px 1px 1px 1px #000000;
-  width: 24vw;
-  height: 10vw;
-  overflow: hidden;
-  border-radius: 1vw;
-  transform: translateX(-100%);
-  transition: all var(--transition-speed) ease-out;;
-  padding-left: 5vw;
-  font-size: 1vw;
-  object-fit: cover;
-  z-index: 0;
-}
-
-.live-status.active{
-  background-repeat: no-repeat;
-  transform: translateX(-4.2vw) !important;
-  box-shadow: 8px 0px 0px 0px rgba(0, 0, 0, 0.425);
-}
-
-.live-status .map-info{
-  transition: ease 1s;
-  opacity: 0;
-  display: flex;
-  overflow: hidden;
-  justify-content: space-between;
-}
-
-.live-status.active .map-info{
-  opacity: 1;
-  padding-right: 1vw;
-}
-
-.live-status .right{
-  margin-left: auto;
-}
-
-.live-status .gameplay-mods{
-  margin: 0;
-}
-
-.live-status .gameplay-score{
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.live-status .gameplay-bottom{
-  transition: ease 1s;
-  opacity: 0;
-  display: flex;
-  margin: 2px;
-}
-
-.live-status.active .gameplay-bottom{
-  opacity: 1;
-}
-
-.live-status .gameplay-top{
-  transition: ease 1s;
-  opacity: 0;
-  display: flex;
-}
-
-.live-status.active .gameplay-top{
-  opacity: 1;
-}
-
-.live-status .gameplay-bottom .gameplay-accuracy{
-  margin: 0;
-}
-
-.live-status .gameplay-bottom .gameplay-mods{
-  margin: 0;
-}
-
-.live-status .gameplay-bottom .gameplay-combo{
-  margin: 0;
-}
-
-.live-status .gameplay-bottom .max-gameplay-combo{
-  margin: 0;
-  padding-right: 1vw;
-}
-
-
-.live-status .gameplay-grade{
-  text-shadow: 4px 4px 8px #000000;
-  font-size: 1.4vh;
-}
-
-.live-status .gameplay-100{
-  margin: 0;
-}
-
-.live-status .gameplay-50{
-  margin: 0;
-}
-
-.live-status .gameplay-pp{
-  margin: 0;
-  padding-right: 1vw;
-}
-
-.live-status .gameplay-misses{
-  margin: 0;
-}
-
-.live-status .gameplay-top .gameplay-grade{
-  margin: 0;
-}
-
-.live-status .gameplay-top .gameplay-100{
-  margin: 0;
-}
-
-.live-status .gameplay-top .gameplay-50{
-  margin: 0;
-}
-
-.live-status .gameplay-top .gameplay-misses{
-  margin: 0;
-}
-
-
-.status{
-  color: grey;
-  margin-left: 5vw;
-}
-
-.status.active{
-  color:white;
-  text-shadow: 1px 1px 1px #000;
-  margin-left: 5vw;
-}
-
 .icon{
-  font-size: 1vh;
+  margin-right: 0.67vw;
+  font-size: 1vw;
+}
+
+.gameplay-container-top{
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nextify{
+    display: flex;
+    flex-direction: row;
+}
+
+.gameplay-container-bottom{
+    color: white;
+    font-size: 1.5vw;
+}
+
+.gameplay-left{
+    font-size: 1vw;
+    margin-left: 1.5vw;
+}
+
+.gameplay-right{
+    margin-right: 1.5vw;
+    font-size: 1vw;
+}
+
+.gameplay-grade {
+    font-size: 2.4vw;
+}
+
+.gameplay-score{
+    color: white;
+    font-size: 1.5vw;
+    margin: 0px;
+}
+
+.gameplay-accuracy{
+    color: white;
+    font-size: 1.2vw;
+}
+
+.gameplay-pp{
+    color: white;
+    font-size: 1.2vw;
+}
+
+.map-info{
+    margin: 0px;
+    font-size: 1vw;
 }
 
 .health{

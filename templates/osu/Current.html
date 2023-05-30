@@ -181,10 +181,10 @@
 
         function reRenderLiveStatus(){
           Object.keys(player_list).forEach((key, i) => {
-            const player = document.querySelector(".live-status[data-id='" + key + "']")
+            const player = document.querySelector(".player_info[data-id='" + key + "']")
             const data = player_list[key]
             if (data.liveStatus){
-              player.classList = "live-status active"
+              player.style.height = "38vw"
               const {gameplay, mapInfo, state} = data.liveStatus
               //console.log(gameplay, mapInfo, state)
               //gameplay:accuracy,score,combo
@@ -200,28 +200,28 @@
                 else player.style.background = "#002f37"
               }
               if(state == "MainMenu" || state == "SongSelect" || state == "MultiplayerRooms" || state == "MultiplayerRoom"){
-                player.querySelector(".map-info").style.fontSize = "1.5vw"
+                player.querySelector(".status").innerHTML = "Currently in " + state
                 player.querySelector(".map-info").style.marginTop = "2.5vw"
                 player.querySelector(".map-info").style.whiteSpace = "normal"
                 player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
                 player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
                 player.querySelector(".map-difficulty").innerHTML = "[" + mapInfo.metadata.difficulty + "] ★" + mapInfo.stats.SR
-                player.querySelector(".gameplay-top").style.display = "none"
-                player.querySelector(".gameplay-bottom").style.display = "none"
+                player.querySelector(".gameplay-container-bottom").style.display = "none"
+                player.querySelector(".gameplay-container-top").style.display = "none"
               }
               else if(state == "Playing" || state == "ResultsScreen"){
+                player.querySelector(".status").innerHTML = "Currently " + state
                 player.querySelector(".map-info").style.whiteSpace = "nowrap"
                 player.querySelector(".map-info").style.margin = "1.5vw"
-                player.querySelector(".gameplay-top").style.display = "flex"
-                player.querySelector(".gameplay-top").style.margin = "1.5vw"
-                player.querySelector(".gameplay-bottom").style.display = "flex"
-                player.querySelector(".gameplay-bottom").style.margin = "1.5vw"
-                player.querySelector(".map-info").style.fontSize = "1vw"
+                player.querySelector(".gameplay-left").style.display = "flex"
+                player.querySelector(".gameplay-container-bottom").style.display = "flex"
+                player.querySelector(".gameplay-container-top").style.display = "flex"
+                player.querySelector(".gameplay-container-bottom").style.margin = "1.5vw"
                 player.querySelector(".map-artist").innerHTML = mapInfo.metadata.artist + " - "
                 player.querySelector(".map-title").innerHTML = mapInfo.metadata.title
                 player.querySelector(".map-difficulty").innerHTML = "[" + mapInfo.metadata.difficulty + "] ★" + mapInfo.stats.SR
                 updateNumberOverTime(returnValuesInBetween(parseInt(player.querySelector(".gameplay-score").textContent.replace(/\,/g, '')), gameplay.score, time), player.querySelector(".gameplay-score"), time, " score")
-                player.querySelector(".gameplay-combo").innerHTML = gameplay.combo + "x"
+                player.querySelector(".gameplay-combo").innerHTML = gameplay.combo + "x/"
                 player.querySelector(".max-gameplay-combo").innerHTML = gameplay.maxCombo + "x"
                 player.querySelector(".gameplay-accuracy").innerHTML = gameplay.accuracy + "%"
                 player.querySelector(".gameplay-grade").innerHTML = gameplay.grade
@@ -251,12 +251,11 @@
               }
 
               playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
-              playerStatus.querySelector(".status").classList = "status active"
             }
             else{
               playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
-              playerStatus.querySelector(".status").classList = "status"
-              player.classList = "live-status"
+              playerStatus.querySelector(".status").innerHTMl = "live status currently unavailable"
+              player.style.height = "25vw"
             }
           })
         }
@@ -465,66 +464,46 @@
                   <h1 class="accuracy">{{value[4]}}%</h1>
                 </div>
               </div>
-              <h1 style="font-size: 2vw; margin: 1px;">live status currently unavailable</h1>
-              <span class="status"></span>
-              <!--<div class="live-status" data-id="{{ value[3] }}">
-                <div class="map-info">
-                  <div class="left">
-                    <span class="map-artist">
-                      artist -
-                    </span>
-                    <span class="map-title">
-                      map
-                    </span>
+              <h1 style="font-size: 2vw; margin: 1px;" class="status">live status currently unavailable</h1>
+              <div style="color:white;" class="map-info">
+                <div class="left">
+                  <span class="map-artist"></span>
+                  <span class="map-title"></span>
+                </div>
+                <div class="right">
+                  <span class="map-difficulty"></span>
+                </div>
+              </div>
+              <div class="gameplay-container-top">
+                <div class="gameplay-left" align="left" style="color: white; display:flex; flex-direction: column;">
+                  <span class="gameplay-grade"></span>
+                  <div class="nextify">
+                    <span class="icon" style="color: green; text-shadow: 4px 4px 8px #000000;">100</span>
+                    <span class="gameplay-100"></span>
                   </div>
-                  <div class="right">
-                    <span class="map-difficulty">
-                      easy
-                    </span>
+                  <div class="nextify">
+                    <span class="icon" style="color: gold; text-shadow: 4px 4px 8px #000000;">50</span>
+                    <span class="gameplay-50"></span>
+                  </div>
+                  <div class="nextify">
+                    <span class="icon" style="color: red; text-shadow: 4px 4px 8px #000000;">x</span>
+                    <span class="gameplay-misses"></span>
                   </div>
                 </div>
-                <div class="gameplay-top">
-                  <span class="gameplay-grade">
-                    F
-                  </span>
-                  <p class="icon" style="color: green; text-shadow: 4px 4px 8px #000000;">100</p>
-                  <span class="gameplay-100">
-                    0
-                  </span>
-                  <p class="icon" style="color: gold; text-shadow: 4px 4px 8px #000000;">50</p>
-                  <span class="gameplay-50">
-                    0
-                  </span>
-                  <p class="icon" style="color: red; text-shadow: 4px 4px 8px #000000;">x</p>
-                  <span class="gameplay-misses">
-                    0
-                  </span>
+                <div class="gameplay-right" align="right" style="display: flex; flex-direction: column;">
+                  <h4 class="gameplay-score"></h4>
+                  <span class="gameplay-accuracy"></span>
+                  <span class="gameplay-pp"></span>
+                </div>
+              </div>
+              <div class="gameplay-container-bottom"">
+                  <span class="gameplay-mods"></span>
                   <p></p>
-                  <span class="gameplay-pp">
-                    0pp
-                  </span>
-                </div>
-                <div class="gameplay-bottom">
-                  <span class="gameplay-mods">
-                    NM
-                  </span>
-                  <p></p>
-                  <span class="gameplay-accuracy">
-                    0%
-                  </span>
-                  <h4 class="gameplay-score">
-                    0 score
-                  </h4>
-                  <div style="display:flex;">
-                    <span class="gameplay-combo">
-                      0x|
-                    </span>
-                    <span class="max-gameplay-combo">
-                      0x
-                    </span>
+                  <div style="display: flex;">
+                    <span class="gameplay-combo"></span>
+                    <span class="max-gameplay-combo"></span>
                   </div>
                 </div>
-              </div>-->
             </div>
           </div>
         {% endfor %}
