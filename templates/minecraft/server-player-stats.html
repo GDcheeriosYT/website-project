@@ -127,25 +127,29 @@
       function numberWithCommas(x) {
         return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
       }
+
     </script>
       {% for player in player_data %}
-        <div class="player_info_wrapper" data-id="{{ player['username'] }}">
-          <div class="player_info" data-id="{{ player['username'] }}" style="height: 15vh; min-width: 300px; width: 25vw; background-color: #052122;">
-            <h1 class="namebox">
-              <img src="{{ player['avatar'] }}" style="width: 8vw; height: 15vh;">
-              <span>{{ player["username"] }}</span>
-              <br>
-              <span style="font-size: 2vh;" class="health">health: {{ player["health"] }}</span>
-              <br>
-              <span style="font-size: 2vh;" class="hunger">hunger: {{ player["hunger"] }}</span>
-              <br>
-              <span style="font-size: 2vh;" class="levelmc">level: {{ player["level"] }}</span>
-              <br>
-              <span style="font-size: 2vh;" class="position">position: {{ player["position"] }}</span>
-              <br>
-            </h1>
+      <div class="player_info_wrapper" data-id="{{ player['username'] }}">
+        <div class="player_info" data-id="{{ player['username'] }}">
+          <div class="namebox" style="color: lightblue; background: #106b6e;">
+              <img src="{{ player['avatar'] }}" style="width: 124px; height: 124px;">
+              <h3>{{ player['username'] }}</h3>
+          </div>
+          <div class="top" style="display: flex;">
+            <div style="display: flex; flex-direction: column; margin: 1vw;">
+              <h1 class="health">{{ player["health"] }}</h1>
+            </div>
+            <div style="display: flex; flex-direction: column; margin: 1vw;">
+              <h1 class="hunger">{{ player["hunger"] }}</h1>
+            </div>
+            <div style="display: flex; flex-direction: column; margin: 1vw;">
+              <h1 class="levelmc"></h1>
+            </div>
+            <h1 class="position">{{ player["position"] }}</h1>
           </div>
         </div>
+      </div>
       {% endfor %}
     {% endblock %}
   </body>
