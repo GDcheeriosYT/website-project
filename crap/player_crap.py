@@ -292,7 +292,7 @@ def player_match_constructor(id):
   match_data : JSON
     specifying the match_data
   '''
-  
+
   try:
     name = player_data[id]["user data"]["name"]
   except:

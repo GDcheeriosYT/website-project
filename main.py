@@ -358,6 +358,54 @@ async def grabber(match_name):
     return new_dict
 
 
+@app.route("/api/grab/old/<match_name>")
+async def old_grabber(match_name):
+    global api_uses
+    api_uses += 1
+
+    global_osu_data = json.load(open("player_data.json", "r"))
+
+    with open(f"match_history/{match_name}.json") as f:
+        match_data = json.load(f)
+
+    id_list = match_data["users"]
+    new_dict = {}
+    if match_data["mode"] == "ffa":
+        for id in id_list:
+            pos = match_data["users"].index(id)
+            score = match_data["final score"][pos] - match_data["initial score"][pos]
+            rank = global_osu_data[id]["user data"]["rank"]
+            playcount = match_data["final playcount"][pos] - match_data["initial playcount"][pos]
+            background_url = global_osu_data[id]["user data"]["background url"]
+            new_dict[id] = {
+                "background url": background_url,
+                "score": score,
+                "rank": rank,
+                "playcount": playcount,
+                "liveStatus": None if int(id) not in live_player_status else live_player_status[int(id)]
+            }
+
+    else:
+        for id in id_list:
+            pos = match_data["users"].index(id)
+            score = match_data["final score"][pos] - match_data["initial score"][pos]
+            rank = global_osu_data[id]["user data"]["rank"]
+            playcount = match_data["final playcount"][pos] - match_data["initial playcount"][pos]
+            background_url = global_osu_data[id]["user data"]["background url"]
+            for team in match_data["team metadata"]:
+                if id in match_data['team metadata'][team]['players']:
+                    new_dict[id] = {
+                        "background url": background_url,
+                        "score": score,
+                        "rank": rank,
+                        "playcount": playcount,
+                        "liveStatus": None if int(id) not in live_player_status else live_player_status[int(id)],
+                        "team": f"{team}"
+                    }
+
+    return new_dict
+
+
 @app.route("/api/daily/get")
 def get_daily():
     global api_uses
@@ -406,6 +454,14 @@ def get_livestatus(data):
     global api_uses
     api_uses -= 1
     emit('match data receive', asyncio.run(grabber(data)), ignore_queue=True)
+
+@socketio.on('old match data get')
+def get_livestatus(data):
+    global websocket_uses
+    websocket_uses += 1
+    global api_uses
+    api_uses -= 1
+    emit('match data receive', asyncio.run(old_grabber(data)), ignore_queue=True)
 
 
 # all players api updater
@@ -714,7 +770,7 @@ def match(match_name, graph_view):
             players[player[0]] = player[1]
 
         for team in match_data["team metadata"]:
-            new_team = Teams(team, match_name)
+            new_team = Teams(team, match_name, False)
             teams[team] = {
                 'score': new_team.score,
                 'players': new_team.users,
@@ -735,58 +791,43 @@ def old_match(match_name):
     players = {}
     print(match_name)
     global match_data
+    player_crap.update_player_data()
 
     with open(f"match_history/{match_name}") as joe:
         match_data = json.load(joe)
-
-    with open("player_data.json", "r") as kfc:
-        player_data = json.load(kfc)
 
     if match_data["mode"] == "ffa":
         for id in match_data["users"]:
             player = player_crap.player_match_constructor(id)
             players[player[0]] = player[1]
-            players_sorted = dict(
-                sorted(players.items(), key=lambda x: x[1], reverse=True))
 
         return render_template(
             'osu/old_match.html',  # Template file
-            # recent = player_recent
             math=math,
-            # biggest_score = biggest_score,
-            time=time,
             match_data=match_data,
-            # previous_score_segment = previous_score_segment,
-            # get_key_of = get_key_of,
-            players=players_sorted,
+            players=players,
             match_name=match_name,
-            # graph_view = graph_view,
             get_data=player_crap.user_data_grabber,
             live_status=live_player_status)
 
     else:
+        for id in match_data["users"]:
+            player = player_crap.player_match_constructor(id)
+            print(player)
+            players[player[0]] = player[1]
         teams = {}
-        score_data = match_data["match score history"]
-        team_score_data = {}
 
         for team in match_data["team metadata"]:
-            new_team = Teams(team, match_name)
+            new_team = Teams(team, match_name, True)
+            print(new_team.score)
+            print(new_team.users)
             teams[team] = [new_team.score, new_team.users]
-            team_score_data[team] = new_team.score
-
-        score_data[f"{dt.date.today()}"] = dict(sorted(
-            team_score_data.items()))
-        teams_sorted = dict(
-            sorted(teams.items(), key=lambda x: x[0], reverse=True))
-        score_data[f"{dt.date.today()}"] = team_score_data
-        match_data["match score history"] = score_data
 
         return render_template(
-            'Current.html',  # Template file
-            # recent = player_recent
-            time=time,
+            'osu/old_match.html',  # Template file
+            players=players,
             match_data=match_data,
-            teams=teams_sorted,
+            teams=teams,
             get_data=player_crap.user_data_grabber)
 
 
