@@ -200,6 +200,7 @@
                 else player.style.background = "#002f37"
               }
               if(state == "MainMenu" || state == "SongSelect" || state == "MultiplayerRooms" || state == "MultiplayerRoom"){
+                player.style.height = "30vw"
                 player.querySelector(".status").innerHTML = "Currently in " + state
                 player.querySelector(".map-info").style.marginTop = "2.5vw"
                 player.querySelector(".map-info").style.whiteSpace = "normal"
@@ -210,6 +211,7 @@
                 player.querySelector(".gameplay-container-top").style.display = "none"
               }
               else if(state == "Playing" || state == "ResultsScreen"){
+                player.style.height = "38vw"
                 player.querySelector(".status").innerHTML = "Currently " + state
                 player.querySelector(".map-info").style.whiteSpace = "nowrap"
                 player.querySelector(".map-info").style.margin = "1.5vw"
