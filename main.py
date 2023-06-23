@@ -61,8 +61,8 @@ gq_data = GentrysQuestDataHolder()
 print("done")
 
 print("looking for Gentry's Quest latest release")
-#gq_version = requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()["name"]
-#print(f"Gentry's Quest version is {gq_version}")
+gq_version = requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()["name"]
+print(f"Gentry's Quest version is {gq_version}")
 
 def update_server_instance_info(tokens=None, daily_data=None):
     global server_instance_info
@@ -1239,6 +1239,6 @@ def get_control_data():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=True)
+    socketio.run(app, host='0.0.0.0', port=80, debug=False)
 
 
