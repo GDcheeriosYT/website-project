@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import abc
 from pathlib import Path
 
@@ -18,12 +20,7 @@ class PyPy3(PyPy, Python3Supports, metaclass=abc.ABCMeta):
 
 
 class PyPy3Posix(PyPy3, PosixSupports):
-    """PyPy 3 on POSIX"""
-
-    @property
-    def stdlib(self):
-        """PyPy3 respects sysconfig only for the host python, virtual envs is instead lib/pythonx.y/site-packages"""
-        return self.dest / "lib" / f"pypy{self.interpreter.version_release_str}" / "site-packages"
+    """PyPy 3 on POSIX."""
 
     @classmethod
     def _shared_libs(cls, python_dir):
@@ -58,23 +55,11 @@ class PyPy3Posix(PyPy3, PosixSupports):
 
 
 class Pypy3Windows(PyPy3, WindowsSupports):
-    """PyPy 3 on Windows"""
+    """PyPy 3 on Windows."""
 
     @property
     def less_v37(self):
-        return self.interpreter.version_info.minor < 7
-
-    @property
-    def stdlib(self):
-        """PyPy3 respects sysconfig only for the host python, virtual envs is instead Lib/site-packages"""
-        if self.less_v37:
-            return self.dest / "site-packages"
-        return self.dest / "Lib" / "site-packages"
-
-    @property
-    def bin_dir(self):
-        """PyPy3 needs to fallback to pypy definition"""
-        return self.dest / "Scripts"
+        return self.interpreter.version_info.minor < 7  # noqa: PLR2004
 
     @classmethod
     def _shared_libs(cls, python_dir):

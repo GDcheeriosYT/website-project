@@ -789,6 +789,7 @@ def match(match_name, graph_view):
 @app.route("/osu/matches/old/<match_name>")
 def old_match(match_name):
     players = {}
+    teams = {}
     print(match_name)
     global match_data
     player_crap.update_player_data()
@@ -806,6 +807,7 @@ def old_match(match_name):
             math=math,
             match_data=match_data,
             players=players,
+            teams=teams,
             match_name=match_name,
             get_data=player_crap.user_data_grabber,
             live_status=live_player_status)
@@ -813,14 +815,10 @@ def old_match(match_name):
     else:
         for id in match_data["users"]:
             player = player_crap.player_match_constructor(id)
-            print(player)
             players[player[0]] = player[1]
-        teams = {}
 
         for team in match_data["team metadata"]:
             new_team = Teams(team, match_name, True)
-            print(new_team.score)
-            print(new_team.users)
             teams[team] = [new_team.score, new_team.users]
 
         return render_template(
@@ -1240,6 +1238,6 @@ def get_control_data():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=True)
+    socketio.run(app, host='0.0.0.0', port=80, debug=False)
 
 

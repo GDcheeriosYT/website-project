@@ -1,6 +1,6 @@
-from pathlib import Path
+from __future__ import annotations
 
-from ..via_template import ViaTemplateActivator
+from virtualenv.activation.via_template import ViaTemplateActivator
 
 
 class CShellActivator(ViaTemplateActivator):
@@ -9,7 +9,7 @@ class CShellActivator(ViaTemplateActivator):
         return interpreter.os != "nt"
 
     def templates(self):
-        yield Path("activate.csh")
+        yield "activate.csh"
 
 
 __all__ = [

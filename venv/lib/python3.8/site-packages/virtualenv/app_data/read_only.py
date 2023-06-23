@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os.path
 
 from virtualenv.util.lock import NoOpFileLock
@@ -10,12 +12,14 @@ class ReadOnlyAppData(AppDataDiskFolder):
 
     def __init__(self, folder: str) -> None:
         if not os.path.isdir(folder):
-            raise RuntimeError(f"read-only app data directory {folder} does not exist")
+            msg = f"read-only app data directory {folder} does not exist"
+            raise RuntimeError(msg)
         super().__init__(folder)
         self.lock = NoOpFileLock(folder)
 
     def reset(self) -> None:
-        raise RuntimeError("read-only app data does not support reset")
+        msg = "read-only app data does not support reset"
+        raise RuntimeError(msg)
 
     def py_info_clear(self) -> None:
         raise NotImplementedError
@@ -28,8 +32,9 @@ class ReadOnlyAppData(AppDataDiskFolder):
 
 
 class _PyInfoStoreDiskReadOnly(PyInfoStoreDisk):
-    def write(self, content):
-        raise RuntimeError("read-only app data python info cannot be updated")
+    def write(self, content):  # noqa: ARG002
+        msg = "read-only app data python info cannot be updated"
+        raise RuntimeError(msg)
 
 
 __all__ = [
