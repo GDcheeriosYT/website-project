@@ -1113,7 +1113,8 @@ async def gentrys_quest_leaderboard():
 
     return render_template(
         "gentrys quest/leaderboard.html",
-        players = players
+        players = players,
+        version = gentrys_quest_crap.GPSystem.version
     )
 
 @app.route("/gentrys-quest/online-players")
@@ -1238,6 +1239,6 @@ def get_control_data():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=False)
+    socketio.run(app, host='0.0.0.0', port=80, debug=True)
 
 
