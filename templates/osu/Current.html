@@ -49,6 +49,7 @@
         var socket = io()
         const socketTime = 200
         const time = socketTime - 50
+        var got_first_data = false
         console.log(socket)
         setInterval(() => {
           socket.emit('match data get', "{{match_data['match name']}}")
@@ -57,6 +58,15 @@
         socket.on('match data receive', (data) =>{
           player_list = data
           reRenderLiveStatus()
+          if (!got_first_data){
+            document.querySelector('.match').style.opacity = '1'
+            reArrangePlayers()
+            reRenderPlayerScores()
+            setTimeout(() => {
+              updateTeams()
+            }, 1500)
+            got_first_data = true
+          }
         })
         window.onload = function(){
           document.querySelector('.match').style.opacity = '0'
@@ -78,14 +88,6 @@
           }
           reArrangePlayers()
         }
-        setTimeout(() => {
-            document.querySelector('.match').style.opacity = '1'
-            reArrangePlayers()
-            reRenderPlayerScores()
-            setTimeout(() => {
-              updateTeams()
-            }, 1500)
-        }, 1000)
         setInterval(() => {
             reArrangePlayers()
             reRenderPlayerScores()

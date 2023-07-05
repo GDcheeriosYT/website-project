@@ -899,7 +899,7 @@ async def post_player_refresh(player_name):
         await player_crap.player_refresh(player_name)
         player_info = player_crap.user_data_grabber(
             id=player_name, specific_data=["score", "play count"])
-        try:
+        """try:
             daily_osu_gains[player_name]["current"] = [
                 player_info[0] - daily_osu_gains[player_name]["start"][0],
                 player_info[1] - daily_osu_gains[player_name]["start"][1]
@@ -911,7 +911,7 @@ async def post_player_refresh(player_name):
                     player_info[1] - player_info[1]
                 ],
                 "start": [player_info[0], player_info[1]]
-            }
+            }"""
 
     return ("refreshed")
 
