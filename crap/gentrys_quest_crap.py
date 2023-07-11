@@ -68,7 +68,7 @@ class GentrysQuestDataHolder:
 
     def sort_players(self):
         def sort_thing(player: Player):
-            print(player)
+            # print(player)
             return player.power_level['weighted']
 
         print("sorting gq players!")
