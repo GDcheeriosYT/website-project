@@ -1,4 +1,5 @@
 # packages
+import GPSystem.GPmain
 from flask import Flask, jsonify, redirect, render_template, request, make_response
 from flask_socketio import SocketIO, send, emit
 from engineio import payload
@@ -1104,7 +1105,7 @@ def change_profile_picture():
 
 @app.route("/gentrys-quest")
 async def gentrys_quest_home():
-    return render_template("gentrys quest/home.html")
+    return render_template("gentrys quest/home.html", version=gq_version[1:])
 
 @app.route("/gentrys-quest/leaderboard")
 async def gentrys_quest_leaderboard():
@@ -1121,6 +1122,7 @@ async def gentrys_quest_leaderboard():
 async def gentrys_quest_online_players():
 
     players = gq_data.online_players
+    version = GPSystem.GPmain.GPSystem.version
 
     def sort_thing(player):
         return player.power_level
@@ -1129,7 +1131,8 @@ async def gentrys_quest_online_players():
 
     return render_template(
         "gentrys quest/online-players.html",
-        players = players
+        players=players,
+        version=version
     )
 
 @app.route("/down")
@@ -1187,6 +1190,8 @@ async def artifact_created():
     
 @app.route("/api/gq/get-leaderboard/<start>+<display_number>", methods=["GET"])
 async def get_gq_leaderboard(start, display_number):
+    global api_uses
+    api_uses += 1
     players = {}
     counter = 1
     for player in gq_data.get_leaderboard(int(start), int(display_number)):
@@ -1197,22 +1202,30 @@ async def get_gq_leaderboard(start, display_number):
 
 @app.route("/api/gq/get-power-level/<id>", methods=["GET"])
 async def get_power_level(id):
+    global api_uses
+    api_uses += 1
     return str(gq_data.get_player_power_level(id))
 
 @app.route("/api/gq/check-in/<id>", methods=["POST"])
 async def check_in(id):
+    global api_uses
+    api_uses += 1
     gq_data.check_in_player(id)
 
     return ""
 
 @app.route("/api/gq/check-out/<id>", methods=["POST"])
 async def check_out(id):
+    global api_uses
+    api_uses += 1
     gq_data.check_out_player(id)
 
     return ""
 
 @app.route("/api/gq/get-online-players", methods=["GET"])
 async def get_online_players():
+    global api_uses
+    api_uses += 1
     list_of_players = {}
     for player in gq_data.online_players:
         player_json = {}
@@ -1225,6 +1238,8 @@ async def get_online_players():
 
 @app.route("/api/gq/get-version")
 async def get_version():
+    global api_uses
+    api_uses += 1
     return gq_version
 
 @socketio.on('get control data')
@@ -1239,6 +1254,6 @@ def get_control_data():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=True)
+    socketio.run(app, host='0.0.0.0', port=80, debug=False)
 
 
