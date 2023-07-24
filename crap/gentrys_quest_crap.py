@@ -22,19 +22,43 @@ class Player:
                 'unweighted': 0,
                 'weighted': 0
             }
+            self.ranking = ('unranked', '')
         else:
-            self.power_level = GPSystem.rater.generate_power_details(data)['rating']
+            gps_stuff = GPSystem.rater.generate_power_details(data)
+            self.power_level = gps_stuff['rating']
+            self.ranking = gps_stuff['ranking']['tier'], gps_stuff['ranking']['tier value']
+
+        if self.ranking[0] == 'copper':
+            self.color = "red"
+        elif self.ranking[0] == 'bronze':
+            self.color = "brown"
+        elif self.ranking[0] == 'silver':
+            self.color = "gray"
+        elif self.ranking[0] == 'gold':
+            self.color = "gold"
+        elif self.ranking[0] == 'platinum':
+            self.color = "blue"
+        elif self.ranking[0] == 'diamond':
+            self.color = "cyan"
+        elif self.ranking[0] == 'gentry warrior':
+            self.color = "lime"
+        else:
+            self.color = "#00000000"
+            self.ranking = ('', '')
 
     def update_power_level(self):
         old_pl = self.power_level
-        self.power_level = GPSystem.rater.generate_power_details(data_extractor(json.load(open(f"accounts/{self.id}.json", "r")))[1])['rating']
-        print(f"{self.account_name} power level just updated!\n{old_pl} -> {self.power_level}")
+        gps_stuff = GPSystem.rater.generate_power_details(data_extractor(json.load(open(f"accounts/{self.id}.json", "r")))[1])
+        self.power_level = gps_stuff['rating']
+        self.ranking = gps_stuff['ranking']
+        print(f"{self.account_name} power level just updated!\n{old_pl} -> {self.power_level} {self.ranking}")
 
     def __repr__(self):
         json_thing = {
             "username": self.account_name,
             "id": self.id,
-            "power level": self.power_level
+            "power level": self.power_level,
+            "ranking": self.ranking
         }
         return str(json_thing)
 

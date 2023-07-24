@@ -882,3 +882,35 @@ input:checked + .slider:before {
     display: flex;
     flex-direction: column;
 }
+
+.gentry-card{
+    display: flex;
+    flex-display: row;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    color: white;
+    width: 50%;
+    background-color: #002e35;
+    border: 5px solid #002e35;
+    border-radius: 15px;
+    margin-bottom: 5px;
+}
+
+.count{
+    text-align: left;
+    font-size: 24px;
+}
+
+.playername{
+    text-align: center;
+    font-size: 48px;
+}
+
+.ranking {
+    text-align: center;
+    font-size: 24px;
+    border: 5px solid #002e35;
+    border-radius: 10px;
+}
