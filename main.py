@@ -1,17 +1,15 @@
 # packages
 import GPSystem.GPmain
-from flask import Flask, jsonify, redirect, render_template, request, make_response
-from flask_socketio import SocketIO, send, emit
+from flask import Flask, redirect, render_template, request, make_response
+from flask_socketio import SocketIO, emit
 from engineio import payload
 import math
-import json
 import time
 import asyncio
 import datetime as dt
 from tabulate import tabulate
 from flask_bcrypt import Bcrypt
 import random
-import os
 import requests
 import string
 import urllib
@@ -19,45 +17,31 @@ import urllib
 # credential variables
 import Client_Credentials as client
 
-live_player_status = {}
-daily_osu_gains = {}
-console_outputs = []
+# scripts
+from crap.Initialization import *
 
+# data imports
+from crap.osu_crap.PlayerList import PlayerList
+from crap.osu_crap.Player import Player
+from crap.osu_crap.MatchHandler import MatchHandler
+
+initialize_files()  # setup necessary files
+
+# global vars
+#   main server data
+tokens = []
 websocket_uses = 0
 api_uses = 0
 
-print("\n")
-print("verifying directory 0%")
-if os.path.isdir("matches") == False:
-    os.mkdir("matches")
-print("verifying directory 20%")
-if os.path.isdir("match_history") == False:
-    os.mkdir("match_history")
-print("verifying directory 40%")
-if os.path.isdir("accounts") == False:
-    os.mkdir("accounts")
-print("verifying directory 60%")
-if os.path.exists("player_data.json") == False:
-    poop = open("player_data.json", "w+")
-    poop.write("{}")
-    poop.close()
-print("verifying directory 80%")
-if os.path.exists("info.json") == False:
-    server_instance_info = open("info.json", "w+").close()
-    server_instance_info = {}
-    server_instance_info["tokens"] = []
-    server_instance_info["daily data"] = daily_osu_gains
-    json.dump(server_instance_info, open("info.json", "w"), indent=4)
-    server_instance_info = json.load(open("info.json", "r"))
-else:
-    server_instance_info = json.load(open("info.json", "r"))
-print("verifying directory 100%")
+#   osu data
+live_player_status = {}
+player_data = PlayerList
+for id in PlayerList.Player_json.keys():  # manual main loop because of circular import
+    Player(id)
 
-print("setting up gentry's quest data handler")
-from crap.gentrys_quest_crap import GentrysQuestClassicDataHolder
+matches = MatchHandler()
 
-gqc_data = GentrysQuestClassicDataHolder()
-print("done")
+#   Gentrys Quest data
 
 print("looking for Gentry's Quest latest release")
 gq_version = requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()[
@@ -65,46 +49,8 @@ gq_version = requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Que
 print(f"Gentry's Quest version is {gq_version}")
 
 
-def update_server_instance_info(tokens=None, daily_data=None):
-    global server_instance_info
-    if tokens == None:
-        tokens = server_instance_info["tokens"]
-    if daily_data == None:
-        daily_data = server_instance_info["daily data"]
-    server_instance_info["daily data"] = daily_data
-    server_instance_info["tokens"] = tokens
-    json.dump(server_instance_info, open("info.json", "w"), indent=4)
-    server_instance_info = json.load(open("info.json", "r"))
-
-
 def contains_token(token):
-    if token in server_instance_info["tokens"]:
-        return True
-    else:
-        return False
-
-
-payload.Payload.max_decode_packets = 50000
-
-# my packages
-# adding this after initialization of files because some of them require these directories to exist
-from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap, \
-    minecraft_data_crap, gentrys_quest_crap
-from crap.team_crap import Teams
-
-
-# console methods
-def update_server_conosle():
-    os.system("clear")
-    print("live users: " + len(live_player_status))
-    if len(console_outputs) >= 4:
-        last_message = console_outputs[3]
-        console_outputs.clear()
-        console_outputs.append(last_message)
-    print("[")
-    for output in console_outputs:
-        print(output + "\n")
-    print("]")
+    return token in tokens
 
 
 # flask set up
@@ -127,10 +73,7 @@ async def generate_token():
     for i in range(32):
         token += random.choice(string.ascii_letters)
 
-    tokens = server_instance_info["tokens"]
-    tokens.appen(token)
-
-    update_server_instance_info(tokens)
+    tokens.append(token)
 
     return token
 
@@ -698,13 +641,6 @@ async def home():
 @app.route('/osu')
 async def osu_home():
     return render_template("osu/index.html")
-
-
-# start console interface
-@app.route("/start")
-async def start():
-    await console_interface_crap.main_process()
-    return redirect(f"{client.public_url}/matches")
 
 
 @app.route("/osu/players")
