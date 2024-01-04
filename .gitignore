@@ -3,3 +3,8 @@ Client_Credentials.py
 *.__pycache__
 /minecraft/
 /venv/
+/match_history/
+/matches/
+/.tmp.drivedownload/
+/.tmp.driveupload/
+/.idea/
