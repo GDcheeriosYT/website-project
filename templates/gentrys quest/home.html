@@ -8,21 +8,31 @@ cra{% extends 'base.html' %}
   </head>
   <body>
     {% block body %}
-        <h1>Gentry's Quest</h1>
-        <div style="display: flex; justify-content: center;">
-            <div class="gc-about1">
-                <p>Fight Enemies</p>
-                <iframe src="https://drive.google.com/file/d/1IG-Jv5kUH_xSWiB55Zs_I8pBrcmdhtXu/preview" width="264" height="248" allow="autoplay"></iframe>
+        <h1 style="font-size: 420%;">Join the <a style="font-size: 100%;" target="_blank" href="https://discord.gg/vDu7TaSwQg">Discord</a> for more info?</h1>
+        <div style="display: flex; justify-content: space-evenly; margin: 2%;">
+            <div class="GQC">
+                <h1>Gentry's Quest Classic</h1>
+                <div style="display: flex; justify-content: center;">
+                    <div class="gc-about1">
+                        <p>Fight Enemies</p>
+                        <iframe src="https://drive.google.com/file/d/1IG-Jv5kUH_xSWiB55Zs_I8pBrcmdhtXu/preview" width="264" height="248" allow="autoplay"></iframe>
+                    </div>
+                    <div>
+                        <p>Equip Artifacts</p>
+                        <iframe src="https://drive.google.com/file/d/16xb-2L6qoHgZGCgWTNCKld_ziyNebNCr/preview" width="264" height="248" allow="autoplay"></iframe>
+                    </div>
+                </div>
+                <h1>
+                    <a target="_blank" href="https://github.com/GDcheeriosYT/Gentrys-Quest-Python/releases/download/v{{version}}/Gentrys.Quest.exe">Download V{{version}}</a>
+                    <a target="_blank" href="https://github.com/GDcheeriosYT/Gentrys-Quest-Python/releases/tag/v{{version}}">More Info</a>
+                </h1>
             </div>
             <div>
-                <p>Equip Artifacts</p>
-                <iframe src="https://drive.google.com/file/d/16xb-2L6qoHgZGCgWTNCKld_ziyNebNCr/preview" width="264" height="248" allow="autoplay"></iframe>
+                <h1>Gentry's Quest</h1>
+                <h1>work in progress...</h1>
+                <a style="font-size: 100px;" target="_blank" href="https://github.com/GDcheeriosYT/Gentrys-Quest-Ursina">More Info</a>
             </div>
         </div>
-        <h1>
-            <a href="https://github.com/GDcheeriosYT/Gentrys-Quest-Python/releases/download/v{{version}}/Gentrys.Quest.exe">Download V{{version}}</a>
-            <a href="https://github.com/GDcheeriosYT/Gentrys-Quest-Python/releases/tag/v{{version}}">More Info</a>
-        </h1>
     {% endblock %}
   </body>
 </html>

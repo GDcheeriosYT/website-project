@@ -51,7 +51,6 @@ td a{
   transition: ease-out var(--transition-speed);
   box-shadow: inset 0px 0px 20px #106b6e;
   width: 35vw;
-  height: 35vw;
   border-radius: 1vw;
   margin-left: 3vw;
   display: block;

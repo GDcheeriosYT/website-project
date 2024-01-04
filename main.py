@@ -6,12 +6,10 @@ from engineio import payload
 import math
 import json
 import time
-import shutil
 import asyncio
 import datetime as dt
 from tabulate import tabulate
 from flask_bcrypt import Bcrypt
-import socketio
 import random
 import os
 import requests
@@ -56,14 +54,16 @@ else:
 print("verifying directory 100%")
 
 print("setting up gentry's quest data handler")
-from crap.gentrys_quest_crap import GentrysQuestDataHolder
+from crap.gentrys_quest_crap import GentrysQuestClassicDataHolder
 
-gq_data = GentrysQuestDataHolder()
+gqc_data = GentrysQuestClassicDataHolder()
 print("done")
 
 print("looking for Gentry's Quest latest release")
-gq_version = requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()["name"]
+gq_version = requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()[
+    "name"]
 print(f"Gentry's Quest version is {gq_version}")
+
 
 def update_server_instance_info(tokens=None, daily_data=None):
     global server_instance_info
@@ -86,10 +86,10 @@ def contains_token(token):
 
 payload.Payload.max_decode_packets = 50000
 
-
 # my packages
 # adding this after initialization of files because some of them require these directories to exist
-from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap, minecraft_data_crap, gentrys_quest_crap
+from crap import authentication_crap, match_crap, player_crap, function_crap, console_interface_crap, \
+    minecraft_data_crap, gentrys_quest_crap
 from crap.team_crap import Teams
 
 
@@ -128,7 +128,7 @@ async def generate_token():
         token += random.choice(string.ascii_letters)
 
     tokens = server_instance_info["tokens"]
-    tokens.append(token)
+    tokens.appen(token)
 
     update_server_instance_info(tokens)
 
@@ -159,11 +159,11 @@ async def delete_token(token):
     if contains_token(token):
         new_list = []
         for token2 in server_instance_info["tokens"]:
-            #print(token, token2)
+            # print(token, token2)
             if token2 != token:
                 new_list.append(token)
             else:
-                #print("OHPHOPOPHPFPD")
+                # print("OHPHOPOPHPFPD")
                 pass
 
         update_server_instance_info(new_list)
@@ -179,7 +179,7 @@ async def verify_token(token):
     return str(contains_token(token))
 
 
-#osu auth stuff
+# osu auth stuff
 @app.route('/code_grab')
 def code_grab():
     code = urllib.parse.parse_qs(request.query_string.decode('utf-8'))["code"][0]
@@ -210,6 +210,7 @@ def code_grab():
     }
 
     return redirect(f"/account/create?osu_info={json.dumps(info)}")
+
 
 # account api
 @app.route("/api/account/create/<username>+<password>")
@@ -261,14 +262,15 @@ async def account_create(username,
 @app.route("/api/password-cache-gen")
 async def password_cache_gen():
     return render_template("password_gen.html",
-                          password = "poop")
+                           password="poop")
 
 
 @app.route("/api/password-cache-gen", methods=["POST"])
 async def password_cache_gen_post():
     password = request.form.get("password")
     return render_template("password_gen.html", password=str(bcrypt.generate_password_hash(password)))
-    
+
+
 @app.route("/api/account/migrate_osu_data")
 async def migrate_osu_data():
     global api_uses
@@ -285,18 +287,15 @@ async def migrate_osu_data():
 def get_account_with_id_or_name(id_or_name):
     global api_uses
     api_uses += 1
-    try:
-        int(id_or_name)
-    except ValueError:
-        for file in os.listdir("accounts"):
-            account_data = json.load(open(f"accounts/{file}", "r"))
-            if account_data["username"] == id_or_name:
-                return file[:-5], account_data
-                
     for file in os.listdir("accounts"):
-        if file[:-5] == id:
-            return file[:-5], json.load(open(f"accounts/{file}", "r"))
-    
+        account_data = json.load(open(f"accounts/{file}", "r"))
+        if file[:-5] == id_or_name:
+            return {str(file[:-5]): account_data}
+        if account_data["username"] == id_or_name:
+            return {str(file[:-5]): account_data}
+
+    return "Not Found"
+
 
 @app.route("/api/account/login/<username>+<password>")
 async def login(username, password):
@@ -310,6 +309,7 @@ async def login(username, password):
                 return account_info
     return "incorrect info"
 
+
 # player score grab api crap
 @app.route("/api/grab/<match_name>")
 async def grabber(match_name):
@@ -317,7 +317,7 @@ async def grabber(match_name):
     api_uses += 1
 
     global_osu_data = json.load(open("player_data.json", "r"))
-    
+
     with open(f"matches/{match_name}.json") as f:
         match_data = json.load(f)
 
@@ -455,6 +455,7 @@ def get_livestatus(data):
     global api_uses
     api_uses -= 1
     emit('match data receive', asyncio.run(grabber(data)), ignore_queue=True)
+
 
 @socketio.on('old match data get')
 def get_livestatus(data):
@@ -669,11 +670,13 @@ async def get_live_status(id):
     player_info = live_player_status[id]
     return (player_info)
 
+
 @app.route("/api/live/get", methods=["get"])
 async def get_all_live_status():
     global api_uses
     api_uses += 1
     return (live_player_status)
+
 
 @app.route("/api/live/update/<id>", methods=["POST"])
 async def update_live_status(id):
@@ -744,7 +747,7 @@ def match(match_name, graph_view):
         match_data = json.load(joe)
 
     player_crap.update_player_data()
-    
+
     if match_data["mode"] == "ffa":
 
         for id in match_data["users"]:
@@ -939,9 +942,9 @@ async def test_create():
 async def web_control():
     return render_template(
         "control.html",
-        total_websockets = websocket_uses,
-        total_apis = api_uses,
-        live_status_users = len(live_player_status)
+        total_websockets=websocket_uses,
+        total_apis=api_uses,
+        live_status_users=len(live_player_status)
     )
 
 
@@ -1054,7 +1057,7 @@ async def account_create_page():
                            client_id=client.osu_client_id,
                            redirect_uri=client.osu_public_url,
                            osu_info=osu_info
-                          )
+                           )
 
 
 @app.route("/create-account", methods=['POST'])
@@ -1103,25 +1106,26 @@ def change_profile_picture():
                            profile_picture=account_data["pfp url"],
                            metadata=account_data["metadata"])
 
+
 @app.route("/gentrys-quest")
 async def gentrys_quest_home():
     return render_template("gentrys quest/home.html", version=gq_version[1:])
 
+
 @app.route("/gentrys-quest/leaderboard")
 async def gentrys_quest_leaderboard():
-
-    players = gq_data.get_leaderboard()
+    players = gqc_data.get_leaderboard()
 
     return render_template(
         "gentrys quest/leaderboard.html",
-        players = players,
-        version = gentrys_quest_crap.GPSystem.version
+        players=players,
+        version=gentrys_quest_crap.GPSystem.version
     )
+
 
 @app.route("/gentrys-quest/online-players")
 async def gentrys_quest_online_players():
-
-    players = gq_data.online_players
+    players = gqc_data.online_players
     version = GPSystem.GPmain.GPSystem.version
 
     def sort_thing(player):
@@ -1134,6 +1138,7 @@ async def gentrys_quest_online_players():
         players=players,
         version=version
     )
+
 
 @app.route("/down")
 async def down():
@@ -1149,98 +1154,73 @@ async def update_gc_data(id):
     if verify_token(data["token"]):
         user_data["metadata"]["Gentry's Quest data"] = data["data"]
 
-
     json.dump(user_data, open(f"accounts/{id}.json", "w"), indent=4)
-    gq_data.update_player_power_level(id)
-    gq_data.sort_players()
+    gqc_data.update_player_power_level(id)
+    gqc_data.sort_players()
     return "done"
 
-@app.route("/dev/gc/artifact")
-async def artifact_creator():
-    return render_template(
-        "gentrys quest/dev/artifact.html",
-        artifact_output = None
-    )
 
-@app.route("/dev/gc/artifact/create", methods=["POST"])
-async def artifact_created():
-    name = request.form.get("name")
-    name_segments = name.split()
-    class_name = ""
-    name = ""
-    family = request.form.get("family")
-    family_segments = family.split()
-    family = ""
-    for word in name_segments:
-        class_name += (word[0].upper() + word[1:])
-        name += (word[0].upper() + word[1:] + " ")
-    for word in family_segments:
-        family += (word[0].upper() + word[1:] + " ")
-    buff = request.form.get("buff")
-    if buff == "":
-        buff = ""
-    else:
-        buff = f"StatTypes.{buff}"
-    string = f"class {class_name}(Artifact):\n\tdef __init__(self, star_rating):\n\t\tsuper().__init__(\n\t\t\t\"{name}\",\n\t\t\tstar_rating,\n\t\t\t\"{family}\",\n\t\t\tBuff({buff})\n\t\t)"
-    print(string)
-    return render_template(
-        "gentrys quest/dev/artifact.html",
-        artifact_output = string
-    )
-    
 @app.route("/api/gq/get-leaderboard/<start>+<display_number>", methods=["GET"])
 async def get_gq_leaderboard(start, display_number):
     global api_uses
     api_uses += 1
     players = {}
     counter = 1
-    for player in gq_data.get_leaderboard(int(start), int(display_number)):
-        players[player.id] = {"username": player.account_name, "power level": player.power_level, "ranking": counter}
+    for player in gqc_data.get_leaderboard(int(start), int(display_number)):
+        players[player.id] = {"username": player.account_name, "power level": player.power_level, "placement": counter,
+                              "ranking": {'tier': player.ranking[0], 'tier value': player.ranking[1]}}
         counter += 1
 
     return players
+
 
 @app.route("/api/gq/get-power-level/<id>", methods=["GET"])
 async def get_power_level(id):
     global api_uses
     api_uses += 1
-    return str(gq_data.get_player_power_level(id))
+    return str(gqc_data.get_player_power_level(id))
+
 
 @app.route("/api/gq/check-in/<id>", methods=["POST"])
 async def check_in(id):
     global api_uses
     api_uses += 1
-    gq_data.check_in_player(id)
+    gqc_data.check_in_player(id)
 
     return ""
+
 
 @app.route("/api/gq/check-out/<id>", methods=["POST"])
 async def check_out(id):
     global api_uses
     api_uses += 1
-    gq_data.check_out_player(id)
+    gqc_data.check_out_player(id)
 
     return ""
+
 
 @app.route("/api/gq/get-online-players", methods=["GET"])
 async def get_online_players():
     global api_uses
     api_uses += 1
     list_of_players = {}
-    for player in gq_data.online_players:
+    for player in gqc_data.online_players:
         player_json = {}
         player_json["username"] = player.account_name
         player_json["power level"] = player.power_level
-        player_json["ranking"] = gq_data.players.index(player) + 1
+        player_json["ranking"] = {'tier': player.ranking[0], 'tier value': player.ranking[1]}
+        player_json["placement"] = gqc_data.players.index(player) + 1
         list_of_players[player.id] = player_json
-        
+
     return list_of_players
+
 
 @app.route("/api/gq/get-version")
 async def get_version():
     global api_uses
     api_uses += 1
     return gq_version
+
 
 @socketio.on('get control data')
 def get_control_data():
@@ -1252,8 +1232,5 @@ def get_control_data():
         "websocket uses": websocket_uses
     })
 
-
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=True)
-
-
+    socketio.run(app, host='0.0.0.0', port=80, debug=False)

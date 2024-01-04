@@ -70,10 +70,7 @@
         })
         window.onload = function(){
           document.querySelector('.match').style.opacity = '0'
-          wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
-          if ("{{ match_data['mode']|safe }}" == "teams"){
-            teamWrapperHeight = document.querySelector('.team_info_wrapper').offsetHeight
-          }
+          updateHeight()
           const players = document.querySelectorAll(".player_info")
           players.forEach((el)=> {
             player_list[el.dataset.id] = {}
@@ -82,11 +79,7 @@
           console.log(team_list)
         }
         window.onresize = function(){
-          wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
-          if ("{{ match_data['mode']|safe }}" == "teams"){
-            teamWrapperHeight = document.querySelector('.team_info_wrapper').offsetHeight
-          }
-          reArrangePlayers()
+          updateHeight()
         }
         setInterval(() => {
             reArrangePlayers()
@@ -97,6 +90,14 @@
           onTimeout = false
           //document.getElementByID('refresh-button').style.color = "grey"
         }, 60000)
+
+        function updateHeight(){
+          wrapperHeight = document.querySelector('.player_info_wrapper').offsetHeight
+            if ("{{ match_data['mode']|safe }}" == "teams"){
+              teamWrapperHeight = document.querySelector('.team_info_wrapper').offsetHeight
+            }
+            reArrangePlayers()
+        }
 
         function toggleCovers(){
           cover = !cover
@@ -259,9 +260,10 @@
             else{
               playerStatus = document.querySelector(".player_info[data-id='"+key+"']")
               playerStatus.querySelector(".status").innerHTMl = "live status currently unavailable"
-              player.style.height = "25vw"
+              player.style.height = "24vw"
             }
           })
+          updateHeight()
         }
 
         function reArrangePlayers(){
@@ -288,7 +290,7 @@
               const posNumberEl = el.querySelector(".player_position")
               posNumberEl.innerText = "#" + (i + 1)
               el.style.position = "absolute"
-              el.style.transform = `translateY(${i * wrapperHeight * 1.3}px)`
+              el.style.transform = `translateY(${i * wrapperHeight * 1.1}px)`
               const playerEl = document.querySelector(`.player_info[data-id="${player.id}"]`)
               if (posNumberEl == 1){
                 playerEl.style.backgroundColor = "white"

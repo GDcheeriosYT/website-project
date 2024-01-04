@@ -50,8 +50,25 @@ class Player:
         old_pl = self.power_level
         gps_stuff = GPSystem.rater.generate_power_details(data_extractor(json.load(open(f"accounts/{self.id}.json", "r")))[1])
         self.power_level = gps_stuff['rating']
-        self.ranking = gps_stuff['ranking']
+        self.ranking = gps_stuff['ranking']['tier'], gps_stuff['ranking']['tier value']
         print(f"{self.account_name} power level just updated!\n{old_pl} -> {self.power_level} {self.ranking}")
+        if self.ranking[0] == 'copper':
+            self.color = "red"
+        elif self.ranking[0] == 'bronze':
+            self.color = "brown"
+        elif self.ranking[0] == 'silver':
+            self.color = "gray"
+        elif self.ranking[0] == 'gold':
+            self.color = "gold"
+        elif self.ranking[0] == 'platinum':
+            self.color = "blue"
+        elif self.ranking[0] == 'diamond':
+            self.color = "cyan"
+        elif self.ranking[0] == 'gentry warrior':
+            self.color = "lime"
+        else:
+            self.color = "#00000000"
+            self.ranking = ('', '')
 
     def __repr__(self):
         json_thing = {
@@ -63,14 +80,14 @@ class Player:
         return str(json_thing)
 
 
-class GentrysQuestDataHolder:
+class GentrysQuestClassicDataHolder:
     players = None
     online_players = None
     multiplayer_rooms = None
 
     def __init__(self):
         self.players = []
-        self.multiplayer_rooms = []
+        self.multiplayer_rooms = {}
         self.online_players = []
         print("initializing player data")
         account_list = os.listdir("accounts")
@@ -138,4 +155,3 @@ class GentrysQuestDataHolder:
             if id == player.id:
                 self.online_players.remove(player)
                 break
-        

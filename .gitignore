@@ -1,24 +1,5 @@
-
 Client_Credentials.py
-#ignore all .json files
 *.json
-__pycache__
-.vscode
-player_data.json
-*.jar
-*.mca
-*.dat_old
-*.dat
-*.mcfunction
-*.log
-*.yml
-*.gz
-/minecraft/.*
-/.idea/.gitignore
-/.idea/discord.xml
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/inspectionProfiles/profiles_settings.xml
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/vcs.xml
-/.idea/website-project.iml
+*.__pycache__
+/minecraft/
+/venv/
