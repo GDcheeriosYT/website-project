@@ -2,5 +2,12 @@
 A multi purpose project using flask for my own api and website
 http://gdcheerios.com
 
-Should probably talk about my client, has a lot of features that connect with the website. for example: osu status
-https://github.com/GDcheeriosYT/gdcheerios-client
+If you wanna start your own instance make sure to make a file called Client_Credentials.py with the following structure:
+
+# main variables
+domain = # domain like "(http/https)://(name)"
+
+# osu
+osu_secret = # client secret
+osu_api_key = # api key
+osu_client_id = # client id
