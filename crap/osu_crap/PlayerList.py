@@ -8,7 +8,7 @@ class PlayerList:
     Player_json = json.load(open("player_data.json", "r"))
 
     @staticmethod
-    def unload():
+    def unload() -> None:
         for player in PlayerList.Players:
             PlayerList.Player_json[player.id] = player.jsonify()[player.id]
 
@@ -16,7 +16,7 @@ class PlayerList:
             json.dump(PlayerList.Player_json, f)
 
     @staticmethod
-    def get_users(user_list):
+    def get_users(user_list) -> list:
         new_list = []
         for player in PlayerList.Players:
             id = str(player.id)
@@ -24,3 +24,5 @@ class PlayerList:
                 new_list.append(player)
             else:
                 new_list.append(Player(id))
+
+        return user_list

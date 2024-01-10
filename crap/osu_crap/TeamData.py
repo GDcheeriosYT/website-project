@@ -8,3 +8,9 @@ class TeamData:
         self.team_name = team_name
         self.players = players
         self.color = color
+
+    def jsonify(self) -> dict:
+        return {
+            "players": [player.id for player in self.players],
+            "color": self.color
+        }

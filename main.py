@@ -2,12 +2,9 @@
 import GPSystem.GPmain
 from flask import Flask, redirect, render_template, request, make_response
 from flask_socketio import SocketIO, emit
-from engineio import payload
 import math
 import time
 import asyncio
-import datetime as dt
-from tabulate import tabulate
 from flask_bcrypt import Bcrypt
 import random
 import requests
@@ -19,39 +16,34 @@ import Client_Credentials as client
 
 # scripts
 from crap.Initialization import *
+from crap.osu_crap.Match import Match
 
 # data imports
 from crap.osu_crap.PlayerList import PlayerList
 from crap.osu_crap.Player import Player
 from crap.osu_crap.MatchHandler import MatchHandler
 
+from crap.ServerData import ServerData
+from crap.ApiType import ApiType
+
 initialize_files()  # setup necessary files
 
 # global vars
 #   main server data
 tokens = []
-websocket_uses = 0
-api_uses = 0
 
 #   osu data
 live_player_status = {}
 player_data = PlayerList
-for id in PlayerList.Player_json.keys():  # manual main loop because of circular import
-    Player(id)
+for id_ref in PlayerList.Player_json.keys():  # manual main loop to avoid circular import
+    Player(id_ref)
 
-matches = MatchHandler()
+match_handler = MatchHandler()
 
 #   Gentrys Quest data
-
 print("looking for Gentry's Quest latest release")
-gq_version = requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()[
-    "name"]
+gq_version = requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()["name"]
 print(f"Gentry's Quest version is {gq_version}")
-
-
-def contains_token(token):
-    return token in tokens
-
 
 # flask set up
 app = Flask(  # Create a flask app
@@ -67,8 +59,8 @@ bcrypt = Bcrypt(app)
 # token api stuff
 @app.route("/api/generate-token")
 async def generate_token():
-    global api_uses
-    api_uses += 1
+    ServerData.api_call(ApiType.TokenGenerate)
+
     token = ""
     for i in range(32):
         token += random.choice(string.ascii_letters)
@@ -80,51 +72,32 @@ async def generate_token():
 
 @app.route("/api/clear-tokens")
 async def clear_tokens():
-    global api_uses
-    api_uses += 1
-    update_server_instance_info([])
-    return "tokens cleared"
+    global tokens
+    ServerData.api_call(ApiType.TokenClear)
 
-
-@app.route("/api/clear-daily-data")
-async def clear_daily_data():
-    global api_uses
-    api_uses += 1
-    update_server_instance_info(daily_data={})
-    return "tokens cleared"
+    tokens = []
 
 
 @app.route("/api/delete-token/<token>", methods=["POST"])
 async def delete_token(token):
-    global api_uses
-    api_uses += 1
-    print(token)
-    if contains_token(token):
-        new_list = []
-        for token2 in server_instance_info["tokens"]:
-            # print(token, token2)
-            if token2 != token:
-                new_list.append(token)
-            else:
-                # print("OHPHOPOPHPFPD")
-                pass
+    global tokens
+    ServerData.api_call(ApiType.TokenDelete)
 
-        update_server_instance_info(new_list)
-
-        return "deleted"
-    return "could not find token"
+    tokens.remove(token)
 
 
 @app.route("/api/verify-token/<token>")
 async def verify_token(token):
-    global api_uses
-    api_uses += 1
-    return str(contains_token(token))
+    ServerData.api_call(ApiType.TokenVerify)
+
+    return token in tokens
 
 
 # osu auth stuff
 @app.route('/code_grab')
 def code_grab():
+    ServerData.api_call(ApiType.OsuAuthenticate)
+
     code = urllib.parse.parse_qs(request.query_string.decode('utf-8'))["code"][0]
 
     response = requests.post("https://osu.ppy.sh/oauth/token",
@@ -132,7 +105,7 @@ def code_grab():
                                    'code': code,
                                    'client_secret': client.osu_secret,
                                    'grant_type': 'authorization_code',
-                                   'redirect_uri': client.osu_public_url,
+                                   'redirect_uri': f"{client.domain}/code_grab",
                                    'scope': 'public'},
                              headers={'Accept': 'application/json',
                                       'Content-Type': 'application/json'})
@@ -410,190 +383,18 @@ def get_livestatus(data):
 
 
 # all players api updater
-@app.route("/api/grab/<ids>/all")
+@app.route("/api/grab/<ids>", methods=['GET'])
 async def all_grabber(ids):
     global api_uses
     api_uses += 1
     id_list = ids.split("+")
 
-    new_dict = {}
+    data = PlayerList.get_users(id_list)
+    player_list = []
+    for player in data:
+        player_list.append(player.jsonify())
 
-    for id in id_list:
-        data = player_crap.user_data_grabber(
-            id=f"{id}", specific_data=["score", "rank", "background url"])
-        new_dict[id] = {
-            "background url": data[2],
-            "score": data[0],
-            "rank": data[1],
-            "liveStatus": None
-        }
-
-        print(
-            f"{player_crap.user_data_grabber(id, specific_data=['name'])[0]}: ",
-            new_dict[id])
-
-    return new_dict
-
-
-@app.route('/get-graph/<matchname>/<time>/<type>', methods=["GET"])
-def get_graph_data(matchname, time, type):
-    if time == "current":
-        for match in os.listdir("/matches"):
-            if match[:-5] == matchname:
-                match_data = json.load(open(f"matches/{match}", "r"))
-                return match_data["graph_data"]
-
-
-def update_graph_data():
-    today = dt.datetime.now().strftime("%m-%d-%Y")
-    for match in os.listdir("matches"):
-        match_data = json.load(open(f"matches/{match}", "r"))
-        overall_score_data = match_data["graph data"]["overall score"]
-        overall_score_data_score_list = []
-        daily_stats = match_data["graph data"]["daily stats"]
-        daily_stats_list = []
-        for user in match_data["users"]:
-            score = player_crap.user_data_grabber(id=user,
-                                                  specific_data=["score"])[0]
-            overall_score_data_score_list.append(
-                score -
-                match_data["initial score"][match_data["users"].index(user)])
-            daily_stats_list.append([
-                int(daily_osu_gains[user]["current"][0]),
-                int(daily_osu_gains[user]["current"][1])
-            ])
-
-        overall_score_data[today] = overall_score_data_score_list
-        daily_stats[today] = daily_stats_list
-
-        match_data["graph data"]["overall score"] = overall_score_data
-        match_data["graph data"]["daily stats"] = daily_stats
-
-        print(match_data)
-
-        json.dump(match_data,
-                  open(f"matches/{match}", "w"),
-                  indent=4,
-                  sort_keys=False)
-
-
-@app.route("/api/daily-reset")
-def daily_reset():
-    global daily_osu_gains
-    global api_uses
-    api_uses += 1
-    daily_osu_gains = {}
-    asyncio.run(player_crap.refresh_all_players())
-    for player in json.load(open("player_data.json", "r")):
-        player_info = player_crap.user_data_grabber(
-            id=player, specific_data=["score", "playcount"])
-        start = [player_info[0], player_info[1]]
-        current = [player_info[0], player_info[1]]
-        daily_osu_gains[player] = {"start": start, "current": current}
-
-    update_graph_data()
-    update_server_instance_info(daily_data=daily_osu_gains)
-
-    return daily_osu_gains
-
-
-@app.route("/api/update-graphs")
-def update_graph_endpoint():
-    global api_uses
-    api_uses += 1
-    update_graph_data()
-    return redirect(f"{client.osu_public_url}/matches")
-
-
-# api for refresh client
-# match grabber
-@app.route('/api/matches/<time>')
-def api_match_request(time):
-    global api_uses
-    api_uses += 1
-    returns = {}
-    returns["matches"] = []
-    if time == "current":
-        for match in os.listdir("matches/"):
-            returns["matches"].append(match)
-        return returns
-    else:
-        for match in os.listdir("match_history/"):
-            returns["matches"].append(match)
-        return returns
-
-
-# match data grabber
-@app.route('/api/match-get/<time>/<match>')
-def match_get(time, match):
-    global api_uses
-    api_uses += 1
-    with open("player_data.json") as f:
-        player_data = json.load(f)
-    if time == "current":
-        with open(f"matches/{match}") as f:
-            match_data = json.load(f)
-
-        table = {}
-        table["rank"] = []
-        table["players"] = []
-        table["score"] = []
-        table["playcount"] = []
-        table["player_rank"] = []
-
-        players = {}
-
-        for user in match_data["users"]:
-            player = player_crap.player_match_constructor(user)
-
-            players[player[1][8]] = player[1]
-
-        players_sorted = dict(
-            sorted(players.items(), key=lambda x: x[1], reverse=True))
-
-        x = 1
-
-        for key in players_sorted.keys():
-            user_pos = match_data["users"].index(str(key))
-            player_thing = player_crap.user_data_grabber(
-                id=key, specific_data=["name", "score", "playcount", "rank"])
-            table["rank"].append(f"#{x}")
-            table["players"].append(player_thing[0])
-            table["score"].append(
-                "{:,}".format(player_thing[1] -
-                              match_data["initial score"][user_pos]))
-            table["playcount"].append(
-                "{:,}".format(player_thing[2] -
-                              match_data["initial playcount"][user_pos]))
-            if player_thing[3] == 999999999:
-                player_thing[3] = "unranked"
-                table["player_rank"].append(player_thing[3])
-            else:
-                table["player_rank"].append("{:,}".format(player_thing[3]))
-            x += 1
-
-        print("\n", match_data["match name"])
-        print(tabulate(table, headers="keys"))
-        return (table)
-    else:
-        return None
-
-
-# get delay api
-@app.route("/api/get-delay")
-async def get_delay():
-    global api_uses
-    api_uses += 1
-    return (str(len(live_player_status.items()) / 4))
-
-
-# start match api
-@app.route("/api/start-match", methods=["POST"])
-async def api_start_match():
-    global api_uses
-    api_uses += 1
-    info = request.json
-    match_crap.start_match()
+    return player_list
 
 
 # live status api
@@ -603,22 +404,21 @@ async def del_live_status(id):
     global api_uses
     api_uses += 1
     live_player_status.pop(int(id))
-    return "done!"
 
 
 @app.route("/api/live/get/<id>", methods=["get"])
 async def get_live_status(id):
     global api_uses
     api_uses += 1
-    player_info = live_player_status[id]
-    return (player_info)
+    player_status = live_player_status[id]
+    return player_status
 
 
 @app.route("/api/live/get", methods=["get"])
 async def get_all_live_status():
     global api_uses
     api_uses += 1
-    return (live_player_status)
+    return live_player_status
 
 
 @app.route("/api/live/update/<id>", methods=["POST"])
@@ -628,7 +428,6 @@ async def update_live_status(id):
     api_uses += 1
     info = request.json
     live_player_status[id] = info
-    return ({})
 
 
 # home website
@@ -637,156 +436,48 @@ async def home():
     return render_template("index.html")
 
 
-# home osu website
+# osu website side
 @app.route('/osu')
 async def osu_home():
     return render_template("osu/index.html")
 
 
-@app.route("/osu/players")
-async def players():
-    players_dict = {}
-
-    with open("player_data.json") as f:
-        player_data = json.load(f)
-
-    for id in player_data.keys():
-        name = player_data[id]["user data"]["name"]
-        score = player_data[id]["user data"]["score"]
-        avatar = player_data[id]["user data"]["avatar url"]
-        background = player_data[id]["user data"]["background url"]
-        profile_link = player_data[id]["user data"]["profile url"]
-        tags = player_data[id]["user tags"]
-        playcount = player_data[id]["user data"]["playcount"]
-        playcount = ("{:,}".format(playcount))
-        score_formatted = ("{:,}".format(score))
-        id = id
-
-        players_dict[name] = [
-            score, avatar, background, profile_link, tags, playcount,
-            score_formatted, id
-        ]
-
-        players_sorted = dict(
-            sorted(players_dict.items(), key=lambda x: x[1], reverse=True))
-
-    return render_template(
-        'osu/players.html',  # Template file
-        players=players_sorted)
-
-
-@app.route("/osu/matches/<match_name>/<graph_view>")
-def match(match_name, graph_view):
-    players = {}
-
-    with open(f"matches/{match_name}") as joe:
-        match_data = json.load(joe)
-
-    player_crap.update_player_data()
-
-    if match_data["mode"] == "ffa":
-
-        for id in match_data["users"]:
-            player = player_crap.player_match_constructor(id)
-            players[player[0]] = player[1]
-
-        return render_template('osu/Current.html',
-                               math=math,
-                               time=time,
-                               match_data=match_data,
-                               teams={},
-                               players=players,
-                               match_name=match_name,
-                               get_data=player_crap.user_data_grabber,
-                               live_status=live_player_status,
-                               get_osu_id=get_osu_id)
-
-    else:
-        players = {}
-        teams = {}
-
-        for id in match_data["users"]:
-            player = player_crap.player_match_constructor(id)
-            players[player[0]] = player[1]
-
-        for team in match_data["team metadata"]:
-            new_team = Teams(team, match_name, False)
-            teams[team] = {
-                'score': new_team.score,
-                'players': new_team.users,
-                "color": match_data["team metadata"][team]["team color"]
-            }
-
-        return render_template('osu/Current.html',
-                               match_data=match_data,
-                               players=players,
-                               teams=teams,
-                               get_data=player_crap.user_data_grabber,
-                               get_osu_id=get_osu_id)
-
-
-# work on future old matches
-@app.route("/osu/matches/old/<match_name>")
-def old_match(match_name):
+@app.route("/osu/matches/<match_name>")
+def load_match(match_name):
     players = {}
     teams = {}
-    print(match_name)
-    global match_data
-    player_crap.update_player_data()
 
-    with open(f"match_history/{match_name}") as joe:
-        match_data = json.load(joe)
+    match: Match = match_handler.get_match(match_name)
 
-    if match_data["mode"] == "ffa":
-        for id in match_data["users"]:
-            player = player_crap.player_match_constructor(id)
-            players[player[0]] = player[1]
+    for player in match.players:
+        players[player.id] = player.jsonify()
 
-        return render_template(
-            'osu/old_match.html',  # Template file
-            math=math,
-            match_data=match_data,
-            players=players,
-            teams=teams,
-            match_name=match_name,
-            get_data=player_crap.user_data_grabber,
-            live_status=live_player_status)
+    for team in match.team_data:
+        teams[team.team_name] = team.jsonify()
 
-    else:
-        for id in match_data["users"]:
-            player = player_crap.player_match_constructor(id)
-            players[player[0]] = player[1]
-
-        for team in match_data["team metadata"]:
-            new_team = Teams(team, match_name, True)
-            teams[team] = [new_team.score, new_team.users]
-
-        return render_template(
-            'osu/old_match.html',  # Template file
-            players=players,
-            match_data=match_data,
-            teams=teams,
-            get_data=player_crap.user_data_grabber)
+    return render_template(
+        'osu/Current.html',
+       math=math,
+       time=time,
+       match_data=match_data,
+       players=players,
+       match_name=match_name,
+       teams=teams,
+       live_status=live_player_status,
+       get_osu_id=get_osu_id
+    )
 
 
 @app.route("/osu/matches")
-async def matches():
-    current_matches = []
+async def matches_page():
 
-    previous_matches = []
-
-    for match in os.listdir("matches/"):
-        current_matches.append(match)
-
-    for match in os.listdir("match_history/"):
-        previous_matches.append(match)
-
-    return render_template('osu/matches.html',
-                           match_data=match_crap.get_match_data,
-                           player_data=player_crap.user_data_grabber,
-                           random_number=function_crap.randnum,
-                           current_matches=current_matches,
-                           previous_matches=previous_matches)
+    return render_template(
+        'osu/matches.html',
+       match_data=match_crap.get_match_data,
+       player_data=player_crap.user_data_grabber,
+       current_matches=current_matches,
+       previous_matches=previous_matches
+   )
 
 
 @app.route("/refresh/<player_name>")
@@ -794,83 +485,6 @@ async def web_player_refresh(player_name):
     global daily_osu_gains
     global api_uses
     api_uses += 1
-    if player_name == "all":
-        await player_crap.refresh_all_players()
-
-    else:
-        await player_crap.player_refresh(player_name)
-
-    players = json.load(open("player_data.json", "r"))
-    for player in players:
-        player_info = player_crap.user_data_grabber(
-            id=player, specific_data=["score", "playcount"])
-        try:
-            daily_osu_gains[player]["current"] = [
-                player_info[0] - daily_osu_gains[player]["start"][0],
-                player_info[1] - daily_osu_gains[player]["start"][1]
-            ]
-        except:
-            daily_osu_gains[player] = {
-                "current": [
-                    player_info[0] - player_info[0],
-                    player_info[1] - player_info[1]
-                ],
-                "start": [player_info[0], player_info[1]]
-            }
-
-    update_server_instance_info(daily_data=daily_osu_gains)
-
-    return redirect(f"{client.osu_public_url}/matches")
-
-
-@app.route("/refresh/<player_name>", methods=["POST"])
-async def post_player_refresh(player_name):
-    global daily_osu_gains
-    if player_name == "all":
-        await player_crap.refresh_all_players()
-    else:
-        try:
-            int(player_name) + 0
-        except:
-            player_name = player_crap.user_data_grabber(name=f"{player_name}",
-                                                        specific_data=["id"
-                                                                       ])[0]
-
-        await player_crap.player_refresh(player_name)
-        player_info = player_crap.user_data_grabber(
-            id=player_name, specific_data=["score", "play count"])
-        """try:
-            daily_osu_gains[player_name]["current"] = [
-                player_info[0] - daily_osu_gains[player_name]["start"][0],
-                player_info[1] - daily_osu_gains[player_name]["start"][1]
-            ]
-        except:
-            daily_osu_gains[player_name] = {
-                "current": [
-                    player_info[0] - player_info[0],
-                    player_info[1] - player_info[1]
-                ],
-                "start": [player_info[0], player_info[1]]
-            }"""
-
-    return ("refreshed")
-
-
-# tests
-@app.route("/tests/<test_num>")
-async def tests(test_num):
-    return render_template(f"tests/{test_num}.html", test_num=test_num)
-
-
-@app.route("/tests/create")
-async def test_create():
-    test_new_id = len(os.listdir("templates/tests"))
-    template = open("templates/tests/test-template.html", "r")
-    f = open(f"templates/tests/test{test_new_id}.html", "w+")
-    for line in template:
-        f.write(line)
-    f.close()
-    return render_template(f"tests/test{test_new_id}.html")
 
 
 # website control

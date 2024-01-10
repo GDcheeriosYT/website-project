@@ -1,5 +1,3 @@
-from typing import List
-
 from .Nickname import Nickname
 from .PlayerList import PlayerList
 from .TeamData import TeamData

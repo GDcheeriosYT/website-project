@@ -31,7 +31,6 @@
             <ul class="dropdown-content">
               <li><a href="/osu">Home</a></li>
               <li><a href="/osu/matches">Matches</a></li>
-              <li><a href="/osu/players">Players</a></li>
             </ul>
           </li>
           <li class="dropdown"><a href="/account">Account</a>
@@ -39,15 +38,15 @@
               {% if request.cookies.get('userID') != None %}
                 <li><a href="/user/{{ request.cookies.get('userID') }}">Profile</a></li>
                 <li><a href="/account/signout">Sign Out</a></li>
+                {% if request.cookies.get('userID') == "1" %}
+                <li class="dropdown"><a href="/control">API</a></li>
+                {% endif %}
               {% else %}
                 <li><a href="/account/login">Log In</a></li>
                 <li><a href="/account/create">Create Account</a></li>
               {% endif %}
             </ul>
           </li>
-          {% if request.cookies.get('userID') == "1" %}
-            <li class="dropdown"><a href="/control">API</a></li>
-          {% endif %}
       </ul>
     </div>
   </nav>
