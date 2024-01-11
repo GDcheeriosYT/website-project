@@ -4,6 +4,7 @@ http://gdcheerios.com
 
 If you wanna start your own instance make sure to make a file called Client_Credentials.py with the following structure:
 
+```py
 # main variables
 domain = # domain like "(http/https)://(name)"
 
@@ -11,3 +12,4 @@ domain = # domain like "(http/https)://(name)"
 osu_secret = # client secret
 osu_api_key = # api key
 osu_client_id = # client id
+```
