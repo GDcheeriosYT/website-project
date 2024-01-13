@@ -1,21 +1,33 @@
-from enum import Enum
+from enum import Enum, auto
 
 
 class ApiType(Enum):
-
     # tokens
-    TokenGenerate = 0
-    TokenVerify = 1
-    TokenDelete = 2
-    TokenClear = 3
+    TokenGenerate = auto()
+    TokenVerify = auto()
+    TokenDelete = auto()
+    TokenClear = auto()
 
     #  accounts
-    AccountCreate = 4
-    AccountLogIn = 5
-    AccountChangePfp = 6
+    AccountCreate = auto()
+    AccountLogIn = auto()
+    AccountLogOut = auto()
+    AccountChangePfp = auto()
+    AccountReceive = auto()
 
     # osu
-    OsuRefresh = 7
-    OsuAuthenticate = 8
+    OsuRefresh = auto()
+    OsuAuthenticate = auto()
+    OsuMatchGrab = auto()
+    OsuLiveUpdate = auto()
+    OsuLiveGet = auto()
+    OsuLiveDelete = auto()
 
     # gentry quest
+    GQCheckIn = auto()
+    GQCheckOut = auto()
+    GQLeaderboard = auto()
+    GQUpdateData = auto()
+    GQGetPowerLevel = auto()
+    GQGetOnlinePlayers = auto()
+    GQGetVersion = auto()

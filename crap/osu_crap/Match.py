@@ -1,6 +1,7 @@
 from .Nickname import Nickname
 from .PlayerList import PlayerList
 from .TeamData import TeamData
+from .Player import Player
 
 
 class Match:
@@ -25,3 +26,17 @@ class Match:
             self.nicknames.append(Nickname(id, json_data["nicknames"][id]))
 
         self.ended = has_ended
+
+    def get_score(self, player: Player) -> int:
+        pos = self.players.index(player)
+        if self.ended:
+            return self.final_score[pos] - self.initial_score[pos]
+        else:
+            return player.score - self.initial_score[pos]
+
+    def get_playcount(self, player: Player) -> int:
+        pos = self.players.index(player)
+        if self.ended:
+            return self.final_playcount[pos] - self.initial_playcount[pos]
+        else:
+            return player.play_count - self.initial_playcount[pos]

@@ -3,6 +3,7 @@ import json
 from crap.osu_crap.Player import Player
 
 
+# this is static because we will use the instance in other files
 class PlayerList:
     Players = []
     Player_json = json.load(open("player_data.json", "r"))
@@ -26,3 +27,4 @@ class PlayerList:
                 new_list.append(Player(id))
 
         return user_list
+

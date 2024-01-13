@@ -10,6 +10,8 @@ class MatchHandler:
         self.old_matches = []
 
     def load(self) -> None:
+        print("Loading osu matches")
+
         for file in os.listdir("matches"):
             with open(file, "r") as f:
                 match_data = json.loads(f.read())
