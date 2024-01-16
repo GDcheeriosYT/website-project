@@ -30,6 +30,8 @@ from crap.gentrys_quest_crap.GentrysQuestClassicManager import GentrysQuestClass
 from crap.ServerData import ServerData
 from crap.ApiType import ApiType
 
+from crap.AccountPFPs import pfps
+
 initialize_files()  # setup necessary files
 
 # global vars
@@ -141,7 +143,7 @@ async def account_create(username,
 
     account_count = len(os.listdir("accounts")) + 1
     password = str(password)
-    profile_picture = random.choice(pfp_options)
+    profile_picture = random.choice(pfps)
     about_me = about_me
     gqdata = {}
     gqcdata = {}
