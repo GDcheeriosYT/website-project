@@ -1,9 +1,10 @@
 from crap.ApiCall import ApiCall
 from crap.ApiType import ApiType
+from crap.AccountList import AccountList
 
 
 class ServerData:
-    accounts = []
+    accounts = AccountList()
     tokens = []
 
     API_history = []

@@ -5,10 +5,12 @@ def initialize_files():
     print("Initializing files!")
 
     def verify_dir(dir_name: str):
+        print(f"Verifying directory {dir_name} exists")
         if not os.path.isdir(dir_name):
             os.mkdir("matches")
 
     def verify_file(file_name: str):
+        print(f"Verifying {file_name} exists")
         if not os.path.exists(file_name):
             file = open(file_name, "w+")
             file.write("{}")
@@ -16,6 +18,7 @@ def initialize_files():
 
     verify_dir("matches")
     verify_dir("match_history")
+    verify_dir("backups")
     verify_file("player_data.json")
     verify_file("tokens.txt")
 

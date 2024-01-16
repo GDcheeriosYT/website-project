@@ -5,6 +5,8 @@ Client_Credentials.py
 /venv/
 /match_history/
 /matches/
+/accounts/
+/backups/
 /.tmp.drivedownload/
 /.tmp.driveupload/
 /.idea/

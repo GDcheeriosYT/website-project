@@ -1,5 +1,9 @@
 import json
 import os
+
+from crap.ServerData import ServerData
+
+
 from GPSystem.GPmain import GPSystem
 
 GPSystem = GPSystem()
@@ -9,27 +13,28 @@ class GentrysQuestManager:
     players = None
     online_players = None
     rater = GPSystem
+    version = None
 
-    def __init__(self):
-        self.players = []
+    def __init__(self, version, players):
+        self.players = players
         self.online_players = []
-        print("initializing player data")
-        account_list = os.listdir("accounts")
-        account_list_length = len(account_list)
-        counter = 1
-        for data in account_list:
-            print(f"{int((counter / account_list_length * 100))}%")
-            id = data[:-5]
-            data = json.load(open(f"accounts/{data}", "r"))
-            username = data["username"]
-            gq_data = data["metadata"]["Gentry's Quest data"]
-            if gq_data is None:
-                gq_data = 0
-            self.players.append(Player(username, id, gq_data))
-
-            counter += 1
+        self.version = version
 
         self.sort_players()
+
+    @staticmethod
+    def get_accounts(key_name: str):
+        players = []
+        counter = 1
+        account_list_length = len(ServerData.accounts)
+        for account in ServerData.accounts:
+            print(f"{int((counter / account_list_length * 100))}%")
+            gq_data = data["metadata"][key_name]
+            if gq_data is None:
+                gq_data = 0
+
+            players.append(Player(username, id, gq_data))
+
 
     def sort_players(self):
         def sort_thing(player: Player):
