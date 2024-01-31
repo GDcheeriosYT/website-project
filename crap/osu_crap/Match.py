@@ -64,7 +64,7 @@ class Match:
 
         return {
             "users": [str(player.id) for player in self.players],
-            "match name": "Osu Valley Players",
+            "match name": self.name,
             "initial score": self.initial_score,
             "initial playcount": self.initial_playcount,
             "mode": self.mode,
