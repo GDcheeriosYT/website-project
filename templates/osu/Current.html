@@ -6,13 +6,13 @@
     
     <meta charset="utf-8">
     
-    <title>match {{ match name }}</title>
+    <title>match {{ match.name }}</title>
     <meta name="description" content="view the match {{ match_name }}">
     <meta name="author" content="SitePoint">
-    
+
     <link rel="stylesheet" href="/static/style.css">
     <script src="/static/script.js"></script>
-    
+
     {% endblock %}
   </head>
   {% extends 'base.html' %}
@@ -47,12 +47,12 @@
         let team_list = JSON.parse('{{ teams|tojson }}')
         let wrapperHeight = 0
         var socket = io()
-        const socketTime = 200
+        const socketTime = 500
         const time = socketTime - 50
         var got_first_data = false
         console.log(socket)
         setInterval(() => {
-          socket.emit('match data get', "{{ match name }}")
+          socket.emit('match data get', "{{ match.name }}")
           console.log("emitted")
         }, socketTime)
         socket.on('match data receive', (data) =>{
@@ -392,9 +392,9 @@
 
       </script>
       {% if mode == "ffa" %}
-        <h1 class="single">{{ match name }}</h1>
+        <h1 class="single">{{ match.name }}</h1>
       {% else %}
-        <h1 class="teammode">{{ match name }}</h1>
+        <h1 class="teammode">{{ match.name }}</h1>
       {% endif %}
       <div class="match">
         {% if mode == "teams" %}

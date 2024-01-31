@@ -1,8 +1,4 @@
 # packages
-import json
-import time
-import requests
-
 from crap.ServerData import ServerData
 
 from .authentication_crap import *
@@ -48,8 +44,7 @@ class Player:
             self.background = data['cover_url']
             self.link = f"https://osu.ppy.sh/users/{self.id}"
         except Exception as e:
-            self.id = id
-            self.name = "?"
+            self.name = "Unknown"
             self.rank = 999999999
             self.play_count = 0
             self.score = 0

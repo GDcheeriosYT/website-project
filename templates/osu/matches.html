@@ -25,7 +25,7 @@
 
             {% for match in matches.matches %}
                 <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
-                    <a href="matches/{{match.name}}/normal">{{match.name}}</a>
+                    <a href="matches/{{match.name}}">{{match.name}}</a>
                     <div class="match-data">
                         <div class="data-box">users = {{match.players|length}}</div>
                         <div class="data-box">mode = {{match.mode}}</div>

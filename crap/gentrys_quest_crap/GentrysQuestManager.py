@@ -29,7 +29,7 @@ class GentrysQuestManager:
         players = []
         counter = 1
         for account in ServerData.account_manager.accounts:
-            print(f"{int((counter / ServerData.account_manager.size()) * 100)}%")
+            # print(f"{int((counter / ServerData.account_manager.size()) * 100)}%")
             gq_data = account.gentrys_quest_classic_data if is_classic else account.gentrys_quest_data
             if gq_data:
                 player = Player(account.username, account.id, gq_data)

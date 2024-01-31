@@ -922,9 +922,26 @@ input:checked + .slider:before {
     box-shadow: 1px 1px 9px 1px #082230;
     padding: 20;
     text-align: center;
+    margin: 3;
 }
 
 .api:hover {
     transition: all var(--transition-speed) ease-out;
     background-color: #0f6582;
+}
+
+.api-wip{
+    transition: all var(--transition-speed) ease-out;
+    background-color: #82790f;
+    color: white;
+    border-radius: 2vw;
+    box-shadow: 1px 1px 9px 1px #7a6e0d;
+    padding: 20;
+    text-align: center;
+    margin: 3;
+}
+
+.api-wip:hover{
+    transition: all var(--transition-speed) ease-out;
+    background-color: #918310;
 }

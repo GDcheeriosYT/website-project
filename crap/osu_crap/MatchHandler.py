@@ -32,7 +32,7 @@ class MatchHandler:
 
     def unload(self) -> None:
         for match in self.matches:
-            json.dump(match.jsonify(), open(f"matches/{match.name}", "w"))
+            json.dump(match.jsonify(), open(f"matches/{match.name}.json", "w"), indent=4)
 
     def get_match(self, match_name) -> Match:
         for match in self.matches:
@@ -49,4 +49,4 @@ class MatchHandler:
                 match.has_ended = True
                 self.old_matches.append(match)
                 self.matches.remove(match)
-                json.dump(match.jsonify(), open(f"match_history/{match.name}", "w+"))
+                json.dump(match.jsonify(), open(f"match_history/{match.name}.json", "w+"), indent=4)

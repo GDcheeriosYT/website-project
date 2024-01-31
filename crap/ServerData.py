@@ -3,6 +3,7 @@ import json
 from crap.ApiCall import ApiCall
 from crap.ApiType import ApiType
 from crap.AccountList import AccountList
+from crap.StatusHandler import StatusHandler
 
 
 class ServerData:
@@ -11,7 +12,7 @@ class ServerData:
     tokens = []
 
     # osu
-    osu_player_json = json.load(open("player_data.json", "r"))
+    osu_player_json = json.load(open("player_data.json"))
 
     # api
     API_history = []
@@ -23,6 +24,13 @@ class ServerData:
     API_occurrences = {}
     for type in ApiType:
         API_occurrences[str(type.value)] = 0
+
+    # status
+    token_status = StatusHandler("token")
+    account_status = StatusHandler("account")
+    osu_status = StatusHandler("osu")
+    gqc_status = StatusHandler("Gentry's Quest Classic")
+    gq_status = StatusHandler("Gentry's Quest")
 
     @staticmethod
     def api_call(type: ApiType) -> None:
@@ -58,9 +66,17 @@ class ServerData:
     @staticmethod
     def remove_token(token: str) -> None:
         ServerData.api_call(ApiType.TokenDelete)
-        ServerData.tokens.remove(token)
+        try:
+            ServerData.tokens.remove(token)
+            ServerData.token_status.successful()
+        except:
+            ServerData.token_status.unsuccessful()
 
     @staticmethod
     def verify_token(token: str) -> str:
         ServerData.api_call(ApiType.TokenVerify)
-        return token if token in ServerData.tokens else "False"
+        try:
+            return token if token in ServerData.tokens else "False"
+        except:
+            ServerData.token_status.unsuccessful()
+            return "False"

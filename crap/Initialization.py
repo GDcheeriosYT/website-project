@@ -11,7 +11,7 @@ def initialize_files():
     def verify_dir(dir_name: str):
         print(f"Verifying directory {dir_name} exists")
         if not os.path.isdir(dir_name):
-            os.mkdir("matches")
+            os.mkdir(dir_name)
 
     def verify_file(file_name: str):
         print(f"Verifying {file_name} exists")

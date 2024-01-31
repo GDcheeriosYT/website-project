@@ -5,6 +5,7 @@ import json
 import math
 import random
 import string
+import traceback
 import urllib
 import logging
 
@@ -18,11 +19,11 @@ from flask_socketio import SocketIO, emit
 import Client_Credentials as client
 # scripts
 from crap.Initialization import *
-from crap.osu_crap.Match import Match
 
 initialize_files()  # setup necessary files
 
 # data imports
+from crap.osu_crap.Match import Match
 from crap.osu_crap.PlayerList import PlayerList
 from crap.osu_crap.MatchHandler import MatchHandler
 
@@ -80,13 +81,17 @@ atexit.register(exit_func)
 @app.route("/api/generate-token")
 async def generate_token():
     ServerData.api_call(ApiType.TokenGenerate)
+    try:
+        token = ""
+        for i in range(32):
+            token += random.choice(string.ascii_letters)
 
-    token = ""
-    for i in range(32):
-        token += random.choice(string.ascii_letters)
-
-    ServerData.add_token(token)
-    return token
+        ServerData.add_token(token)
+        ServerData.token_status.successful()
+        return token
+    except:
+        ServerData.token_status.unsuccessful()
+        return "False"
 
 
 @app.route("/api/clear-tokens")
@@ -113,33 +118,37 @@ def verify_token(token):
 async def account_create(username, password, osu_id=0, about_me=""):
     ServerData.api_call(ApiType.AccountCreate)
 
-    account_count = len(os.listdir("accounts")) + 1
-    password = str(password)
-    profile_picture = random.choice(pfps)
-    about_me = about_me
-    gqdata = {}
-    gqcdata = {}
-    backrooms_data = {}
-    password = str(bcrypt.generate_password_hash(password))
-    metadata = {
-        "osu id": osu_id,
-        "Gentry's Quest Classic data": gqcdata,
-        "Gentry's Quest data": gqdata,
-        "backrooms data": backrooms_data,
-        "about me": about_me
-    }
-    account_data = {
-        "pfp url": profile_picture,
-        "username": username,
-        "password": password[2:-1],
-        "metadata": metadata
-    }
-    with open(f"accounts/{account_count}.json", "w+") as file:
-        json.dump(account_data, file, indent=4, sort_keys=False)
+    try:
+        account_count = len(os.listdir("accounts")) + 1
+        password = str(password)
+        profile_picture = random.choice(pfps)
+        about_me = about_me
+        gqdata = {}
+        gqcdata = {}
+        backrooms_data = {}
+        password = str(bcrypt.generate_password_hash(password))
+        metadata = {
+            "osu id": osu_id,
+            "Gentry's Quest Classic data": gqcdata,
+            "Gentry's Quest data": gqdata,
+            "backrooms data": backrooms_data,
+            "about me": about_me
+        }
+        account_data = {
+            "pfp url": profile_picture,
+            "username": username,
+            "password": password[2:-1],
+            "metadata": metadata
+        }
+        with open(f"accounts/{account_count}.json", "w+") as file:
+            json.dump(account_data, file, indent=4, sort_keys=False)
 
-    ServerData.account_manager.make_account(account_count)
+        ServerData.account_manager.make_account(account_count)
 
-    return account_data
+        ServerData.account_status.successful()
+        return account_data
+    except:
+        ServerData.account_status.unsuccessful()
 
 
 @app.route("/api/password-cache-gen")
@@ -158,25 +167,38 @@ async def password_cache_gen_post():
 def get_account_with_id_or_name(id_or_name):
     ServerData.api_call(ApiType.AccountReceive)
 
-    for file in os.listdir("accounts"):
-        account_data = json.load(open(f"accounts/{file}", "r"))
-        if file[:-5] == id_or_name:
-            return {str(file[:-5]): account_data}
-        if account_data["username"] == id_or_name:
-            return {str(file[:-5]): account_data}
+    successful = ServerData.account_status.successful
+    try:
+        for file in os.listdir("accounts"):
+            account_data = json.load(open(f"accounts/{file}", "r"))
+            if file[:-5] == id_or_name:
+                successful()
+                return {str(file[:-5]): account_data}
+            if account_data["username"] == id_or_name:
+                successful()
+                return {str(file[:-5]): account_data}
 
-    return "Not Found"
+        successful()
+        return "Not Found"
+    except:
+        ServerData.account_status.unsuccessful()
 
 
 @app.route("/api/account/login/<username>+<password>")
 async def login(username, password):
     ServerData.api_call(ApiType.AccountLogIn)
-    account = ServerData.account_manager.get_by_username(username)
-    if account:
-        if bcrypt.check_password_hash(account.password, password):
-            return account.jsonify()
+    successful = ServerData.account_status.successful
+    try:
+        account = ServerData.account_manager.get_by_username(username)
+        if account:
+            if bcrypt.check_password_hash(account.password, password):
+                successful()
+                return account.jsonify()
 
-    return "incorrect info"
+        successful()
+        return "incorrect info"
+    except:
+        ServerData.account_status.unsuccessful()
 
 
 @app.route('/login', methods=['POST'])
@@ -205,9 +227,13 @@ def login_cookie():
 async def signout():
     ServerData.api_call(ApiType.AccountLogOut)
 
-    resp = make_response(render_template('account/login.html'))
-    resp.delete_cookie('userID')
-    return resp
+    try:
+        resp = make_response(render_template('account/login.html'))
+        resp.delete_cookie('userID')
+        ServerData.account_status.successful()
+        return resp
+    except:
+        ServerData.account_status.unsuccessful()
 
 
 @app.route("/create-account", methods=['POST'])
@@ -242,18 +268,22 @@ def create_account():
 def change_profile_picture():
     ServerData.api_call(ApiType.AccountChangePfp)
 
-    id = request.cookies.get('userID')
-    account_data = json.load(open(f"accounts/{id}.json"))
-    account_data["pfp url"] = request.form.get("url")
-    json.dump(account_data,
-              open(f"accounts/{id}.json", "w"),
-              indent=4,
-              sort_keys=False)
-    return render_template('account/user-profile.html',
-                           id=id,
-                           username=account_data["username"],
-                           profile_picture=account_data["pfp url"],
-                           metadata=account_data["metadata"])
+    try:
+        id = request.cookies.get('userID')
+        account_data = json.load(open(f"accounts/{id}.json"))
+        account_data["pfp url"] = request.form.get("url")
+        json.dump(account_data,
+                  open(f"accounts/{id}.json", "w"),
+                  indent=4,
+                  sort_keys=False)
+        ServerData.account_status.successful()
+        return render_template('account/user-profile.html',
+                               id=id,
+                               username=account_data["username"],
+                               profile_picture=account_data["pfp url"],
+                               metadata=account_data["metadata"])
+    except:
+        ServerData.account_status.unsuccessful()
 
 
 # </editor-fold>
@@ -264,84 +294,107 @@ def change_profile_picture():
 def code_grab():
     ServerData.api_call(ApiType.OsuAuthenticate)
 
-    code = urllib.parse.parse_qs(request.query_string.decode('utf-8'))["code"][0]
+    try:
+        code = urllib.parse.parse_qs(request.query_string.decode('utf-8'))["code"][0]
 
-    response = requests.post("https://osu.ppy.sh/oauth/token",
-                             json={'client_id': client.osu_client_id,
-                                   'code': code,
-                                   'client_secret': client.osu_secret,
-                                   'grant_type': 'authorization_code',
-                                   'redirect_uri': f"{client.domain}/code_grab",
-                                   'scope': 'public'},
-                             headers={'Accept': 'application/json',
-                                      'Content-Type': 'application/json'})
+        response = requests.post("https://osu.ppy.sh/oauth/token",
+                                 json={'client_id': client.osu_client_id,
+                                       'code': code,
+                                       'client_secret': client.osu_secret,
+                                       'grant_type': 'authorization_code',
+                                       'redirect_uri': f"{client.domain}/code_grab",
+                                       'scope': 'public'},
+                                 headers={'Accept': 'application/json',
+                                          'Content-Type': 'application/json'})
 
-    response = response.json()
+        response = response.json()
 
-    user_info = requests.get("https://osu.ppy.sh/api/v2/me/osu", headers={
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': f"Bearer {response['access_token']}"
-    }).json()
+        user_info = requests.get("https://osu.ppy.sh/api/v2/me/osu", headers={
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': f"Bearer {response['access_token']}"
+        }).json()
 
-    info = {
-        "username": user_info["username"],
-        "id": user_info["id"],
-        "avatar": f"https://a.ppy.sh/{user_info['id']}",
-        "background url": user_info["cover_url"]
-    }
+        info = {
+            "username": user_info["username"],
+            "id": user_info["id"],
+            "avatar": f"https://a.ppy.sh/{user_info['id']}",
+            "background url": user_info["cover_url"]
+        }
 
-    return redirect(f"/account/create?osu_info={json.dumps(info)}")
+        ServerData.osu_status.successful()
+        return redirect(f"/account/create?osu_info={json.dumps(info)}")
+    except:
+        ServerData.osu_status.unsuccessful()
 
 
 # <editor-fold desc="match API">
-@app.route("/api/grab/<match_name>")
-async def grabber(match_name):
-    ServerData.api_call(ApiType.OsuMatchGrab)
+@app.route("/api/get_match/<match_name>")
+async def grabber(match_name, from_socket: bool = False):
+    if not from_socket:
+        ServerData.api_call(ApiType.OsuMatchGrab)
 
-    match = MatchHandler.get_match(match_name)
+    try:
+        match = match_handler.get_match(match_name)
 
-    new_dict = {}
-    for player in match.players:
-        new_dict[player.id] = {
-            "background url": player.background,
-            "score": match.get_score(player),
-            "rank": player.rank,
-            "playcount": match.get_playcount(player),
-            "liveStatus": None if int(player.id) not in live_player_status else live_player_status[int(player.id)],
-        }
+        new_dict = {}
+        for player in match.players:
+            print(player.id, player.name)
+            new_dict[player.id] = {
+                "background url": player.background,
+                "score": match.get_score(player),
+                "rank": player.rank,
+                "playcount": match.get_playcount(player),
+                "liveStatus": None if player.id not in live_player_status else live_player_status[player.id],
+            }
 
-        for team in match.team_data:
-            for player_ref in team.players:
-                new_dict[player_ref.id]["team"] = f"{team.jsonify()}"
+            for team in match.team_data:
+                print(team.team_name)
+                for player_ref in team.players:
+                    new_dict[player_ref.id]["team"] = f"{team.jsonify()}"
 
-    return new_dict
-
-
-@app.route("/api/grab/<ids>", methods=['GET'])
-async def all_grabber(ids):
-    ServerData.api_call(ApiType.OsuIdGrab)
-    id_list = ids.split("+")
-
-    data = PlayerList.get_users(id_list)
-    player_list = []
-    for player in data:
-        player_list.append(player.jsonify())
-
-    return player_list
+        ServerData.osu_status.successful()
+        return new_dict
+    except Exception as e:
+        traceback.print_exc()
+        ServerData.osu_status.unsuccessful()
 
 
 # </editor-fold>
 
 # <editor-fold desc="player API">
 
-@app.route("/refresh/<player_name>")
-async def web_player_refresh(player_name):
+@app.route("/refresh/<player_id>")
+async def web_player_refresh(player_id):
     ServerData.api_call(ApiType.OsuRefresh)
 
-    for player in PlayerList.Players:
-        if player.name == player_name:
-            player.update_data()
+    try:
+        player = PlayerList.get_users([player_id])[0]
+        player.update_data()
+        ServerData.osu_status.successful()
+        return player.jsonify()
+    except:
+        ServerData.osu_status.unsuccessful()
+
+    return "{}"
+
+
+@app.route("/api/grab/<ids>", methods=['GET'])
+async def all_grabber(ids):
+    ServerData.api_call(ApiType.OsuIdGrab)
+    try:
+        id_list = ids.split("+")
+
+        data = PlayerList.get_users(id_list)
+        player_list = []
+        for player in data:
+            player_list.append(player.jsonify())
+
+        ServerData.osu_status.successful()
+        return player_list
+    except:
+        return "{}"
+        ServerData.osu_status.unsuccessful()
 
 
 # </editor-fold>
@@ -352,22 +405,34 @@ async def del_live_status(id):
     global live_player_status
     ServerData.api_call(ApiType.OsuLiveDelete)
 
-    live_player_status.pop(int(id))
+    try:
+        live_player_status.pop(int(id))
+        ServerData.osu_status.successful()
+    except:
+        ServerData.osu_status.unsuccessful()
 
 
 @app.route("/api/live/get/<id>", methods=["get"])
 async def get_live_status(id):
     ServerData.api_call(ApiType.OsuLiveGet)
 
-    player_status = live_player_status[id]
-    return player_status
+    try:
+        player_status = live_player_status[id]
+        ServerData.osu_status.successful()
+        return player_status
+    except:
+        ServerData.osu_status.unsuccessful()
 
 
 @app.route("/api/live/get", methods=["get"])
 async def get_all_live_status():
     ServerData.api_call(ApiType.OsuLiveGet)
 
-    return live_player_status
+    try:
+        ServerData.osu_status.successful()
+        return live_player_status
+    except:
+        ServerData.osu_status.unsuccessful()
 
 
 @app.route("/api/live/update/<id>", methods=["POST"])
@@ -375,8 +440,12 @@ async def update_live_status(id):
     global live_player_status
     ServerData.api_call(ApiType.OsuLiveUpdate)
 
-    info = request.json
-    live_player_status[id] = info
+    try:
+        info = request.json
+        live_player_status[id] = info
+        ServerData.osu_status.successful()
+    except:
+        ServerData.osu_status.unsuccessful()
 
 
 # </editor-fold>
@@ -389,21 +458,24 @@ async def update_live_status(id):
 async def get_gq_leaderboard(start, display_number):
     ServerData.api_call(ApiType.GQLeaderboard)
 
-    players = {}
-    counter = 1
-    for player in GQC_manager.get_leaderboard(int(start), int(display_number)):
-        players[player.id] = {"username": player.account_name, "power level": player.power_level.weighted,
-                              "placement": counter,
-                              "ranking": {'tier': player.ranking.rank, 'tier value': player.ranking.tier}}
-        counter += 1
+    try:
+        players = {}
+        counter = 1
+        for player in GQC_manager.get_leaderboard(int(start), int(display_number)):
+            players[player.id] = {"username": player.account_name, "power level": player.power_level.weighted,
+                                  "placement": counter,
+                                  "ranking": {'tier': player.ranking.rank, 'tier value': player.ranking.tier}}
+            counter += 1
 
-    return players
+        ServerData.gqc_status.successful()
+        return players
+    except:
+        ServerData.gqc_status.unsuccessful()
 
 
 @app.route("/api/gq/get-power-level/<id>", methods=["GET"])
 async def get_power_level(id):
     ServerData.api_call(ApiType.GQGetPowerLevel)
-
     return GQC_manager.get_player_power_level(id)
 
 
@@ -452,14 +524,19 @@ async def get_version():
 async def update_gc_data(id):
     ServerData.api_call(ApiType.GQUpdateData)
 
-    data = request.json
-    user_data = json.load(open(f"accounts/{id}.json", "r"))
-    if verify_token(data["token"]):
-        user_data["metadata"]["Gentry's Quest data"] = data["data"]
+    try:
+        data = request.json
+        user_data = json.load(open(f"accounts/{id}.json", "r"))
+        if verify_token(data["token"]):
+            user_data["metadata"]["Gentry's Quest data"] = data["data"]
 
-    json.dump(user_data, open(f"accounts/{id}.json", "w"), indent=4)
-    GQC_manager.update_player_power_level(id)
-    GQC_manager.sort_players()
+        json.dump(user_data, open(f"accounts/{id}.json", "w"), indent=4)
+        GQC_manager.update_player_power_level(id)
+        GQC_manager.sort_players()
+        ServerData.gqc_status.successful()
+    except:
+        ServerData.gqc_status.unsuccessful()
+
     return "done"
 
 
@@ -543,18 +620,21 @@ def load_match(match_name):
     match: Match = match_handler.get_match(match_name)
 
     for player in match.players:
-        players[player.id] = player.jsonify()
+        players[player.name] = [
+            player.avatar,
+            player.background,
+            player.link,
+            player.id,
+            player.accuracy,
+        ]
 
     for team in match.team_data:
         teams[team.team_name] = team.jsonify()
 
     return render_template(
         'osu/Current.html',
-        math=math,
-        time=time,
         players=players,
-        match_name=match_name,
-        mode=match.mode,
+        match=match,
         nicknames=match.nicknames,
         teams=teams,
         live_status=live_player_status,
@@ -633,7 +713,7 @@ def update_client_status(data):
 
 @socketio.on('match data get')
 def get_livestatus(data):
-    emit('match data receive', asyncio.run(grabber(data)), ignore_queue=True)
+    emit('match data receive', asyncio.run(grabber(data, True)), ignore_queue=True)
 
 
 @socketio.on('get control data')
@@ -653,7 +733,12 @@ def update_status():
              'aph': ServerData.API_rate_hour,
              'apm': ServerData.API_rate_minute,
              'aps': ServerData.API_rate_second,
-             'api values': ServerData.get_occurrences()["values"]
+             'api values': ServerData.get_occurrences()["values"],
+             'token status': ServerData.token_status.health,
+             'account status': ServerData.account_status.health,
+             'osu status': ServerData.osu_status.health,
+             'gqc status': ServerData.gqc_status.health,
+             'gq status': ServerData.gq_status.health
          })
 
 
@@ -697,4 +782,4 @@ async def web_control():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=True)
+    socketio.run(app, host='0.0.0.0', port=80, debug=False)
