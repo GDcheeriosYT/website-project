@@ -6,10 +6,12 @@ If you wanna start your own instance make sure to make a file called Client_Cred
 
 ```py
 # main variables
-domain = # domain like "(http/https)://(name)"
+domain = "https://mydomain.com"
+load_time = 0  # extra delay for loading iterations in seconds
+section_load_time = 0  # extra delay for each loading section in seconds
 
 # osu
-osu_secret = # client secret
-osu_api_key = # api key
-osu_client_id = # client id
+osu_secret = "blahblahblahblah" # client secret
+osu_api_key = "a1b2c3etc" # api key
+osu_client_id = "1234" # client id
 ```

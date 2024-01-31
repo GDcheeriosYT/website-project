@@ -5,10 +5,10 @@ import Client_Credentials as client
 import requests
 import datetime as dt
 
+expiration = 0
 
 # osu
 def client_grant():
-    global access_token
     global expiration
     print("granting client...")
     response = requests.post(f"https://osu.ppy.sh/oauth/token",
@@ -19,16 +19,21 @@ def client_grant():
     access_token = response["access_token"]
     dt_obj = dt.datetime.now()
     expiration = round(dt_obj.microsecond / 1000) + response["expires_in"]
-    return (response["access_token"])
+    return response["access_token"]
 
 
 def check_access():
     dt_obj = dt.datetime.now()
     print("checking token expiration...")
+    response = None
+
     try:
         if round(dt_obj.microsecond / 1000) > expiration:
-            client_grant()
+            response = client_grant()
         else:
             print("token is valid!")
-    except:
-        client_grant()
+    except Exception as E:
+        print(E)
+        response = client_grant()
+
+    return response

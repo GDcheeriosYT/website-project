@@ -22,6 +22,7 @@ class ApiType(Enum):
     OsuLiveUpdate = auto()
     OsuLiveGet = auto()
     OsuLiveDelete = auto()
+    OsuIdGrab = auto()
 
     # gentry quest
     GQCheckIn = auto()

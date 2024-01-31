@@ -1,20 +1,30 @@
 import json
+import time
 
-from crap.osu_crap.Player import Player
+import Client_Credentials
+from crap.ServerData import ServerData
+
+from .Player import Player
 
 
 # this is static because we will use the instance in other files
 class PlayerList:
     Players = []
-    Player_json = json.load(open("player_data.json", "r"))
+
+    @staticmethod
+    def load() -> None:
+        for id in ServerData.osu_player_json:
+            print(f"loading osu player {id}")
+            PlayerList.Players.append(PlayerList.create_player(id))
+            time.sleep(Client_Credentials.load_time)
 
     @staticmethod
     def unload() -> None:
         for player in PlayerList.Players:
-            PlayerList.Player_json[player.id] = player.jsonify()[player.id]
+            ServerData.osu_player_json[player.id] = player.jsonify()[player.id]
 
-        with open("player_data.json", "r") as f:
-            json.dump(PlayerList.Player_json, f)
+        with open("player_data.json", "w") as f:
+            json.dump(ServerData.osu_player_json, f, indent=4)
 
     @staticmethod
     def get_users(user_list) -> list:
@@ -24,7 +34,10 @@ class PlayerList:
             if id in user_list:
                 new_list.append(player)
             else:
-                new_list.append(Player(id))
+                new_list.append(PlayerList.create_player(id))
 
-        return user_list
+        return new_list
 
+    @staticmethod
+    def create_player(id):
+        return Player(id)

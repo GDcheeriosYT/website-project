@@ -913,3 +913,18 @@ input:checked + .slider:before {
     border: 5px solid #002e35;
     border-radius: 10px;
 }
+
+.api {
+    transition: all var(--transition-speed) ease-out;
+    background-color: #10516e;
+    color: white;
+    border-radius: 2vw;
+    box-shadow: 1px 1px 9px 1px #082230;
+    padding: 20;
+    text-align: center;
+}
+
+.api:hover {
+    transition: all var(--transition-speed) ease-out;
+    background-color: #0f6582;
+}

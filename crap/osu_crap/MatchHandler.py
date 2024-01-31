@@ -1,5 +1,8 @@
 import json
 import os
+import time
+
+import Client_Credentials
 
 from .Match import Match
 
@@ -10,17 +13,22 @@ class MatchHandler:
         self.old_matches = []
 
     def load(self) -> None:
-        print("Loading osu matches")
+        print("\nLoading osu matches\n")
+        time.sleep(Client_Credentials.section_load_time)
 
         for file in os.listdir("matches"):
-            with open(file, "r") as f:
+            with open(f"matches/{file}", "r") as f:
                 match_data = json.loads(f.read())
                 self.matches.append(Match(match_data, False))
 
+            time.sleep(Client_Credentials.load_time)
+
         for file in os.listdir("match_history"):
-            with open(file, "r") as f:
+            with open(f"match_history/{file}", "r") as f:
                 match_data = json.loads(f.read())
                 self.old_matches.append(Match(match_data, True))
+
+            time.sleep(Client_Credentials.load_time)
 
     def unload(self) -> None:
         for match in self.matches:

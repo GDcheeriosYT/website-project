@@ -1,19 +1,49 @@
+import json
+
 from crap.ApiCall import ApiCall
 from crap.ApiType import ApiType
 from crap.AccountList import AccountList
 
 
 class ServerData:
-    accounts = AccountList()
+    # main data
+    account_manager = AccountList()
     tokens = []
 
+    # osu
+    osu_player_json = json.load(open("player_data.json", "r"))
+
+    # api
     API_history = []
+    API_rate_hour = 0
+    API_rate_minute = 0
+    API_rate_second = 0
+    API_total_second = 0
+    API_most_common = None
+    API_occurrences = {}
+    for type in ApiType:
+        API_occurrences[str(type.value)] = 0
 
     @staticmethod
     def api_call(type: ApiType) -> None:
         api_call = ApiCall(type)
         print(f"handling Api call {api_call.id} [{api_call.type}]")
         ServerData.API_history.append(api_call)
+
+        type = str(api_call.type.value)
+        ServerData.API_occurrences[type] += 1
+
+        current = api_call.timestamp.now()
+        # ServerData.API_rate_hour = int((len(ServerData.API_history) / (current.second / 3600)))
+        # ServerData.API_rate_minute = int((len(ServerData.API_history) / (current.second / 60)))
+        # ServerData.API_rate_second = int((len(ServerData.API_history) / current.second))
+
+    @staticmethod
+    def get_occurrences():
+        return {
+            'names': [ApiType(int(type_str)).name for type_str in ServerData.API_occurrences.keys()],
+            'values': [ServerData.API_occurrences.get(type_str) for type_str in ServerData.API_occurrences.keys()]
+        }
 
     @staticmethod
     def add_token(token: str) -> None:
@@ -33,4 +63,4 @@ class ServerData:
     @staticmethod
     def verify_token(token: str) -> str:
         ServerData.api_call(ApiType.TokenVerify)
-        return token if token in ServerData.tokens else None
+        return token if token in ServerData.tokens else "False"

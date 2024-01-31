@@ -4,6 +4,9 @@ class Ranking:
         self.tier = tier
 
     def __repr__(self):
+        return f"{self.rank} [{self.tier}]"
+
+    def jsonify(self):
         return {
             'ranking': self.rank,
             'tier': self.tier,

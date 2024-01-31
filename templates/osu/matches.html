@@ -23,17 +23,15 @@
                 <h1 style="white-space: nowrap; text-align: center; font-size: 80px;">no matches found...</h1>
             {% endif %}
 
-            {% for match in matches.current %}
-                {% if match != "__pycache__" %}
-                    <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
-                        <a href="matches/{{match}}/normal">{{match.name}}</a>
-                        <div class="match-data">
-                            <div class="data-box">users = {{match.players|length}}</div>
-                            <div class="data-box">mode = {{match.mode}}</div>
-                        </div>
+            {% for match in matches.matches %}
+                <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
+                    <a href="matches/{{match.name}}/normal">{{match.name}}</a>
+                    <div class="match-data">
+                        <div class="data-box">users = {{match.players|length}}</div>
+                        <div class="data-box">mode = {{match.mode}}</div>
                     </div>
-                    <div class="spacing"><br></div>
-                {% endif %}
+                </div>
+                <div class="spacing"><br></div>
             {% endfor %}
 
             <hr>
@@ -43,17 +41,15 @@
                 <h1 class="white-text" style="text-align: center; font-size: 80px;">no matches found...</h1>
             {% endif %}
 
-            {% for match in previous_matches %}
-                {% if match != "__pycache__" %}
-                    <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
-                        <a href="matches/{{match}}">{{match.name}}</a>
-                        <div class="match-data">
-                            <div class="data-box">users = {{match.players|length}}</div>
-                            <div class="data-box">mode = {{match.mode}}</div>
-                        </div>
+            {% for match in matches.old %}
+                <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
+                    <a href="matches/{{match.name}}">{{match.name}}</a>
+                    <div class="match-data">
+                        <div class="data-box">users = {{match.players|length}}</div>
+                        <div class="data-box">mode = {{match.mode}}</div>
                     </div>
-                    <div class="spacing"><br></div>
-                {% endif %}
+                </div>
+                <div class="spacing"><br></div>
             {% endfor %}
         {% endblock %}
     </body>

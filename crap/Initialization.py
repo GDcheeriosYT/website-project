@@ -1,8 +1,12 @@
 import os
+import time
+
+import Client_Credentials
 
 
 def initialize_files():
-    print("Initializing files!")
+    print("\nInitializing files!\n")
+    time.sleep(Client_Credentials.section_load_time)
 
     def verify_dir(dir_name: str):
         print(f"Verifying directory {dir_name} exists")
@@ -16,11 +20,11 @@ def initialize_files():
             file.write("{}")
             file.close()
 
+    verify_dir("accounts")
     verify_dir("matches")
     verify_dir("match_history")
     verify_dir("backups")
     verify_file("player_data.json")
-    verify_file("tokens.txt")
 
 
 def retrieve_initialized_objects():

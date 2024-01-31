@@ -2,8 +2,10 @@
 import json
 import time
 import requests
-import authentication_crap
-from PlayerList import PlayerList
+
+from crap.ServerData import ServerData
+
+from .authentication_crap import *
 
 
 # user crap class
@@ -12,33 +14,29 @@ class Player:
     def __init__(self, id):
         self.id = id
 
-        print(f"loading {self.id}")
-
-        if str(id) in PlayerList.Player_json.keys():
-            player = PlayerList.Players[str(id)]
-            self.name = player["user data"]["name"]
-            self.rank = player["user data"]["rank"]
-            self.play_count = player["user data"]["playcount"]
-            self.score = player["user data"]["score"]
-            self.avatar = player["user data"]["avatar url"]
-            self.background = player["user data"]["background url"]
-            self.link = player["user data"]["profile url"]
-            self.accuracy = player["user data"]["accuracy"]
+        if str(id) in ServerData.osu_player_json.keys():
+            player_data = ServerData.osu_player_json[str(id)]
+            self.name = player_data["user data"]["name"]
+            self.rank = player_data["user data"]["rank"]
+            self.play_count = player_data["user data"]["playcount"]
+            self.score = player_data["user data"]["score"]
+            self.avatar = player_data["user data"]["avatar url"]
+            self.background = player_data["user data"]["background url"]
+            self.link = player_data["user data"]["profile url"]
+            self.accuracy = player_data["user data"]["accuracy"]
         else:
             self.update_data()
-
-        PlayerList.Players.append(self)
 
     def update_data(self):
         try:
             data = requests.get(
                 f"https://osu.ppy.sh/api/v2/users/{self.id}/osu",
-                headers={"Authorization": f'Bearer {authentication_crap.access_token}'}
+                headers={"Authorization": f'Bearer {check_access()}'}
             ).json()
 
             self.name = data['username']
 
-            if data['statistics']['global_rank'] != None:
+            if data['statistics']['global_rank'] is not None:
                 self.rank = data['statistics']['global_rank']
             else:
                 self.rank = 999999999

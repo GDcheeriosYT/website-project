@@ -3,7 +3,7 @@ class PowerLevel:
         self.weighted = weighted
         self.unweighted = unweighted
 
-    def __repr__(self):
+    def jsonify(self):
         return {
             'weighted': self.weighted,
             'unweighted': self.unweighted,

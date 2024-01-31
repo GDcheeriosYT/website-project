@@ -65,25 +65,13 @@
     </div>
     <div class="profile-info mx-auto">
       <a style="margin: 10px;" onclick='show_details()'>Details</a>
-      {% if metadata["osu id"] != 0 %}
-        <a style="margin: 10px;" target=”_blank” href="https://osu.ppy.sh/users/{{metadata['osu id']}}">OSU</a>
-      {% endif %}
-      {% if metadata["Gentry's Quest data"] != none %}
-        <a style="margin: 10px;" onclick='show_gqdata()'>Gentry's Quest</a>
-      {% endif %}
-      {% if metadata["backrooms_data"] != none %}
-        <a style="margin: 10px;" onclick='show_backrooms()'>The Backrooms</a>
+      {% if osuid != 0 %}
+        <a style="margin: 10px;" target=”_blank” href="https://osu.ppy.sh/users/{{osuid}}">OSU</a>
       {% endif %}
     </div>
     <div class="user-details" id="user-details">
       <h1>About Me:</h1>
-      <h2>{{ metadata["about me"]|safe }}</h2>
-    </div>
-    <div class="gqdata" id="gqdata">
-        <h1>{{metadata["Gentry's Quest data"]}}</h1>
-    </div>
-    <div class="backrooms" id="backrooms">
-      <h1>{{metadata["backrooms_data"]}}</h1>
+      <h2>{{ about|safe }}</h2>
     </div>
     {% endblock %}
   </body>

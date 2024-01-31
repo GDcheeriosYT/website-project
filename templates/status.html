@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+<html>
+<head>
+    {% block head %}
+    <title>Status</title>
+    <link rel="stylesheet" href="/static/style.css">
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+
+    <h1 class="single">main status</h1>
+
+
+    <h1 class="single">Api status</h1>
+    <div class="api-overview" style="display: flex; flex-direction: row; justify-content: space-around;">
+        <div class="api-overview-left" style="display: flex; flex-direction: column; justify-content: space-evenly;">
+            <div class="api">
+                <h2 class="total-api">
+                    Total API uses
+                    <br>
+                    {{ server_data.API_history|length }}
+                </h2>
+            </div>
+            <div class="api">
+                <h2 class="api-hour">
+                    APH
+                    {{ server_data.API_rate_hour }}
+                </h2>
+                <h2 class=api-minute">
+                    APM
+                    {{ server_data.API_rate_minute }}
+                </h2>
+                <h2 class=api-second">
+                    APS
+                    {{ server_data.API_rate_second }}
+                </h2>
+            </div>
+        </div>
+        <div class="api-overview-right" style="display: flex; flex-direction: column;">
+            <div>
+                <canvas id="occurrences" style="width: 500px; height: 550px;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('occurrences');
+
+        const occurenceChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: {{ server_data.get_occurrences()['names']|safe }},
+            datasets: [{
+              label: 'Occurrences',
+              data: {{ server_data.get_occurrences()['values']|safe }},
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRation: false,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+        var socket = io()
+        console.log(socket)
+        setInterval(() => {
+            socket.emit('update status')
+            console.log("emitted")
+        }, 2000)
+
+        socket.on('status recieve', (data) =>{
+            // MAIN SECTION
+
+            // API SECTION
+            occurenceChart.data.datasets[0].data = data["api values"]
+            occurenceChart.update()
+            document.getElementsByClassName("total-api")[0].innerHTML = "Total API uses<br>" + data["total apis"]
+            document.getElementsByClassName("api-hour")[0].innerHTML = "APH " + data["aph"]
+            document.getElementsByClassName("api-minute")[0].innerHTML = "APM " + data["apm"]
+            document.getElementsByClassName("api-second")[0].innerHTML = "APS " + data["aps"]
+        })
+    </script>
+
+
+{% endblock %}
+</body>
+</html>
