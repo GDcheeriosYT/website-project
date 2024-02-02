@@ -14,13 +14,12 @@ class Player:
         self.data = data
         self.power_level = PowerLevel()
         self.ranking = Ranking()
-        self.color = "white"
 
     def update_power_level(self, rater):
         old_pl = self.power_level.unweighted
         gps_stuff = rater.generate_power_details(self.data)
         self.power_level.unweighted,self.power_level.weighted = gps_stuff['rating']['unweighted'], gps_stuff['rating']['weighted']
-        self.ranking.rank, self.ranking.tier = gps_stuff['ranking']['tier'], gps_stuff['ranking']['tier value']
+        self.ranking.rank, self.ranking.tier = gps_stuff['ranking']['rank'], gps_stuff['ranking']['tier']
         print(f"{self.account_name} power level just updated!\n{old_pl} -> {self.power_level.unweighted} {self.ranking}")
         if self.ranking.rank == 'copper':
             self.color = "red"

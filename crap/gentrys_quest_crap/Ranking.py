@@ -8,6 +8,6 @@ class Ranking:
 
     def jsonify(self):
         return {
-            'ranking': self.rank,
+            'rank': self.rank,
             'tier': self.tier,
         }

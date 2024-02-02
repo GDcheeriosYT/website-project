@@ -460,9 +460,9 @@ async def get_gq_leaderboard(start, display_number):
         players = {}
         counter = 1
         for player in GQC_manager.get_leaderboard(int(start), int(display_number)):
-            players[player.id] = {"username": player.account_name, "power level": player.power_level.weighted,
+            players[player.id] = {"username": player.account_name, "power level": player.power_level.jsonify(),
                                   "placement": counter,
-                                  "ranking": {'tier': player.ranking.rank, 'tier value': player.ranking.tier}}
+                                  "ranking": player.ranking.jsonify()}
             counter += 1
 
         ServerData.gqc_status.successful()
@@ -503,8 +503,8 @@ async def get_online_players():
     for player in GQC_manager.online_players:
         player_json = {}
         player_json["username"] = player.account_name
-        player_json["power level"] = player.power_level
-        player_json["ranking"] = {'tier': player.ranking[0], 'tier value': player.ranking[1]}
+        player_json["power level"] = player.power_level.jsonify()
+        player_json["ranking"] = player.ranking.jsonify()
         player_json["placement"] = GQC_manager.players.index(player) + 1
         list_of_players[player.id] = player_json
 
@@ -581,7 +581,7 @@ async def gentrys_quest_leaderboard():
     return render_template(
         "gentrys quest/leaderboard.html",
         players=players,
-        version=1
+        version=GQC_manager.version
     )
 
 
@@ -590,14 +590,14 @@ async def gentrys_quest_online_players():
     players = GQC_manager.online_players
 
     def sort_thing(player):
-        return player.power_level
+        return player.power_level.weighted
 
     players.sort(key=sort_thing, reverse=True)
 
     return render_template(
         "gentrys quest/online-players.html",
         players=players,
-        version=1
+        version=GQC_manager.version
     )
 
 

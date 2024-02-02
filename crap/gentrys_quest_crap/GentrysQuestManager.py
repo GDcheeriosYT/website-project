@@ -1,10 +1,8 @@
-import json
-import os
+import time
 
+import Client_Credentials
 from crap.ServerData import ServerData
 from crap.gentrys_quest_crap.Player import Player
-from crap.gentrys_quest_crap.Ranking import Ranking
-from crap.gentrys_quest_crap.PowerLevel import PowerLevel
 
 from GPSystem.GPmain import GPSystem
 
@@ -29,14 +27,13 @@ class GentrysQuestManager:
         players = []
         counter = 1
         for account in ServerData.account_manager.accounts:
-            # print(f"{int((counter / ServerData.account_manager.size()) * 100)}%")
             gq_data = account.gentrys_quest_classic_data if is_classic else account.gentrys_quest_data
             if gq_data:
+                print(f"\nLoading {account.username} gq data")
                 player = Player(account.username, account.id, gq_data)
-                gp_result = GPSystem.rater.generate_power_details(gq_data)
-                player.power_level = PowerLevel(gp_result['rating']['weighted'], gp_result['rating']['unweighted'])
-                player.ranking = Ranking(gp_result['ranking']['tier'], gp_result['ranking']['tier value'])
+                player.update_power_level(GentrysQuestManager.rater)
                 players.append(player)
+                time.sleep(Client_Credentials.load_time)
 
         return players
 
@@ -45,7 +42,7 @@ class GentrysQuestManager:
             # print(player)
             return player.power_level.weighted
 
-        print("sorting gq players!")
+        print("\nsorting gq players!")
         self.players.sort(key=sort_thing, reverse=True)
         print("done!")
 
