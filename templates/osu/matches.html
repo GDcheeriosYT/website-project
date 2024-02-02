@@ -19,7 +19,7 @@
 
             <h1 class="white-text" style="text-align: center; font-size: 100px;">Current Matches</h1>
 
-            {% if matches.current|length == 0 %}
+            {% if matches.matches|length == 0 %}
                 <h1 style="white-space: nowrap; text-align: center; font-size: 80px;">no matches found...</h1>
             {% endif %}
 
@@ -37,11 +37,11 @@
             <hr>
 
             <h1 class="white-text" style="text-align: center; font-size: 100px;">Match History</h1>
-            {% if previous_matches|length == 0 %}
+            {% if matches.old_matches|length == 0 %}
                 <h1 class="white-text" style="text-align: center; font-size: 80px;">no matches found...</h1>
             {% endif %}
 
-            {% for match in matches.old %}
+            {% for match in matches.old_matches %}
                 <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
                     <a href="matches/{{match.name}}">{{match.name}}</a>
                     <div class="match-data">
