@@ -945,3 +945,27 @@ input:checked + .slider:before {
     transition: all var(--transition-speed) ease-out;
     background-color: #918310;
 }
+
+.ranking-box {
+    padding: 12px;
+    border-radius: 2vw;
+    box-shadow: 1px 1px 9px 1px #000000;
+    margin: 10px;
+    font-size: 32px;
+}
+
+.ranking-box h1 {
+    margin: 1px;
+}
+
+.ranking-box h2 {
+    margin: 1px;
+}
+
+.ranking-info-container {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-evenly;
+   color: white;
+   font-size: 24px;
+}

@@ -94,3 +94,6 @@ class GentrysQuestManager:
 
     def check_out_player(self, id):
         self.online_players.remove(self.get_player(id))
+
+    def get_ranking(self, id):
+        return self.players.index(self.get_player(id))+1

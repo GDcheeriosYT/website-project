@@ -525,7 +525,7 @@ async def update_gc_data(id):
 
     try:
         data = request.json
-        if verify_token(data["token"]):
+        if verify_token(data["token"]) != "False":
             GQC_manager.update_player_data(id, data["data"])
             ServerData.account_manager.get_by_id(id).gentrys_quest_classic_data = data["data"]
 
@@ -596,6 +596,16 @@ async def gentrys_quest_online_players():
         "gentrys quest/online-players.html",
         players=players,
         version=GentrysQuestManager.rater_version
+    )
+
+
+@app.route("/gentrys-quest/ranking")
+async def gentrys_quest_ranking():
+    return render_template(
+        "gentrys quest/ranking.html",
+        ranking_info=GentrysQuestManager.rater.get_tiers(),
+        gqc_id=GQC_manager.get_player,
+        gqc_rank=GQC_manager.get_ranking
     )
 
 
@@ -778,4 +788,4 @@ async def web_control():
 
 
 if __name__ == "__main__":
-    socketio.run(app, host='0.0.0.0', port=80, debug=False)
+    socketio.run(app, host='0.0.0.0', port=8080, debug=False)

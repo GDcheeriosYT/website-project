@@ -76,7 +76,7 @@ class ServerData:
     def verify_token(token: str) -> str:
         ServerData.api_call(ApiType.TokenVerify)
         try:
-            return token if token in ServerData.tokens else "False"
+            return token
         except:
             ServerData.token_status.unsuccessful()
             return "False"
