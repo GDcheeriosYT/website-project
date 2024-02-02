@@ -48,8 +48,8 @@ class Player:
             self.rank = 999999999
             self.play_count = 0
             self.score = 0
-            self.avatar = "https://data.whicdn.com/images/100018401/original.gif"
-            self.background = "https://data.whicdn.com/images/100018401/original.gif"
+            self.avatar = "https://fortniteskins.net/wp-content/cache/thumb/0a/68f02dfb4c3700a_666x630.png"
+            self.background = "https://daily.jstor.org/wp-content/uploads/2020/06/why_you_should_learn_the_names_of_trees_1050x700.jpg"
             self.link = None
             self.accuracy = 0
 

@@ -31,8 +31,11 @@ class MatchHandler:
             time.sleep(Client_Credentials.load_time)
 
     def unload(self) -> None:
+        def write_to_file(json_object, file):
+            json.dump(json_object, file, indent=4)
+
         for match in self.matches:
-            json.dump(match.jsonify(), open(f"matches/{match.name}.json", "w"), indent=4)
+            write_to_file(match.jsonify(), open(f"matches/{match.name}.json", "w"))
 
     def get_match(self, match_name) -> Match:
         for match in self.matches:

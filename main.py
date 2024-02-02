@@ -339,7 +339,6 @@ async def grabber(match_name, from_socket: bool = False):
 
         new_dict = {}
         for player in match.players:
-            print(player.id, player.name)
             new_dict[player.id] = {
                 "background url": player.background,
                 "score": match.get_score(player),
@@ -348,10 +347,9 @@ async def grabber(match_name, from_socket: bool = False):
                 "liveStatus": None if player.id not in live_player_status else live_player_status[player.id],
             }
 
-            for team in match.team_data:
-                print(team.team_name)
-                for player_ref in team.players:
-                    new_dict[player_ref.id]["team"] = f"{team.jsonify()}"
+        for team in match.team_data:
+            for player_ref in team.players:
+                new_dict[player_ref.id]["team"] = f"{team.jsonify()}"
 
         ServerData.osu_status.successful()
         return new_dict
@@ -364,7 +362,7 @@ async def grabber(match_name, from_socket: bool = False):
 
 # <editor-fold desc="player API">
 
-@app.route("/refresh/<player_id>")
+@app.route("/refresh/<player_id>", methods=['GET', 'POST'])
 async def web_player_refresh(player_id):
     ServerData.api_call(ApiType.OsuRefresh)
 
