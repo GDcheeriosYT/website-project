@@ -1,0 +1,13 @@
+import time
+
+import Client_Credentials
+
+from .GentrysQuestManager import GentrysQuestManager
+
+
+class GentrysQuestClassicManager(GentrysQuestManager):
+    def __init__(self, version: str):
+        print("\nLoading Gentry's Quest Classic data\n")
+        time.sleep(Client_Credentials.section_load_time)
+
+        super().__init__(version, True)
