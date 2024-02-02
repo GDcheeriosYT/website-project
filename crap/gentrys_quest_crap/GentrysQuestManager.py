@@ -13,6 +13,7 @@ class GentrysQuestManager:
     players = None
     online_players = None
     rater = GPSystem.rater
+    rater_version = GPSystem.version
     version = None
 
     def __init__(self, version, is_classic: bool):
@@ -46,6 +47,14 @@ class GentrysQuestManager:
         self.players.sort(key=sort_thing, reverse=True)
         print("done!")
 
+    def get_player(self, id):
+        for player in self.players:
+            if player.id == id:
+                return player
+
+    def check_player_exists(self, id):
+        return True if self.get_player(id) else False
+
     def get_leaderboard(self, min_index: int = 0, max_index: int = 50):
         new_list = []
 
@@ -62,25 +71,26 @@ class GentrysQuestManager:
 
         return new_list
 
+    def update_player_data(self, id, data):
+        player = self.get_player(id)
+        player.data = data
+        player.update_power_level(GentrysQuestManager.rater)
+        self.sort_players()
+
     def update_player_power_level(self, id):
-        for player in self.players:
-            if id == player.id:
-                player.update_power_level(GentrysQuestManager.rater)
-                break
+        self.get_player(id).update_power_level(GentrysQuestManager.rater)
 
     def get_player_power_level(self, id):
-        for player in self.players:
-            if id == player.id:
-                return player.power_level.jsonify()
+        return self.get_player(id).power_level.jsonify()
 
     def check_in_player(self, id):
-        for player in self.players:
-            if id == player.id:
-                self.online_players.append(player)
-                break
+        if self.check_player_exists(id):
+            self.online_players.append(self.get_player(id))
+        else:
+            account_data = ServerData.account_manager.get_by_id(id)
+            player = Player(account_data.username, id, None)
+            self.players.append(player)
+            self.online_players.append(player)
 
     def check_out_player(self, id):
-        for player in self.players:
-            if id == player.id:
-                self.online_players.remove(player)
-                break
+        self.online_players.remove(self.get_player(id))

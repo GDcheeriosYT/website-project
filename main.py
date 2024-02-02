@@ -27,6 +27,7 @@ from crap.osu_crap.Match import Match
 from crap.osu_crap.PlayerList import PlayerList
 from crap.osu_crap.MatchHandler import MatchHandler
 
+from crap.gentrys_quest_crap.GentrysQuestManager import GentrysQuestManager
 from crap.gentrys_quest_crap.GentrysQuestClassicManager import GentrysQuestClassicManager
 
 from crap.ServerData import ServerData
@@ -524,13 +525,10 @@ async def update_gc_data(id):
 
     try:
         data = request.json
-        user_data = json.load(open(f"accounts/{id}.json", "r"))
         if verify_token(data["token"]):
-            user_data["metadata"]["Gentry's Quest data"] = data["data"]
+            GQC_manager.update_player_data(id, data["data"])
+            ServerData.account_manager.get_by_id(id).gentrys_quest_classic_data = data["data"]
 
-        json.dump(user_data, open(f"accounts/{id}.json", "w"), indent=4)
-        GQC_manager.update_player_power_level(id)
-        GQC_manager.sort_players()
         ServerData.gqc_status.successful()
     except:
         ServerData.gqc_status.unsuccessful()
@@ -581,7 +579,7 @@ async def gentrys_quest_leaderboard():
     return render_template(
         "gentrys quest/leaderboard.html",
         players=players,
-        version=GQC_manager.version
+        version=GentrysQuestManager.rater_version
     )
 
 
@@ -597,7 +595,7 @@ async def gentrys_quest_online_players():
     return render_template(
         "gentrys quest/online-players.html",
         players=players,
-        version=GQC_manager.version
+        version=GentrysQuestManager.rater_version
     )
 
 

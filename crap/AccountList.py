@@ -18,9 +18,9 @@ class AccountList:
             time.sleep(Client_Credentials.load_time)
 
     def unload(self):
-        for account in os.listdir("accounts"):
-            with open(f"accounts/{account}", "w") as account_file:
-                json.dump(self.get_by_id(int(account[:-5])).jsonify(), account_file, indent=4)
+        for account in self.accounts:
+            with open(f"accounts/{account.id}.json", "w") as account_file:
+                json.dump(account.jsonify(), account_file, indent=4)
 
     def get_by_id(self, id) -> Account:
         for account in self.accounts:
