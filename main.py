@@ -514,7 +514,7 @@ async def get_online_players():
 async def get_version():
     ServerData.api_call(ApiType.GQGetVersion)
 
-    return gq_version
+    return GQC_manager.version
 
 
 @app.route("/api/updateGCdata/<id>", methods=["POST"])
