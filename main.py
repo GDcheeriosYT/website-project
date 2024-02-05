@@ -567,7 +567,7 @@ async def down():
 
 @app.route("/gentrys-quest")
 async def gentrys_quest_home():
-    return render_template("gentrys quest/home.html", version=gq_version[1:])
+    return render_template("gentrys quest/home.html", version=GQC_manager.version[1:])
 
 
 @app.route("/gentrys-quest/leaderboard")
