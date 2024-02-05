@@ -787,4 +787,4 @@ async def web_control():
 
 if __name__ == "__main__":
     server_port = os.environ.get('PORT', '80')
-    socketio.run(app, host='0.0.0.0', port=server_port)
+    socketio.run(app, host='0.0.0.0', port=server_port, allow_unsafe_werkzeug=True)
