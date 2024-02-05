@@ -78,6 +78,7 @@ atexit.register(exit_func)
 
 @app.route("/web-save", methods=['POST'])
 def web_save():
+    ServerData.api_call(ApiType.WebSave)
     player_data.unload()
     match_handler.unload()
     ServerData.account_manager.unload()
