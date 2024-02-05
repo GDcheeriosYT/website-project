@@ -47,9 +47,7 @@ match_handler = MatchHandler()
 match_handler.load()
 
 #   Gentrys Quest data
-gq_version = requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()[
-    "name"]
-GQC_manager = GentrysQuestClassicManager(gq_version)
+GQC_manager = GentrysQuestClassicManager("V1.8.2")
 
 # flask set up
 app = Flask(  # Create a flask app
