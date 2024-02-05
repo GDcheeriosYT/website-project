@@ -76,6 +76,15 @@ atexit.register(exit_func)
 
 # <editor-fold desc="API">
 
+@app.route("/web-save", methods=['POST'])
+def web_save():
+    player_data.unload()
+    match_handler.unload()
+    ServerData.account_manager.unload()
+
+    return "Saved!"
+
+
 # <editor-fold desc="token API">
 @app.route("/api/generate-token")
 async def generate_token():
@@ -561,6 +570,12 @@ async def down():
     return render_template("down.html")
 
 
+@app.route("/control")
+async def web_control():
+    return render_template(
+        "control.html",
+    )
+
 # </editor-fold>
 
 # <editor-fold desc="gentrys quest">
@@ -749,14 +764,6 @@ def update_status():
 # </editor-fold>
 
 
-@app.route("/control")
-async def web_control():
-    return render_template(
-        "control.html",
-        live_status_users=len(live_player_status)
-    )
-
-
 # minecraft wip
 
 # @app.route("/minecraft")
@@ -787,4 +794,4 @@ async def web_control():
 
 if __name__ == "__main__":
     server_port = os.environ.get('PORT', '80')
-    socketio.run(app, host='0.0.0.0', port=server_port, allow_unsafe_werkzeug=True)
+    socketio.run(app, host='0.0.0.0', port=server_port, allow_unsafe_werkzeug=True, debug=True)

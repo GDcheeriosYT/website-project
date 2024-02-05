@@ -2,6 +2,9 @@ from enum import Enum, auto
 
 
 class ApiType(Enum):
+    # main
+    WebSave = auto()
+
     # tokens
     TokenGenerate = auto()
     TokenVerify = auto()
