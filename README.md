@@ -9,6 +9,11 @@ If you wanna start your own instance make sure to make a file called Client_Cred
 domain = "https://mydomain.com"
 load_time = 0  # extra delay for loading iterations in seconds
 section_load_time = 0  # extra delay for each loading section in seconds
+debug = False  # debugging?
+
+# ssl
+cert_path = None  # the path for the cert.pem
+key_path = None  # the path for the key.pem
 
 # osu
 osu_secret = "blahblahblahblah" # client secret
