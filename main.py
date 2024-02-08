@@ -618,6 +618,7 @@ async def gentrys_quest_ranking():
     return render_template(
         "gentrys quest/ranking.html",
         ranking_info=GentrysQuestManager.rater.get_tiers(),
+        colors=GentrysQuestManager.rater.rating_colors,
         gqc_id=GQC_manager.get_player,
         gqc_rank=GQC_manager.get_ranking
     )

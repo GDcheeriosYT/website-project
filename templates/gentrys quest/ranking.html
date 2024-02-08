@@ -2,7 +2,7 @@
 <html>
   <head>
     {% block head %}
-    <title>Home</title>
+    <title>Ranking Info</title>
     <link rel="stylesheet" href="/static/style.css">
     {% endblock %}
   </head>
@@ -48,18 +48,13 @@
         </div>
 
       <script>
+        let colorList = JSON.parse('{{ colors|tojson }}')
+
         function color_el(el, rank){
-          var color;
-          if (rank == "copper") color = "red";
-          if (rank == "bronze") color = "brown";
-          if (rank == "silver") color = "gray";
-          if (rank == "gold") color = "gold";
-          if (rank == "platinum") color = "blue";
-          if (rank == "diamond") color = "cyan";
-          if (rank == "gentry warrior") color = "lime";
-          el.style.backgroundColor = color;
+          el.style.backgroundColor = colorList[rank];
         }
 
+        color_el(document.getElementById('unranked'), "unranked")
         color_el(document.getElementById('copper'), "copper")
         color_el(document.getElementById('bronze'), "bronze")
         color_el(document.getElementById('silver'), "silver")
