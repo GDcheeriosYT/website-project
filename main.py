@@ -796,4 +796,15 @@ def update_status():
 
 if __name__ == "__main__":
     server_port = os.environ.get('PORT', '80')
-    socketio.run(app, host='0.0.0.0', port=server_port, allow_unsafe_werkzeug=True)
+    ssl_context = None
+    if client.cert_path and client.key_path:
+        ssl_context = (client.cert_path, client.key_path)
+
+    socketio.run(
+        app,
+        host='0.0.0.0',
+        port=server_port,
+        allow_unsafe_werkzeug=True,
+        debug=client.debug,
+        ssl_context=ssl_context
+    )
