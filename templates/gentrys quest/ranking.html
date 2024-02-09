@@ -38,7 +38,7 @@
                     {% for tier in ranking_info[key].keys() %}
                       <div style="display: flex; flex-direction: row; justify-content: space-evenly; margin: 2px;">
                         <h2>{{ tier }}</h2>
-                        <h2>{{ ranking_info[key][tier] }}GP</h2>
+                        <h2>{{ ranking_info[key][tier] }} gp</h2>
                       </div>
                     {% endfor %}
                   </div>
@@ -61,6 +61,7 @@
         color_el(document.getElementById('gold'), "gold")
         color_el(document.getElementById('platinum'), "platinum")
         color_el(document.getElementById('diamond'), "diamond")
+        color_el(document.getElementById('champion'), "champion")
         color_el(document.getElementById('gentry warrior'), "gentry warrior")
         {% if user is not none %}
           color_el(document.getElementById('gqc-ranking'), "{{user.ranking.rank}}")
