@@ -20,12 +20,12 @@
       {% endif %}
     </div>
     <div class="profile-info">
-      <div class="profile-info-button" style="margin: 10px;" onclick='show_details()'>Details</div>
+      <div class="profile-info-button" style="margin: 10px;" onclick='swapCategory("about-me")'>Details</div>
       {% if osuid != 0 %}
         <div class="profile-info-button" style="margin: 10px;" onclick="window.open('https://osu.ppy.sh/users/{{osuid}}', 'mywindow')">osu! (profile)</div>
       {% endif %}
       {% if gqc_data != None %}
-        <div class="profile-info-button" style="margin: 10px;">Gentry's Quest Classic data</div>
+        <div class="profile-info-button" style="margin: 10px;" onclick='swapCategory("gqc-data")'>Gentry's Quest Classic data</div>
       {% endif %}
     </div>
     <div class="user-details">
@@ -40,7 +40,7 @@
           <h1>{{ data['startupamount'] }} sessions</h1>
           <h1>{{ gqc_data.power_level.weighted }} | {{ gqc_data.power_level.unweighted }} gp</h1>
           <h1>${{ data['inventory']['money'] }}</h1>
-          <div id="gqc-data-container" style="display: flex; flex-direction: row; justify-content: space-evenly;">
+          <div id="gqc-data-container" style="display: flex; flex-direction: row; justify-content: center;">
             <div id="characters" style="display: flex; flex-direction: column; margin: 4px;">
               <h1>Characters</h1>
               {% for character in data['inventory']['characters'] %}
@@ -126,7 +126,21 @@
         </div>
       {% endif %}
       <script>
-        var selected_category = "about-me"
+        document.getElementById("gqc-data").style.opacity = 0
+
+        function swapCategory(category){
+          switch (category){
+            case "about-me":
+              document.getElementById("gqc-data").style.opacity = 0
+              document.getElementById("about-me").style.opacity = 1
+              break;
+
+            case "gqc-data":
+              document.getElementById("gqc-data").style.opacity = 1
+              document.getElementById("about-me").style.opacity = 0
+              break;
+          }
+        }
 
       </script>
     </div>
