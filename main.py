@@ -252,6 +252,9 @@ async def signout():
 @app.route("/create-account", methods=['POST'])
 def create_account():
     username = request.form.get("nm")
+    if ServerData.account_manager.get_by_username(username):
+        return redirect("/account/create")
+
     password = request.form.get("pw")
     try:
         osuid = int(request.form.get("id"))
@@ -310,8 +313,10 @@ async def change_username():
         id = request.cookies.get("userID")
         account = ServerData.account_manager.get_by_id(id)
         username = request.form.get("username")
-        account.username = username
-        ServerData.account_status.successful()
+        if not ServerData.account_manager.get_by_username(username):
+            account.username = username
+            ServerData.account_status.successful()
+
         return render_template('account/user-profile.html',
                                id=id,
                                username=account.username,
