@@ -17,6 +17,7 @@ class ApiType(Enum):
     AccountLogOut = auto()
     AccountChangePfp = auto()
     AccountReceive = auto()
+    AccountChangeUsername = auto()
 
     # osu
     OsuRefresh = auto()

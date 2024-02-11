@@ -47,7 +47,8 @@ match_handler = MatchHandler()
 match_handler.load()
 
 #   Gentrys Quest data
-GQC_manager = GentrysQuestClassicManager(requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()["name"])
+GQC_manager = GentrysQuestClassicManager(
+    requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()["name"])
 
 # flask set up
 app = Flask(  # Create a flask app
@@ -279,18 +280,38 @@ def change_profile_picture():
 
     try:
         id = request.cookies.get('userID')
-        account_data = json.load(open(f"accounts/{id}.json"))
-        account_data["pfp url"] = request.form.get("url")
-        json.dump(account_data,
-                  open(f"accounts/{id}.json", "w"),
-                  indent=4,
-                  sort_keys=False)
+        account_data = ServerData.account_manager.get_by_id(id)
+        account_data.pfp = request.form.get("url")
         ServerData.account_status.successful()
         return render_template('account/user-profile.html',
                                id=id,
-                               username=account_data["username"],
-                               profile_picture=account_data["pfp url"],
-                               metadata=account_data["metadata"])
+                               username=account_data.username,
+                               profile_picture=account_data.pfp,
+                               about=account_data.about,
+                               osuid=account_data.osu_id
+                               )
+    except:
+        ServerData.account_status.unsuccessful()
+
+
+@app.route("/api/account/change-username", methods=["POST"])
+async def change_username():
+    ServerData.api_call(ApiType.AccountChangeUsername)
+
+    try:
+        id = request.cookies.get("userID")
+        account = ServerData.account_manager.get_by_id(id)
+        username = request.form.get("username")
+        account.username = username
+        ServerData.account_status.successful()
+        return render_template('account/user-profile.html',
+                               id=id,
+                               username=account.username,
+                               profile_picture=account.pfp,
+                               about=account.about,
+                               osuid=account.osu_id
+                               )
+
     except:
         ServerData.account_status.unsuccessful()
 
@@ -576,6 +597,7 @@ async def web_control():
     return render_template(
         "control.html",
     )
+
 
 # </editor-fold>
 
