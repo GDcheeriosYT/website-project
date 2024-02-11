@@ -224,7 +224,10 @@ def login_cookie():
                             username=login_result.username,
                             profile_picture=login_result.pfp,
                             about=login_result.about,
-                            osuid=login_result.osu_id))
+                            osuid=login_result.osu_id,
+                            gqc_data=GQC_manager.get_player(id),
+                            get_buff=GQC_manager.attribute_convert
+                            ))
         resp.set_cookie('userID', str(login_result.id))
         return resp
     else:
@@ -265,7 +268,10 @@ def create_account():
                             username=account.username,
                             profile_picture=account.pfp,
                             about=account.about,
-                            osuid=account.osu_id))
+                            osuid=account.osu_id,
+                            gqc_data=GQC_manager.get_player(id),
+                            get_buff=GQC_manager.attribute_convert
+                            ))
         resp.set_cookie('userID', str(account.id))
         return resp
     else:
@@ -288,7 +294,9 @@ def change_profile_picture():
                                username=account_data.username,
                                profile_picture=account_data.pfp,
                                about=account_data.about,
-                               osuid=account_data.osu_id
+                               osuid=account_data.osu_id,
+                               gqc_data=GQC_manager.get_player(id),
+                               get_buff=GQC_manager.attribute_convert
                                )
     except:
         ServerData.account_status.unsuccessful()
@@ -309,7 +317,9 @@ async def change_username():
                                username=account.username,
                                profile_picture=account.pfp,
                                about=account.about,
-                               osuid=account.osu_id
+                               osuid=account.osu_id,
+                               gqc_data=GQC_manager.get_player(id),
+                               get_buff=GQC_manager.attribute_convert
                                )
 
     except:
@@ -705,7 +715,10 @@ async def load_profile(id):
                            username=account_info.username,
                            profile_picture=account_info.pfp,
                            about=account_info.about,
-                           osuid=account_info.osu_id)
+                           osuid=account_info.osu_id,
+                           gqc_data=GQC_manager.get_player(id),
+                           get_buff=GQC_manager.attribute_convert
+                           )
 
 
 @app.route("/account/login")

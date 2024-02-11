@@ -20,14 +20,111 @@
       {% endif %}
     </div>
     <div class="profile-info">
-      <a style="margin: 10px;" onclick='show_details()'>Details</a>
+      <div class="profile-info-button" style="margin: 10px;" onclick='show_details()'>Details</div>
       {% if osuid != 0 %}
-        <a style="margin: 10px;" target=”_blank” href="https://osu.ppy.sh/users/{{osuid}}">OSU</a>
+        <div class="profile-info-button" style="margin: 10px;" onclick="window.open('https://osu.ppy.sh/users/{{osuid}}', 'mywindow')">osu!</div>
+      {% endif %}
+      {% if gqc_data != None %}
+        <div class="profile-info-button" style="margin: 10px;">Gentry's Quest Classic data</div>
       {% endif %}
     </div>
-    <div class="user-details" id="user-details">
-      <h1>About Me:</h1>
-      <h2>{{ about|safe }}</h2>
+    <div class="user-details">
+      <div id="about-me">
+        <h1>About Me</h1>
+        <h2>{{ about|safe }}</h2>
+      </div>
+
+      {% if gqc_data != None %}
+        {% set data = gqc_data.data %}
+        <div id="gqc-data">
+          <h1>{{ data['startupamount'] }} sessions</h1>
+          <h1>{{ gqc_data.power_level.weighted }} | {{ gqc_data.power_level.unweighted }} gp</h1>
+          <h1>${{ data['inventory']['money'] }}</h1>
+          <div id="gqc-data-container" style="display: flex; flex-direction: row; justify-content: space-evenly;">
+            <div id="characters" style="display: flex; flex-direction: column; margin: 4px;">
+              <h1>Characters</h1>
+              {% for character in data['inventory']['characters'] %}
+                <div class="character" id="{{ character['name'] }}" style="display: flex; flex-direction: column;">
+                  <div class="character-top">
+                    <h1>{{ character['name'] }} <span style="font-size: 45%;">{{ character['star rating'] }} stars</span></h1>
+                    <h1 style="font-size: 80%;">Level {{ character['experience']['level'] }} <span style="font-size: 80%;">{{ character['experience']['xp'] }}xp</span></h1>
+                  </div>
+                  <div class="character-mid">
+                    {% set weapon = character['equips']['weapon'] %}
+                    {% if weapon %}
+                      <div class="weapon" style="font-size: 75%;">
+                        <h1 style="font-size: 85%;">Weapon</h1>
+                        <h1>{{ weapon['name'] }} ({{ weapon['weapon type'] }}) <span style="font-size: 45%;">{{ weapon['star rating'] }} stars</span></h1>
+                        <h1>Level {{ weapon['experience']['level'] }} <span style="font-size: 80%;">{{ weapon['experience']['xp'] }}xp</span></h1>
+                        <h1>Attack: {{ weapon['stats']['attack'] }}</h1>
+                        <h1>Boosts: {{ get_buff(weapon['stats']['buff']['buff'][0]) }}</h1>
+                        <h1>{{ weapon['description'] }}</h1>
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="character-bot">
+                    <h1>Artifacts</h1>
+                    {% for artifact in character['equips']['artifacts'] %}
+                      {% if artifact %}
+                        <div class="artifact" style="font-size: 75%;">
+                          <h1>{{ artifact['name'] }} <span style="font-size: 45%;">{{ artifact['star rating'] }} stars</span></h1>
+                          <h1>Level {{ artifact['experience']['level'] }}</h1>
+                          <h1>Main attribute: {{ get_buff(artifact['stats']['main attribute']['buff'][0]) }}</h1>
+                          {% if artifact['stats']['attributes']|length > 0 %}
+                            <h1>Attributes</h1>
+                            {% for attribute in artifact['stats']['attributes'] %}
+                              <h1>{{ get_buff(attribute['buff'][0]) }}</h1>
+                            {% endfor %}
+                          {% endif %}
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+            <div id="weapons" style="display: flex; flex-direction: column; margin: 4px;">
+              <h1>Weapons</h1>
+              {% for weapon in data['inventory']['weapons'] %}
+                <div class="weapon">
+                  <h1 style="font-size: 85%;">Weapon</h1>
+                  <h1>{{ weapon['name'] }} ({{ weapon['weapon type'] }}) <span style="font-size: 45%;">{{ weapon['star rating'] }} stars</span></h1>
+                  <h1>Level {{ weapon['experience']['level'] }} <span style="font-size: 80%;">{{ weapon['experience']['xp'] }}xp</span></h1>
+                  <h1>Attack: {{ weapon['stats']['attack'] }}</h1>
+                  <h1>Boosts: {{ get_buff(weapon['stats']['buff']['buff'][0]) }}</h1>
+                  <h1>{{ weapon['description'] }}</h1>
+                </div>
+              {% endfor %}
+            </div>
+            <div id="artifacts" style="display: flex; flex-direction: column; margin: 4px;">
+              <h1>Artifacts</h1>
+              {% set artifact_count = namespace(value=0) %}
+              {% for artifact in data['inventory']['artifacts'] %}
+                {% if artifact['experience']['xp'] > 0 or artifact['experience']['level'] > 1 %}
+                  <div class="artifact" style="font-size: 75%;">
+                    <h1>{{ artifact['name'] }} <span style="font-size: 45%;">{{ artifact['star rating'] }} stars</span></h1>
+                    <h1>Level {{ artifact['experience']['level'] }}</h1>
+                    <h1>Main attribute: {{ get_buff(artifact['stats']['main attribute']['buff'][0]) }}</h1>
+                    {% if artifact['stats']['attributes']|length > 0 %}
+                      <h1>Attributes</h1>
+                        {% for attribute in artifact['stats']['attributes'] %}
+                          <h1>{{ get_buff(attribute['buff'][0]) }}</h1>
+                        {% endfor %}
+                    {% endif %}
+                  </div>
+                  {% set artifact_count.value = artifact_count.value + 1 %}
+                {% endif %}
+              {% endfor %}
+              <h1 style="font-size: 90%;">displaying {{ artifact_count.value }} of {{ data['inventory']['artifacts']|length }} artifacts</h1>
+            </div>
+          </div>
+          <h1>{{data}}</h1>
+        </div>
+      {% endif %}
+      <script>
+        var selected_category = "about-me"
+
+      </script>
     </div>
     {% endblock %}
   </body>
