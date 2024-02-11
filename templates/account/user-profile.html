@@ -9,53 +9,6 @@
   </head>
   <body>
     {% block body %}
-    <script>
-      //let pos = document.getElementById('user-details').getBoundingClientRect()
-      function show_details(){
-        hide_gqdata()
-        hide_backrooms()
-        
-        let details = document.getElementById('user-details')
-        details.classList.remove('fade-away')
-        details.classList.add('fade-in')
-      }
-
-      function hide_details(){
-        let details = document.getElementById('user-details')
-        details.classList.remove('fade-in')
-        details.classList.add('fade-away')
-      }
-
-      function show_gqdata(){
-        hide_details()
-        hide_backrooms()
-        
-        let gqdata = document.getElementById('gqdata')
-        gqdata.classList.remove('fade-away')
-        gqdata.classList.add('fade-in')
-      }
-
-      function hide_gqdata(){
-        let gqdata = document.getElementById('gqdata')
-        gqdata.classList.remove('fade-away')
-        gqdata.classList.add('fade-away')
-      }
-
-      function show_backrooms(){
-        hide_details()
-        hide_gqdata()
-
-        let backrooms = document.getElementById("backrooms")
-        backrooms.classList.remove('fade-away')
-        backrooms.classList.add('fade-in')
-      }
-
-      function hide_backrooms(){
-        let backrooms = document.getElementById("backrooms")
-        backrooms.classList.remove('fade-in')
-        backrooms.classList.add('fade-away')
-      }
-    </script>
     <div style="margin-top: 3%;">
       <img style="margin-left: auto; margin-right: auto; display: block;" src="{{profile_picture}}">
       {% if request.cookies.get('userID') == id %}
@@ -63,7 +16,7 @@
       {% endif %}
       <h1 class="username">{{username}}</h1>
     </div>
-    <div class="profile-info mx-auto">
+    <div class="profile-info">
       <a style="margin: 10px;" onclick='show_details()'>Details</a>
       {% if osuid != 0 %}
         <a style="margin: 10px;" target=”_blank” href="https://osu.ppy.sh/users/{{osuid}}">OSU</a>

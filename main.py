@@ -677,12 +677,13 @@ async def matches_page():
 
 @app.route("/user/<id>")
 async def load_profile(id):
-    account_info = json.load(open(f"accounts/{id}.json", encoding="utf-8"))
+    account_info = ServerData.account_manager.get_by_id(id)
     return render_template("account/user-profile.html",
                            id=id,
-                           username=account_info["username"],
-                           profile_picture=account_info["pfp url"],
-                           metadata=account_info["metadata"])
+                           username=account_info.username,
+                           profile_picture=account_info.pfp,
+                           about=account_info.about,
+                           osuid=account_info.osu_id)
 
 
 @app.route("/account/login")
