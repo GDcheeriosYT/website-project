@@ -173,23 +173,19 @@ async def password_cache_gen_post():
     return render_template("password_gen.html", password=str(bcrypt.generate_password_hash(password)))
 
 
-@app.route("/api/account/receive-account/<id_or_name>")  # receive account with id
+@app.route("/api/account/receive/<id_or_name>")  # receive account with id
 def get_account_with_id_or_name(id_or_name):
     ServerData.api_call(ApiType.AccountReceive)
 
     successful = ServerData.account_status.successful
     try:
-        for file in os.listdir("accounts"):
-            account_data = json.load(open(f"accounts/{file}", "r"))
-            if file[:-5] == id_or_name:
-                successful()
-                return {str(file[:-5]): account_data}
-            if account_data["username"] == id_or_name:
-                successful()
-                return {str(file[:-5]): account_data}
+        data = ServerData.account_manager.get_by_username(id_or_name)
+        if not data:
+            data = ServerData.account_manager.get_by_id(id_or_name)
+
 
         successful()
-        return "Not Found"
+        return data.jsonify() if data else "Not Found"
     except:
         ServerData.account_status.unsuccessful()
 
