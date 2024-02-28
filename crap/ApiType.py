@@ -4,6 +4,7 @@ from enum import Enum, auto
 class ApiType(Enum):
     # main
     WebSave = auto()
+    WebBackup = auto()
 
     # tokens
     TokenGenerate = auto()

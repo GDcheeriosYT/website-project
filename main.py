@@ -87,6 +87,15 @@ def web_save():
     return "Saved!"
 
 
+@app.route("/web-backup", methods=['POST'])
+def web_backup():
+    from crap.Backup import create_backup
+    ServerData.api_call(ApiType.WebBackup)
+    create_backup()
+
+    return "backed up"
+
+
 # <editor-fold desc="token API">
 @app.route("/api/generate-token")
 async def generate_token():

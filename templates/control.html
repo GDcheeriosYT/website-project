@@ -10,8 +10,11 @@
   {% block body %}
 		{% if request.cookies.get('userID') == "1" %}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-            <div onclick="saveData()" class="api">
-                <h1>Save webdata</h1>
+            <div onclick="send('/web-save')" class="api">
+                <h1>Save server</h1>
+            </div>
+            <div onclick="send('/web-backup')" class="api">
+                <h1>Backup server</h1>
             </div>
             <script>
                 var socket = io()
@@ -23,9 +26,9 @@
                 
                 socket.on('control data recieve', (data) =>{})
 
-                function saveData(){
+                function send(url){
                     let xhr = new XMLHttpRequest();
-                    xhr.open('POST', "/web-save");
+                    xhr.open('POST', url);
                     xhr.send()
                 }
             </script>
