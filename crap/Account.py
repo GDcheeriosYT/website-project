@@ -21,12 +21,15 @@ class Account:
 
         self.about = metadata["about me"]
 
+        self.perms = data["perms"]
+
     def jsonify(self):
         return {
             "username": self.username,
             "password": self.password,
             "pfp url": self.pfp,
             "id": self.id,
+            "perms": self.perms,
             "metadata": {
                 "osu id": self.osu_id,
                 "Gentry's Quest data": self.gentrys_quest_data,
