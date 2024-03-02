@@ -24,7 +24,7 @@
             {% endif %}
 
             {% for match in matches.matches %}
-                <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
+                <div class="match-box">
                     <a href="matches/{{match.name}}">{{match.name}}</a>
                     <div class="match-data">
                         <div class="data-box">users = {{match.players|length}}</div>

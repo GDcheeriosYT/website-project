@@ -709,7 +709,7 @@ def load_match(match_name):
 async def matches_page():
     return render_template(
         'osu/matches.html',
-        matches=match_handler
+        matches=match_handler,
     )
 
 
