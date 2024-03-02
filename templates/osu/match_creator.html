@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+<html>
+    <head>
+        {% block head %}
+        <title>Create a match</title>
+        <link rel="stylesheet" href="/static/style.css">
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+            {% if has_perm(request.cookies.get('userID'), "osu") %}
+                <form action="/osu/form/create-match" method="post">
+                    <h1>Match Name</h1>
+                    <input type="text" name="name" value="Match Name">
+                    <input type="number" name="">
+                </form>
+            {% else %}
+                <h1>Bro you think you have access or something?</h1>
+            {% endif %}
+        {% endblock %}
+    </body>
+</html>

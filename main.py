@@ -710,8 +710,17 @@ async def matches_page():
     return render_template(
         'osu/matches.html',
         matches=match_handler,
+        has_perm=ServerData.account_manager.has_permission
     )
 
+
+@app.route("/osu/create")
+async def match_create():
+    return render_template(
+        'osu/match_creator.html',
+        matches=match_handler,
+        has_perm=ServerData.account_manager.has_permission
+    )
 
 # </editor-fold>
 

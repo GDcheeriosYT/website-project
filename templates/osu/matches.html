@@ -16,6 +16,9 @@
 
     <body>
         {% block body %}
+            {% if has_perm(request.cookies.get('userID'), "osu") %}
+                <div class="api" onclick="location.href = '/osu/create';"><h1>Create Match</h1></div>
+            {% endif %}
 
             <h1 class="white-text" style="text-align: center; font-size: 100px;">Current Matches</h1>
 
