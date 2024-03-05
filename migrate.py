@@ -1,4 +1,5 @@
 import json
+from crap.JsonHelper import JsonHelper
 import os
 
 if __name__ == "__main__":
@@ -15,6 +16,7 @@ if __name__ == "__main__":
             'password': existing_data["password"],
             'pfp url': existing_data["pfp url"],
             'id': existing_data["id"],
+            'osu id': existing_data["osu id"],
             'perms': existing_data["perms"] if 'perms' in existing_data.keys() else [],
             'about me': existing_data["metadata"]["about me"]
         }
