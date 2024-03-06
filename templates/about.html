@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+<html>
+    <head>
+        {% block head %}
+        <title>About Me</title>
+        <link rel="stylesheet" href="/static/style.css">
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+            <h1 style="font-size: 350%;">About Me</h1>
+            <div id="page-sep" style="display: flex; flex-direction: row; justify-content: space-around;">
+                <div id="left">
+                    <h1>I'm so cool</h1>
+                </div>
+                <div id="right">
+                    <iframe height="1200px" width="500" title="my resume" src="https://docs.google.com/document/d/e/2PACX-1vR8iIaVf2aTMSrDPk8W5sH6v8ZkbX9F6HqxN20jTyhGcljnqrUwthayzCh5aDnZRjK9m8sAO9CvBI6k/pub?embedded=true"></iframe>
+                </div>
+            </div>
+        {% endblock %}
+    </body>
+</html>

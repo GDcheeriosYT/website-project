@@ -593,6 +593,16 @@ async def update_gc_data(id):
 
 # <editor-fold desc="main">
 
+@app.route('/')
+async def home():
+    return render_template("index.html")
+
+
+@app.route('/about')
+async def about():
+    return render_template("about.html")
+
+
 @app.route("/status")
 async def status():
     return render_template(
@@ -601,10 +611,6 @@ async def status():
         api_enum=ApiType
     )
 
-
-@app.route('/')
-async def home():
-    return render_template("index.html")
 
 
 @app.route("/down")
