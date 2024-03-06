@@ -3,5 +3,5 @@ Flask[async]==3.0.1
 Flask-Bcrypt==1.0.1
 Flask-SocketIO==5.3.6
 requests==2.31.0
-gunicorn==21.2.0
 pyopenssl==24.0.0
+GPSystem @ git+https://github.com/GDcheeriosYT/GPSystem.git
