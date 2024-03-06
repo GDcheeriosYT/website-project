@@ -1,4 +1,4 @@
-import json
+from JsonHelper import JsonHelper
 
 
 class Account:
@@ -7,21 +7,27 @@ class Account:
 
         self.id = id
 
-        data = json.load(open(f"accounts/{id}.json", "r"))
+        directory = f"accounts/{id}"
 
-        self.username = data["username"]
-        self.password = data["password"]
-        self.pfp = data["pfp url"]
+        self.data = JsonHelper(f"{directory}/account_data.json")
 
-        metadata = data["metadata"]
+        self.username = self.data.safe_assured_key("username")
+        self.password = self.data.safe_assured_key("password")
+        self.pfp = self.data.safe_assured_key("pfp url")
+        self.osu_id = self.data.safe_assured_key("osu id")
 
-        self.osu_id = metadata["osu id"]
-        self.gentrys_quest_classic_data = metadata["Gentry's Quest Classic data"]
-        self.gentrys_quest_data = metadata["Gentry's Quest data"]
+        gqc_directory = f"{directory}/gentrys quest classic data"
 
-        self.about = metadata["about me"]
+        self.gqc_data = JsonHelper(f"{gqc_directory}/data.json")
+        # self.gentrys_quest_classic_data = metadata["Gentry's Quest Classic data"]
+        # self.gentrys_quest_data = metadata["Gentry's Quest data"]
 
-        self.perms = data["perms"]
+        # self.about = metadata["about me"]
+
+        # self.perms = data["perms"]
+
+    def change_username(self, new_username: str):
+        self.username = new_username
 
     def jsonify(self):
         return {
