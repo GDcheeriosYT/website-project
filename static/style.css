@@ -1001,3 +1001,10 @@ input:checked + .slider:before {
     box-shadow: 1px 1px 9px 1px #000000;
     margin: 10px;
 }
+
+.section {
+    background-color: #091624;
+    border-radius: 2vw;
+    margin: 6px;
+    padding: 12px;
+}

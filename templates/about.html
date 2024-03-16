@@ -9,14 +9,71 @@
     <body>
         {% block body %}
             <h1 style="font-size: 350%;">About Me</h1>
-            <div id="page-sep" style="display: flex; flex-direction: row; justify-content: space-around;">
-                <div id="left">
-                    <h1>I'm so cool</h1>
+            <div id="page-sep" style="display: flex; flex-direction: row; justify-content: space-evenly;">
+                <div id="left" style="display: flex; flex-direction: column;">
+                    <h1 style="font-size: 100%;">Info</h1>
+                    <div class="section" id="intro">
+                        <h1>I'm Brayden Messerschmidt</h1>
+                        <h1>A.K.A GDcheerios</h1>
+                        <div id="collab-images" style="display: flex; flex-direction: row; justify-content: space-evenly;">
+                            <img src="{{url_for('static', filename='images/collab/AnimeBrayden.png')}}">
+                            <img src="{{url_for('static', filename='images/collab/talky brayden.gif')}}">
+                            <img src="{{url_for('static', filename='images/collab/The_Brayden.png')}}">
+                            <img src="{{url_for('static', filename='images/collab/Brayden2.png')}}">
+                            <img src="{{url_for('static', filename='images/collab/hyveebrayden.png')}}">
+                            <img src="{{url_for('static', filename='images/collab/theboys.png')}}">
+                        </div>
+                        <img style="display: block; width: 50%; height: 500px; margin-left: auto; margin-right: auto; margin-top: 7px;" src="{{url_for('static', filename='images/brayden_fast.jpg')}}">
+                    </div>
+                    <div class="section" id="socials">
+                        <h1>Socials</h1>
+                        <div id="socials-container" style="display: flex; flex-direction: column; justify-content: space-evenly;">
+                            <div id="discord" style="display: flex; flex-direction: row; justify-content: space-evenly;">
+                                <h1>Discord</h1>
+                                <h1>gdcheerios2</h1>
+                            </div>
+                            <div id="youtube" style="display: flex; flex-direction: row; justify-content: space-evenly;">
+                                <h1>Youtube</h1>
+                                <h1><a style="font-size: 100%;" href="https://www.youtube.com/channel/UCU-ucr7ITJ5hcKVMSX_J6lA" target="_blank">GDcheerios</a></h1>
+                            </div>
+<!--                            <div id="" style="display: flex; flex-direction: row; justify-content: space-evenly;">-->
+<!--                                <h1></h1>-->
+<!--                                <h1></h1>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                    <div class="section" id="Main info">
+                        <h1>
+                            I'm <span id="age"></span> years old. <br>
+                            I love programming, watching anime, and playing video games. <br>
+                            I currently work at a grocery store named <a style="font-size: 100%;" href="https://www.hy-vee.com/stores/detail.aspx?s=180" target="_blank">Hy-Vee</a> <br>
+                            <img src="{{url_for('static', filename='images/hyvee/brayden_orange_chicken.png')}}">
+                        </h1>
+                    </div>
+                    <div class="section" id="Autobiography">
+                    <h1>I was born on September 8th 2004</h1>
+                    <h1></h1>
+                    </div>
                 </div>
                 <div id="right">
-                    <iframe height="1200px" width="500" title="my resume" src="https://docs.google.com/document/d/e/2PACX-1vR8iIaVf2aTMSrDPk8W5sH6v8ZkbX9F6HqxN20jTyhGcljnqrUwthayzCh5aDnZRjK9m8sAO9CvBI6k/pub?embedded=true"></iframe>
+                    <h1 style="font-size: 100%;">Resume</h1>
+                    <iframe height="97%" width="640" title="My Resume" src="https://docs.google.com/document/d/e/2PACX-1vR8iIaVf2aTMSrDPk8W5sH6v8ZkbX9F6HqxN20jTyhGcljnqrUwthayzCh5aDnZRjK9m8sAO9CvBI6k/pub?embedded=true"></iframe>
                 </div>
             </div>
+            <script>
+                var ageEl = document.getElementById('age');
+                function calculateAge(birthDate) {
+                    const birthDateObj = new Date(birthDate);
+                    const currentDate = new Date();
+                    const differenceMs = currentDate - birthDateObj;
+                    const age = Math.floor(differenceMs / (1000 * 60 * 60 * 24 * 365));
+
+                    return age;
+                }
+                const birthDate = '2004-09-8';
+                const age = calculateAge(birthDate);
+                ageEl.innerHTML = age
+            </script>
         {% endblock %}
     </body>
 </html>
