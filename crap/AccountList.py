@@ -34,6 +34,14 @@ class AccountList:
             if account.username == username:
                 return account
 
+    def has_permission(self, id, permission: str):
+        if id:
+            perms = self.get_by_id(id).perms
+            if perms:
+                return permission in perms
+
+        return False
+
     def make_account(self, id):
         self.accounts.append(Account(id))
 

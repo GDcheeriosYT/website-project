@@ -443,18 +443,7 @@ ul{
 }
 
 .match-box {
-  display: block;
-  text-align: center;
-  font-size: 5vw;
-  border: 0.2vw solid rgba(127, 221, 255, 0.667);
-  border-radius: 2vw;
-  width: 70vw;
-  min-height: 86px;
-  margin: auto;
-  box-shadow: 5px 5px 15px 5px #00c8ff61;
-  block-size: fit-content;
-  position: relative;
-  overflow: hidden;
+    border-radius
 }
 
 .match-box a{

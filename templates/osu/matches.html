@@ -16,6 +16,9 @@
 
     <body>
         {% block body %}
+            {% if has_perm(request.cookies.get('userID'), "osu") %}
+                <div class="api" onclick="location.href = '/osu/create';"><h1>Create Match</h1></div>
+            {% endif %}
 
             <h1 class="white-text" style="text-align: center; font-size: 100px;">Current Matches</h1>
 
@@ -24,7 +27,7 @@
             {% endif %}
 
             {% for match in matches.matches %}
-                <div class="match-box" style="background-image: linear-gradient(to top, #00000095 10%, #00000000 80%)">
+                <div class="match-box">
                     <a href="matches/{{match.name}}">{{match.name}}</a>
                     <div class="match-data">
                         <div class="data-box">users = {{match.players|length}}</div>
