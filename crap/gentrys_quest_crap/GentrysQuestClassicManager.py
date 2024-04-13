@@ -18,9 +18,9 @@ class GentrysQuestClassicManager(GentrysQuestManager):
             return "health"
         elif attribute == 1:
             return "attack"
-        if attribute == 2:
+        elif attribute == 2:
             return "defense"
-        if attribute == 3:
+        elif attribute == 3:
             return "critrate"
-        if attribute == 4:
+        elif attribute == 4:
             return "critdamage"
