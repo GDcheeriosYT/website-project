@@ -11,6 +11,7 @@ port = "80"  # the port
 load_time = 0  # extra delay for loading iterations in seconds
 section_load_time = 0  # extra delay for each loading section in seconds
 debug = False  # debugging?
+gq_rating = False  # rating gentry's quest?
 
 # ssl
 cert_path = None  # the path for the cert.pem
