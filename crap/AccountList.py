@@ -14,12 +14,12 @@ class AccountList:
 
         self.accounts = []
         for account in os.listdir("accounts"):
-            self.accounts.append(Account(account[:-5]))
+            self.accounts.append(Account(account))
             time.sleep(Client_Credentials.load_time)
 
     def unload(self):
         for account in self.accounts:
-            with open(f"accounts/{account.id}.json", "w") as account_file:
+            with open(f"accounts/{account.id}/data.json", "w") as account_file:
                 json.dump(account.jsonify(), account_file, indent=4)
 
     def get_by_id(self, id) -> Account:

@@ -1,4 +1,6 @@
-from JsonHelper import JsonHelper
+import os
+
+from .JsonHelper import JsonHelper
 
 
 class Account:
@@ -9,25 +11,39 @@ class Account:
 
         directory = f"accounts/{id}"
 
-        self.data = JsonHelper(f"{directory}/account_data.json")
+        self.data = JsonHelper(f"{directory}/data.json")
 
-        self.username = self.data.safe_assured_key("username")
-        self.password = self.data.safe_assured_key("password")
-        self.pfp = self.data.safe_assured_key("pfp url")
-        self.osu_id = self.data.safe_assured_key("osu id")
+        self.username = self.data.safe_ensured_key("username")
+        self.password = self.data.safe_ensured_key("password")
+        self.pfp = self.data.safe_ensured_key("pfp url")
+        self.osu_id = self.data.safe_ensured_key("osu id")
+        self.perms = self.data.safe_ensured_key("perms")
+        self.about = self.data.safe_ensured_key("about me")
 
         gqc_directory = f"{directory}/gentrys quest classic data"
+        gq_directory = f"{directory}/gentrys quest data"
 
-        self.gqc_data = JsonHelper(f"{gqc_directory}/data.json")
-        # self.gentrys_quest_classic_data = metadata["Gentry's Quest Classic data"]
-        # self.gentrys_quest_data = metadata["Gentry's Quest data"]
-
-        # self.about = metadata["about me"]
-
-        # self.perms = data["perms"]
+        self.gqc_data = JsonHelper.conditional_init(f"{gqc_directory}/data.json")
+        self.gq_data = JsonHelper.conditional_init(f"{gq_directory}/data.json")
 
     def change_username(self, new_username: str):
         self.username = new_username
+        self.update_data()
+
+    def change_pfp(self, new_pfp: str):
+        self.pfp = new_pfp
+        self.update_data()
+
+    def change_perms(self, new_perms: list):
+        self.perms = new_perms
+        self.update_data()
+
+    def change_about(self, new_about: str):
+        self.about = new_about
+        self.update_data()
+
+    def update_data(self):
+        self.data.replace_data(self.jsonify())
 
     def jsonify(self):
         return {
@@ -36,10 +52,6 @@ class Account:
             "pfp url": self.pfp,
             "id": self.id,
             "perms": self.perms,
-            "metadata": {
-                "osu id": self.osu_id,
-                "Gentry's Quest data": self.gentrys_quest_data,
-                "Gentry's Quest Classic data": self.gentrys_quest_classic_data,
-                "about me": self.about
-            }
+            "osu id": self.osu_id,
+            "about me": self.about
         }

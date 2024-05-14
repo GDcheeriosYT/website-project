@@ -28,11 +28,14 @@ class GentrysQuestManager:
         players = []
         counter = 1
         for account in ServerData.account_manager.accounts:
-            gq_data = account.gentrys_quest_classic_data if is_classic else account.gentrys_quest_data
+            gq_data = account.gqc_data if is_classic else account.gq_data
+            print(gq_data)
             if gq_data:
                 print(f"\nLoading {account.username} gq data")
-                player = Player(account.username, account.id, gq_data)
-                player.update_power_level(GentrysQuestManager.rater)
+                player = Player(account.username, account.id, gq_data.get_dict())
+                if Client_Credentials.gq_rating:
+                    player.update_power_level(GentrysQuestManager.rater)
+
                 players.append(player)
                 time.sleep(Client_Credentials.load_time)
 
