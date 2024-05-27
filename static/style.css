@@ -272,6 +272,21 @@ h1{
   color: white;
 }
 
+h2 {
+  text-align: center;
+  color: white;
+}
+
+h3 {
+  text-align: center;
+  color: white;
+}
+
+h4 {
+  text-align: center;
+  color: white;
+}
+
 .teammode{
   text-transform: uppercase;
   background: linear-gradient(to right, #0ccdeb 0%, #114663 100%);
