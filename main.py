@@ -141,25 +141,24 @@ async def account_create(username, password, osu_id=0, about_me=""):
         password = str(password)
         profile_picture = random.choice(pfps)
         about_me = about_me
-        gqdata = {}
-        gqcdata = {}
-        backrooms_data = {}
         password = str(bcrypt.generate_password_hash(password))
-        metadata = {
-            "osu id": osu_id,
-            "Gentry's Quest Classic data": gqcdata,
-            "Gentry's Quest data": gqdata,
-            "backrooms data": backrooms_data,
-            "about me": about_me
-        }
         account_data = {
+            "id": account_count,
             "pfp url": profile_picture,
             "username": username,
             "password": password[2:-1],
-            "metadata": metadata
+            "osu id": osu_id,
+            "about me": about_me
         }
-        with open(f"accounts/{account_count}.json", "w+") as file:
-            json.dump(account_data, file, indent=4, sort_keys=False)
+
+        directory = f"accounts/{account_count}"
+
+        os.mkdir(directory)
+        os.mkdir(f"{directory}/gentrys quest classic data")
+        os.mkdir(f"{directory}/gentrys quest data")
+
+        with open(f"accounts/{account_count}/data.json", 'w+') as new_account_data:
+            json.dump(account_data, new_account_data, indent=4)
 
         ServerData.account_manager.make_account(account_count)
 

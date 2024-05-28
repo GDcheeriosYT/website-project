@@ -4,7 +4,7 @@ import os
 
 if __name__ == "__main__":
     for account in os.listdir("accounts"):
-        existing_data : dict = json.load(open(f"accounts/{account}", "r", encoding='utf-8'))
+        existing_data: dict = json.load(open(f"accounts/{account}", "r", encoding='utf-8'))
         dir_name = account[:-5]
 
         os.mkdir(f"accounts/{dir_name}")
@@ -20,7 +20,7 @@ if __name__ == "__main__":
             'perms': existing_data["perms"] if 'perms' in existing_data.keys() else [],
             'about me': existing_data["metadata"]["about me"]
         }
-        json.dump(data, open(f"{directory}/account_data.json", "w+", encoding='utf-8'), indent=4)
+        json.dump(data, open(f"{directory}/data.json", "w+", encoding='utf-8'), indent=4)
 
         os.mkdir(f"{directory}/gentrys quest classic data")
         os.mkdir(f"{directory}/gentrys quest data")
