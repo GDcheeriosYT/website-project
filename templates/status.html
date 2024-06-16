@@ -140,13 +140,9 @@
         }
 
         var socket = io()
-        console.log(socket)
-        setInterval(() => {
-            socket.emit('update status')
-            console.log("emitted")
-        }, 2000)
 
-        socket.on('status recieve', (data) =>{
+        socket.emit('status')
+        socket.on('status receive', (data) =>{
             // MAIN SECTION
             manageStatus(document.getElementById("token-status"), data["token status"])
             manageStatus(document.getElementById("account-status"), data["account status"])
@@ -162,6 +158,10 @@
             document.getElementsByClassName("api-minute")[0].innerHTML = "APM " + data["apm"]
             document.getElementsByClassName("api-second")[0].innerHTML = "APS " + data["aps"]
         })
+
+        window.addEventListener('beforeunload', () => {
+          socket.close();
+        });
     </script>
 
 

@@ -74,6 +74,20 @@ def exit_func():
 
 atexit.register(exit_func)
 
+ServerData.on_api += lambda: socketio.emit('status receive',
+                                           {
+                                               'total apis': len(ServerData.API_history),
+                                               'aph': ServerData.API_rate_hour,
+                                               'apm': ServerData.API_rate_minute,
+                                               'aps': ServerData.API_rate_second,
+                                               'api values': ServerData.get_occurrences()["values"],
+                                               'token status': ServerData.token_status.health,
+                                               'account status': ServerData.account_status.health,
+                                               'osu status': ServerData.osu_status.health,
+                                               'gqc status': ServerData.gqc_status.health,
+                                               'gq status': ServerData.gq_status.health
+                                           })
+
 
 # <editor-fold desc="API">
 
@@ -191,7 +205,6 @@ def get_account_with_id_or_name(id_or_name):
         data = ServerData.account_manager.get_by_username(id_or_name)
         if not data:
             data = ServerData.account_manager.get_by_id(id_or_name)
-
 
         successful()
         return data.jsonify() if data else "Not Found"
@@ -612,7 +625,6 @@ async def status():
     )
 
 
-
 @app.route("/down")
 async def down():
     return render_template("down.html")
@@ -796,24 +808,6 @@ def get_control_data():
         "api uses": 0,
         "websocket uses": 0
     })
-
-
-@socketio.on('update status')
-def update_status():
-    emit('status recieve',
-         {
-             'total apis': len(ServerData.API_history),
-             'aph': ServerData.API_rate_hour,
-             'apm': ServerData.API_rate_minute,
-             'aps': ServerData.API_rate_second,
-             'api values': ServerData.get_occurrences()["values"],
-             'token status': ServerData.token_status.health,
-             'account status': ServerData.account_status.health,
-             'osu status': ServerData.osu_status.health,
-             'gqc status': ServerData.gqc_status.health,
-             'gq status': ServerData.gq_status.health
-         })
-
 
 # </editor-fold>
 

@@ -1,5 +1,6 @@
 import json
 
+from crap.Event import Event
 from crap.ApiCall import ApiCall
 from crap.ApiType import ApiType
 from crap.AccountList import AccountList
@@ -32,12 +33,14 @@ class ServerData:
     gqc_status = StatusHandler("Gentry's Quest Classic")
     gq_status = StatusHandler("Gentry's Quest")
 
+    # events
+    on_api = Event("OnApi")
+
     @staticmethod
     def api_call(type: ApiType) -> None:
         api_call = ApiCall(type)
         print(f"handling Api call {api_call.id} [{api_call.type}]")
         ServerData.API_history.append(api_call)
-
         type = str(api_call.type.value)
         ServerData.API_occurrences[type] += 1
 
@@ -45,6 +48,7 @@ class ServerData:
         # ServerData.API_rate_hour = int((len(ServerData.API_history) / (current.second / 3600)))
         # ServerData.API_rate_minute = int((len(ServerData.API_history) / (current.second / 60)))
         # ServerData.API_rate_second = int((len(ServerData.API_history) / current.second))
+        ServerData.on_api()
 
     @staticmethod
     def get_occurrences():

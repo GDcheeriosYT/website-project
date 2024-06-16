@@ -17,15 +17,6 @@
                 <h1>Backup server</h1>
             </div>
             <script>
-                var socket = io()
-                console.log(socket)
-                setInterval(() => {
-                  socket.emit('get control data')
-                  console.log("emitted")
-                }, 2000)
-                
-                socket.on('control data recieve', (data) =>{})
-
                 function send(url){
                     let xhr = new XMLHttpRequest();
                     xhr.open('POST', url);
