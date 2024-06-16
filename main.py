@@ -47,8 +47,7 @@ match_handler = MatchHandler()
 match_handler.load()
 
 #   Gentrys Quest data
-GQC_manager = GentrysQuestClassicManager(
-    requests.get("https://api.github.com/repos/GDcheeriosYT/Gentrys-Quest-Python/releases/latest").json()["name"])
+GQC_manager = GentrysQuestClassicManager()
 
 # flask set up
 app = Flask(  # Create a flask app
@@ -142,25 +141,24 @@ async def account_create(username, password, osu_id=0, about_me=""):
         password = str(password)
         profile_picture = random.choice(pfps)
         about_me = about_me
-        gqdata = {}
-        gqcdata = {}
-        backrooms_data = {}
         password = str(bcrypt.generate_password_hash(password))
-        metadata = {
-            "osu id": osu_id,
-            "Gentry's Quest Classic data": gqcdata,
-            "Gentry's Quest data": gqdata,
-            "backrooms data": backrooms_data,
-            "about me": about_me
-        }
         account_data = {
+            "id": account_count,
             "pfp url": profile_picture,
             "username": username,
             "password": password[2:-1],
-            "metadata": metadata
+            "osu id": osu_id,
+            "about me": about_me
         }
-        with open(f"accounts/{account_count}.json", "w+") as file:
-            json.dump(account_data, file, indent=4, sort_keys=False)
+
+        directory = f"accounts/{account_count}"
+
+        os.mkdir(directory)
+        os.mkdir(f"{directory}/gentrys quest classic data")
+        os.mkdir(f"{directory}/gentrys quest data")
+
+        with open(f"accounts/{account_count}/data.json", 'w+') as new_account_data:
+            json.dump(account_data, new_account_data, indent=4)
 
         ServerData.account_manager.make_account(account_count)
 
@@ -502,7 +500,13 @@ async def update_live_status(id):
 
 # <editor-fold desc="gentrys quest API">
 
-@app.route("/api/gq/get-leaderboard/<start>+<display_number>", methods=["GET"])
+# <editor-fold desc="GPSystem">
+
+# </editor-fold>
+
+# <editor-fold desc="Classic">
+
+@app.route("/api/gqc/get-leaderboard/<start>+<display_number>", methods=["GET"])
 async def get_gq_leaderboard(start, display_number):
     ServerData.api_call(ApiType.GQLeaderboard)
 
@@ -521,13 +525,13 @@ async def get_gq_leaderboard(start, display_number):
         ServerData.gqc_status.unsuccessful()
 
 
-@app.route("/api/gq/get-power-level/<id>", methods=["GET"])
+@app.route("/api/gqc/get-power-level/<id>", methods=["GET"])
 async def get_power_level(id):
     ServerData.api_call(ApiType.GQGetPowerLevel)
     return GQC_manager.get_player_power_level(id)
 
 
-@app.route("/api/gq/check-in/<id>", methods=["POST"])
+@app.route("/api/gqc/check-in/<id>", methods=["POST"])
 async def check_in(id):
     ServerData.api_call(ApiType.GQCheckIn)
 
@@ -536,7 +540,7 @@ async def check_in(id):
     return ""
 
 
-@app.route("/api/gq/check-out/<id>", methods=["POST"])
+@app.route("/api/gqc/check-out/<id>", methods=["POST"])
 async def check_out(id):
     ServerData.api_call(ApiType.GQCheckOut)
 
@@ -545,7 +549,7 @@ async def check_out(id):
     return ""
 
 
-@app.route("/api/gq/get-online-players", methods=["GET"])
+@app.route("/api/gqc/get-online-players", methods=["GET"])
 async def get_online_players():
     ServerData.api_call(ApiType.GQGetOnlinePlayers)
 
@@ -561,14 +565,14 @@ async def get_online_players():
     return list_of_players
 
 
-@app.route("/api/gq/get-version")
+@app.route("/api/gqc/get-version")
 async def get_version():
     ServerData.api_call(ApiType.GQGetVersion)
 
     return GQC_manager.version
 
 
-@app.route("/api/updateGCdata/<id>", methods=["POST"])
+@app.route("/api/updateGQCdata/<id>", methods=["POST"])
 async def update_gc_data(id):
     ServerData.api_call(ApiType.GQUpdateData)
 
@@ -583,6 +587,8 @@ async def update_gc_data(id):
         ServerData.gqc_status.unsuccessful()
 
     return "done"
+
+# </editor-fold>
 
 
 # </editor-fold>
@@ -715,9 +721,18 @@ def load_match(match_name):
 async def matches_page():
     return render_template(
         'osu/matches.html',
-        matches=match_handler
+        matches=match_handler,
+        has_perm=ServerData.account_manager.has_permission
     )
 
+
+@app.route("/osu/create")
+async def match_create():
+    return render_template(
+        'osu/match_creator.html',
+        matches=match_handler,
+        has_perm=ServerData.account_manager.has_permission
+    )
 
 # </editor-fold>
 
