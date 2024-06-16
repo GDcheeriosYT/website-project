@@ -500,7 +500,13 @@ async def update_live_status(id):
 
 # <editor-fold desc="gentrys quest API">
 
-@app.route("/api/gq/get-leaderboard/<start>+<display_number>", methods=["GET"])
+# <editor-fold desc="GPSystem">
+
+# </editor-fold>
+
+# <editor-fold desc="Classic">
+
+@app.route("/api/gqc/get-leaderboard/<start>+<display_number>", methods=["GET"])
 async def get_gq_leaderboard(start, display_number):
     ServerData.api_call(ApiType.GQLeaderboard)
 
@@ -519,13 +525,13 @@ async def get_gq_leaderboard(start, display_number):
         ServerData.gqc_status.unsuccessful()
 
 
-@app.route("/api/gq/get-power-level/<id>", methods=["GET"])
+@app.route("/api/gqc/get-power-level/<id>", methods=["GET"])
 async def get_power_level(id):
     ServerData.api_call(ApiType.GQGetPowerLevel)
     return GQC_manager.get_player_power_level(id)
 
 
-@app.route("/api/gq/check-in/<id>", methods=["POST"])
+@app.route("/api/gqc/check-in/<id>", methods=["POST"])
 async def check_in(id):
     ServerData.api_call(ApiType.GQCheckIn)
 
@@ -534,7 +540,7 @@ async def check_in(id):
     return ""
 
 
-@app.route("/api/gq/check-out/<id>", methods=["POST"])
+@app.route("/api/gqc/check-out/<id>", methods=["POST"])
 async def check_out(id):
     ServerData.api_call(ApiType.GQCheckOut)
 
@@ -543,7 +549,7 @@ async def check_out(id):
     return ""
 
 
-@app.route("/api/gq/get-online-players", methods=["GET"])
+@app.route("/api/gqc/get-online-players", methods=["GET"])
 async def get_online_players():
     ServerData.api_call(ApiType.GQGetOnlinePlayers)
 
@@ -559,14 +565,14 @@ async def get_online_players():
     return list_of_players
 
 
-@app.route("/api/gq/get-version")
+@app.route("/api/gqc/get-version")
 async def get_version():
     ServerData.api_call(ApiType.GQGetVersion)
 
     return GQC_manager.version
 
 
-@app.route("/api/updateGCdata/<id>", methods=["POST"])
+@app.route("/api/updateGQCdata/<id>", methods=["POST"])
 async def update_gc_data(id):
     ServerData.api_call(ApiType.GQUpdateData)
 
@@ -581,6 +587,8 @@ async def update_gc_data(id):
         ServerData.gqc_status.unsuccessful()
 
     return "done"
+
+# </editor-fold>
 
 
 # </editor-fold>
