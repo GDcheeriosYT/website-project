@@ -22,6 +22,7 @@ def initialize_files():
 
     verify_dir("accounts")
     verify_dir("matches")
+    verify_dir("extras")
     verify_dir("match_history")
     verify_dir("backups")
     verify_file("player_data.json")
