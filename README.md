@@ -17,6 +17,12 @@ gq_rating = False  # rating gentry's quest?
 cert_path = None  # the path for the cert.pem
 key_path = None  # the path for the key.pem
 
+# DB
+user = "username" # the username
+password = "password" # the password
+hostname = "hostname" # the hostname
+db = "database" # the database
+
 # osu
 osu_secret = "blahblahblahblah" # client secret
 osu_api_key = "a1b2c3etc" # api key
