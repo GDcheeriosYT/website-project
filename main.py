@@ -62,7 +62,7 @@ bcrypt = Bcrypt(app)
 
 # logging config
 log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
+log.setLevel(logging.NOTSET)
 
 
 # define at exit action
