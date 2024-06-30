@@ -16,7 +16,6 @@ class PlayerList:
         for id in ServerData.osu_player_json.keys():
             print(f"loading osu player {id}")
             PlayerList.create_player(id)
-            time.sleep(Client_Credentials.load_time)
 
     @staticmethod
     def unload() -> None:

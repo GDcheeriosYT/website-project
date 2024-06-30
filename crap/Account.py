@@ -1,36 +1,65 @@
-import json
+import os.path
+
+from crap.PSQLConnection import PSQLConnection as DB
 
 
 class Account:
-    def __init__(self, id):
-        print(f"Loading account: {id}")
+    id: int
+    username: str
+    password: str
+    email: str
+    osu_id: int
+    about: str
+    pfp: str = str
 
-        self.id = id
+    def __init__(self, identifier):
+        if type(identifier) is int:
+            result = DB.get(f"select * from accounts where id = {identifier}")
+        else:
+            result = DB.get(f"select * from accounts where username = \'{identifier}\'")
 
-        data = json.load(open(f"accounts/{id}.json", "r"))
+        self.id = result[0]
+        self.username = result[1]
+        self.password = result[2]
+        self.email = result[3]
+        self.osu_id = result[4]
+        self.about = result[5]
+        if os.path.exists(f"static/pfps/{self.id}.png"):
+            self.pfp = f"static/pfps/{self.id}.png"
+        elif os.path.exists(f"static/pfps/{self.id}.jpg"):
+            self.pfp = f"static/pfps/{self.id}.jpg"
+        else:
+            self.pfp = f"static/pfps/huh.png"
 
-        self.username = data["username"]
-        self.password = data["password"]
-        self.pfp = data["pfp url"]
+    # <editor-fold desc="Modifiers">
+    @staticmethod
+    def create(username: str, password: str, email: str, osu_id: int, about: str):
+        query = """
+        INSERT INTO accounts (username, password, email, osu_id, about)
+        VALUES (%s, %s, %s, %s, %s)
+        """
 
-        metadata = data["metadata"]
+        params = (
+            username,
+            password,
+            email,
+            osu_id,
+            about
+        )
 
-        self.osu_id = metadata["osu id"]
-        self.gentrys_quest_classic_data = metadata["Gentry's Quest Classic data"]
-        self.gentrys_quest_data = metadata["Gentry's Quest data"]
+        DB.do(query, params)
 
-        self.about = metadata["about me"]
+    @staticmethod
+    def change_username(id: int, new_username: str):
+        DB.do(f"update accounts set username = \'{new_username}\' where id = {id};")
 
-    def jsonify(self):
-        return {
-            "username": self.username,
-            "password": self.password,
-            "pfp url": self.pfp,
-            "id": self.id,
-            "metadata": {
-                "osu id": self.osu_id,
-                "Gentry's Quest data": self.gentrys_quest_data,
-                "Gentry's Quest Classic data": self.gentrys_quest_classic_data,
-                "about me": self.about
-            }
-        }
+    # </editor-fold>
+
+    # <editor-fold desc="Checks">
+
+    @staticmethod
+    def name_exists(name: str) -> bool:
+        result = DB.get_group(f"select username from accounts where username = \'{name}\';")
+        return len(result) > 0
+
+    # </editor-fold>

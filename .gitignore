@@ -7,6 +7,9 @@ Client_Credentials.py
 /matches/
 /accounts/
 /backups/
+static/pfps/*
+!static/pfps/
+!static/pfps/huh.png
 /.tmp.drivedownload/
 /.tmp.driveupload/
 /.idea/

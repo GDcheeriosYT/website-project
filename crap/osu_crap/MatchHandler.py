@@ -14,21 +14,16 @@ class MatchHandler:
 
     def load(self) -> None:
         print("\nLoading osu matches\n")
-        time.sleep(Client_Credentials.section_load_time)
 
         for file in os.listdir("matches"):
             with open(f"matches/{file}", "r") as f:
                 match_data = json.loads(f.read())
                 self.matches.append(Match(match_data, False))
 
-            time.sleep(Client_Credentials.load_time)
-
         for file in os.listdir("match_history"):
             with open(f"match_history/{file}", "r") as f:
                 match_data = json.loads(f.read())
                 self.old_matches.append(Match(match_data, True))
-
-            time.sleep(Client_Credentials.load_time)
 
     def unload(self) -> None:
         def write_to_file(json_object, file):

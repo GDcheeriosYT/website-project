@@ -8,8 +8,6 @@ If you wanna start your own instance make sure to make a file called Client_Cred
 # main variables
 domain = "https://mydomain.com"
 port = "80"  # the port
-load_time = 0  # extra delay for loading iterations in seconds
-section_load_time = 0  # extra delay for each loading section in seconds
 debug = False  # debugging?
 gq_rating = False  # rating gentry's quest?
 

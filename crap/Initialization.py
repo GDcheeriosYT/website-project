@@ -6,7 +6,6 @@ import Client_Credentials
 
 def initialize_files():
     print("\nInitializing files!\n")
-    time.sleep(Client_Credentials.section_load_time)
 
     def verify_dir(dir_name: str):
         print(f"Verifying directory {dir_name} exists")
@@ -26,7 +25,6 @@ def initialize_files():
     verify_dir("extras")
     verify_dir("match_history")
     verify_file("player_data.json")
-    verify_dir("profile pictures")
 
 
 def retrieve_initialized_objects():

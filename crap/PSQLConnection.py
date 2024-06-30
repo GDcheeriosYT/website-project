@@ -7,27 +7,53 @@ import Client_Credentials
 
 
 class PSQLConnection:
-    def __init__(self):
-        self._connection = psycopg2.connect(
+    _connection = None
+    _cursor = None
+
+    @staticmethod
+    def connect() -> None:
+        PSQLConnection._connection = psycopg2.connect(
             user=Client_Credentials.user,
             password=Client_Credentials.password,
             host=Client_Credentials.hostname,
-            port=Client_Credentials.port,
+            port=Client_Credentials.db_port,
             database=Client_Credentials.db
         )
 
-        if self._connection:
-            print(f"connected to {Client_Credentials.db} successfully")
+        if PSQLConnection._connection:
+            print(f"connected to {Client_Credentials.db} DB successfully")
 
-        self._cursor = self._connection.cursor()
+        PSQLConnection._cursor = PSQLConnection._connection.cursor()
 
-    def do(self, query: str, params: tuple = ()):
-        self._cursor.execute(query, params)
-        self._connection.commit()
-        try:
-            return self._cursor.fetchall()
-        except psycopg2.ProgrammingError:
-            print("executed!")
+    @staticmethod
+    def do(query: str, params: tuple = ()) -> None:
+        """
+        This method is meant for modifying the DB.
+        """
+        PSQLConnection._cursor.execute(query, params)
+        PSQLConnection._connection.commit()
+        print("done!")
 
-    def end(self):
-        self._cursor.close()
+    @staticmethod
+    def get_group(query: str, params: tuple = ()):
+        """
+        This method is meant for returning values from the DB.
+        """
+        PSQLConnection._cursor.execute(query, params)
+        PSQLConnection._connection.commit()
+        print("grabbed!")
+        return PSQLConnection._cursor.fetchall()
+
+    @staticmethod
+    def get(query: str, params: tuple = ()):
+        """
+        This method is meant for returning a value from the DB.
+        """
+        PSQLConnection._cursor.execute(query, params)
+        PSQLConnection._connection.commit()
+        print("grabbed!")
+        return PSQLConnection._cursor.fetchone()
+
+    @staticmethod
+    def end() -> None:
+        PSQLConnection._cursor.close()
