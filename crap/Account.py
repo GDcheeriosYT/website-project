@@ -13,10 +13,12 @@ class Account:
     pfp: str = str
 
     def __init__(self, identifier):
-        if type(identifier) is int:
-            result = DB.get(f"select * from accounts where id = {identifier}")
-        else:
-            result = DB.get(f"select * from accounts where username = \'{identifier}\'")
+        print(f"Loading account {identifier}")
+        try:
+            identifier = int(identifier)
+            result = DB.get(f"select * from accounts where id = %s", params=(identifier,))
+        except ValueError:
+            result = DB.get(f"select * from accounts where username = %s", params=(identifier,))
 
         self.id = result[0]
         self.username = result[1]
@@ -51,7 +53,7 @@ class Account:
 
     @staticmethod
     def change_username(id: int, new_username: str):
-        DB.do(f"update accounts set username = \'{new_username}\' where id = {id};")
+        DB.do(f"update accounts set username = %s where id = %s;", params=(new_username, id))
 
     # </editor-fold>
 
@@ -59,7 +61,9 @@ class Account:
 
     @staticmethod
     def name_exists(name: str) -> bool:
-        result = DB.get_group(f"select username from accounts where username = \'{name}\';")
+        result = DB.get_group(f"select username from accounts where username = %s;", params=(name,))
+        print("result")
+        print(len(result))
         return len(result) > 0
 
     # </editor-fold>

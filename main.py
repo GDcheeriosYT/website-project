@@ -161,34 +161,6 @@ async def account_create(username, password, email, osu_id=0, about_me=""):
     ServerData.account_status.unsuccessful()
 
 
-@app.route("/api/password-cache-gen")
-async def password_cache_gen():
-    return render_template("password_gen.html",
-                           password="poop")
-
-
-@app.route("/api/password-cache-gen", methods=["POST"])
-async def password_cache_gen_post():
-    password = request.form.get("password")
-    return render_template("password_gen.html", password=str(bcrypt.generate_password_hash(password)))
-
-
-@app.route("/api/account/receive/<id_or_name>")  # receive account with id
-def get_account_with_id_or_name(id_or_name):
-    ServerData.api_call(ApiType.AccountReceive)
-
-    successful = ServerData.account_status.successful
-    try:
-        data = ServerData.account_manager.get_by_username(id_or_name)
-        if not data:
-            data = ServerData.account_manager.get_by_id(id_or_name)
-
-        successful()
-        return data.jsonify() if data else "Not Found"
-    except:
-        ServerData.account_status.unsuccessful()
-
-
 @app.route("/api/account/login/<username>+<password>")
 async def login(username, password):
     ServerData.api_call(ApiType.AccountLogIn)
@@ -211,10 +183,7 @@ def login_cookie():
     password = request.form.get('pw')
     login_result = asyncio.run(login(username, password))
     if login_result != "incorrect info" and login_result is not None:
-        resp = make_response(
-            render_template('account/user-profile.html',
-                            account=login_result
-                            ))
+        resp = make_response(redirect(f'user/{login_result.id}'))
         resp.set_cookie('userID', str(login_result.id))
         return resp
     else:
@@ -292,9 +261,7 @@ async def change_username():
             Account.change_username(int(id), username)
             ServerData.account_status.successful()
 
-        return render_template('account/user-profile.html',
-                               account=account
-                               )
+        return redirect(f'/user/{account.id}')
 
     except:
         ServerData.account_status.unsuccessful()

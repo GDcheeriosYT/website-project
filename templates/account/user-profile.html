@@ -12,9 +12,9 @@
     <div style="margin-top: 3%;">
       <img style="margin-left: auto; margin-right: auto; display: block;" src="/{{ account.pfp }}">
       <h1 class="username">{{account.username}}</h1>
-      {% if request.cookies.get('userID') == id %}
+      {% if request.cookies.get('userID') == account.id|string %}
         <p style="text-align: center;">Change username</p>
-        <form action="/api/account/change-username" method="POST"><input type="text" name="username" value="new username"></input><input type="submit" value="set"></form>
+        <form action="/api/account/change-username" method="POST"><input type="text" name="username" pattern="[a-zA-Z0-9_$!]{1,24}" value="new username"></input><input type="submit" value="set"></form>
       {% endif %}
     </div>
     <div class="profile-info">
@@ -26,7 +26,7 @@
     <div class="user-details">
       <div id="about-me">
         <h1>About Me</h1>
-        <h2>{{ about|safe }}</h2>
+        <h2>{{ account.about|safe }}</h2>
       </div>
       <script>
         document.getElementById("gqc-data").style.opacity = 0
