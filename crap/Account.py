@@ -62,8 +62,16 @@ class Account:
     @staticmethod
     def name_exists(name: str) -> bool:
         result = DB.get_group(f"select username from accounts where username = %s;", params=(name,))
-        print("result")
-        print(len(result))
         return len(result) > 0
 
     # </editor-fold>
+
+    def jsonify(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "osuid": self.osu_id,
+            "about": self.about,
+            "pfp": self.pfp
+        }

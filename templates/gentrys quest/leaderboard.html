@@ -17,14 +17,10 @@
                     #{{count.value}}
                 </div>
                 <div class="playername">
-                    <a href="/user/{{player.id}}">{{player.account_name}}</a>
+                    <a href="/user/{{player[0]}}">{{player[1]}}</a>
                 </div>
                 <div class="ranking" style="background-color: {{player.color}};">
-                    {% if player.ranking[0] != 'unranked' %}
-                        {{player.power_level['weighted']}} gp {{player.ranking[0]}} {{player.ranking[1]}}
-                    {% else %}
-                        {{player.power_level['weighted']}} gp
-                    {% endif %}
+                    {{ player[2] }} gp
                 </div>
             </div>
             {% set count.value = count.value + 1 %}

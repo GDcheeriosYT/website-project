@@ -32,7 +32,7 @@ from crap.osu_crap.MatchHandler import MatchHandler
 from crap.ServerData import ServerData
 from crap.ApiType import ApiType
 
-from crap.AccountPFPs import pfps
+from crap.gentrys_quest_crap.GQManager import GQManager
 
 # global vars
 #   database
@@ -48,6 +48,7 @@ match_handler = MatchHandler()
 match_handler.load()
 
 #   Gentrys Quest data
+GQManager.load_rankings()
 
 # flask set up
 app = Flask(  # Create a flask app
@@ -90,25 +91,6 @@ ServerData.on_api += lambda: socketio.emit('status receive',
 
 # <editor-fold desc="API">
 
-@app.route("/web-save", methods=['POST'])
-def web_save():
-    ServerData.api_call(ApiType.WebSave)
-    player_data.unload()
-    match_handler.unload()
-    ServerData.account_manager.unload()
-
-    return "Saved!"
-
-
-@app.route("/web-backup", methods=['POST'])
-def web_backup():
-    from crap.Backup import create_backup
-    ServerData.api_call(ApiType.WebBackup)
-    create_backup()
-
-    return "backed up"
-
-
 # <editor-fold desc="token API">
 @app.route("/api/generate-token")
 async def generate_token():
@@ -118,7 +100,7 @@ async def generate_token():
         for i in range(32):
             token += random.choice(string.ascii_letters)
 
-        ServerData.add_token(token)
+        DB.do("INSERT INTO tokens values (%s);", params=(token,))
         ServerData.token_status.successful()
         return token
     except:
@@ -128,19 +110,19 @@ async def generate_token():
 
 @app.route("/api/clear-tokens")
 async def clear_tokens():
-    ServerData.clear_tokens()
+    DB.do("DELETE FROM tokens *;")
     return "Done"
 
 
-@app.route("/api/delete-token/<token>", methods=["POST"])
+@app.route("/api/delete-token/<token>")
 async def delete_token(token):
-    ServerData.remove_token(token)
+    DB.do("DELETE FROM tokens WHERE value = %s;", params=(token,))
     return f"removed {token}"
 
 
 @app.route("/api/verify-token/<token>")
 def verify_token(token):
-    return ServerData.verify_token(token)
+    return str(len(DB.get("SELECT %s FROM tokens;", params=(token,))) > 0)
 
 
 # </editor-fold>
@@ -265,6 +247,11 @@ async def change_username():
 
     except:
         ServerData.account_status.unsuccessful()
+
+
+@app.route("/api/account/grab/<idname>")
+async def grab_account(idname):
+    return Account(idname).jsonify()
 
 
 # </editor-fold>
@@ -433,88 +420,40 @@ async def update_live_status(id):
 
 # <editor-fold desc="gentrys quest API">
 
-@app.route("/api/gq/get-leaderboard/<start>+<display_number>", methods=["GET"])
+# <editor-fold desc="modern">
+
+# <editor-fold desc="leaderboards">
+
+@app.route("/api/gq/get-leaderboard/<id>")
+async def gq_get_leaderboard(id):
+    leaderboard = DB.get_group("SELECT * FROM leaderboard_scores where leaderboard = %s;", params=(id,))
+    return leaderboard
+
+
+@app.route("/api/gq/submit-leaderboard/<leaderboard>/<user>+<score>", methods=['POST'])
+async def gq_submit_leaderboard(leaderboard, user, score):
+    user = Account(user)
+    DB.do("INSERT INTO leaderboard_scores (name, score, leaderboard, \"user\") values (%s, %s, %s, %s);",
+          params=(user.username, int(score), int(leaderboard), user.id))
+
+
+# </editor-fold>
+
+# </editor-fold>
+
+# <editor-fold desc="classic">
+
+# <editor-fold desc="leaderboards">
+
+@app.route("/api/gqc/get-leaderboard/<start>+<display_number>", methods=["GET"])
 async def get_gq_leaderboard(start, display_number):
     ServerData.api_call(ApiType.GQLeaderboard)
-
-    try:
-        players = {}
-        counter = 1
-        for player in GQC_manager.get_leaderboard(int(start), int(display_number)):
-            players[player.id] = {"username": player.account_name, "power level": player.power_level.jsonify(),
-                                  "placement": counter,
-                                  "ranking": player.ranking.jsonify()}
-            counter += 1
-
-        ServerData.gqc_status.successful()
-        return players
-    except:
-        ServerData.gqc_status.unsuccessful()
+    return GQManager.get_leaderboard(True, int(start), int(display_number))
 
 
-@app.route("/api/gq/get-power-level/<id>", methods=["GET"])
-async def get_power_level(id):
-    ServerData.api_call(ApiType.GQGetPowerLevel)
-    return GQC_manager.get_player_power_level(id)
+# </editor-fold>
 
-
-@app.route("/api/gq/check-in/<id>", methods=["POST"])
-async def check_in(id):
-    ServerData.api_call(ApiType.GQCheckIn)
-
-    GQC_manager.check_in_player(id)
-
-    return ""
-
-
-@app.route("/api/gq/check-out/<id>", methods=["POST"])
-async def check_out(id):
-    ServerData.api_call(ApiType.GQCheckOut)
-
-    GQC_manager.check_out_player(id)
-
-    return ""
-
-
-@app.route("/api/gq/get-online-players", methods=["GET"])
-async def get_online_players():
-    ServerData.api_call(ApiType.GQGetOnlinePlayers)
-
-    list_of_players = {}
-    for player in GQC_manager.online_players:
-        player_json = {}
-        player_json["username"] = player.account_name
-        player_json["power level"] = player.power_level.jsonify()
-        player_json["ranking"] = player.ranking.jsonify()
-        player_json["placement"] = GQC_manager.players.index(player) + 1
-        list_of_players[player.id] = player_json
-
-    return list_of_players
-
-
-@app.route("/api/gq/get-version")
-async def get_version():
-    ServerData.api_call(ApiType.GQGetVersion)
-
-    return GQC_manager.version
-
-
-@app.route("/api/updateGCdata/<id>", methods=["POST"])
-async def update_gc_data(id):
-    ServerData.api_call(ApiType.GQUpdateData)
-
-    try:
-        data = request.json
-        if verify_token(data["token"]) != "False":
-            GQC_manager.update_player_data(id, data["data"])
-            ServerData.account_manager.get_by_id(id).gentrys_quest_classic_data = data["data"]
-
-        ServerData.gqc_status.successful()
-    except:
-        ServerData.gqc_status.unsuccessful()
-
-    return "done"
-
+# </editor-fold>
 
 # </editor-fold>
 
@@ -561,23 +500,22 @@ async def web_control():
 
 @app.route("/gentrys-quest")
 async def gentrys_quest_home():
-    return render_template("gentrys quest/home.html", version=GQC_manager.version[1:])
+    return render_template("gentrys quest/home.html")
 
 
 @app.route("/gentrys-quest/leaderboard")
 async def gentrys_quest_leaderboard():
-    players = GQC_manager.get_leaderboard()
+    players = GQManager.get_leaderboard(True)
 
     return render_template(
         "gentrys quest/leaderboard.html",
-        players=players,
-        version=GentrysQuestManager.rater_version
+        players=players
     )
 
 
 @app.route("/gentrys-quest/online-players")
 async def gentrys_quest_online_players():
-    players = GQC_manager.online_players
+    players = GQManager.online_players
 
     def sort_thing(player):
         return player.power_level.weighted
@@ -587,7 +525,7 @@ async def gentrys_quest_online_players():
     return render_template(
         "gentrys quest/online-players.html",
         players=players,
-        version=GentrysQuestManager.rater_version
+        version=GQManager.rater_version
     )
 
 
@@ -595,10 +533,10 @@ async def gentrys_quest_online_players():
 async def gentrys_quest_ranking():
     return render_template(
         "gentrys quest/ranking.html",
-        ranking_info=GentrysQuestManager.rater.get_tiers(),
-        colors=GentrysQuestManager.rater.rating_colors,
-        gqc_id=GQC_manager.get_player,
-        gqc_rank=GQC_manager.get_ranking
+        ranking_info=GQManager.rater.get_tiers(),
+        colors=GQManager.rater.rating_colors,
+        gqc_id=GQManager.get_player,
+        gqc_rank=GQManager.get_ranking
     )
 
 
@@ -714,34 +652,6 @@ def get_livestatus(data):
 
 
 # </editor-fold>
-
-
-# minecraft wip
-
-# @app.route("/minecraft")
-# async def minecraft():
-#     return render_template("minecraft/index.html")
-#
-#
-# @app.route("/minecraft/stats")
-# async def stats():
-#     player_data = minecraft_data_crap.player_data(False)
-#     return render_template("minecraft/server-player-stats.html",
-#                            player_data=player_data)
-#
-#
-# @app.route("/api/mc/<update>")
-# async def mc(update):
-#     global api_uses
-#     api_uses += 1
-#     if update == "true":
-#         minecraft_data_crap.player_data(True)
-#         return ("done")
-#     else:
-#         player_data = minecraft_data_crap.player_data(False)
-#         poop = {}
-#         poop["poop"] = player_data
-#         return (poop)
 
 
 if __name__ == "__main__":

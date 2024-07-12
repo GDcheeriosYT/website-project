@@ -1,8 +1,9 @@
 import psycopg2
 import psycopg2 as psql
 from psycopg2 import pool
-
 import atexit
+import time
+
 import Client_Credentials
 
 
@@ -30,18 +31,20 @@ class PSQLConnection:
         """
         This method is meant for modifying the DB.
         """
+        start = time.time()
         PSQLConnection._cursor.execute(query, params)
         PSQLConnection._connection.commit()
-        print("done!")
+        print(f"done in {time.time() - start} seconds!")
 
     @staticmethod
     def get_group(query: str, params: tuple = ()):
         """
         This method is meant for returning values from the DB.
         """
+        start = time.time()
         PSQLConnection._cursor.execute(query, params)
         PSQLConnection._connection.commit()
-        print("grabbed!")
+        print(f"grabbed in {time.time() - start} seconds!")
         return PSQLConnection._cursor.fetchall()
 
     @staticmethod
@@ -49,9 +52,10 @@ class PSQLConnection:
         """
         This method is meant for returning a value from the DB.
         """
+        start = time.time()
         PSQLConnection._cursor.execute(query, params)
         PSQLConnection._connection.commit()
-        print("grabbed!")
+        print(f"grabbed in {time.time() - start} seconds!")
         return PSQLConnection._cursor.fetchone()
 
     @staticmethod
