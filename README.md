@@ -9,7 +9,7 @@ If you wanna start your own instance make sure to make a file called Client_Cred
 domain = "https://mydomain.com"
 port = "80"  # the port
 debug = False  # debugging?
-gq_rating = False  # rating gentry's quest?
+secret = "MySecret" # the secret for the application
 
 # ssl
 cert_path = None  # the path for the cert.pem
@@ -20,6 +20,7 @@ user = "username" # the username
 password = "password" # the password
 hostname = "hostname" # the hostname
 db = "database" # the database
+db_port = "80" # the database port
 
 # osu
 osu_secret = "blahblahblahblah" # client secret
