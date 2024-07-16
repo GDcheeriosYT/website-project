@@ -1,8 +1,8 @@
 # Use the official Python image from the Docker Hub
 FROM python:3.12-alpine
 
-# Install git
-RUN apk add --no-cache git
+# Install git and PostgreSQL development dependencies
+RUN apk add --no-cache git postgresql-dev build-base
 
 # Set the working directory to /app
 WORKDIR /app
