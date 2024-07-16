@@ -1,4 +1,3 @@
-Client_Credentials.py
 *.json
 *.__pycache__
 /minecraft/

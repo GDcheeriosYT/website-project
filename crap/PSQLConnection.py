@@ -3,6 +3,7 @@ import psycopg2 as psql
 from psycopg2 import pool
 import atexit
 import time
+import os
 
 import Client_Credentials
 
@@ -14,9 +15,9 @@ class PSQLConnection:
     @staticmethod
     def connect() -> None:
         PSQLConnection._connection = psycopg2.connect(
-            user=Client_Credentials.user,
-            password=Client_Credentials.password,
-            host=Client_Credentials.hostname,
+            user=Client_Credentials.db_user,
+            password=Client_Credentials.db_password,
+            host=Client_Credentials.db_hostname,
             port=Client_Credentials.db_port,
             database=Client_Credentials.db
         )
