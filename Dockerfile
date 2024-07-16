@@ -1,17 +1,20 @@
-# Python image to use.
+# Use the official Python image from the Docker Hub
 FROM python:3.12-alpine
 
-# Set the working directory to /app
-WORKDIR /
+# Install git
+RUN apk add --no-cache git
 
-# copy the requirements file used for dependencies
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the requirements file into the container
 COPY requirements.txt .
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --trusted-host pypi.python.org -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the working directory contents into the container at /app
+# Copy the rest of the application code into the container at /app
 COPY . .
 
-# Run main.py when the container launches
-ENTRYPOINT ["python", "main.py"]
+# Specify the command to run on container start
+CMD ["python", "main.py"]
