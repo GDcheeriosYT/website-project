@@ -9,8 +9,8 @@ for key in os.environ.keys():
     print(key)
 
 # main variables
-domain = os.environ['DOMAIN']
-port = os.environ['PORT']  # the port
+domain = "https://gdcheerios.com"
+port = 8080  # the port
 debug = False  # debugging?
 secret = os.environ['SECRET']
 

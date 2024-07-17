@@ -74,10 +74,8 @@ jobs:
           DB_USER: ${{ secrets.DB_USER }}
           OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
           OSU_SECRET: ${{ secrets.OSU_KEY }}
-          CLIENT_ID: ${{ env.CLIENT_ID }}
+          CLIENT_ID: ${{ secretsch.CLIENT_ID }}
           SECRET: ${{ secrets.SECRET }}
-          DOMAIN: "http://127.0.0.1"
-          PORT: 80
         run: |
           echo "Finished!"
 
