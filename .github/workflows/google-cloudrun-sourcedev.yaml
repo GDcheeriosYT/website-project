@@ -54,6 +54,13 @@ env:
   PROJECT_ID: gdcheerioscom
   SERVICE: devgdcheerioscom
   REGION: us-central1
+  DB_HOSTNAME: ${{ secrets.DB_HOSTNAME }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  DB_USER: ${{ secrets.DB_USER }}
+  OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
+  OSU_SECRET: ${{ secrets.OSU_KEY }}
+  CLIENT_ID: ${{ secrets.CLIENT_ID }}
+  SECRET: ${{ secrets.SECRET }}
 
 jobs:
   deploy:
@@ -66,18 +73,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Set environment variables
-        env:
-          DB_HOSTNAME: ${{ secrets.DB_HOSTNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_USER: ${{ secrets.DB_USER }}
-          OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
-          OSU_SECRET: ${{ secrets.OSU_KEY }}
-          CLIENT_ID: ${{ secrets.CLIENT_ID }}
-          SECRET: ${{ secrets.SECRET }}
-        run: |
-          echo "Finished!"
 
       - name: Google Auth
         id: auth
