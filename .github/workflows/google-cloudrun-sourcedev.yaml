@@ -76,8 +76,8 @@ jobs:
           OSU_SECRET: ${{ secrets.OSU_KEY }}
           CLIENT_ID: ${{ env.CLIENT_ID }}
           SECRET: ${{ secrets.SECRET }}
-          DOMAIN: ${{ env.SECRET }}
-          PORT: ${{ env.SECRET }}
+          DOMAIN: ${{ env.DOMAIN }}
+          PORT: ${{ env.PORT }}
         run: |
           echo "Finished!"
 
