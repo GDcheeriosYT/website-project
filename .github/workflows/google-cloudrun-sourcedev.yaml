@@ -74,7 +74,7 @@ jobs:
           DB_USER: ${{ secrets.DB_USER }}
           OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
           OSU_SECRET: ${{ secrets.OSU_KEY }}
-          CLIENT_ID: ${{ secretsch.CLIENT_ID }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
           SECRET: ${{ secrets.SECRET }}
         run: |
           echo "Finished!"
