@@ -67,7 +67,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # NOTE: Alternative option - authentication via credentials json
+      - name: Set environment variables
+        env:
+          DB_HOSTNAME: ${{ secrets.DB_HOSTNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_USER: ${{ secrets.DB_USER }}
+          OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
+          OSU_SECRET: ${{ secrets.OSU_KEY }}
+          CLIENT_ID: ${{ variables.CLIENT_ID }}
+          SECRET: ${{ secrets.SECRET }}
+          DOMAIN: ${{ variables.SECRET }}
+          PORT: ${{ variables.SECRET }}
+        run: |
+          echo "Finished!"
+
       - name: Google Auth
         id: auth
         uses: 'google-github-actions/auth@v2.1.3'
