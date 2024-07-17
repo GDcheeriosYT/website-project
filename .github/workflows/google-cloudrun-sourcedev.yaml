@@ -74,10 +74,10 @@ jobs:
           DB_USER: ${{ secrets.DB_USER }}
           OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
           OSU_SECRET: ${{ secrets.OSU_KEY }}
-          CLIENT_ID: ${{ variables.CLIENT_ID }}
+          CLIENT_ID: ${{ env.CLIENT_ID }}
           SECRET: ${{ secrets.SECRET }}
-          DOMAIN: ${{ variables.SECRET }}
-          PORT: ${{ variables.SECRET }}
+          DOMAIN: ${{ env.SECRET }}
+          PORT: ${{ env.SECRET }}
         run: |
           echo "Finished!"
 
