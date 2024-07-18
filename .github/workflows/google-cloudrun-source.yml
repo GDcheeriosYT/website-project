@@ -11,13 +11,14 @@ env:
   REGION: us-central1
 
 jobs:
-  deploy:
+  deploy-dev:
     # Add 'id-token' with the intended permissions for workload identity federation
     permissions:
       contents: 'read'
       id-token: 'write'
 
     runs-on: ubuntu-latest
+    environment: development
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -42,13 +43,36 @@ jobs:
             DB_HOSTNAME: ${{ secrets.DB_HOSTNAME }}
             DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
             DB_USER: ${{ secrets.DB_USER }}
+            DB: ${{ secrets.DB }}
             OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
             OSU_SECRET: ${{ secrets.OSU_KEY }}
             CLIENT_ID: ${{ secrets.CLIENT_ID }}
             SECRET: ${{ secrets.SECRET }}
 
-      - name: Deploy prod to Cloud Run
-        id: deploy2
+      # If required, use the Cloud Run url output in later steps
+      - name: Show Output
+        run: echo ${{ steps.deploy.outputs.url }}
+
+  deploy-prod:
+    # Add 'id-token' with the intended permissions for workload identity federation
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v2.1.3'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: Deploy dev to Cloud Run
+        id: deploy1
         uses: google-github-actions/deploy-cloudrun@v2.6.0
         with:
           service: ${{ env.PROD_SERVICE }}
@@ -61,6 +85,7 @@ jobs:
             DB_HOSTNAME: ${{ secrets.DB_HOSTNAME }}
             DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
             DB_USER: ${{ secrets.DB_USER }}
+            DB: ${{ secrets.DB }}
             OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
             OSU_SECRET: ${{ secrets.OSU_KEY }}
             CLIENT_ID: ${{ secrets.CLIENT_ID }}
