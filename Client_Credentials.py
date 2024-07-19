@@ -4,10 +4,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-print("Environment Variables:")
-for key in os.environ.keys():
-    print(key)
-
 # main variables
 domain = os.environ['DOMAIN']
 port = os.environ['PORT']  # the port
