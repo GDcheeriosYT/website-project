@@ -40,14 +40,14 @@ jobs:
           env_vars: |-
             DOMAIN="https://dev.gdcheerios.com"
           secrets: |-
-            DB_HOSTNAME: ${{ secrets.DB_HOSTNAME }}:latest
-            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}:latest
-            DB_USER: ${{ secrets.DB_USER }}:latest
-            DB: ${{ secrets.DB }}:latest
-            OSU_API_KEY: ${{ secrets.OSU_API_KEY }}:latest
-            OSU_SECRET: ${{ secrets.OSU_SECRET }}:latest
-            CLIENT_ID: ${{ secrets.CLIENT_ID }}:latest
-            SECRET: ${{ secrets.SECRET }}:latest
+            DB_HOSTNAME=${{ secrets.DB_HOSTNAME }}:latest
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}:latest
+            DB_USER=${{ secrets.DB_USER }}:latest
+            DB=${{ secrets.DB }}:latest
+            OSU_API_KEY=${{ secrets.OSU_API_KEY }}:latest
+            OSU_SECRET=${{ secrets.OSU_SECRET }}:latest
+            CLIENT_ID=${{ secrets.CLIENT_ID }}:latest
+            SECRET=${{ secrets.SECRET }}:latest
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
@@ -82,14 +82,14 @@ jobs:
           env_vars: |-
             DOMAIN="https://gdcheerios.com"
           secrets: |-
-            DB_HOSTNAME: ${{ secrets.DB_HOSTNAME }}:latest
-            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}:latest
-            DB_USER: ${{ secrets.DB_USER }}:latest
-            DB: ${{ secrets.DB }}:latest
-            OSU_API_KEY: ${{ secrets.OSU_API_KEY }}:latest
-            OSU_SECRET: ${{ secrets.OSU_SECRET }}:latest
-            CLIENT_ID: ${{ secrets.CLIENT_ID }}:latest
-            SECRET: ${{ secrets.SECRET }}:latest
+            DB_HOSTNAME=${{ secrets.DB_HOSTNAME }}:latest
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}:latest
+            DB_USER=${{ secrets.DB_USER }}:latest
+            DB=${{ secrets.DB }}:latest
+            OSU_API_KEY=${{ secrets.OSU_API_KEY }}:latest
+            OSU_SECRET=${{ secrets.OSU_SECRET }}:latest
+            CLIENT_ID=${{ secrets.CLIENT_ID }}:latest
+            SECRET=${{ secrets.SECRET }}:latest
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
