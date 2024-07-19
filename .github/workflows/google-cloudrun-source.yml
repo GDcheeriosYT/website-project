@@ -19,6 +19,17 @@ jobs:
 
     runs-on: ubuntu-latest
     environment: development
+
+    env:
+      DEV_DB_HOSTNAME: ${{secrets.DB_HOSTNAME}}
+      DEV_DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+      DEV_DB_USER: ${{secrets.DB_USER}}
+      DEV_DB: ${{secrets.DB}}
+      DEV_OSU_API_KEY: ${{secrets.OSU_API_KEY}}
+      DEV_OSU_SECRET: ${{secrets.OSU_SECRET}}
+      DEV_CLIENT_ID: ${{secrets.CLIENT_ID}}
+      DEV_SECRET: ${{secrets.SECRET}}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -40,14 +51,14 @@ jobs:
           env_vars: |-
             DOMAIN="https://dev.gdcheerios.com"
           secrets: |-
-            DB_HOSTNAME=${{ secrets.DB_HOSTNAME }}:latest
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }}:latest
-            DB_USER=${{ secrets.DB_USER }}:latest
-            DB=${{ secrets.DB }}:latest
-            OSU_API_KEY=${{ secrets.OSU_API_KEY }}:latest
-            OSU_SECRET=${{ secrets.OSU_SECRET }}:latest
-            CLIENT_ID=${{ secrets.CLIENT_ID }}:latest
-            SECRET=${{ secrets.SECRET }}:latest
+            DB_HOSTNAME=DEV_DB_HOSTNAME:latest
+            DB_PASSWORD=DEV_DB_PASSWORD:latest
+            DB_USER=DEV_DB_USER:latest
+            DB=DEV_DB:latest
+            OSU_API_KEY=DEV_OSU_API_KEY:latest
+            OSU_SECRET=DEV_OSU_SECRET:latest
+            CLIENT_ID=DEV_CLIENT_ID:latest
+            SECRET=DEV_SECRET:latest
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
@@ -61,6 +72,17 @@ jobs:
 
     runs-on: ubuntu-latest
     environment: Production
+
+    env:
+      PROD_DB_HOSTNAME: ${{secrets.DB_HOSTNAME}}
+      PROD_DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+      PROD_DB_USER: ${{secrets.DB_USER}}
+      PROD_DB: ${{secrets.DB}}
+      PROD_OSU_API_KEY: ${{secrets.OSU_API_KEY}}
+      PROD_OSU_SECRET: ${{secrets.OSU_SECRET}}
+      PROD_CLIENT_ID: ${{secrets.CLIENT_ID}}
+      PROD_SECRET: ${{secrets.SECRET}}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -82,14 +104,14 @@ jobs:
           env_vars: |-
             DOMAIN="https://gdcheerios.com"
           secrets: |-
-            DB_HOSTNAME=${{ secrets.DB_HOSTNAME }}:latest
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }}:latest
-            DB_USER=${{ secrets.DB_USER }}:latest
-            DB=${{ secrets.DB }}:latest
-            OSU_API_KEY=${{ secrets.OSU_API_KEY }}:latest
-            OSU_SECRET=${{ secrets.OSU_SECRET }}:latest
-            CLIENT_ID=${{ secrets.CLIENT_ID }}:latest
-            SECRET=${{ secrets.SECRET }}:latest
+            DB_HOSTNAME=PROD_DB_HOSTNAME:latest
+            DB_PASSWORD=PROD_DB_PASSWORD:latest
+            DB_USER=PROD_DB_USER:latest
+            DB=PROD_DB:latest
+            OSU_API_KEY=PROD_OSU_API_KEY:latest
+            OSU_SECRET=PROD_OSU_SECRET:latest
+            CLIENT_ID=PROD_CLIENT_ID:latest
+            SECRET=PROD_SECRET:latest
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
