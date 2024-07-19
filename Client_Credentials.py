@@ -18,7 +18,7 @@ secret = os.environ['SECRET']
 db_user = os.environ['DB_USER']
 db_password = os.environ['DB_PASSWORD']
 db_hostname = os.environ['DB_HOSTNAME']
-db_port = os.environ['DB_PORT']
+db_port = 5432
 db = os.environ['DB']
 
 # osu
