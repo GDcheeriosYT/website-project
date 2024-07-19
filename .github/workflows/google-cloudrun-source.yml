@@ -25,10 +25,6 @@ jobs:
       DEV_DB_PASSWORD: ${{secrets.DB_PASSWORD}}
       DEV_DB_USER: ${{secrets.DB_USER}}
       DEV_DB: ${{secrets.DB}}
-      DEV_OSU_API_KEY: ${{secrets.OSU_API_KEY}}
-      DEV_OSU_SECRET: ${{secrets.OSU_SECRET}}
-      DEV_CLIENT_ID: ${{secrets.CLIENT_ID}}
-      DEV_SECRET: ${{secrets.SECRET}}
 
     steps:
       - name: Checkout
@@ -55,10 +51,10 @@ jobs:
             DB_PASSWORD=DEV_DB_PASSWORD:latest
             DB_USER=DEV_DB_USER:latest
             DB=DEV_DB:latest
-            OSU_API_KEY=DEV_OSU_API_KEY:latest
-            OSU_SECRET=DEV_OSU_SECRET:latest
-            CLIENT_ID=DEV_CLIENT_ID:latest
-            SECRET=DEV_SECRET:latest
+            OSU_API_KEY=OSU_API_KEY:latest
+            OSU_SECRET=OSU_SECRET:latest
+            CLIENT_ID=CLIENT_ID:latest
+            SECRET=SECRET:latest
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
@@ -78,10 +74,6 @@ jobs:
       PROD_DB_PASSWORD: ${{secrets.DB_PASSWORD}}
       PROD_DB_USER: ${{secrets.DB_USER}}
       PROD_DB: ${{secrets.DB}}
-      PROD_OSU_API_KEY: ${{secrets.OSU_API_KEY}}
-      PROD_OSU_SECRET: ${{secrets.OSU_SECRET}}
-      PROD_CLIENT_ID: ${{secrets.CLIENT_ID}}
-      PROD_SECRET: ${{secrets.SECRET}}
 
     steps:
       - name: Checkout
@@ -108,10 +100,10 @@ jobs:
             DB_PASSWORD=PROD_DB_PASSWORD:latest
             DB_USER=PROD_DB_USER:latest
             DB=PROD_DB:latest
-            OSU_API_KEY=PROD_OSU_API_KEY:latest
-            OSU_SECRET=PROD_OSU_SECRET:latest
-            CLIENT_ID=PROD_CLIENT_ID:latest
-            SECRET=PROD_SECRET:latest
+            OSU_API_KEY=OSU_API_KEY:latest
+            OSU_SECRET=OSU_SECRET:latest
+            CLIENT_ID=CLIENT_ID:latest
+            SECRET=SECRET:latest
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
