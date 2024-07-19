@@ -45,7 +45,7 @@ jobs:
             DB_USER: ${{ secrets.DB_USER }}
             DB: ${{ secrets.DB }}
             OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
-            OSU_SECRET: ${{ secrets.OSU_KEY }}
+            OSU_SECRET: ${{ secrets.OSU_SECRET }}
             CLIENT_ID: ${{ secrets.CLIENT_ID }}
             SECRET: ${{ secrets.SECRET }}
 
@@ -87,7 +87,7 @@ jobs:
             DB_USER: ${{ secrets.DB_USER }}
             DB: ${{ secrets.DB }}
             OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
-            OSU_SECRET: ${{ secrets.OSU_KEY }}
+            OSU_SECRET: ${{ secrets.OSU_SECRET }}
             CLIENT_ID: ${{ secrets.CLIENT_ID }}
             SECRET: ${{ secrets.SECRET }}
 
