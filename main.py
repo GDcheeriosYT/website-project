@@ -2,12 +2,10 @@
 import asyncio
 import atexit
 import json
-import math
+import logging
 import random
 import string
-import traceback
 import urllib
-import logging
 
 # flask packages
 import requests
@@ -28,9 +26,6 @@ initialize_files()  # setup necessary files
 from crap.osu_crap.Match import Match
 from crap.osu_crap.PlayerList import PlayerList
 from crap.osu_crap.MatchHandler import MatchHandler
-
-from crap.ServerData import ServerData
-from crap.ApiType import ApiType
 
 from crap.gentrys_quest_crap.GQManager import GQManager
 
@@ -74,38 +69,18 @@ def exit_func():
 
 atexit.register(exit_func)
 
-ServerData.on_api += lambda: socketio.emit('status receive',
-                                           {
-                                               'total apis': len(ServerData.API_history),
-                                               'aph': ServerData.API_rate_hour,
-                                               'apm': ServerData.API_rate_minute,
-                                               'aps': ServerData.API_rate_second,
-                                               'api values': ServerData.get_occurrences()["values"],
-                                               'token status': ServerData.token_status.health,
-                                               'account status': ServerData.account_status.health,
-                                               'osu status': ServerData.osu_status.health,
-                                               'gqc status': ServerData.gqc_status.health,
-                                               'gq status': ServerData.gq_status.health
-                                           })
-
 
 # <editor-fold desc="API">
 
 # <editor-fold desc="token API">
 @app.route("/api/generate-token")
 async def generate_token():
-    ServerData.api_call(ApiType.TokenGenerate)
-    try:
-        token = ""
-        for i in range(32):
-            token += random.choice(string.ascii_letters)
+    token = ""
+    for i in range(32):
+        token += random.choice(string.ascii_letters)
 
-        DB.do("INSERT INTO tokens values (%s);", params=(token,))
-        ServerData.token_status.successful()
-        return token
-    except:
-        ServerData.token_status.unsuccessful()
-        return "False"
+    DB.do("INSERT INTO tokens values (%s);", params=(token,))
+    return token
 
 
 @app.route("/api/clear-tokens")
@@ -130,33 +105,20 @@ def verify_token(token):
 # <editor-fold desc="account API">
 @app.route("/api/account/create/<email>+<username>+<password>")
 async def account_create(username, password, email, osu_id=0, about_me=""):
-    ServerData.api_call(ApiType.AccountCreate)
-
-    # try:
     password = str(password)
     password = str(bcrypt.generate_password_hash(password))[2:-1]
 
     Account.create(username, password, email, osu_id, about_me)
 
-    ServerData.account_status.successful()
-    # except:
-    ServerData.account_status.unsuccessful()
-
 
 @app.route("/api/account/login/<username>+<password>")
 async def login(username, password):
-    ServerData.api_call(ApiType.AccountLogIn)
-    try:
-        account = Account(username)
-        if account:
-            if bcrypt.check_password_hash(account.password, password):
-                ServerData.account_status.successful()
-                return account
+    account = Account(username)
+    if account:
+        if bcrypt.check_password_hash(account.password, password):
+            return account
 
-        ServerData.account_status.successful()
-        return "incorrect info"
-    except:
-        ServerData.account_status.unsuccessful()
+    return "incorrect info"
 
 
 @app.route('/login', methods=['POST'])
@@ -176,15 +138,9 @@ def login_cookie():
 
 @app.route("/account/signout")
 async def signout():
-    ServerData.api_call(ApiType.AccountLogOut)
-
-    try:
-        resp = make_response(render_template('account/login.html'))
-        resp.delete_cookie('userID')
-        ServerData.account_status.successful()
-        return resp
-    except:
-        ServerData.account_status.unsuccessful()
+    resp = make_response(render_template('account/login.html'))
+    resp.delete_cookie('userID')
+    return resp
 
 
 @app.route("/create-account", methods=['POST'])
@@ -217,36 +173,23 @@ def create_account():
 
 @app.route("/api/account/change-pfp", methods=["POST"])
 def change_profile_picture():
-    ServerData.api_call(ApiType.AccountChangePfp)
-
-    try:
-        id = request.cookies.get('userID')
-        account_data = Account(id)
-        account_data.pfp = request.form.get("url")
-        ServerData.account_status.successful()
-        return render_template('account/user-profile.html',
-                               account=account_data
-                               )
-    except:
-        ServerData.account_status.unsuccessful()
+    id = request.cookies.get('userID')
+    account_data = Account(id)
+    account_data.pfp = request.form.get("url")
+    return render_template('account/user-profile.html',
+                           account=account_data
+                           )
 
 
 @app.route("/api/account/change-username", methods=["POST"])
 async def change_username():
-    ServerData.api_call(ApiType.AccountChangeUsername)
+    id = request.cookies.get("userID")
+    account = Account(id)
+    username = request.form.get("username")
+    if not Account.name_exists(username):
+        Account.change_username(int(id), username)
 
-    try:
-        id = request.cookies.get("userID")
-        account = Account(id)
-        username = request.form.get("username")
-        if not Account.name_exists(username):
-            Account.change_username(int(id), username)
-            ServerData.account_status.successful()
-
-        return redirect(f'/user/{account.id}')
-
-    except:
-        ServerData.account_status.unsuccessful()
+    return redirect(f'/user/{account.id}')
 
 
 @app.route("/api/account/grab/<idname>")
@@ -260,70 +203,56 @@ async def grab_account(idname):
 # osu auth stuff
 @app.route('/code_grab')
 def code_grab():
-    ServerData.api_call(ApiType.OsuAuthenticate)
+    code = urllib.parse.parse_qs(request.query_string.decode('utf-8'))["code"][0]
 
-    try:
-        code = urllib.parse.parse_qs(request.query_string.decode('utf-8'))["code"][0]
+    response = requests.post("https://osu.ppy.sh/oauth/token",
+                             json={'client_id': client.osu_client_id,
+                                   'code': code,
+                                   'client_secret': client.osu_secret,
+                                   'grant_type': 'authorization_code',
+                                   'redirect_uri': f"{client.domain}/code_grab",
+                                   'scope': 'public'},
+                             headers={'Accept': 'application/json',
+                                      'Content-Type': 'application/json'})
 
-        response = requests.post("https://osu.ppy.sh/oauth/token",
-                                 json={'client_id': client.osu_client_id,
-                                       'code': code,
-                                       'client_secret': client.osu_secret,
-                                       'grant_type': 'authorization_code',
-                                       'redirect_uri': f"{client.domain}/code_grab",
-                                       'scope': 'public'},
-                                 headers={'Accept': 'application/json',
-                                          'Content-Type': 'application/json'})
+    response = response.json()
 
-        response = response.json()
+    user_info = requests.get("https://osu.ppy.sh/api/v2/me/osu", headers={
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': f"Bearer {response['access_token']}"
+    }).json()
 
-        user_info = requests.get("https://osu.ppy.sh/api/v2/me/osu", headers={
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': f"Bearer {response['access_token']}"
-        }).json()
+    info = {
+        "username": user_info["username"],
+        "id": user_info["id"],
+        "avatar": f"https://a.ppy.sh/{user_info['id']}",
+        "background url": user_info["cover_url"]
+    }
 
-        info = {
-            "username": user_info["username"],
-            "id": user_info["id"],
-            "avatar": f"https://a.ppy.sh/{user_info['id']}",
-            "background url": user_info["cover_url"]
-        }
-
-        ServerData.osu_status.successful()
-        return redirect(f"/account/create?osu_info={json.dumps(info)}")
-    except:
-        ServerData.osu_status.unsuccessful()
+    return redirect(f"/account/create?osu_info={json.dumps(info)}")
 
 
 # <editor-fold desc="match API">
 @app.route("/api/get_match/<match_name>")
 async def grabber(match_name, from_socket: bool = False):
-    if not from_socket:
-        ServerData.api_call(ApiType.OsuMatchGrab)
+    match = match_handler.get_match(match_name)
 
-    try:
-        match = match_handler.get_match(match_name)
+    new_dict = {}
+    for player in match.players:
+        new_dict[player.id] = {
+            "background url": player.background,
+            "score": match.get_score(player),
+            "rank": player.rank,
+            "playcount": match.get_playcount(player),
+            "liveStatus": None if player.id not in live_player_status else live_player_status[player.id],
+        }
 
-        new_dict = {}
-        for player in match.players:
-            new_dict[player.id] = {
-                "background url": player.background,
-                "score": match.get_score(player),
-                "rank": player.rank,
-                "playcount": match.get_playcount(player),
-                "liveStatus": None if player.id not in live_player_status else live_player_status[player.id],
-            }
+    for team in match.team_data:
+        for player_ref in team.players:
+            new_dict[player_ref.id]["team"] = f"{team.jsonify()}"
 
-        for team in match.team_data:
-            for player_ref in team.players:
-                new_dict[player_ref.id]["team"] = f"{team.jsonify()}"
-
-        ServerData.osu_status.successful()
-        return new_dict
-    except Exception as e:
-        traceback.print_exc()
-        ServerData.osu_status.unsuccessful()
+    return new_dict
 
 
 # </editor-fold>
@@ -332,35 +261,21 @@ async def grabber(match_name, from_socket: bool = False):
 
 @app.route("/refresh/<player_id>", methods=['GET', 'POST'])
 async def web_player_refresh(player_id):
-    ServerData.api_call(ApiType.OsuRefresh)
-
-    try:
-        player = PlayerList.get_users([player_id])[0]
-        player.update_data()
-        ServerData.osu_status.successful()
-        return player.jsonify()
-    except:
-        ServerData.osu_status.unsuccessful()
-
-    return "{}"
+    player = PlayerList.get_users([player_id])[0]
+    player.update_data()
+    return player.jsonify()
 
 
 @app.route("/api/grab/<ids>", methods=['GET'])
 async def all_grabber(ids):
-    ServerData.api_call(ApiType.OsuIdGrab)
-    try:
-        id_list = ids.split("+")
+    id_list = ids.split("+")
 
-        data = PlayerList.get_users(id_list)
-        player_list = []
-        for player in data:
-            player_list.append(player.jsonify())
+    data = PlayerList.get_users(id_list)
+    player_list = []
+    for player in data:
+        player_list.append(player.jsonify())
 
-        ServerData.osu_status.successful()
-        return player_list
-    except:
-        return "{}"
-        ServerData.osu_status.unsuccessful()
+    return player_list
 
 
 # </editor-fold>
@@ -369,49 +284,25 @@ async def all_grabber(ids):
 @app.route("/api/live/del/<id>", methods=["POST"])
 async def del_live_status(id):
     global live_player_status
-    ServerData.api_call(ApiType.OsuLiveDelete)
-
-    try:
-        live_player_status.pop(int(id))
-        ServerData.osu_status.successful()
-    except:
-        ServerData.osu_status.unsuccessful()
+    live_player_status.pop(int(id))
 
 
 @app.route("/api/live/get/<id>", methods=["get"])
 async def get_live_status(id):
-    ServerData.api_call(ApiType.OsuLiveGet)
-
-    try:
-        player_status = live_player_status[id]
-        ServerData.osu_status.successful()
-        return player_status
-    except:
-        ServerData.osu_status.unsuccessful()
+    player_status = live_player_status[id]
+    return player_status
 
 
 @app.route("/api/live/get", methods=["get"])
 async def get_all_live_status():
-    ServerData.api_call(ApiType.OsuLiveGet)
-
-    try:
-        ServerData.osu_status.successful()
-        return live_player_status
-    except:
-        ServerData.osu_status.unsuccessful()
+    return live_player_status
 
 
 @app.route("/api/live/update/<id>", methods=["POST"])
 async def update_live_status(id):
     global live_player_status
-    ServerData.api_call(ApiType.OsuLiveUpdate)
-
-    try:
-        info = request.json
-        live_player_status[id] = info
-        ServerData.osu_status.successful()
-    except:
-        ServerData.osu_status.unsuccessful()
+    info = request.json
+    live_player_status[id] = info
 
 
 # </editor-fold>
@@ -447,7 +338,6 @@ async def gq_submit_leaderboard(leaderboard, user, score):
 
 @app.route("/api/gqc/get-leaderboard/<start>+<display_number>", methods=["GET"])
 async def get_gq_leaderboard(start, display_number):
-    ServerData.api_call(ApiType.GQLeaderboard)
     return GQManager.get_leaderboard(True, int(start), int(display_number))
 
 
@@ -471,15 +361,6 @@ async def home():
 @app.route('/about')
 async def about():
     return render_template("about.html")
-
-
-@app.route("/status")
-async def status():
-    return render_template(
-        "status.html",
-        server_data=ServerData,
-        api_enum=ApiType
-    )
 
 
 @app.route("/down")
