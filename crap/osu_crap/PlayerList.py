@@ -1,8 +1,5 @@
 import json
-import time
 
-import Client_Credentials
-from crap.ServerData import ServerData
 
 from .Player import Player
 
@@ -10,20 +7,6 @@ from .Player import Player
 # this is static because we will use the instance in other files
 class PlayerList:
     Players = []
-
-    @staticmethod
-    def load() -> None:
-        for id in ServerData.osu_player_json.keys():
-            print(f"loading osu player {id}")
-            PlayerList.create_player(id)
-
-    @staticmethod
-    def unload() -> None:
-        for player in PlayerList.Players:
-            print(player.id, player.name)
-            ServerData.osu_player_json[player.id] = player.jsonify()[player.id]
-
-        json.dump(ServerData.osu_player_json, open("player_data.json", "w"), indent=4)
 
     @staticmethod
     def get_users(user_list) -> list:
