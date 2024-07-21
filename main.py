@@ -332,7 +332,12 @@ async def get_gq_leaderboard(start, display_number):
 
 # </editor-fold>
 
+@app.route("/api/gqc/get-data/<id>", methods=['GET'])
+async def classic_get_data(id):
+    return GQManager.get_data(id, True)
+
 # </editor-fold>
+
 
 # </editor-fold>
 

@@ -49,6 +49,31 @@ class GQManager:
     def get_rating(id):
         raise NotImplementedError
 
+    @staticmethod
+    def get_data(id, is_classic: bool) -> dict:
+        data = {}
+        items = DB.get_group(
+            """
+            SELECT id, type, metadata
+            FROM gentrys_quest_items WHERE owner = %s AND is_classic = %s
+            """,
+            params=(id, is_classic)
+        )
+
+        startup_amount = 0
+        money = 0
+
+        if is_classic:
+            selection = DB.get("SELECT startup, money FROM gentrys_quest_classic_data WHERE id = %s", params=(id,))
+            startup_amount = selection[0]
+            money = selection[1]
+
+        data["startup amount"] = startup_amount
+        data["money"] = money
+        data["items"] = items
+
+        return data
+
     # </editor-fold>
 
     @staticmethod
