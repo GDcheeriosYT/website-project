@@ -37,10 +37,9 @@ DB.connect()
 live_player_status = {}
 player_data = PlayerList
 print("\nLoading osu players\n")
-PlayerList.load()
+print("\nNo players available\n")
 
 match_handler = MatchHandler()
-match_handler.load()
 
 #   Gentrys Quest data
 GQManager.load_rankings()
@@ -58,16 +57,6 @@ bcrypt = Bcrypt(app)
 # logging config
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.NOTSET)
-
-
-# define at exit action
-def exit_func():
-    player_data.unload()
-    match_handler.unload()
-    DB.end()
-
-
-atexit.register(exit_func)
 
 
 # <editor-fold desc="API">
