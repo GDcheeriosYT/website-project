@@ -7,11 +7,11 @@ make a .env file like this:
 ```txt
 DOMAIN = "http://127.0.0.1"
 PORT = 8080
+SECRET = "MySecret"
 
 DB_HOSTNAME = "hostname"
 DB_PASSWORD = "password"
 DB_USER = "user"
-DB_PORT = 8080
 DB = "database"
 
 OSU_API_KEY = "apikey"
