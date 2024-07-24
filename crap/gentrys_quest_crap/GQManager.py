@@ -64,9 +64,10 @@ class GQManager:
         money = 0
 
         if is_classic:
-            selection = DB.get("SELECT startup, money FROM gentrys_quest_classic_data WHERE id = %s", params=(id,))
-            startup_amount = selection[0]
-            money = selection[1]
+            selection = DB.get("SELECT startup_amount, money FROM gentrys_quest_classic_data WHERE id = %s", params=(id,))
+            if selection:
+                startup_amount = selection[0]
+                money = selection[1]
 
         data["startup amount"] = startup_amount
         data["money"] = money

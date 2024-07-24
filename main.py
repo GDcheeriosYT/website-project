@@ -43,6 +43,7 @@ match_handler = MatchHandler()
 
 #   Gentrys Quest data
 GQManager.load_rankings()
+gentrys_quest_classic_version = "V2.0.0"
 
 # flask set up
 app = Flask(  # Create a flask app
@@ -105,7 +106,7 @@ async def login(username, password):
     account = Account(username)
     if account:
         if bcrypt.check_password_hash(account.password, password):
-            return account
+            return account.jsonify()
 
     return "incorrect info"
 
@@ -332,9 +333,15 @@ async def get_gq_leaderboard(start, display_number):
 
 # </editor-fold>
 
+@app.route("/api/gqc/get-version", methods=['GET'])
+async def classic_get_version():
+    return gentrys_quest_classic_version
+
+
 @app.route("/api/gqc/get-data/<id>", methods=['GET'])
 async def classic_get_data(id):
     return GQManager.get_data(id, True)
+
 
 # </editor-fold>
 
