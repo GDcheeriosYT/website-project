@@ -110,8 +110,8 @@ async def login(username, password):
     return "incorrect info"
 
 
-@app.route('/login', methods=['POST'])
-def login_cookie():
+@app.route('/api/account/login-form', methods=['POST'])
+async def login_cookie():
     username = request.form.get('nm')
     password = request.form.get('pw')
     login_result = asyncio.run(login(username, password))
@@ -123,6 +123,16 @@ def login_cookie():
         resp = make_response(
             render_template('account/login.html', warning="incorrect info"))
         return resp
+
+
+@app.route("/api/account/login-json", methods=['POST'])
+async def login_json():
+    username = request.json["username"]
+    password = request.json["psasword"]
+
+    login_result = asyncio.run(login(username, password))
+    if login_result != "incorrect info" and login_result is not None:
+        return login_result.jsonify()
 
 
 @app.route("/account/signout")
@@ -518,7 +528,7 @@ def update_client_status(data):
 
 @socketio.on('match data get')
 def get_livestatus(data):
-    emit('match data receive', asyncio.run(grabber(data, True)), ignore_queue=True)
+    emit('match data receive', asyncio.run(grabber(data, True)))
 
 
 # </editor-fold>
