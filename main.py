@@ -105,7 +105,7 @@ async def login(username, password):
     account = Account(username)
     if account:
         if bcrypt.check_password_hash(account.password, password):
-            return account
+            return account.jsonify()
 
     return "incorrect info"
 
@@ -128,11 +128,11 @@ async def login_cookie():
 @app.route("/api/account/login-json", methods=['POST'])
 async def login_json():
     username = request.json["username"]
-    password = request.json["psasword"]
+    password = request.json["password"]
 
     login_result = asyncio.run(login(username, password))
     if login_result != "incorrect info" and login_result is not None:
-        return login_result.jsonify()
+        return login_result
 
 
 @app.route("/account/signout")
