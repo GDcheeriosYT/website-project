@@ -315,8 +315,22 @@ async def update_live_status(id):
 
 @app.route("/api/gq/get-leaderboard/<id>")
 async def gq_get_leaderboard(id):
-    leaderboard = DB.get_group("SELECT * FROM leaderboard_scores where leaderboard = %s;", params=(id,))
-    return leaderboard
+    leaderboard = DB.get_group(
+        "SELECT name, MAX(score) as hs FROM leaderboard_scores WHERE leaderboard = %s GROUP BY name ORDER BY hs DESC;",
+        params=(id,))
+    standings = []
+    x = 1
+    for standing in leaderboard:
+        standing = {
+            "placement": x,
+            "username": standing[0],
+            "score": standing[1]
+        }
+        standings.append(standing)
+
+        x += 1
+
+    return standings
 
 
 @app.route("/api/gq/submit-leaderboard/<leaderboard>/<user>+<score>", methods=['POST'])
