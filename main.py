@@ -101,7 +101,7 @@ async def account_create(username, password, email, osu_id=0, about_me=""):
 
 
 @app.route("/api/account/login/<username>+<password>")
-async def login(username, password):
+async def login(username, password) -> str | dict:
     account = Account(username)
     if account:
         if bcrypt.check_password_hash(account.password, password):
@@ -116,8 +116,8 @@ async def login_cookie():
     password = request.form.get('pw')
     login_result = asyncio.run(login(username, password))
     if login_result != "incorrect info" and login_result is not None:
-        resp = make_response(redirect(f'user/{login_result.id}'))
-        resp.set_cookie('userID', str(login_result.id))
+        resp = make_response(redirect(f'user/{login_result["id"]}'))
+        resp.set_cookie('userID', str(login_result["id"]))
         return resp
     else:
         resp = make_response(
