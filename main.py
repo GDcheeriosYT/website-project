@@ -325,6 +325,11 @@ async def gq_submit_leaderboard(leaderboard, user, score):
     DB.do("INSERT INTO leaderboard_scores (name, score, leaderboard, \"user\") values (%s, %s, %s, %s);",
           params=(user.username, int(score), int(leaderboard), user.id))
 
+    return {
+        "username": user.username,
+        "score": score
+    }
+
 
 # </editor-fold>
 
