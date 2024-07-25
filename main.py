@@ -161,7 +161,7 @@ def create_account():
             render_template('account/user-profile.html',
                             account=login_result
                             ))
-        resp.set_cookie('userID', str(login_result.id))
+        resp.set_cookie('userID', str(login_result["id"]))
         return resp
     else:
         resp = make_response(
