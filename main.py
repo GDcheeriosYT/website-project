@@ -100,29 +100,38 @@ async def account_create(username, password, email, osu_id=0, about_me=""):
     Account.create(username, password, email, osu_id, about_me)
 
 
-@app.route("/api/account/login/<username>+<password>")
-async def login(username, password):
+def login(username, password) -> str | dict:
     account = Account(username)
     if account:
         if bcrypt.check_password_hash(account.password, password):
-            return account
+            return account.jsonify()
 
     return "incorrect info"
 
 
-@app.route('/login', methods=['POST'])
-def login_cookie():
+@app.route('/api/account/login-form', methods=['POST'])
+async def login_cookie():
     username = request.form.get('nm')
     password = request.form.get('pw')
-    login_result = asyncio.run(login(username, password))
+    login_result = login(username, password)
     if login_result != "incorrect info" and login_result is not None:
-        resp = make_response(redirect(f'user/{login_result.id}'))
-        resp.set_cookie('userID', str(login_result.id))
+        resp = make_response(redirect(f'/user/{login_result["id"]}'))
+        resp.set_cookie('userID', str(login_result["id"]))
         return resp
     else:
         resp = make_response(
             render_template('account/login.html', warning="incorrect info"))
         return resp
+
+
+@app.route("/api/account/login-json", methods=['POST'])
+async def login_json():
+    username = request.json["username"]
+    password = request.json["password"]
+
+    login_result = login(username, password)
+    if login_result != "incorrect info" and login_result is not None:
+        return login_result
 
 
 @app.route("/account/signout")
@@ -146,13 +155,13 @@ def create_account():
         osuid = 0
     about_me = request.form.get("am")
     asyncio.run(account_create(username, password, email, osuid, about_me))
-    login_result = asyncio.run(login(username, password))
+    login_result = login(username, password)
     if login_result != "incorrect info" and login_result is not None:
         resp = make_response(
             render_template('account/user-profile.html',
                             account=login_result
                             ))
-        resp.set_cookie('userID', str(login_result.id))
+        resp.set_cookie('userID', str(login_result["id"]))
         return resp
     else:
         resp = make_response(
@@ -306,8 +315,22 @@ async def update_live_status(id):
 
 @app.route("/api/gq/get-leaderboard/<id>")
 async def gq_get_leaderboard(id):
-    leaderboard = DB.get_group("SELECT * FROM leaderboard_scores where leaderboard = %s;", params=(id,))
-    return leaderboard
+    leaderboard = DB.get_group(
+        "SELECT name, MAX(score) as hs FROM leaderboard_scores WHERE leaderboard = %s GROUP BY name ORDER BY hs DESC;",
+        params=(id,))
+    standings = []
+    x = 1
+    for standing in leaderboard:
+        standing = {
+            "placement": x,
+            "username": standing[0],
+            "score": standing[1]
+        }
+        standings.append(standing)
+
+        x += 1
+
+    return standings
 
 
 @app.route("/api/gq/submit-leaderboard/<leaderboard>/<user>+<score>", methods=['POST'])
@@ -315,6 +338,11 @@ async def gq_submit_leaderboard(leaderboard, user, score):
     user = Account(user)
     DB.do("INSERT INTO leaderboard_scores (name, score, leaderboard, \"user\") values (%s, %s, %s, %s);",
           params=(user.username, int(score), int(leaderboard), user.id))
+
+    return {
+        "username": user.username,
+        "score": score
+    }
 
 
 # </editor-fold>
@@ -518,7 +546,7 @@ def update_client_status(data):
 
 @socketio.on('match data get')
 def get_livestatus(data):
-    emit('match data receive', asyncio.run(grabber(data, True)), ignore_queue=True)
+    emit('match data receive', asyncio.run(grabber(data, True)))
 
 
 # </editor-fold>
