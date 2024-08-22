@@ -45,7 +45,7 @@ jobs:
           # NOTE: If required, update to the appropriate source folder
           source: ./
           env_vars: |-
-            DOMAIN="https://dev.gdcheerios.com"
+            DOMAIN=https://dev.gdcheerios.com
           secrets: |-
             DB_HOSTNAME=DEV_DB_HOSTNAME:latest
             DB_PASSWORD=DEV_DB_PASSWORD:latest
@@ -94,7 +94,7 @@ jobs:
           # NOTE: If required, update to the appropriate source folder
           source: ./
           env_vars: |-
-            DOMAIN="https://gdcheerios.com"
+            DOMAIN=https://gdcheerios.com
           secrets: |-
             DB_HOSTNAME=PROD_DB_HOSTNAME:latest
             DB_PASSWORD=PROD_DB_PASSWORD:latest
