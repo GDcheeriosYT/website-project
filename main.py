@@ -336,8 +336,9 @@ async def gq_get_leaderboard(id):
 @app.route("/api/gq/submit-leaderboard/<leaderboard>/<user>+<score>", methods=['POST'])
 async def gq_submit_leaderboard(leaderboard, user, score):
     user = Account(user)
-    DB.do("INSERT INTO leaderboard_scores (name, score, leaderboard, \"user\") values (%s, %s, %s, %s);",
-          params=(user.username, int(score), int(leaderboard), user.id))
+    if DB.get("select online from leaderboards where id = %s", params=leaderboard)[0]:
+        DB.do("INSERT INTO leaderboard_scores (name, score, leaderboard, \"user\") values (%s, %s, %s, %s);",
+              params=(user.username, int(score), int(leaderboard), user.id))
 
     return {
         "username": user.username,
