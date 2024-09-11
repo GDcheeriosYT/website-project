@@ -21,11 +21,6 @@ def initialize_files():
             file.write("{}")
             file.close()
 
-    verify_dir("matches")
-    verify_dir("extras")
-    verify_dir("match_history")
-    verify_file("player_data.json")
-
 
 def retrieve_initialized_objects():
     pass

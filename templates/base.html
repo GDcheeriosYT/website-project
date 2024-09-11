@@ -29,12 +29,11 @@
 <!--              <li><a href="/minecraft/stats">Player Stats</a></li>-->
 <!--            </ul>-->
 <!--          </li>-->
-<!--          <li class="dropdown"><a href="/osu">osu</a>-->
-<!--            <ul class="dropdown-content">-->
-<!--              <li><a href="/osu">Home</a></li>-->
-<!--              <li><a href="/osu/matches">Matches</a></li>-->
-<!--            </ul>-->
-<!--          </li>-->
+          <li class="dropdown"><a href="/osu/matches">osu</a>
+            <ul class="dropdown-content">
+              <li><a href="/osu/matches">Matches</a></li>
+            </ul>
+          </li>
           <li class="dropdown"><a href="/account">Account</a>
             <ul class="dropdown-content">
               {% if request.cookies.get('userID') != None %}
