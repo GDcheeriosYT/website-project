@@ -87,7 +87,8 @@ async def delete_token(token):
 
 @app.route("/api/verify-token/<token>")
 def verify_token(token):
-    return str(len(DB.get("SELECT %s FROM tokens;", params=(token,))) > 0)
+    result = DB.get("SELECT * FROM tokens where value = %s;", params=(token,))
+    return str(result is not None)
 
 
 # </editor-fold>
@@ -366,12 +367,61 @@ async def classic_get_version():
     return gentrys_quest_classic_version
 
 
+@app.route("/api/gqc/update-data/<id>", methods=['POST'])
+async def update_classic_data(id):
+    data = request.json
+    if verify_token(get_token(request.headers)) == "True":
+        return GQManager.submit_classic_data(id, data["startup amount"], data["money"])
+
+
 @app.route("/api/gqc/get-data/<id>", methods=['GET'])
 async def classic_get_data(id):
     return GQManager.get_data(id, True)
 
 
+@app.route("/api/gqc/update-item/<id>", methods=['POST'])
+async def update_classic_item(id):
+    if verify_token(get_token(request.headers)) == "True":
+        GQManager.update_item(id, request.json)
+
+
+@app.route("/api/gqc/add-item/<item_type>+<owner_id>", methods=['POST'])
+async def classic_add_item(item_type, owner_id):
+    if verify_token(get_token(request.headers)) == "True":
+        return GQManager.add_item(item_type, json.dumps(request.json), True, owner_id)
+
+
+@app.route("/api/gqc/remove-item/<id>", methods=['POST'])
+async def classic_remove_item(id):
+    if verify_token(get_token(request.headers)) == "True":
+        return GQManager.remove_item(id)
+
+
+@app.route("/api/gqc/get-rank/<id>", methods=['GET'])
+async def get_classic_rank(id):
+    return GQManager.get_ranking(id, True)
+
+
 # </editor-fold>
+
+
+# both client
+@app.route("/api/gqc/get-item/<id>", methods=['GET'])
+async def get_item(id):
+    result = GQManager.get_item(id)
+    if result:
+        return ("<table>"
+                f"<tr><th>Field</th><th>Value</th></tr>"
+                f"<tr><td>id</td><td>{result.id}</td></tr>"
+                f"<tr><td>type</td><td>{result.type}</td></tr>"
+                f"<tr><td>rating</td><td>{result.rating}</td></tr>"
+                f"<tr><td>classic</td><td>{result.is_classic}</td></tr>"
+                f"<tr><td>version</td><td>{result.version}</td></tr>"
+                f"<tr><td>owner</td><td>{result.owner}</td></tr>"
+                "</table>"
+                f"{json_to_html(result.metadata)}")
+    else:
+        return "<h1>Not found in database</h1>"
 
 
 # </editor-fold>
@@ -540,6 +590,39 @@ async def account_create_page():
 def get_osu_id(userID):
     return json.load(open(f"accounts/{userID}.json",
                           "r"))["metadata"]["osu id"]
+
+
+def json_to_html(data):
+    html_string = "<table border='1'>"
+
+    # Function to handle nested objects and lists
+    def render_row(key, value):
+        # If the value is a dictionary, render a nested table
+        if isinstance(value, dict):
+            return f"<tr><td>{key}</td><td>{json_to_html(value)}</td></tr>"
+        # If the value is a list, render each item in the list
+        elif isinstance(value, list):
+            items = "".join(
+                [f"<li>{json_to_html(item) if isinstance(item, (dict, list)) else item}</li>" for item in value])
+            return f"<tr><td>{key}</td><td><ul>{items}</ul></td></tr>"
+        else:
+            # Render the key-value pair in a table row
+            return f"<tr><td>{key}</td><td>{value}</td></tr>"
+
+    # Iterate through the JSON object and convert to HTML
+    for key, value in data.items():
+        html_string += render_row(key, value)
+
+    html_string += "</table>"
+    return html_string
+
+
+def get_token(auth):
+    token = auth.get("Authorization")
+    if "Bearer" in token:
+        return token[7:]
+
+    return token
 
 
 # </editor-fold>
