@@ -57,9 +57,20 @@ class GQManager:
     @staticmethod
     def update_user_rating(id, classic: bool) -> dict:
         # weighting
-        weighted = (GQManager.get_weighted_rating(id, "character", classic) +
-                    GQManager.get_weighted_rating(id, "artifact", classic) +
-                    GQManager.get_weighted_rating(id, "weapon", classic))
+        character_rating = 0
+        artifact_rating = 0
+        weapon_rating = 0
+
+        if GPSystem.rater.character_rating_enabled:
+            character_rating = GQManager.get_weighted_rating(id, "character", classic)
+
+        if GPSystem.rater.artifact_rating_enabled:
+            artifact_rating = GQManager.get_weighted_rating(id, "artifact", classic)
+
+        if GPSystem.rater.weapon_rating_enabled:
+            weapon_rating = GQManager.get_weighted_rating(id, "weapon", classic)
+
+        weighted = character_rating + artifact_rating + weapon_rating
 
         DB.do(
             """
@@ -152,7 +163,7 @@ class GQManager:
         rating = 0
         counter = 0
         for item in DB.get_group(
-                "SELECT rating FROM gentrys_quest_items WHERE owner = %s AND type = %s AND is_classic = %s ORDER BY rating desc limit 100;",
+                f"SELECT rating FROM gentrys_quest_items WHERE owner = %s AND type = %s AND is_classic = %s ORDER BY rating desc limit {GPSystem.rater.max_item_rating};",
                 params=(id, object_type, classic)):
             rating += item[0] * 0.95 ** counter
             counter += 1
