@@ -17,13 +17,13 @@
                 <h2 style="margin: 6px;">Gentry's Quest Classic</h2>
                 <div id="gqc-ranking-info-container" style="display: flex; flex-direction: column; justify-content: space-evenly; box-shadow: 1px 1px 9px 1px #000000; border-radius: 2vw;">
                   <div id="top-gqc-rank-info" style="display: flex; flex-direction: top; justify-content: space-evenly; margin-top: 10px;">
-                    <h2>#{{ gqc_rank(user.id) }}</h2>
-                    <h2>{{ user.ranking.rank }}</h2>
-                    <h2>{{ user.ranking.tier }}</h2>
+                    <h2>#{{ gqc_rank(user.id, True)['rank'] }}</h2>
+                    <h2>{{ user.rank }}</h2>
+                    <h2>{{ user.tier }}</h2>
                   </div>
                   <div id="bottom-gqc-rank-info" style="display: flex; flex-direction: top; justify-content: space-evenly; margin-top: 10px;">
-                    <h2>{{user.power_level.weighted}}</h2>
-                    <h2>{{user.power_level.unweighted}}</h2>
+                    <h2>{{user.weighted}}</h2>
+                    <h2>{{user.unweighted}}</h2>
                     <h3 style="margin: 1px;">GP</h3>
                   </div>
                 </div>
@@ -64,7 +64,7 @@
         color_el(document.getElementById('champion'), "champion")
         color_el(document.getElementById('gentry warrior'), "gentry warrior")
         {% if user is not none %}
-          color_el(document.getElementById('gqc-ranking'), "{{user.ranking.rank}}")
+          color_el(document.getElementById('gqc-ranking'), "{{user.rank}}")
         {% endif %}
       </script>
     {% endblock %}

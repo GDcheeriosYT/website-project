@@ -14,6 +14,7 @@ from flask_socketio import SocketIO, emit
 
 # credential variables
 import Client_Credentials as client
+from GPSystem.GPmain import GPSystem
 from crap.Account import Account
 # scripts
 from crap.Initialization import *
@@ -485,7 +486,9 @@ async def gentrys_quest_leaderboard():
 
     return render_template(
         "gentrys quest/leaderboard.html",
-        players=players
+        players=players,
+        get_color=GQManager.get_color,
+        version=GPSystem.version
     )
 
 
@@ -509,8 +512,8 @@ async def gentrys_quest_online_players():
 async def gentrys_quest_ranking():
     return render_template(
         "gentrys quest/ranking.html",
-        ranking_info=GQManager.rater.get_tiers(),
-        colors=GQManager.rater.rating_colors,
+        ranking_info=GPSystem.rater.get_tiers(),
+        colors=GPSystem.rater.rating_colors,
         gqc_id=GQManager.get_player,
         gqc_rank=GQManager.get_ranking
     )
