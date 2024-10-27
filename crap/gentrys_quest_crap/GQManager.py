@@ -101,8 +101,12 @@ class GQManager:
 
     @staticmethod
     def submit_classic_data(id: int, start_amount: int, money: int):
-        DB.do("UPDATE gentrys_quest_classic_data SET startup_amount = %s, money = %s where id = %s",
-              params=(start_amount, money, id))
+        DB.do("""
+            INSERT INTO gentrys_quest_classic_data (id, startup_amount, money)
+            VALUES (%s, %s, %s)
+            ON CONFLICT (id) 
+            DO UPDATE SET startup_amount = EXCLUDED.startup_amount, money = EXCLUDED.money
+        """, params=(id, start_amount, money))
 
         return ":thumbs_up:"
 

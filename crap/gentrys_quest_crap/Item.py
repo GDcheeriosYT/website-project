@@ -1,12 +1,21 @@
+import json
+
 from GPSystem.GPmain import GPSystem
 from crap.PSQLConnection import PSQLConnection as DB
 
 
 class Item:
+    id = None
+    type = None
+    rating = None
+    is_classic = None
+    version = None
+    owner = None
+    metadata = None
+
     def __init__(self, id: int, deleted: bool = False):
         print(f"loading item {id}")
         item_result = DB.get("SELECT id, type, rating, is_classic, version, owner, metadata FROM gentrys_quest_items WHERE id = %s", params=(id,))
-        print(item_result)
         if not item_result:
             print(f"couldn't find item {id}")
             return
@@ -47,7 +56,7 @@ class Item:
         return new_item
 
     def update(self, data):
-        DB.do("UPDATE gentrys_quest_items SET metadata = %s WHERE id = %s", params=(data, self.id))
+        DB.do("UPDATE gentrys_quest_items SET metadata = %s WHERE id = %s", params=(json.dumps(data), self.id))
 
     def rank_item(self):
         if self.type == "character":

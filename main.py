@@ -1,6 +1,5 @@
 # packages
 import asyncio
-import atexit
 import json
 import logging
 import random
@@ -382,7 +381,7 @@ async def classic_get_data(id):
 @app.route("/api/gqc/update-item/<id>", methods=['POST'])
 async def update_classic_item(id):
     if verify_token(get_token(request.headers)) == "True":
-        GQManager.update_item(id, request.json)
+        return GQManager.update_item(id, request.json)
 
 
 @app.route("/api/gqc/add-item/<item_type>+<owner_id>", methods=['POST'])
@@ -406,10 +405,10 @@ async def get_classic_rank(id):
 
 
 # both client
-@app.route("/api/gqc/get-item/<id>", methods=['GET'])
+@app.route("/api/gq/get-item/<id>", methods=['GET'])
 async def get_item(id):
     result = GQManager.get_item(id)
-    if result:
+    if result.id:
         return ("<table>"
                 f"<tr><th>Field</th><th>Value</th></tr>"
                 f"<tr><td>id</td><td>{result.id}</td></tr>"
