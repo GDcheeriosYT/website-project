@@ -10,7 +10,7 @@
     {% block body %}
         <div id="screen" style="display: flex; flex-direction: row; justify-content: space-evenly;">
           {% set user = gqc_id(request.cookies.get('userID')) %}
-          {% if user is not none %}
+          {% if user.weighted is not none %}
             <div id="your-ranking">
               <h1>Your Ranking</h1>
               <div class="ranking-box" id="gqc-ranking" style="background-color: #082b3b; color: white;">

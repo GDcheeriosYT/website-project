@@ -3,6 +3,7 @@ import json
 from GPSystem.GPmain import GPSystem
 from crap.PSQLConnection import PSQLConnection as DB
 from crap.gentrys_quest_crap.Item import Item
+from crap.gentrys_quest_crap.UserRanking import UserRanking
 
 
 def ranking(func):
@@ -71,21 +72,67 @@ class GQManager:
             weapon_rating = GQManager.get_weighted_rating(id, "weapon", classic)
 
         weighted = character_rating + artifact_rating + weapon_rating
+        ranking, tier = GPSystem.rater.get_rank(weighted)
 
         DB.do(
             """
-            INSERT INTO rankings (id, weighted, unweighted, c_weighted, c_unweighted)
-            VALUES (%s, %s, (SELECT SUM(rating) FROM gentrys_quest_items WHERE owner = %s), 0, 0)
+            INSERT INTO rankings (id, weighted, unweighted, c_weighted, c_unweighted, rank, tier, c_rank, c_tier)
+            VALUES (%s, %s, (SELECT SUM(rating) FROM gentrys_quest_items WHERE owner = %s), %s, 0, %s, %s, %s, %s)
             ON CONFLICT (id) DO UPDATE
             SET
-                weighted = EXCLUDED.weighted,
+                weighted = CASE 
+                    WHEN NOT %s THEN EXCLUDED.weighted 
+                    ELSE rankings.weighted 
+                END,
+                unweighted = CASE 
+                    WHEN NOT %s THEN (SELECT SUM(rating) FROM gentrys_quest_items WHERE owner = EXCLUDED.id) 
+                    ELSE rankings.unweighted 
+                END,
+                rank = CASE 
+                    WHEN NOT %s THEN EXCLUDED.rank 
+                    ELSE rankings.rank 
+                END,
+                tier = CASE 
+                    WHEN NOT %s THEN EXCLUDED.tier 
+                    ELSE rankings.tier 
+                END,
                 c_weighted = CASE 
-                    WHEN EXCLUDED.id IS NOT NULL AND %s THEN EXCLUDED.weighted 
+                    WHEN %s THEN EXCLUDED.c_weighted 
                     ELSE rankings.c_weighted 
                 END,
-                unweighted = (SELECT SUM(rating) FROM gentrys_quest_items WHERE owner = EXCLUDED.id);
+                c_unweighted = CASE 
+                    WHEN %s THEN (SELECT SUM(rating) FROM gentrys_quest_items WHERE owner = EXCLUDED.id) 
+                    ELSE rankings.c_unweighted 
+                END,
+                c_rank = CASE 
+                    WHEN %s THEN EXCLUDED.c_rank 
+                    ELSE rankings.c_rank 
+                END,
+                c_tier = CASE 
+                    WHEN %s THEN EXCLUDED.c_tier 
+                    ELSE rankings.c_tier 
+                END;
             """,
-            params=(id, weighted, id, classic)
+            params=(
+                id,
+                weighted if not classic else None,  # for `weighted` column on insert
+                id,
+                weighted if classic else None,  # for `c_weighted` column on insert
+                ranking if not classic else None,
+                tier if not classic else None,
+                ranking if classic else None,  # for `c_rank` column on insert
+                tier if classic else None,  # for `c_tier` column on insert
+
+                # Update conditions for ON CONFLICT
+                classic,  # for `weighted`
+                classic,  # for `unweighted`
+                classic,  # for `rank`
+                classic,  # for `tier`
+                classic,  # for `c_weighted`
+                classic,  # for `c_unweighted`
+                classic,  # for `c_rank`
+                classic  # for `c_tier`
+            )
         )
 
         return GQManager.get_ranking(id, classic)
@@ -177,16 +224,25 @@ class GQManager:
 
     @staticmethod
     def get_leaderboard(classic: bool, start: int = 0, amount: int = 50) -> list:
-        mode = 'c_weighted' if classic else 'weighted'
+        prefix = 'c_' if classic else ''  # c_ = classic prefix
         query = f"""
-                SELECT rankings.id, accounts.username, rankings.{mode}
+                SELECT rankings.id, accounts.username,
+                rankings.{prefix + 'weighted'}, rankings.{prefix + 'rank'}, rankings.{prefix + 'tier'}
                 FROM rankings
                 INNER JOIN accounts ON rankings.id = accounts.id
-                ORDER BY {mode} desc
+                ORDER BY {prefix + 'weighted'} desc
                 LIMIT %s OFFSET %s;
             """
 
         return DB.get_group(query, params=(amount, start))
+
+    @staticmethod
+    def get_player(id):
+        return UserRanking(id)
+
+    @staticmethod
+    def get_color(rank: str):
+        return GPSystem.rater.rating_colors[rank]
 
     @staticmethod
     def get_ranking(id: int, classic: bool) -> dict:
