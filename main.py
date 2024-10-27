@@ -373,6 +373,8 @@ async def update_classic_data(id):
     if verify_token(get_token(request.headers)) == "True":
         return GQManager.submit_classic_data(id, data["startup amount"], data["money"])
 
+    return "Bad token"
+
 
 @app.route("/api/gqc/get-data/<id>", methods=['GET'])
 async def classic_get_data(id):
@@ -384,17 +386,31 @@ async def update_classic_item(id):
     if verify_token(get_token(request.headers)) == "True":
         return GQManager.update_item(id, request.json)
 
+    return "Bad token"
+
 
 @app.route("/api/gqc/add-item/<item_type>+<owner_id>", methods=['POST'])
 async def classic_add_item(item_type, owner_id):
     if verify_token(get_token(request.headers)) == "True":
         return GQManager.add_item(item_type, json.dumps(request.json), True, owner_id)
 
+    return "Bad token"
+
 
 @app.route("/api/gqc/remove-item/<id>", methods=['POST'])
 async def classic_remove_item(id):
     if verify_token(get_token(request.headers)) == "True":
         return GQManager.remove_item(id)
+
+    return "Bad token"
+
+
+@app.route("/api/gqc/remove-items", methods=["POST"])
+async def classic_remove_items():
+    if verify_token(get_token(request.headers)) == "True":
+        return GQManager.remove_items(request.json["items"])
+
+    return "Bad token"
 
 
 @app.route("/api/gqc/get-rank/<id>", methods=['GET'])

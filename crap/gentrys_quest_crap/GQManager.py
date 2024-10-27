@@ -106,9 +106,14 @@ class GQManager:
         return Item.remove(id)
 
     @staticmethod
+    @ranking
     def remove_items(id_list: list):
-        for id in id_list:
-            GQManager.remove_item(id)
+        x = 0
+        while x < len(id_list) - 1:
+            DB.do(f"DELETE FROM gentrys_quest_items WHERE ID = %s", params=(id_list[x],))
+            x += 1
+
+        return Item.remove(id_list[x])
 
     @staticmethod
     def submit_classic_data(id: int, start_amount: int, money: int):
