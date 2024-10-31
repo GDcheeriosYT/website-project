@@ -230,6 +230,7 @@ class GQManager:
                 rankings.{prefix + 'weighted'}, rankings.{prefix + 'rank'}, rankings.{prefix + 'tier'}
                 FROM rankings
                 INNER JOIN accounts ON rankings.id = accounts.id
+                WHERE accounts.status NOT IN ('restricted', 'test')
                 ORDER BY {prefix + 'weighted'} desc
                 LIMIT %s OFFSET %s;
             """
