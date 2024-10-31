@@ -10,7 +10,8 @@ class Account:
     email: str
     osu_id: int
     about: str
-    pfp: str = str
+    pfp: str
+    status: str
 
     def __init__(self, identifier):
         print(f"Loading account {identifier}")
@@ -32,6 +33,7 @@ class Account:
             self.pfp = f"static/pfps/{self.id}.jpg"
         else:
             self.pfp = f"static/pfps/huh.png"
+        self.status = result[6]
 
     # <editor-fold desc="Modifiers">
     @staticmethod
@@ -73,5 +75,6 @@ class Account:
             "email": self.email,
             "osuid": self.osu_id,
             "about": self.about,
-            "pfp": self.pfp
+            "pfp": self.pfp,
+            "status": self.status
         }
