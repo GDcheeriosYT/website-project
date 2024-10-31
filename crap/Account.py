@@ -54,6 +54,10 @@ class Account:
         DB.do(query, params)
 
     @staticmethod
+    def set_status(id: int, status: str):
+        DB.do("UPDATE accounts SET status = %s where id = %s", params=(status, id))
+
+    @staticmethod
     def change_username(id: int, new_username: str):
         DB.do(f"update accounts set username = %s where id = %s;", params=(new_username, id))
 

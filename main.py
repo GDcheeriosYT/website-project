@@ -43,7 +43,7 @@ match_handler = MatchHandler()
 
 #   Gentrys Quest data
 GQManager.load_rankings()
-gentrys_quest_classic_version = "V2.0.0"
+gentrys_quest_classic_version = "V2.1.0"
 
 # flask set up
 app = Flask(  # Create a flask app
@@ -356,9 +356,10 @@ async def gq_submit_leaderboard(leaderboard, user, score):
 
 # <editor-fold desc="leaderboards">
 
-@app.route("/api/gqc/get-leaderboard/<start>+<display_number>", methods=["GET"])
-async def get_gq_leaderboard(start, display_number):
-    return GQManager.get_leaderboard(True, int(start), int(display_number))
+@app.route("/api/gqc/get-leaderboard/<start>+<display_number>+<online>", methods=["GET"])
+async def get_gq_leaderboard(start, display_number, online):
+    online = online == "true"
+    return GQManager.get_leaderboard(True, int(start), int(display_number), online)
 
 
 # </editor-fold>
@@ -366,6 +367,11 @@ async def get_gq_leaderboard(start, display_number):
 @app.route("/api/gqc/get-version", methods=['GET'])
 async def classic_get_version():
     return gentrys_quest_classic_version
+
+
+@app.route("/api/gqc/check-in/<id>", methods=['POST'])
+async def classic_check_in(id):
+    return GQManager.classic_check_in(id)
 
 
 @app.route("/api/gqc/update-data/<id>", methods=['POST'])
@@ -441,6 +447,10 @@ async def get_item(id):
         return "<h1>Not found in database</h1>"
 
 
+@app.route("/api/gq/check-out/<id>", methods=['POST'])
+async def check_out(id):
+    return GQManager.check_out(id)
+
 # </editor-fold>
 
 # </editor-fold>
@@ -488,23 +498,22 @@ async def gentrys_quest_leaderboard():
         "gentrys quest/leaderboard.html",
         players=players,
         get_color=GQManager.get_color,
-        version=GPSystem.version
+        version=GPSystem.version,
+        classic_header="Leaderboard"
     )
 
 
 @app.route("/gentrys-quest/online-players")
 async def gentrys_quest_online_players():
-    players = GQManager.online_players
-
-    def sort_thing(player):
-        return player.power_level.weighted
-
-    players.sort(key=sort_thing, reverse=True)
-
     return render_template(
-        "gentrys quest/online-players.html",
-        players=players,
-        version=GQManager.rater_version
+        "gentrys quest/leaderboard.html",
+        players=GQManager.get_leaderboard(
+            classic=True,
+            online=True
+        ),
+        get_color=GQManager.get_color,
+        version=GPSystem.version,
+        classic_header="Online Players"
     )
 
 

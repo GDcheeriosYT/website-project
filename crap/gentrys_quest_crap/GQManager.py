@@ -1,6 +1,7 @@
 import json
 
 from GPSystem.GPmain import GPSystem
+from crap.Account import Account
 from crap.PSQLConnection import PSQLConnection as DB
 from crap.gentrys_quest_crap.Item import Item
 from crap.gentrys_quest_crap.UserRanking import UserRanking
@@ -173,6 +174,16 @@ class GQManager:
 
         return ":thumbs_up:"
 
+    @staticmethod
+    def classic_check_in(id: int):
+        Account.set_status(id, "gqc_online")
+        return ""
+
+    @staticmethod
+    def check_out(id: int):
+        Account.set_status(id, "offline")
+        return ""
+
     # <editor-fold desc="getters">
 
     @staticmethod
@@ -223,14 +234,24 @@ class GQManager:
         return rating
 
     @staticmethod
-    def get_leaderboard(classic: bool, start: int = 0, amount: int = 50) -> list:
+    def get_leaderboard(classic: bool, start: int = 0, amount: int = 50, online: bool = False) -> list:
+        """
+        grab leaderboard data
+
+        @param classic: targeting classic data
+        @param start: start index
+        @param amount: how many players to pull
+        @param online: targeting online players
+        @return: leaderboard data
+        """
         prefix = 'c_' if classic else ''  # c_ = classic prefix
+        online_prefix = 'gqc_' if classic else 'gq_'
         query = f"""
                 SELECT rankings.id, accounts.username,
                 rankings.{prefix + 'weighted'}, rankings.{prefix + 'rank'}, rankings.{prefix + 'tier'}
                 FROM rankings
                 INNER JOIN accounts ON rankings.id = accounts.id
-                WHERE accounts.status NOT IN ('restricted', 'test')
+                WHERE accounts.status NOT IN ('restricted', 'test') {f"AND accounts.status = '{online_prefix}online'" if online else ""}
                 ORDER BY {prefix + 'weighted'} desc
                 LIMIT %s OFFSET %s;
             """
