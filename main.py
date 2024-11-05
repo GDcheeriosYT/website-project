@@ -383,6 +383,12 @@ async def update_classic_data(id):
     return "Bad token"
 
 
+@app.route("/api/gqc/add-money/<id>+<amount>+<secret>")
+async def classic_add_money(id, amount, secret):
+    if secret == client.secret:
+        return GQManager.classic_add_money(id, amount)
+
+
 @app.route("/api/gqc/get-data/<id>", methods=['GET'])
 async def classic_get_data(id):
     return GQManager.get_data(id, True)

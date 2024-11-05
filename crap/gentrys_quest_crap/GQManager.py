@@ -154,6 +154,11 @@ class GQManager:
         return Item.gift_item(item_type, data, is_classic, owner)
 
     @staticmethod
+    def classic_add_money(id, amount):
+        DB.do("UPDATE gentrys_quest_classic_data SET new_money = new_money + %s where id = %s", params=(amount, id))
+        return amount
+
+    @staticmethod
     @ranking
     def remove_item(id: int):
         return Item.remove(id)
