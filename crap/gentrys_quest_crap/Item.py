@@ -53,9 +53,9 @@ class Item:
     def gift_item(item_type: str, data, is_classic: bool, owner: int):
         new_item = Item(DB.get("INSERT INTO gentrys_quest_items "
                                "(type, metadata, is_classic, version, owner, is_new) "
-                               "VALUES (%s, %s, %s, %s, %s, %s) "
+                               "VALUES (%s, %s, %s, %s, %s, true) "
                                "RETURNING id",
-                               params=(item_type, data, is_classic, 0, owner, True))[0])
+                               params=(item_type, data, is_classic, 0, owner))[0])
         return new_item
 
     @staticmethod

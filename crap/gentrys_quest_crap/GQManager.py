@@ -151,7 +151,7 @@ class GQManager:
     @staticmethod
     @ranking
     def gift_item(item_type: str, data, is_classic: bool, owner: int):
-        return
+        return Item.gift_item(item_type, data, is_classic, owner)
 
     @staticmethod
     @ranking
