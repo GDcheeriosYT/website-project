@@ -43,7 +43,7 @@ match_handler = MatchHandler()
 
 #   Gentrys Quest data
 GQManager.load_rankings()
-gentrys_quest_classic_version = "V2.1.0"
+gentrys_quest_classic_version = "V2.2.0"
 
 # flask set up
 app = Flask(  # Create a flask app
@@ -402,6 +402,12 @@ async def classic_add_item(item_type, owner_id):
         return GQManager.add_item(item_type, json.dumps(request.json), True, owner_id)
 
     return "Bad token"
+
+
+@app.route("/api/gqc/gift-item/<item_type>+<receiver>+<secret>", methods=['POST'])
+async def classic_gift_item(item_type, receiver, secret):
+    if secret == client.secret:
+        return GQManager.gift_item(item_type, json.dumps(request.json), True, receiver)
 
 
 @app.route("/api/gqc/remove-item/<id>", methods=['POST'])

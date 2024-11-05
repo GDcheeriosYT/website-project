@@ -150,6 +150,11 @@ class GQManager:
 
     @staticmethod
     @ranking
+    def gift_item(item_type: str, data, is_classic: bool, owner: int):
+        return
+
+    @staticmethod
+    @ranking
     def remove_item(id: int):
         return Item.remove(id)
 
@@ -169,7 +174,7 @@ class GQManager:
             INSERT INTO gentrys_quest_classic_data (id, startup_amount, money)
             VALUES (%s, %s, %s)
             ON CONFLICT (id) 
-            DO UPDATE SET startup_amount = EXCLUDED.startup_amount, money = EXCLUDED.money
+            DO UPDATE SET startup_amount = EXCLUDED.startup_amount, money = EXCLUDED.money, new_money = 0
         """, params=(id, start_amount, money))
 
         return ":thumbs_up:"
@@ -199,7 +204,7 @@ class GQManager:
         data = {}
         items = DB.get_group(
             """
-            SELECT id, type, metadata
+            SELECT id, type, metadata, is_new
             FROM gentrys_quest_items WHERE owner = %s AND is_classic = %s
             """,
             params=(id, is_classic)
@@ -207,16 +212,19 @@ class GQManager:
 
         startup_amount = 0
         money = 0
+        new_money = 0
 
         if is_classic:
-            selection = DB.get("SELECT startup_amount, money FROM gentrys_quest_classic_data WHERE id = %s",
+            selection = DB.get("SELECT startup_amount, money, new_money FROM gentrys_quest_classic_data WHERE id = %s",
                                params=(id,))
             if selection:
                 startup_amount = selection[0]
                 money = selection[1]
+                new_money = selection[2]
 
         data["startup amount"] = startup_amount
         data["money"] = money
+        data["new money"] = new_money
         data["items"] = items
 
         return data
