@@ -50,13 +50,22 @@ class Item:
         return new_item
 
     @staticmethod
+    def gift_item(item_type: str, data, is_classic: bool, owner: int):
+        new_item = Item(DB.get("INSERT INTO gentrys_quest_items "
+                               "(type, metadata, is_classic, version, owner, is_new) "
+                               "VALUES (%s, %s, %s, %s, %s, %s) "
+                               "RETURNING id",
+                               params=(item_type, data, is_classic, 0, owner, True))[0])
+        return new_item
+
+    @staticmethod
     def remove(id):
         new_item = Item(id, True)
         DB.do(f"DELETE FROM gentrys_quest_items WHERE ID = %s", params=(id,))
         return new_item
 
     def update(self, data):
-        DB.do("UPDATE gentrys_quest_items SET metadata = %s WHERE id = %s", params=(json.dumps(data), self.id))
+        DB.do("UPDATE gentrys_quest_items SET metadata = %s, is_new = false WHERE id = %s", params=(json.dumps(data), self.id))
 
     def rank_item(self):
         if self.type == "character":
