@@ -5,6 +5,7 @@ import logging
 import random
 import string
 import urllib
+from datetime import datetime, timedelta
 
 # flask packages
 import requests
@@ -118,7 +119,7 @@ async def login_cookie():
     login_result = login(username, password)
     if login_result != "incorrect info" and login_result is not None:
         resp = make_response(redirect(f'/user/{login_result["id"]}'))
-        resp.set_cookie('userID', str(login_result["id"]))
+        resp.set_cookie('userID', str(login_result["id"]), expires=datetime.now() + timedelta(days=360))
         return resp
     else:
         resp = make_response(
