@@ -35,7 +35,7 @@
         <h2>{{ account.about|safe }}</h2>
       </div>
       <div id="gqc-data">
-        {% if account.has_gq %}
+        {% if account.has_gqc %}
           {% set gqc_main = gentry_manager.get_ranking(account.id, true) %}
           {% set gqc_items = gentry_manager.get_items(account.id, true) %}
           <h1>Overall ranking</h1>
