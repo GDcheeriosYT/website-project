@@ -435,7 +435,7 @@ async def classic_remove_items():
 
 @app.route("/api/gqc/get-rank/<id>", methods=['GET'])
 async def get_classic_rank(id):
-    return GQManager.get_ranking(id, True)
+    return GQManager.get_ranking(id, True).jsonify()
 
 
 # </editor-fold>
@@ -536,7 +536,6 @@ async def gentrys_quest_ranking():
         "gentrys quest/ranking.html",
         ranking_info=GPSystem.rater.get_tiers(),
         colors=GPSystem.rater.rating_colors,
-        gqc_id=GQManager.get_player,
         gqc_rank=GQManager.get_ranking
     )
 
@@ -596,7 +595,8 @@ async def load_profile(id):
     account_info = Account(int(id))
     return render_template(
         "account/user-profile.html",
-        account=account_info
+        account=account_info,
+        gentry_manager=GQManager
     )
 
 

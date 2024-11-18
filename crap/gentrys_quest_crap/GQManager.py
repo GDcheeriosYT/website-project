@@ -136,7 +136,7 @@ class GQManager:
             )
         )
 
-        return GQManager.get_ranking(id, classic)
+        return GQManager.get_ranking(id, classic).jsonify()
 
     @staticmethod
     @ranking
@@ -247,6 +247,43 @@ class GQManager:
         return rating
 
     @staticmethod
+    def get_items(owner: int, classic: bool):
+        items = {
+            "characters": [],
+            "artifacts": [],
+            "weapons": []
+        }
+
+        categories = ["character", "artifact", "weapon"]
+
+        for category in categories:
+            results = DB.get_group(
+                f"""
+                SELECT id, 
+                       rating, 
+                       metadata->>'name' AS name, 
+                       RANK() OVER (ORDER BY rating DESC) AS placement
+                FROM gentrys_quest_items
+                WHERE owner = %s AND type = %s AND is_classic = %s
+                ORDER BY rating DESC
+                LIMIT {GPSystem.rater.max_item_rating};
+                """,
+                params=(owner, category, classic)
+            )
+
+            items[category + "s"] = [
+                {
+                    "id": result[0],
+                    "rating": result[1],
+                    "name": result[2],
+                    "placement": result[3]
+                }
+                for result in results
+            ]
+
+        return items
+
+    @staticmethod
     def get_leaderboard(classic: bool, start: int = 0, amount: int = 50, online: bool = False) -> list:
         """
         grab leaderboard data
@@ -272,29 +309,11 @@ class GQManager:
         return DB.get_group(query, params=(amount, start))
 
     @staticmethod
-    def get_player(id):
-        return UserRanking(id)
-
-    @staticmethod
     def get_color(rank: str):
         return GPSystem.rater.rating_colors[rank]
 
     @staticmethod
-    def get_ranking(id: int, classic: bool) -> dict:
-        mode = 'c_weighted' if classic else 'weighted'
-        result = DB.get(f"SELECT id, weighted, rank "
-                        "FROM (SELECT id, weighted, RANK() OVER (ORDER BY weighted DESC) AS rank "
-                        "FROM rankings"
-                        ") subquery where id = %s", params=(id,))
-        if result:
-            return {
-                'rank': result[2],
-                'score': result[1]
-            }
-
-        return {
-            'rank': 0,
-            'score': 0
-        }
+    def get_ranking(id: int, classic: bool) -> UserRanking:
+        return UserRanking(id, classic)
 
     # </editor-fold>

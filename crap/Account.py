@@ -17,14 +17,43 @@ class Account:
         print(f"Loading account {identifier}")
         try:
             identifier = int(identifier)
-            result = DB.get(f"select * from accounts where id = %s", params=(identifier,))
+            from_query_string = "id = %s"
         except ValueError:
-            result = DB.get(f"select * from accounts where username = %s", params=(identifier,))
+            from_query_string = "username = %s"
+
+        result = DB.get(
+            f"""
+            SELECT 
+                id,                                                                                             -- 0
+                username,                                                                                       -- 1
+                password,                                                                                       -- 2
+                email,                                                                                          -- 3
+                osu_id,                                                                                         -- 4
+                about,                                                                                          -- 5
+                status,                                                                                         -- 6
+                EXISTS (
+                    SELECT 1 
+                    FROM gentrys_quest_classic_data 
+                    WHERE gentrys_quest_classic_data.id = accounts.id
+                ) AS has_gqc,                                                                                   -- 7
+                EXISTS (
+                    SELECT 1 
+                    FROM gentrys_quest_data 
+                    WHERE gentrys_quest_data.id = accounts.id
+                ) AS has_gq                                                                                     -- 8
+            FROM accounts 
+            WHERE {from_query_string}
+            """,
+            params=(identifier,)
+        )
 
         self.id = result[0]
         self.username = result[1]
         self.password = result[2]
         self.email = result[3]
+        self.has_osu = result[4] != 0
+        self.has_gqc = result[7]
+        self.has_gq = result[8]
         self.osu_id = result[4]
         self.about = result[5]
         if os.path.exists(f"static/pfps/{self.id}.png"):

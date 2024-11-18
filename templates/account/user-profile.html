@@ -19,8 +19,14 @@
     </div>
     <div class="profile-info">
       <div class="profile-info-button" style="margin: 10px;" onclick='swapCategory("about-me")'>Details</div>
-      {% if account.osu_id != 0 %}
+      {% if account.has_osu %}
         <div class="profile-info-button" style="margin: 10px;" onclick="window.open('https://osu.ppy.sh/users/{{account.osu_id}}', 'mywindow')">osu! (profile)</div>
+      {% endif %}
+      {% if account.has_gqc %}
+      <div class="profile-info-button" style="margin: 10px;" onclick="swapCategory('gqc')">Gentry's Quest (Classic)</div>
+      {% endif %}
+      {% if account.has_gq %}
+      <div class="profile-info-button" style="margin: 10px;" onclick="swapCategory('gq')">Gentry's Quest</div>
       {% endif %}
     </div>
     <div class="user-details">
@@ -28,14 +34,64 @@
         <h1>About Me</h1>
         <h2>{{ account.about|safe }}</h2>
       </div>
+      <div id="gqc-data">
+        {% if account.has_gq %}
+          {% set gqc_main = gentry_manager.get_ranking(account.id, true) %}
+          {% set gqc_items = gentry_manager.get_items(account.id, true) %}
+          <h1>Overall ranking</h1>
+          <h1>{{ gqc_main }}</h1>
+          <br>
+          <h1>Top 100 items</h1>
+          <div style="display: flex; flex-direction: row; justify-content: space-evenly;">
+            <div id="classic-characters">
+              <h1>Characters</h1>
+              {% for item in gqc_items["characters"] %}
+                <div style="character">
+                  <h1>#{{ item["placement"] }} <a style="font-size: 100%;" href="/api/gq/get-item/{{ item['id'] }}" target="_blank">{{ item["name"] }}</a> {{ item["rating"] }}gp</h1>
+                </div>
+              {% endfor %}
+            </div>
+            <div id="classic-artifacts">
+              <h1>Artifacts</h1>
+              {% for item in gqc_items["artifacts"] %}
+              <div style="character">
+                <h1>#{{ item["placement"] }} <a style="font-size: 100%;" href="/api/gq/get-item/{{ item['id'] }}" target="_blank">{{ item["name"] }}</a> {{ item["rating"] }}gp</h1>
+              </div>
+              {% endfor %}
+            </div>
+            <div id="classic-weapons">
+              <h1>Weapons</h1>
+              {% for item in gqc_items["weapons"] %}
+              <div style="character">
+                <h1>#{{ item["placement"] }} <a style="font-size: 100%;" href="/api/gq/get-item/{{ item['id'] }}" target="_blank">{{ item["name"] }}</a> {{ item["rating"] }}gp</h1>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
       <script>
-        document.getElementById("gqc-data").style.opacity = 0
+        document.getElementById("gqc-data").style.display = 'none'
+        document.getElementById("gq-data").style.display = 'none'
 
         function swapCategory(category){
           switch (category){
             case "about-me":
-              document.getElementById("gqc-data").style.opacity = 0
-              document.getElementById("about-me").style.opacity = 1
+              document.getElementById("about-me").style.display = 'block'
+              document.getElementById("gqc-data").style.display = 'none'
+              document.getElementById("gq-data").style.display = 'none'
+              break;
+
+            case "gqc":
+              document.getElementById("about-me").style.display = 'none'
+              document.getElementById("gqc-data").style.display = 'block'
+              document.getElementById("gq-data").style.display = 'none'
+              break;
+
+            case "gq":
+              document.getElementById("about-me").style.display = 'none'
+              document.getElementById("gqc-data").style.display = 'none'
+              document.getElementById("gq-data").style.display = 'block'
               break;
           }
         }
