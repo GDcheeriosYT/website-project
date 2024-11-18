@@ -464,6 +464,12 @@ async def get_item(id):
 async def check_out(id):
     return GQManager.check_out(id)
 
+
+@app.route("/api/gq/get-items/<id>+<classic>")
+async def get_items(id, classic):
+    return GQManager.get_items(id, classic == 'true')
+
+
 # </editor-fold>
 
 # </editor-fold>
