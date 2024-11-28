@@ -418,7 +418,7 @@ async def classic_gift_item(item_type, receiver, secret):
 
 
 @app.route("/api/gqc/gift-item/<item_type>+*+<secret>", methods=['POST'])
-async def classic_gift_item_all(item_type, receiver, secret):
+async def classic_gift_item_all(item_type, secret):
     if secret == client.secret:
         return GQManager.gift_item_to_all(item_type, json.dumps(request.json), True)
 
