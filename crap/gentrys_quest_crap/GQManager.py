@@ -165,7 +165,7 @@ class GQManager:
     @staticmethod
     def classic_add_money(id, amount):
         if id == "*":
-            DB.do("UPDATE gentrys_quest_classic_data SET new_money = new_money + %s", params=(amount, id))
+            DB.do("UPDATE gentrys_quest_classic_data SET new_money = new_money + %s", params=(amount,))
         else:
             DB.do("UPDATE gentrys_quest_classic_data SET new_money = new_money + %s where id = %s", params=(amount, id))
         return amount
