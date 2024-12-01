@@ -414,13 +414,10 @@ async def classic_add_item(item_type, owner_id):
 @app.route("/api/gqc/gift-item/<item_type>+<receiver>+<secret>", methods=['POST'])
 async def classic_gift_item(item_type, receiver, secret):
     if secret == client.secret:
-        return GQManager.gift_item(item_type, json.dumps(request.json), True, receiver)
-
-
-@app.route("/api/gqc/gift-item/<item_type>+*+<secret>", methods=['POST'])
-async def classic_gift_item_all(item_type, secret):
-    if secret == client.secret:
-        return GQManager.gift_item_to_all(item_type, json.dumps(request.json), True)
+        if receiver == "*":
+            return GQManager.gift_item_to_all(item_type, json.dumps(request.json), True)
+        else:
+            return GQManager.gift_item(item_type, json.dumps(request.json), True, receiver)
 
 
 @app.route("/api/gqc/remove-item/<id>", methods=['POST'])
