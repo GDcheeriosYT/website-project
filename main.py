@@ -15,7 +15,6 @@ from flask_socketio import SocketIO, emit
 
 # credential variables
 import Client_Credentials as client
-from GPSystem.GPmain import GPSystem
 from crap.Account import Account
 # scripts
 from crap.Initialization import *
@@ -36,9 +35,6 @@ DB.connect()
 
 #   osu data
 live_player_status = {}
-player_data = PlayerList
-print("\nLoading osu players\n")
-print("\nNo players available\n")
 
 match_handler = MatchHandler()
 
